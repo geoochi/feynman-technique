@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+# Keep attribution consistent without replacing the primary author or other trailers.
+git interpret-trailers --in-place \
+  --if-exists addIfDifferent \
+  --if-missing add \
+  --trailer 'Co-authored-by: Codex <noreply@openai.com>' \
+  "$1"
