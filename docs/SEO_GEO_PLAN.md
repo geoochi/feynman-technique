@@ -167,7 +167,7 @@ pnpm exec playwright test tests/browser/seo.spec.ts
 - [x] Agent：九份讲解核心答案与必要的问题式 H3。
 - [x] Agent：案例级三语言 SEO 文案及校验、测试。
 - [x] Agent：评估并适度改进首页定位文案与排版。
-- [ ] 维护者：Search Console 验证、sitemap 提交与重点网址检查。
+- [ ] 维护者：Search Console 验证、sitemap 提交与重点网址检查；www 网址前缀属性的 HTML 验证文件已由 Agent 发布并核对，待维护者点击“验证”后提交 sitemap。
 - [x] Agent（维护者授权）：Cloudflare 绑定 www，配置裸域到 www 的 301，发布并线上验收。
 - [x] Agent：读取 Cloudflare AI Crawl Control 的真实访问计数与阻止开关；Googlebot 一次失败的具体原因仍未定位，见下方记录。
 - [x] Agent：性能基线测量，提交有证据的后续优化建议，见 [性能报告](PERFORMANCE_BASELINE.md)。
@@ -200,3 +200,7 @@ Cloudflare 操作顺序与具体规则见 [部署指南](DEPLOYMENT.md#域名与
 Cloudflare AI Crawl Control 的过去 7 天记录：20 个请求、19 个允许、1 个失败；ChatGPT-User 允许 12、失败 0，Googlebot 允许 7、失败 1，17 次请求得到 HTTP 200。Googlebot、ChatGPT-User、OAI-SearchBot、BingBot、PerplexityBot、GPTBot 的阻止开关均关闭。没有主动修改安全策略，也没有用伪造 User-Agent 验证真实爬虫。Googlebot 一次失败的具体响应/原因尚未定位；这些数据不能证明所有爬虫都可访问或已经被收录。
 
 Worker 控制台仍提示连接 Git 仓库，Git 自动构建尚未关联。Search Console 是剩余的账号侧事项：验证域名、提交 `https://www.feynman-technique.com/sitemap.xml`，检查重点 www 网址和 Google 选定 canonical。历史性能数据保持原来的裸域测量来源，未重新测量 www 性能。
+
+## 12. Search Console 验证文件
+
+维护者选择 www 网址前缀属性并提供 Google HTML 验证文件。Agent 已按原文件名及原内容保存、构建和发布，线上同域 307 后返回 200，53 字节正文与原文件一致；本次仅增加一个静态资产，保留 21 个内容 sitemap URL。文件会随源码保存，以供后续重新发布时保留。具体版本和验收见 [部署记录](DEPLOYMENT.md#search-console-html-验证文件发布)。Google 的验证按钮与 sitemap 提交仍待维护者完成，不将文件可访问记为所有权已验证。

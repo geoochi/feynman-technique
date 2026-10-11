@@ -51,6 +51,14 @@ SITE_INDEXABLE=false pnpm build
 
 页面体积、移动体验和 Core Web Vitals 应以正式部署及实际设备测量。首页仍携带首批三个案例的讲解数据，Three.js 仅在地球案例加载，约 889 KB 三维 chunk 警告仍待性能专项处理。移动端实验室基线、复现条件和后续建议见 [性能测量](PERFORMANCE_BASELINE.md)。本轮不声称已通过线上性能预算或改善搜索排名；结构化数据和 sitemap 也不保证收录或富结果。
 
+## Search Console HTML 文件验证
+
+维护者选择 `https://www.feynman-technique.com/` 的网址前缀属性，并提供 Google 下载的 `google845b412e18b99e6e.html`。原文件按字节保存到 `frontend/public/`，Vite 构建复制到 `dist/`，由同一个 Worker 在网站根路径交付；不作为案例页面加入 sitemap，也不需要后端或 DNS TXT。
+
+验证入口为 `https://www.feynman-technique.com/google845b412e18b99e6e.html`。保持原文件名和内容，验证成功后继续保留，以便 Google 定期复核。当前 Workers HTML 路由会把 `.html` 同域归一到无扩展名地址；Google 的 [HTML 文件验证故障排查](https://support.google.com/webmasters/answer/9008080?hl=en) 说明支持同域重定向。发布后须实际核对完整跳转链，最终返回 200，正文与下载文件一致。
+
+文件可访问只证明上传已完成，不能写成 Google 已验证所有权。维护者返回 Search Console 点击“验证”，成功后提交 www sitemap。若选择覆盖所有子域名的 Domain property，则仍需 DNS 验证；HTML 文件仅用于当前网址前缀属性。
+
 ## 官方依据
 
 - [Google JavaScript SEO](https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics)

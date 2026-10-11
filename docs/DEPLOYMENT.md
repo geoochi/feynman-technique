@@ -121,3 +121,11 @@ Search Console 的域名验证、sitemap 提交与线上性能测量单独验收
 - 控制台当前仍提示连接 Git 仓库，Workers Builds 尚未关联；保持现有本地生产发布方式。旧裸域首次上线与性能样本保留真实历史，没有改写成 www 性能数据。
 
 本地验证及限制见 [本轮复核](../tooling/ai-review/2026-10-11-seo-geo.md)。Search Console 的域名验证、www sitemap 提交和 Google 选定 canonical 待完成。
+
+## Search Console HTML 验证文件发布
+
+维护者提供 `google845b412e18b99e6e.html`，用于 `https://www.feynman-technique.com/` 的网址前缀属性验证。原始 53 字节不作修改，保存至 `frontend/public/`，构建复制验证通过。通过同一个 Worker 发布，版本 `7af3a770-2b69-4b3d-b0fe-973ab3721cd2`；仅上传一个新静态资产。来源为 `d38c74a20cd25e50a93dc6e264b67aa49ac75002` 加本次验证文件工作树，源码与记录随后保存到 Git。
+
+线上 `https://www.feynman-technique.com/google845b412e18b99e6e.html` 返回同域 307 到 `/google845b412e18b99e6e`，最终 200，正文与下载文件逐字节一致，未注入统计脚本。英文、中文、日文首页仍为 200，缺失脚本仍为 404；sitemap 保持 21 个内容网址，不加入验证文件。Google 支持此种同域重定向，依据见 [SEO 文件验证说明](SEO.md#search-console-html-文件验证)。
+
+已完成文件发布和可访问性核对，尚未得到 Google 所有权验证结果。维护者返回 Search Console 点击“验证”，成功后提交 www sitemap；后续构建继续保留原验证文件。
