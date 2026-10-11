@@ -65,7 +65,7 @@ for (const slug of slugs)
       await expect(
         page.getByRole("heading", { name: "二次函数", exact: true }),
       ).toBeVisible();
-      await expect(page).toHaveTitle("二次函数 · Feynman");
+      await expect(page).toHaveTitle("二次函数 · 互动实验 · Feynman");
       for (const name of ["播放", "暂停", "单步", "重置"])
         await expect(
           page.getByRole("button", { name, exact: true }),
@@ -194,7 +194,12 @@ test("static lessons are available without JavaScript and missing resources retu
   expect(missing.headers()["content-type"] ?? "").not.toContain(
     "text/javascript",
   );
-  expect(await missing.text()).not.toContain('id="root"');
+  if (process.env.FEYNMAN_WORKERS) {
+    expect(missing.headers()["x-content-type-options"]).toBe("nosniff");
+    expect(await missing.text()).toContain('content="noindex, follow"');
+  } else {
+    expect(await missing.text()).not.toContain('id="root"');
+  }
 });
 test("day-night falls back without WebGL", async ({ page }) => {
   await page.addInitScript(() => {

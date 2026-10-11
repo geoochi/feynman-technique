@@ -61,7 +61,9 @@ for (const language of cases) {
       page.on("pageerror", (e) => errors.push(e.message));
       await page.goto(`${language.prefix}/labs/${slug}`);
       await expect(page.locator("html")).toHaveAttribute("lang", language.lang);
-      await expect(page).toHaveTitle(`${language.titles[i]} · Feynman`);
+      await expect(page).toHaveTitle(
+        `${language.titles[i]} · ${language.lang === "en" ? "Interactive experiment" : "インタラクティブ実験"} · Feynman`,
+      );
       await expect(
         page.getByRole("heading", { name: language.titles[i], exact: true }),
       ).toBeVisible();

@@ -1,14 +1,14 @@
 # Feynman 总体架构提案
 
-状态：首期本地实现 v0.1.0；架构方案 v0.4 的发布与扩展部分仍待实施。日期：2026-10-11。
+状态：首期本地实现 v0.1.0；架构方案 v0.5 的发布与扩展部分仍待实施。日期：2026-10-11。
 
-已实现：React/Vite 静态前端、三个实验、英文默认及中文/日文界面与讲解、构建时清单校验与可信懒加载映射、目录搜索、预渲染讲解、参数与播放控制、运行时完整快照接口、模型与浏览器验证。实验页不提供倍速、视角缩放或状态导入导出入口。未实现：独立发行 SDK/CLI、电学工作台、Worker/WASM、历史版本归档、Vercel 项目关联与正式部署。实际开发入口见 [本地开发](DEVELOPMENT.md)。
+已实现：React/Vite 静态前端、三个实验、英文默认及中文/日文界面与讲解、构建时清单校验与可信懒加载映射、目录搜索、预渲染讲解、参数与播放控制、运行时完整快照接口、模型与浏览器验证。实验页不提供倍速、视角缩放或状态导入导出入口。未实现：独立发行 SDK/CLI、电学工作台、Worker/WASM、历史版本归档、Workers Builds 的 GitHub 自动构建关联。已通过 Workers Static Assets 首次正式部署到 https://feynman-technique.com。实际开发入口见 [本地开发](DEVELOPMENT.md)。
 
 ## 1. 当前结论
 
-采用 **本地 AI 审查与验证 → GitHub 源码管理 → Vercel Git 集成自动构建发布**。当前不建设自定义后端、登录系统、数据库、ORM、Serverless Functions 或运行时 AI 接口。
+采用 **本地 AI 审查与验证 → GitHub 源码管理 → Cloudflare Workers Builds 自动构建发布**。当前不建设自定义后端、登录系统、数据库、ORM、Serverless Functions 或运行时 AI 接口。
 
-维护者在本地用 AI 审查自己的修改或拉取的 PR，并运行相关测试和构建验证；确认后合并或推送到 GitHub 的生产分支。Vercel 通过内置 Git 集成自动获取更新、构建并托管网站。访问者浏览器负责交互、模型计算和渲染。项目不配置 GitHub Actions，也不开发 webhook 服务或单独调用部署钩子。
+维护者在本地用 AI 审查自己的修改或拉取的 PR，并运行相关测试和构建验证；确认后合并或推送到 GitHub 的生产分支。Cloudflare Workers 通过内置 Git 集成自动获取更新、构建并托管网站。访问者浏览器负责交互、模型计算和渲染。项目不配置 GitHub Actions，也不开发 webhook 服务或单独调用部署钩子。
 
 案例源码、讲解、署名、版本以 Git 为唯一来源，构建时生成目录和搜索索引。贡献者提交 PR，检查与 AI 审查通过、维护者确认合并后发布新前端。AI 审查属于开发流程，不需要网站后台支持。
 
@@ -25,44 +25,44 @@
 | 可选计算模块 | Rust → WASM | 实测有瓶颈后再增加，仍随前端发布 |
 | 内容 | Git 中的 JSON、Markdown、TS/TSX | 案例、目录与文档 |
 | 本地验证 | Vitest + Playwright + 本地 AI 工具 | 数值、交互、视觉和教学检查 |
-| 生产构建 | Vercel Git 集成 | 生产分支更新后自动安装依赖、构建与发布 |
-| 托管 | Vercel 静态部署 | 文件分发、域名和 HTTPS |
+| 生产构建 | Cloudflare Workers Builds | 生产分支更新后自动安装依赖、构建与发布 |
+| 托管 | Cloudflare Workers Static Assets | 文件分发、域名和 HTTPS |
 
 不再为“需要一个文件服务器”开发 Go/Rust 服务；现成托管承担此职责。Rust 仍可作为浏览器计算模块的实现语言，但不是当前必需项。参考视觉保持 [视觉规范](VISUAL_SPEC.md) 中的设计。
 
-Vercel 官方支持 Vite 的静态构建和 Git 集成。[Vite on Vercel](https://vercel.com/docs/frameworks/frontend/vite)
+Workers Static Assets 可直接托管现有 Vite 产物，配置不需要应用脚本。[Static Assets](https://developers.cloudflare.com/workers/static-assets/get-started/)
 
 ## 3. 构建与运行
 
 | 阶段 | 地点 | 行为 |
 |---|---|---|
 | PR 检查 | 维护者本地环境 | 拉取 PR，用 AI 检查源码和教学内容，运行相关验证 |
-| 生产构建 | Vercel | 获取生产分支源码，输出 HTML、CSS、JS、JSON、模型与可选 WASM |
-| 页面交付 | Vercel | 将现成产物交付浏览器 |
+| 生产构建 | Cloudflare Workers | 获取生产分支源码，输出 HTML、CSS、JS、JSON、模型与可选 WASM |
+| 页面交付 | Cloudflare Workers | 将现成产物交付浏览器 |
 | 实验运行 | 用户电脑或手机 | 改参数、计算模型、绘图与播放 |
 
 例如将单摆长度从 1m 改为 2m，浏览器根据已经下载的案例程序计算新的运动并绘图；不访问计算服务器，也不重新构建网站。“静态”描述交付方式，不代表页面只能展示图片或文字。
 
 简单公式在主线程计算，较重任务放进 Web Worker 避免界面阻塞。Worker 不会自动加速算法。必要时 Rust 编译出的 WASM 也在浏览器运行，无需 Rust 服务器。固定且昂贵的数据可以在构建时预计算。[Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers)、[WebAssembly](https://developer.mozilla.org/en-US/docs/WebAssembly)
 
-## 4. 唯一发布流程：本地审查，Vercel 自动部署
+## 4. 唯一发布流程：本地审查，Cloudflare Workers 自动部署
 
-自有改动：本地开发 → 本地 AI 审查、相关测试与构建验证 → 推送 GitHub 生产分支 → Vercel 自动构建并发布。
+自有改动：本地开发 → 本地 AI 审查、相关测试与构建验证 → 推送 GitHub 生产分支 → Cloudflare Workers 自动构建并发布。
 
-社区贡献：贡献者提交 PR → 维护者拉取 PR 到本地 → AI 审查并验证拟合并结果 → 修正并重验（如需要）→ 确认合并到生产分支 → Vercel 自动构建并发布。PR 通常已在 GitHub 上；维护者审查通过后执行的是合并或推送整合后的代码。
+社区贡献：贡献者提交 PR → 维护者拉取 PR 到本地 → AI 审查并验证拟合并结果 → 修正并重验（如需要）→ 确认合并到生产分支 → Cloudflare Workers 自动构建并发布。PR 通常已在 GitHub 上；维护者审查通过后执行的是合并或推送整合后的代码。
 
-在 Vercel 中关联 GitHub 仓库，指定 Production Branch（例如 main）和前端构建配置即可。不需要自己编写钩子，不需要 Actions workflow，也不需要本地执行 Vercel CLI 上传构建产物。[Vercel GitHub 集成](https://vercel.com/docs/git/vercel-for-github)
+在 Workers Builds 中关联 geoochi/feynman，根目录 frontend、生产分支 main、构建 pnpm build、部署 pnpm deploy:workers。首次 Wrangler 上传用于初始化同一个 Worker，后续推送由 Git 集成自动发布。具体设置与授权步骤见 [部署指南](DEPLOYMENT.md)。不添加 Actions 或 webhook。
 
-生产分支更新触发正式部署；其他分支和 PR 可以产生预览部署，它们不等同于正式发布。外部 fork PR 的预览可能需要维护者在 Vercel 授权；预览是可选便利，不是本地审查的先决条件。
+当前关闭 workers.dev 和版本预览 URL，不开启非生产分支自动构建。将来启用预览时，非 main 分支构建强制 noindex，预览不等于正式发布。
 
-Vercel 不会知道本地 AI 是否审查过。当前由维护者掌握生产分支的合并/推送权限，在本地确认后才更新该分支；不配置不存在的 CI 状态检查来阻塞合并。审查记录应注明目标版本，推送前基线改变则复核最终整合结果。
+Cloudflare Workers 不会知道本地 AI 是否审查过。当前由维护者掌握生产分支的合并/推送权限，在本地确认后才更新该分支；不配置不存在的 CI 状态检查来阻塞合并。审查记录应注明目标版本，推送前基线改变则复核最终整合结果。
 
 ```mermaid
 flowchart LR
   A[本地修改或拉取社区 PR] --> B[本地 AI 审查与验证]
   B --> C[确认并合并或推送到 GitHub 生产分支]
-  C --> D[Vercel Git 集成自动构建]
-  D --> E[Vercel 发布与托管]
+  C --> D[Cloudflare Workers Builds 自动构建]
+  D --> E[Cloudflare Workers 发布与托管]
   E --> F[浏览器运行教学案例]
 ```
 
@@ -79,6 +79,7 @@ feynman/
       runtime/                # 固定步长时钟与快照恢复
       ui/                     # 控件、公式与场景样式
       i18n/                   # 语言、路由、类型化界面文案与语言切换
+      seo/                    # 共用页面枚举、元信息与静态/客户端 head
     examples/
       math/function-transform/
       physics/pendulum/
@@ -86,7 +87,8 @@ feynman/
     scripts/                  # 清单校验、目录生成、预渲染
     tests/                    # 状态测试、Playwright 浏览器测试
     public/                   # 品牌标识与生成的封面、目录、搜索索引
-    vercel.json               # 未来 Git 集成的静态构建配置
+    wrangler.jsonc            # Workers Static Assets、HTML 路由及自定义域名
+    site.config.ts            # 正式域名，不从预览 URL 推断
     dist/                     # 普通静态产物，不提交 Git
   tooling/ai-review/           # 本地审查指南
   docs/
@@ -94,9 +96,9 @@ feynman/
 
 这是已实现的首期结构。共用模块暂不独立发布为包；二维视图和纯 TS 模型在各案例内，三维依赖仅由地球案例引入。没有 backend/、服务器任务、数据库配置或 GitHub Actions。
 
-未来 Vercel 项目应指定根目录 frontend、安装 pnpm install --frozen-lockfile、构建 pnpm build、产物 dist、Node 24.x、生产分支 main。仓库仅准备配置，没有创建或关联云项目。本地 Node 基线固定为 24.11.1、pnpm 固定为 12.10.1，依赖通过 lockfile 安装；Vercel 自动更新 Node 24 的补丁版本，因此不承诺云端与本地补丁版本完全一致。[Vercel Node 版本](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions)
+工具链固定为 Node 24.11.1、pnpm 12.10.1，依赖使用 lockfile。Workers Builds 设置 NODE_VERSION 与 PNPM_VERSION，不能沿用平台默认 pnpm 版本。部署配置已经写入仓库；已完成授权和首次上传，Git 集成仍未连接；最新状态以 [部署指南](DEPLOYMENT.md) 为准。
 
-本地 AI 使用维护者已有工具与授权，不将 AI 密钥放入仓库、Vercel 构建变量或 VITE_*。静态网站生产构建不需要 AI 服务。构建只依赖已提交源码、锁定的依赖和公开资源。
+本地 AI 使用维护者已有工具与授权，不将 AI 密钥放入仓库、Cloudflare Workers 构建变量或 VITE_*。静态网站生产构建不需要 AI 服务。构建只依赖已提交源码、锁定的依赖和公开资源。
 
 ## 6. 前端内容与案例协议
 
@@ -123,9 +125,13 @@ Vite 不自动预渲染完整站点：需要显式建设只读取安全元数据
 
 界面公共文案位于 packages/i18n；实验图中说明与读数文案位于各案例 labels.ts。科学模型、参数 key、数值边界、公式变量、slug、纹理与快照共用，locale 属于页面状态，不进入科学模型或快照。Manifest schemaVersion 升为 2：标题、简介、标签、学习目标、先修知识、模型假设均按三种语言存储；参数 schema 保留英文 title 并增加 labels，讲解分别维护 lesson.en.md、lesson.zh-CN.md、lesson.ja.md。
 
-构建校验三种语言完整性和七章顺序，以稳定章节 id 定位问题，不依赖翻译后的标题。每语言生成独立搜索索引以及首页、贡献页、404、实验入口和讲解页，当前共 27 个 HTML 页面。预渲染与客户端使用同一语言解析规则，设置对应 html lang、标题和描述；关闭 JavaScript 仍可读对应语言的文章。按原 cleanUrls 提供新增静态路径，部署链路保持原样。
+构建校验三种语言完整性和七章顺序，以稳定章节 id 定位问题，不依赖翻译后的标题。每语言生成独立搜索索引以及首页、贡献页、404、实验入口和讲解页，当前共 27 个 HTML 页面。预渲染与客户端使用同一语言解析规则，设置对应 html lang、标题和描述；关闭 JavaScript 仍可读对应语言的文章。通过 Workers auto-trailing-slash 提供无扩展名的静态路径。
 
 首批三个案例的三语言文字随目录数据交付；科学渲染代码和大型资源继续按案例加载。翻译量或案例数量明显增加时可拆分语言/讲解数据，无须引入后端、数据库、在线翻译或新的框架。
+
+### SEO 与静态页面
+
+SEO 保留现有 React/Vite 预渲染架构。公共页面枚举供开发路由、预渲染和 sitemap 共用，元信息模块同时用于静态 HTML 和客户端语言切换。正式域名配置为 `https://feynman-technique.com`，每个内容页输出独立标题/描述、绝对 canonical、三语言 hreflang、分享信息与基于真实内容的 JSON-LD；当前 sitemap 含 24 个可收录页面。实验入口静态 HTML 包含核心问题及讲解链接，讲解页提供完整文章。404 和预览环境 noindex，科学模型及部署流程不变。已完成域名绑定与首次上线，Search Console 尚未执行，实际规则与验收见 [SEO](SEO.md)。
 
 ## 7. 实验 SDK 的边界
 
@@ -151,26 +157,24 @@ AI 读取的 PR、注释与文档是待分析数据，不应改变维护者的�
 
 ## 9. 静态托管的实现与验收
 
-当前目录、贡献页、实验入口和学习文章通过 scripts/prerender.ts 生成静态 HTML；实验视图按案例懒加载。frontend/vercel.json 使用 cleanUrls 按 labs/slug.html 和 learn/slug.html 提供路由，没有全路径 SPA 重写。缺失资源应返回 404；本地浏览器检查与未来 Vercel 线上验收分开记录。
+当前目录、贡献页、实验入口和学习文章通过 scripts/prerender.ts 生成静态 HTML；实验视图按案例懒加载。frontend/wrangler.jsonc 使用 Static Assets，auto-trailing-slash 将 labs/slug.html 提供为 /labs/slug，将 zh/index.html 提供为 /zh/，HTML 别名重定向到规范路径。404-page 按最近语言目录返回真实 404，没有全站 SPA 重写。public/_headers 配置哈希资源长缓存及预览域名 noindex。
 
-目录和学习文章生成静态 HTML；实验按路由懒加载。若使用 SPA 路由，需要配置深链接回退，使直接打开 `/labs/pendulum` 可以工作；采用预渲染多页面时按生成文件路由。不能把缺失脚本、模型、JSON 请求错误地重写为 HTML。配置前确定路由方式，再按照 Vercel 文档验证。[Vite 路由部署说明](https://vercel.com/docs/frameworks/frontend/vite)
-
-通过 Vercel 的部署记录追溯 commit SHA 与部署 URL。构建成功后验证正式域名与目标提交；出现问题时恢复此前验证的部署。生产只使用 Git 集成这一条自动发布路径。
+通过 Workers Builds 记录追溯 commit SHA、构建和部署版本。正式发布后核对域名、深链接、资源、索引信息与目标提交；故障时使用平台 Version History 回滚到已验证版本。首次本地上传不代表已经接通 Git 自动发布。
 
 带内容哈希的资源使用长缓存，HTML 入口允许更新。长期打开的页面需要应对部署后懒加载 chunk 失效：验证部署平台的保留行为，并提供保存本地状态后刷新到新版本的提示；不能未经验证就承诺旧页面永远可运行。需要长期固定的教案，另提供固定发行版本的可下载静态包。
 
-模型、纹理、视频按案例加载并控制大小；大型资源是否放独立对象存储由实际产物规模决定。Vercel 不等于无限免费托管，部署前检查当时套餐适用条件、资源配额及目标地区实际访问表现；本方案不作价格或国内网络可用性的保证。
+模型、纹理、视频按案例加载并控制大小；大型资源是否放独立对象存储由实际产物规模决定。Cloudflare Workers 不等于无限免费托管，部署前检查当时套餐适用条件、资源配额及目标地区实际访问表现；本方案不作价格或国内网络可用性的保证。
 
 完成标准：
 
 - 访问者无需登录即可打开、调参、重置和学习。
 - 浏览器运行不依赖自定义 API、数据库或线上 AI 服务。
-- 新案例通过 PR、本地验证、本地 AI 审查和确认合并后，由 Vercel 构建并发布。
-- 项目没有 Actions workflow；生产构建只由 Vercel Git 集成触发，发布版本与本地审查记录可追溯。
+- 新案例通过 PR、本地验证、本地 AI 审查和确认合并后，由 Cloudflare Workers 构建并发布。
+- 项目没有 Actions workflow；生产构建只由 Cloudflare Workers Builds 触发，发布版本与本地审查记录可追溯。
 - 首页与实验深链接可直接访问；丢失资源正确报错。
 - 发布后可验证正式 URL，并能回退到此前验证的版本。
-- 纯静态产物可迁移到其他托管平台，不依赖 Vercel Functions。
+- 纯静态产物可迁移到其他托管平台，不依赖应用后端或平台专有数据存储。
 
-实施顺序：冻结参考视觉基线 → 做课程壳和三个案例 → 准备本地 PR/AI 审查指南与验证命令 → 接入 Vercel Git 自动发布和回滚 → 扩展案例库。
+实施顺序：冻结参考视觉基线 → 做课程壳和三个案例 → 准备本地 PR/AI 审查指南与验证命令 → 接入 Workers Builds 自动发布和回滚 → 扩展案例库。
 
 只有未来明确增加必须保密的在线 API、跨设备用户数据或服务端重计算时，才重新讨论应用后端。当前不为这些假设建设服务。

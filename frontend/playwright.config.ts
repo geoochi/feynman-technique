@@ -13,9 +13,11 @@ export default defineConfig({
     trace: "retain-on-failure",
   },
   webServer: {
-    command: process.env.FEYNMAN_DEV
-      ? "pnpm dev --port 4173 --strictPort"
-      : "pnpm preview --port 4173 --strictPort",
+    command: process.env.FEYNMAN_WORKERS
+      ? "pnpm preview:workers"
+      : process.env.FEYNMAN_DEV
+        ? "pnpm dev --port 4173 --strictPort"
+        : "pnpm preview --port 4173 --strictPort",
     url: "http://127.0.0.1:4173",
     reuseExistingServer: !process.env.CI,
   },

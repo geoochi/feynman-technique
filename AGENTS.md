@@ -6,7 +6,7 @@
 
 Feynman 希望让任何人通过可操作的可视化实验理解知识，并通过 GitHub 提交自己的学习案例。长期目标是开放源码、共享工具和发展贡献社区。
 
-当前已实现首期本地静态前端：React + Vite、三个种子案例、清单生成、静态讲解、参数/播放和最小共享运行时。运行时保留完整快照接口，实验页不提供状态导入导出。未发布独立 SDK/CLI，未接入 Vercel 或正式部署。实际命令和结构见 docs/DEVELOPMENT.md；性能预算、后续社区机制与电学工作台仍是计划，不能当作已验证功能。
+当前已实现首期本地静态前端：React + Vite、三个种子案例、清单生成、静态讲解、参数/播放和最小共享运行时。运行时保留完整快照接口，实验页不提供状态导入导出。未发布独立 SDK/CLI。已通过 Cloudflare Workers Static Assets 首次发布到 https://feynman-technique.com，Workers Builds 与 GitHub 自动构建关联仍待完成。实际命令和结构见 docs/DEVELOPMENT.md；性能预算、后续社区机制与电学工作台仍是计划，不能当作已验证功能。
 
 仓库名称为 `feynman`，GitHub 所有者为 `geoochi`。初始远端应为私有；长期开放源码的目标不代表可以擅自改为公开。README 面向普通读者，保持简洁，把工程细节放到 docs 和本文件中。
 
@@ -20,13 +20,13 @@ Feynman 希望让任何人通过可操作的可视化实验理解知识，并通
 本地修改，或把社区 PR 拉到本地
   → 本地 AI 审查、相关测试与构建验证
   → 维护者确认并合并/推送 GitHub 生产分支
-  → Vercel 内置 Git 集成自动构建并发布
+  → Cloudflare Workers Builds 自动构建并发布
   → 访问者浏览器运行教学案例
 ```
 
 不配置 GitHub Actions，不添加 `.github/workflows`，不开发 webhook 服务，不为这个流程增加专门的 AI 审查后台，不并行维护第二套生产发布通道。`.github` 可用于 Issue/PR 模板和 CODEOWNERS。
 
-Vercel 通过关联 GitHub 仓库接收更新；生产分支更新用于正式发布，其他分支的预览不是正式上线。本地审查是否完成由维护者确认，平台不会自动知道。任何额外的发布自动化须有具体需求，不凭“以后可能用到”添加。
+Cloudflare Workers Builds 通过关联 GitHub 仓库接收更新；生产分支更新用于正式发布，其他分支的预览不是正式上线。本地审查是否完成由维护者确认，平台不会自动知道。任何额外的发布自动化须有具体需求，不凭“以后可能用到”添加。
 
 ## 3. 技术选择
 
@@ -46,7 +46,7 @@ Vercel 通过关联 GitHub 仓库接收更新；生产分支更新用于正式�
 
 ## 4. 构建与浏览器计算的区别
 
-本地构建用于验证代码可以打包；Vercel 生产构建把源码生成 HTML、CSS、JS、JSON、模型和可选 WASM 文件。
+本地构建用于验证代码可以打包；Cloudflare Workers 生产构建把源码生成 HTML、CSS、JS、JSON、模型和可选 WASM 文件。
 
 访问者下载这些文件后，自己的电脑或手机执行实验逻辑。例如拖动单摆长度，浏览器计算新的摆动并绘图。这个过程不调用服务器计算，也不触发网站重新构建。
 
@@ -73,6 +73,8 @@ Git 中的源码和教学文档是唯一正式内容来源。案例 PR 合并后
 ## 6. 科学模型与运行时
 
 网站支持 en、zh-CN、ja，默认英语；顶部用一个语言下拉框选择 English / 中文 / 日本語。英文沿用原路径，中文 /zh/、日文 /ja/。公共文案位于 packages/i18n，案例文案位于 labels.ts，三语言讲解分别维护。Manifest schemaVersion 为 2；可见元数据和参数 labels 必须包含三种语言，构建检查完整性并为每语言预渲染页面及生成搜索索引。章节使用稳定 id，不能靠中文标题定位。语言切换保留实验参数、时钟、内部状态及播放状态，locale 不进入科学模型或快照；不复制三份模型，不接入在线翻译服务。
+
+SEO 沿用 React/Vite 构建预渲染，不为 SEO 增加请求时 SSR 或后端。正式域名由用户指定为 https://feynman-technique.com，存于 frontend/site.config.ts；域名配置不代表已经上线。packages/seo 共用页面枚举与元信息，静态 HTML 和语言切换必须同步 title、description、绝对 canonical/hreflang、分享标签与 JSON-LD。实验与讲解各自 canonical，每语言指向自身；404/未知页 noindex，预览与 SITE_INDEXABLE=false 不输出 sitemap。只填写真实内容与作者，不伪造日期、评分或排名效果；规则及上线检查见 docs/SEO.md。
 
 计算模型与 React、DOM 和画布分离。尽量以纯函数或独立状态对象实现，方便检查公式和边界。每个模型记录单位、假设、适用范围和误差。
 
@@ -146,13 +148,13 @@ git config --local core.hooksPath .githooks
 
 ## 10. 发布与托管
 
-Vercel 项目按实际结构配置根目录、安装命令、构建命令、产物目录和生产分支。固定工具链及依赖锁文件，本地成功和生产构建成功分别核实。
+Cloudflare Workers Static Assets 交付现有静态产物，不添加 Worker 应用脚本或后端。Wrangler 配置位于 frontend/wrangler.jsonc，产物目录为 dist，正式域名为 feynman-technique.com。Workers Builds 关联 GitHub，根目录 frontend、构建 pnpm build、部署 pnpm deploy:workers、生产分支 main；Node 与 pnpm 版本需按 docs/DEPLOYMENT.md 固定。首次可通过本地 Wrangler 初始化，后续自动发布统一使用 Workers Builds。固定工具链及依赖锁文件，本地成功和生产构建成功分别核实。
 
-SPA 深链接需要正确回退，预渲染多页面按产物路径提供；缺失脚本、JSON、模型不能错误返回 HTML。哈希资源可长缓存，入口 HTML 应允许更新。
+当前为预渲染多页面，使用 auto-trailing-slash 和 404-page，不添加 SPA 回退；缺失脚本、JSON、模型必须返回 HTTP 404。哈希资源可长缓存，入口 HTML 应允许更新。
 
 构建成功不等于上线已验收：发布后核对部署对应提交、正式 URL、主要入口与深链接。发现故障按既定平台机制恢复此前验证的部署，不通过盲目改动掩盖错误。
 
-仅有架构设计或建好 GitHub 仓库时，不宣称 Vercel 已接入。本地构建可生成 frontend/dist 静态产物，当前没有线上地址。用户尚未要求部署时不擅自创建云资源或公开私有仓库。
+仅有架构设计或建好 GitHub 仓库时，不宣称 Cloudflare Workers 已接入。本地构建生成 frontend/dist 静态产物；当前线上地址为 https://feynman-technique.com，部署状态见 docs/DEPLOYMENT.md。用户尚未要求部署时不擅自创建云资源或公开私有仓库。
 
 ## 11. 文档与沟通
 

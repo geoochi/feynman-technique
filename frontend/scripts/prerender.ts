@@ -1,83 +1,57 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile, rm } from "node:fs/promises";
 import { resolve } from "node:path";
-import { createServer } from "vite";
+import { createServer, loadEnv } from "vite";
 import type { Lab } from "../packages/core/types";
-import { locales, localizedPath, resolveRoute } from "../packages/i18n/locales";
-import { translate } from "../packages/i18n/I18n";
+import { pageRoutes } from "../packages/seo/pages";
+import { pageMetadata } from "../packages/seo/metadata";
+import { renderHead } from "../packages/seo/head";
+import { readSiteConfig } from "./site-config";
+import { seoFiles } from "./seo-files";
 const root = process.cwd(),
   dist = resolve(root, "dist");
 const template = await readFile(resolve(dist, "index.html"), "utf8");
+if (
+  !template.includes("<!--seo-start-->") ||
+  !template.includes("<!--seo-end-->")
+)
+  throw new Error("The page template is missing the SEO head markers.");
 const labs = JSON.parse(
   await readFile(resolve(root, "apps/web/generated/catalog.json"), "utf8"),
 ) as Lab[];
+const config = readSiteConfig(
+  { ...loadEnv("production", root, ""), ...process.env },
+  true,
+);
 const server = await createServer({
+  mode: "production",
   server: { middlewareMode: true },
   appType: "custom",
 });
-function escape(s: string) {
-  return s.replace(
-    /[&<>"']/g,
-    (c) =>
-      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
-        c
-      ]!,
-  );
-}
 try {
   const { render } = (await server.ssrLoadModule(
     "/apps/web/entry-server.tsx",
   )) as { render: (path: string) => string };
-  const pages = locales.flatMap((locale) =>
-    [
-      {
-        route: localizedPath(locale, "/"),
-        title: translate(locale, "siteTitle"),
-        description: translate(locale, "siteDescription"),
-      },
-      {
-        route: localizedPath(locale, "/contribute"),
-        title: `${translate(locale, "contribute")} · Feynman`,
-        description: translate(locale, "contributeDescription"),
-      },
-      {
-        route: localizedPath(locale, "/404"),
-        title: `${translate(locale, "pageNotFound")} · Feynman`,
-        description: translate(locale, "notFoundHelp"),
-      },
-      ...labs.flatMap((l) =>
-        ["labs", "learn"].map((section) => ({
-          route: localizedPath(locale, `/${section}/${l.slug}`),
-          title: `${l.title[locale]} · Feynman`,
-          description: l.summary[locale],
-        })),
-      ),
-    ].map((page) => ({
-      ...page,
-      locale,
-      file: page.route.endsWith("/")
-        ? page.route.slice(1) + "index.html"
-        : page.route.slice(1) + ".html",
-    })),
-  );
-  for (const page of pages) {
+  const routes = pageRoutes(labs);
+  for (const route of routes) {
+    const page = pageMetadata(route, labs, config);
     const html = template
       .replace(/<html lang="[^"]*"/, `<html lang="${page.locale}"`)
-      .replace(
-        "</head>",
-        `${locales.map((locale) => `<link rel="alternate" hreflang="${locale}" href="${localizedPath(locale, resolveRoute(page.route).path)}"/>`).join("")}<link rel="alternate" hreflang="x-default" href="${localizedPath("en", resolveRoute(page.route).path)}"/></head>`,
-      )
-      .replace("<!--app-->", render(page.route))
-      .replace(/<title>.*?<\/title>/, `<title>${escape(page.title)}</title>`)
-      .replace(
-        /<meta name="description" content="[^"]*"\s*\/>/,
-        `<meta name="description" content="${escape(page.description)}"/>`,
-      );
-    const path = resolve(dist, page.file);
+      .replace(/<!--seo-start-->[\s\S]*?<!--seo-end-->/, () => renderHead(page))
+      .replace("<!--app-->", () => render(route));
+    const file = route.endsWith("/")
+      ? route.slice(1) + "index.html"
+      : route.slice(1) + ".html";
+    const path = resolve(dist, file);
     await mkdir(resolve(path, ".."), { recursive: true });
     await writeFile(path, html);
   }
+  const files = seoFiles(labs, config);
+  await writeFile(resolve(dist, "robots.txt"), files.robots);
+  if (files.sitemap)
+    await writeFile(resolve(dist, "sitemap.xml"), files.sitemap);
+  else await rm(resolve(dist, "sitemap.xml"), { force: true });
   console.log(
-    `Prerendered ${pages.length} static pages. No runtime server required.`,
+    `Prerendered ${routes.length} static pages. SEO origin: ${config.origin}; indexing: ${config.indexable ? "enabled" : "disabled"}.`,
   );
 } finally {
   await server.close();

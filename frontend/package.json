@@ -10,6 +10,7 @@
   },
   "scripts": {
     "generate": "tsx scripts/generate.ts",
+    "generate:social-card": "node scripts/social-card.mjs",
     "dev": "pnpm generate && vite --host 127.0.0.1",
     "typecheck": "pnpm generate && tsc --noEmit",
     "check:lab": "pnpm generate && vitest run",
@@ -17,6 +18,8 @@
     "test:e2e": "playwright test",
     "build": "pnpm typecheck && vite build && tsx scripts/prerender.ts",
     "preview": "vite preview --host 127.0.0.1",
+    "preview:workers": "wrangler dev --ip 127.0.0.1 --port 4173 --local",
+    "deploy:workers": "wrangler deploy",
     "check": "pnpm typecheck && pnpm test && pnpm build"
   },
   "dependencies": {
@@ -43,6 +46,7 @@
     "tsx": "4.20.6",
     "typescript": "5.9.3",
     "vite": "7.3.7",
-    "vitest": "3.2.7"
+    "vitest": "3.2.7",
+    "wrangler": "4.149.0"
   }
 }

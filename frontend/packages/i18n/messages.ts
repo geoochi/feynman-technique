@@ -1,9 +1,29 @@
 // Each message has English, Chinese and Japanese text, in that order.
 export const messages = {
   siteTitle: [
-    "Feynman · Make knowledge come alive.",
-    "Feynman · 让知识发生",
-    "Feynman · 知識を体験しよう。",
+    "Feynman · Interactive Math and Science Experiments",
+    "Feynman · 数学与科学互动实验",
+    "Feynman · 数学と科学のインタラクティブ実験",
+  ],
+  seoExperimentTitle: [
+    "{title} · Interactive experiment · Feynman",
+    "{title} · 互动实验 · Feynman",
+    "{title} · インタラクティブ実験 · Feynman",
+  ],
+  seoLessonTitle: [
+    "{title} · Explanation and formulas · Feynman",
+    "{title} · 原理与公式 · Feynman",
+    "{title} · 原理と数式 · Feynman",
+  ],
+  seoExperimentDescription: [
+    "Adjust parameters and explore the interactive model in your browser.",
+    "在浏览器中调整参数，探索可操作的实验模型。",
+    "ブラウザーでパラメーターを変え、モデルを操作して確かめよう。",
+  ],
+  seoLessonDescription: [
+    "Read the explanation, formulas, and model assumptions, then try the experiment.",
+    "阅读原理、公式与模型假设，再进入实验验证。",
+    "原理、数式、モデルの仮定を読み、実験で確かめよう。",
   ],
   home: ["Feynman home", "Feynman 首页", "Feynman ホーム"],
   navigation: ["Main navigation", "主导航", "メインナビゲーション"],

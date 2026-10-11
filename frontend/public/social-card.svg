@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs><pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="#c6d9e3" stroke-width="1"/></pattern></defs>
+  <rect width="1200" height="630" fill="#eef2f7"/>
+  <rect x="30" y="30" width="1140" height="570" fill="url(#grid)" stroke="#c6d9e3"/>
+  <rect x="74" y="77" width="5" height="68" fill="#0092c7"/>
+  <text x="97" y="128" font-family="Arial, sans-serif" font-size="62" fill="#293f50">F<tspan fill="#c9800f">·</tspan></text>
+  <text x="82" y="300" font-family="Arial, sans-serif" font-size="90" letter-spacing="7" font-weight="700" fill="#293f50">FEYNMAN</text>
+  <text x="87" y="349" font-family="Arial, sans-serif" font-size="16" letter-spacing="3" fill="#657c8d">THE SCIENCE OF UNDERSTANDING</text>
+  <path d="M760 360H1100M900 420V200" fill="none" stroke="#a3bac9" stroke-width="2"/>
+  <path d="M765 214Q900 505 1085 219" fill="none" stroke="#c9800f" stroke-width="5"/>
+  <ellipse cx="930" cy="300" rx="137" ry="58" transform="rotate(-28 930 300)" fill="none" stroke="#0092c7" stroke-width="3"/>
+  <ellipse cx="930" cy="300" rx="110" ry="94" transform="rotate(28 930 300)" fill="none" stroke="#657c8d" stroke-width="2"/>
+  <circle cx="930" cy="300" r="31" fill="#fffefb" stroke="#0092c7" stroke-width="3"/>
+  <circle cx="1030" cy="222" r="8" fill="#0092c7"/>
+  <circle cx="820" cy="366" r="7" fill="#c9800f"/>
+  <text x="84" y="552" font-family="Arial, sans-serif" font-size="20" fill="#657c8d">feynman-technique.com</text>
+</svg>

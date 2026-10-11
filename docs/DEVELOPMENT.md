@@ -1,10 +1,10 @@
 # 本地开发与验证
 
-日期：2026-10-11。当前为首期本地实现 v0.1.0，尚未部署。
+日期：2026-10-11。当前为首期实现 v0.1.0，已通过 Workers Static Assets 首次发布；Git 自动构建关联尚未完成。
 
 ## 环境与命令
 
-本地工具链基线：Node 24.11.1（frontend/.node-version）、pnpm 12.10.1。package.json 将生产环境限定在 Node 24.x；Vercel 会自行滚动更新补丁。依赖全部固定直接版本并提交 pnpm-lock.yaml。pnpm-workspace.yaml 仅允许 esbuild 的安装脚本；更改安装许可前先检查依赖脚本。
+本地工具链基线：Node 24.11.1（frontend/.node-version）、pnpm 12.10.1。package.json 将生产环境限定在 Node 24.x；Workers Builds 用 NODE_VERSION=24.11.1、PNPM_VERSION=12.10.1 固定工具链。依赖全部固定直接版本并提交 pnpm-lock.yaml。pnpm-workspace.yaml 仅允许已检查的 esbuild 与 workerd 安装脚本（workerd 准备并验证平台二进制）；更改安装许可前先检查依赖脚本。
 
 ```sh
 cd frontend
@@ -16,6 +16,8 @@ pnpm check:lab               # 校验所有案例并运行单元测试
 pnpm build                   # 类型检查、Vite 构建、27 个静态 HTML 页面
 pnpm preview --port 4173     # 查看产物
 pnpm test:e2e                # 桌面/手机 Chromium 交互测试
+pnpm preview:workers        # Workers 本地运行，需先构建
+FEYNMAN_WORKERS=1 pnpm test:e2e # 用 Workers 本地路由验证产物
 ```
 
 浏览器测试使用已安装的 Google Chrome（channel=chrome），不会在依赖安装时自动下载浏览器。其他机器先安装 Chrome，或自行调整 playwright.config.ts。测试产物在 test-results/，不提交 Git。当前没有 create:lab、--lab 筛选或独立发布 SDK。
@@ -30,7 +32,9 @@ pnpm generate 只读取静态数据与文件，不执行案例模型。校验必
 
 生成 apps/web/generated/catalog.{json,ts}、registry.ts，以及 public/catalog.json、search-index.en.json、search-index.zh-CN.json、search-index.ja.json、previews/。这些文件不提交，开发与构建自动生成。新增案例不修改中心路由；新增或修改 manifest、讲解、预设后重新执行 pnpm generate 或重启 pnpm dev。当前支持英文、中文、日文、lesson 布局和有限数值参数，扩展协议需同时更新 schema 与实现。
 
-生产构建为每种语言预渲染首页、贡献页、404、三个 labs 入口和三个 learn 讲解页，共 27 页。英语为默认语言，沿用现有路径；中文与日文分别增加 /zh/ 和 /ja/ 前缀，语言首页为 zh/index.html 与 ja/index.html，其余为 zh/labs/slug.html、ja/learn/slug.html 等。实验入口提供静态说明，加载后由客户端接管；学习页关闭 JavaScript 后仍能阅读。Vercel cleanUrls 提供不带扩展名的链接，不使用通配 SPA 重写。
+生产构建为每种语言预渲染首页、贡献页、404、三个 labs 入口和三个 learn 讲解页，共 27 页。英语为默认语言，沿用现有路径；中文与日文分别增加 /zh/ 和 /ja/ 前缀，语言首页为 zh/index.html 与 ja/index.html，其余为 zh/labs/slug.html、ja/learn/slug.html 等。实验入口提供静态说明，加载后由客户端接管；学习页关闭 JavaScript 后仍能阅读。Workers auto-trailing-slash 提供不带扩展名的链接，不使用通配 SPA 重写。
+
+SEO 域名由 site.config.ts 默认配置为 https://feynman-technique.com，可用公开构建变量 SITE_URL 覆盖。packages/seo 的页面枚举与元信息同时用于开发路由、预渲染、客户端语言导航和 sitemap；生产构建输出 robots.txt、包含 24 个内容页面的 sitemap.xml、每页绝对 canonical/hreflang、分享标签及 JSON-LD。404 noindex；开发、Workers Builds 非 main 分支或 SITE_INDEXABLE=false 的产物 noindex 且不输出 sitemap。实验入口静态正文包含核心问题。分享图已提交，修改其 SVG 后执行 pnpm generate:social-card，不作为生产构建依赖。完整规则与上线验收见 [SEO](SEO.md)。
 
 公式与三维依赖只在相关实验加载。首批目录直接携带三个案例的文字元数据；案例库明显增长时可拆分讲解数据。共享渲染器尚未独立抽象，Worker/WASM 没有实际需求，未引入。
 
@@ -72,7 +76,7 @@ Playwright 交互覆盖 1440×900、390×844，单摆布局补充 1920×1080、7
 
 首版产物：首页 JS 约 253.6 KB（gzip 80.2 KB），地球实验独立 chunk 约 885.0 KB（gzip 239.2 KB），后者超过 800 KB 构建警告线；没有提高警告线掩盖结果。该体积不代表实测帧率预算通过。字体与相应第三方许可通知随静态产物提供在 THIRD_PARTY_NOTICES.txt，不改变项目自身许可证。
 
-尚未验证：真实手机触摸、完整键盘辅助技术、帧率/参数延迟性能预算、真实 Vercel 路由和缓存、生产版本/网络地区表现、长期旧 chunk 保留机制。案例未经过独立学科维护者教学审阅。
+尚未验证：真实手机触摸、完整键盘辅助技术、帧率/参数延迟性能预算、生产版本/网络地区表现、长期旧 chunk 保留机制。案例未经过独立学科维护者教学审阅。
 
 此次布局改进复验：类型检查、静态构建与 25 项单元测试通过；生产浏览器检查 20 项通过（另外 4 项桌面尺寸矩阵在手机项目中按设计跳过），开发模式 8 项通过。检查包括公式排版、核心问题、主图尺寸、左右面板顺序和缩放不修改参数。1440/1920/768/390/5120 视口已检查布局与截图；没有建立像素差分基线。公式与读数框移到控制框下方后，复验类型检查、静态构建和 20 项生产浏览器检查通过；模型和运行时未变。
 
@@ -80,8 +84,10 @@ Playwright 交互覆盖 1440×900、390×844，单摆布局补充 1920×1080、7
 
 本轮问题精简：三个案例各显示三个以问号结尾的问题，删除实验页的辅助折叠区块，单摆仅显示小角度周期。类型检查、静态构建、22 项生产浏览器检查通过（4 项桌面矩阵在手机项目跳过）；模型与能量守恒测试未改动。
 
-## 未来发布配置
+## Workers 发布配置
 
-关联 geoochi/feynman 私有仓库，设置根目录 frontend、Node 24.x、生产分支 main，安装 pnpm install --frozen-lockfile、构建 pnpm build、输出 dist。frontend/vercel.json 仅准备配置；不代表已经创建项目或上线。
+正式发布使用 Cloudflare Workers Static Assets；frontend/wrangler.jsonc 配置 dist、HTML 路由、真实 404 和自定义域名 feynman-technique.com。首次部署、GitHub 关联、工具链变量和线上验收见 [部署指南](DEPLOYMENT.md)。pnpm deploy:workers 上传已有产物，必须先运行 pnpm build。
 
-本地最终审查后由维护者确认合并/推送，Vercel Git 集成才负责自动发布。仓库不包含 GitHub Actions、后端、运行时 AI、数据库或第二条生产部署通道。上线后另行检查目标提交、正式 URL、cleanUrls 深链接、缺失文件 404、缓存及平台回滚。
+本地最终审查后由维护者确认合并/推送，Workers Builds 负责后续自动发布。仓库不包含 GitHub Actions、应用后端、运行时 AI 或数据库。Cloudflare Workers 在此仅负责交付静态资源，与浏览器内用于计算的 Web Worker 不同。
+
+Workers 部署复验：类型检查、27 页构建、39 项单元测试、Wrangler dry-run 通过；Workers 本地运行的 50 项浏览器检查通过，4 项手机项目中的桌面尺寸矩阵按设计跳过。正式 HTTPS 下逐字节核对 27 个 HTML 页面、入口 JS/CSS、分享图与地球贴图；sitemap 包含 24 页，四个 HTML 别名归一正确，未知页面/缺失脚本返回 404，哈希资源缓存正常。首次上传版本为 3a0906aa-cd8c-482c-abc4-ece29df9f4ee，来源为本地未提交工作树，不是 Git 构建。详见 [Workers 本地复核](../tooling/ai-review/2026-10-11-workers.md)。

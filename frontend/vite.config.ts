@@ -1,18 +1,21 @@
 import { defineConfig } from "vitest/config";
+import { loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import catalog from "./apps/web/generated/catalog.json";
-import { locales, localizedPath } from "./packages/i18n/locales";
+import { pageRoutes } from "./packages/seo/pages";
+import { readSiteConfig } from "./scripts/site-config";
 const devPages = new Set(
-  locales.flatMap((locale) =>
-    [
-      "/",
-      "/contribute",
-      "/404",
-      ...catalog.flatMap((lab) => [`/labs/${lab.slug}`, `/learn/${lab.slug}`]),
-    ].map((path) => localizedPath(locale, path).replace(/\/$/, "")),
-  ),
+  pageRoutes(catalog).map((path) => path.replace(/\/$/, "")),
 );
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  define: {
+    __SITE_CONFIG__: JSON.stringify(
+      readSiteConfig(
+        { ...loadEnv(mode, process.cwd(), ""), ...process.env },
+        mode === "production",
+      ),
+    ),
+  },
   plugins: [
     react(),
     {
@@ -30,4 +33,4 @@ export default defineConfig({
   appType: "mpa",
   build: { target: "es2022", chunkSizeWarningLimit: 800 },
   test: { include: ["**/*.test.ts"], exclude: ["node_modules/**", "dist/**"] },
-});
+}));

@@ -10,9 +10,12 @@ import {
 import type { Lab } from "../../packages/core/types";
 import { catalog } from "./generated/catalog";
 import s from "./App.module.css";
-import { I18nProvider, useI18n, translate } from "../../packages/i18n/I18n";
+import { I18nProvider, useI18n } from "../../packages/i18n/I18n";
 import { resolveRoute } from "../../packages/i18n/locales";
 import { LanguageSwitcher } from "../../packages/i18n/LanguageSwitcher";
+import { pageMetadata } from "../../packages/seo/metadata";
+import { applyMetadata } from "../../packages/seo/head";
+import { siteConfig } from "../../packages/seo/site";
 const LabPage = lazy(() => import("./LabPage"));
 class LoadBoundary extends Component<
   { children: ReactNode; fallback: ReactNode },
@@ -355,12 +358,22 @@ function StaticLab({ lab, failed = false }: { lab: Lab; failed?: boolean }) {
           className={s.articlePreview}
           src={lab.previewUrl}
           alt={t("staticPreview")}
+          width="600"
+          height="260"
         />
         <p role="status">{failed ? t("shellFailed") : t("preparing")}</p>
         {failed && (
           <button onClick={() => window.location.reload()}>{t("retry")}</button>
         )}
         <noscript>{t("noScript")}</noscript>
+        <section className={s.prose}>
+          <h2>{lab.content[locale].chapters[0].title}</h2>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: lab.content[locale].chapters[0].html,
+            }}
+          />
+        </section>
         <a href={href(`/learn/${lab.slug}`)}>{t("readGuide")} →</a>
       </main>
     </>
@@ -491,22 +504,7 @@ export function App({ path }: { path: string }) {
     return () => window.removeEventListener("popstate", pop);
   }, []);
   useEffect(() => {
-    document.documentElement.lang = route.locale;
-    const match = route.path.match(/^\/(?:labs|learn)\/([a-z0-9-]+)$/);
-    const lab = match && labs.find((item) => item.slug === match[1]);
-    document.title = lab
-      ? `${lab.title[route.locale]} · Feynman`
-      : route.path === "/"
-        ? translate(route.locale, "siteTitle")
-        : `${translate(route.locale, route.path === "/contribute" ? "contribute" : "pageNotFound")} · Feynman`;
-    document
-      .querySelector('meta[name="description"]')
-      ?.setAttribute(
-        "content",
-        lab
-          ? lab.summary[route.locale]
-          : translate(route.locale, "siteDescription"),
-      );
+    applyMetadata(pageMetadata(currentPath, labs, siteConfig));
   }, [route.locale, route.path]);
   const navigate = (next: string) => {
     if (
