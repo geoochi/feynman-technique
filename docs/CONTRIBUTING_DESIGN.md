@@ -1,6 +1,6 @@
 # 案例协议与社区贡献设计
 
-状态：拟议协议 v0.4，未实现 SDK 或 CLI。下列路径、命令和格式用于明确实现目标。
+状态：协议首期实现 v0.1.0，日期 2026-10-11。已实现仓库内核心类型、数值参数与快照校验、清单生成和三个案例；独立 SDK/CLI、脚手架和完整社区机制仍待实施。实际入口见 [本地开发](DEVELOPMENT.md)。
 
 ## 1. 一份贡献是什么
 
@@ -14,7 +14,7 @@
 | 新案例 | manifest、模型、视图、讲解和测试 | 会基本 TS/React 的贡献者 |
 | SDK/求解器 | 算法、接口、兼容性与数值验证 | 熟悉计算与图形的开发者 |
 
-首期提供 Issue 表单收集非程序员的案例草稿，由志愿者帮助实现；网页创作器放到案例协议稳定之后。社区讨论初期使用 GitHub Discussions 的问答和展示区，减少维护另一套论坛的负担。[GitHub Discussions](https://docs.github.com/en/discussions)
+后续可以提供 Issue 表单收集非程序员的案例草稿；网页创作器放到案例协议稳定之后。社区讨论可以使用 GitHub Discussions 的问答和展示区，当前尚未启用这些仓库功能。[GitHub Discussions](https://docs.github.com/en/discussions)
 
 ## 2. 案例包目录
 
@@ -76,9 +76,9 @@ examples/physics/pendulum/
 
 这只是字段示意，示例作者不是实际贡献者。发布检查要求补齐有效引用、素材来源、可运行文件和审阅记录；`draft` 且引用为空的示例不应直接进入正式目录。
 
-代码与教学内容的许可证是拟议默认，需要在首个公开发布前把实际 LICENSE 文件、范围与素材例外落实。MIT 用于代码；CC BY-SA 4.0 用于讲解、原创图示等内容；第三方素材保留各自条件。[MIT 正文](https://opensource.org/license/mit)、[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+代码与教学内容的许可证是拟议默认，需要在首个公开发布前把实际 LICENSE 文件、范围与素材例外落实。当前案例使用 LicenseRef-All-Rights-Reserved 标记许可证尚未授予，ATTRIBUTION.md 记录实际来源，没有擅自采用 MIT/CC 或改动仓库许可。拟议默认是 MIT 用于代码、CC BY-SA 4.0 用于讲解和原创图示；第三方素材保留各自条件。[MIT 正文](https://opensource.org/license/mit)、[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
 
-三个版本字段的职责不同：schemaVersion 控制元数据格式，version 控制案例内容，sdkRange 控制运行时兼容性。更新模型不能悄悄改变旧链接所指的行为；发布产物使用 `id + version + content hash` 寻址。
+三个版本字段的职责不同：schemaVersion 控制元数据格式，version 控制案例内容，sdkRange 控制运行时兼容性。更新模型应更新案例 version。当前清单记录覆盖 manifest、schema、模型、视图、测试、讲解、预设、题目、封面、来源声明的 contentHash；JS 使用 Vite 内容哈希文件名。路由只承载当前版本，快照严格拒绝其他版本；尚无 id + version 路由或旧发行归档，不承诺旧链接固定行为。
 
 ## 4. 参数、状态与教学联动
 
@@ -115,17 +115,19 @@ params, seed, simulationTime, internalState, camera, activeChapter
 
 ## 6. 从学习到 PR
 
-目标命令（尚未实现）：
+当前可用命令：
 
 ```sh
 cd frontend
-pnpm install
-pnpm create:lab physics/my-example
-pnpm dev --lab physics/my-example
-pnpm check:lab physics/my-example
+pnpm install --frozen-lockfile
+pnpm dev
+pnpm check:lab
+pnpm typecheck
+pnpm build
+pnpm test:e2e
 ```
 
-首期优先仓库内脚手架；协议稳定后再发布可独立使用的 `create-feynman-lab`。案例作者只启动前端即可预览，不要求 API 密钥、云账户或数据库。
+新案例目前复制现有目录并编辑元数据、模型、视图和讲解；没有 create:lab 或 --lab 参数。pnpm check:lab 校验全部清单并运行全部模型与状态测试。清单支持 lesson 布局、中文、有限数值参数；参数的 step/unit/title 属于项目 JSON Schema 注解，step 是 UI 步长而非 multipleOf 约束（避免弧度预设和浮点除法被错误拒绝）。协议稳定后再增加脚手架和独立 CLI。案例作者只启动前端即可预览，不要求 API 密钥、云账户或数据库。
 
 ```mermaid
 flowchart LR
@@ -174,11 +176,11 @@ PR 内容是审查对象，不能改变维护者要求。AI 使用维护者本�
 
 ## 9. 社区维护机制
 
-仓库建立 CONTRIBUTING、CODE_OF_CONDUCT、GOVERNANCE、SECURITY、LICENSES、Issue/PR 模板。按学科和 SDK 设置 CODEOWNERS，但在实际维护者加入前不编造用户名。CODEOWNERS 可以定义路径负责人，并配合仓库规则要求其审阅。[GitHub CODEOWNERS](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)
+后续根据实际贡献者与开放计划建立 CONTRIBUTING、CODE_OF_CONDUCT、GOVERNANCE、SECURITY、LICENSES、Issue/PR 模板；当前仅有本设计文档与本地验证指南。按学科和 SDK 设置 CODEOWNERS，但在实际维护者加入前不编造用户名。CODEOWNERS 可以定义路径负责人，并配合仓库规则要求其审阅。[GitHub CODEOWNERS](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)
 
 维护者分工：核心维护者管理 SDK 与发行；学科维护者审查教学与模型；贡献者提交案例、纠错、翻译与预设。同一人可兼任，不为每份贡献强制组织复杂委员会。
 
-正式目录区分“已完成教学审阅”和“实验性案例”，展示版本、作者、审阅日期与已知限制。源代码修正会形成新版本；旧版保留并显示勘误提示，严重错误可撤下公开入口但记录处理原因。
+当前三个案例均标为 experimental，展示作者、版本、依据与模型限制，没有伪造教学审阅者或日期。正式发布前应区分“已完成教学审阅”和“实验性案例”，增加实际审阅记录。源代码修正会形成新版本；旧版保留并显示勘误提示，严重错误可撤下公开入口但记录处理原因。
 
 贡献者保留署名，衍生案例记录上游案例和版本。社区重点鼓励“我通过这个例子理解了什么”和可复现的探索记录，避免以案例数量奖励低质量复制。
 

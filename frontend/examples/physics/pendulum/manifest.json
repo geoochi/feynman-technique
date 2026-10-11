@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1",
+  "id": "physics.pendulum",
+  "slug": "pendulum",
+  "version": "0.1.0",
+  "sdkRange": "^0.1.0",
+  "title": {
+    "zh-CN": "单摆与时间"
+  },
+  "summary": {
+    "zh-CN": "改变一根细线的长度，探究周期从何而来。"
+  },
+  "subjects": ["physics"],
+  "levels": ["high-school"],
+  "tags": ["振动", "周期", "能量"],
+  "learningObjectives": [
+    "解释周期与摆长的平方根关系",
+    "区分非线性模型与小角度近似",
+    "观察动能与势能的转换"
+  ],
+  "prerequisites": ["三角函数", "重力", "能量"],
+  "estimatedMinutes": 15,
+  "layout": "lesson",
+  "theme": "paper",
+  "renderer": "svg",
+  "entry": "view.tsx",
+  "parameterSchema": "parameters.schema.json",
+  "snapshotSchema": "snapshot.schema.json",
+  "locales": ["zh-CN"],
+  "lessons": {
+    "zh-CN": "lesson.zh-CN.md"
+  },
+  "preview": "preview.svg",
+  "authors": [
+    {
+      "name": "geoochi"
+    }
+  ],
+  "licenses": {
+    "code": "LicenseRef-All-Rights-Reserved",
+    "content": "LicenseRef-All-Rights-Reserved"
+  },
+  "capabilities": {
+    "network": false,
+    "audio": false
+  },
+  "modelAssumptions": [
+    "无阻力、不可伸长的轻绳、质点摆球",
+    "固定步长 RK4 数值积分；小角度公式只用于近似对照"
+  ],
+  "references": [
+    {
+      "title": "OpenStax · Pendulums",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/15-4-pendulums"
+    }
+  ],
+  "status": "experimental"
+}

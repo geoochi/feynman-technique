@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1",
+  "id": "math.function-transform",
+  "slug": "function-transform",
+  "version": "0.1.0",
+  "sdkRange": "^0.1.0",
+  "title": {
+    "zh-CN": "函数变换"
+  },
+  "summary": {
+    "zh-CN": "移动一条曲线，读懂公式里的每一个参数。"
+  },
+  "subjects": ["math"],
+  "levels": ["high-school"],
+  "tags": ["函数", "平移", "伸缩"],
+  "learningObjectives": [
+    "识别 y = a(x − h)² + k 的顶点",
+    "解释水平平移的符号",
+    "比较伸缩与翻转"
+  ],
+  "prerequisites": ["二次函数", "坐标系"],
+  "estimatedMinutes": 12,
+  "layout": "lesson",
+  "theme": "paper",
+  "renderer": "svg",
+  "entry": "view.tsx",
+  "parameterSchema": "parameters.schema.json",
+  "snapshotSchema": "snapshot.schema.json",
+  "locales": ["zh-CN"],
+  "lessons": {
+    "zh-CN": "lesson.zh-CN.md"
+  },
+  "preview": "preview.svg",
+  "authors": [
+    {
+      "name": "geoochi"
+    }
+  ],
+  "licenses": {
+    "code": "LicenseRef-All-Rights-Reserved",
+    "content": "LicenseRef-All-Rights-Reserved"
+  },
+  "capabilities": {
+    "network": false,
+    "audio": false
+  },
+  "modelAssumptions": ["实数域上的二次函数；a=0 时退化为常函数"],
+  "references": [
+    {
+      "title": "OpenStax · Transformation of Functions",
+      "url": "https://openstax.org/books/college-algebra-2e/pages/3-5-transformation-of-functions"
+    }
+  ],
+  "status": "experimental"
+}

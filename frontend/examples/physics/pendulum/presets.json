@@ -1,0 +1,29 @@
+[
+  {
+    "id": "0",
+    "title": "小角度",
+    "params": {
+      "length": 1,
+      "gravity": 9.81,
+      "angle": 0.0872664626
+    }
+  },
+  {
+    "id": "1",
+    "title": "较长摆长",
+    "params": {
+      "length": 2,
+      "gravity": 9.81,
+      "angle": 0.0872664626
+    }
+  },
+  {
+    "id": "2",
+    "title": "大角度",
+    "params": {
+      "length": 1,
+      "gravity": 9.81,
+      "angle": 1.2217304764
+    }
+  }
+]

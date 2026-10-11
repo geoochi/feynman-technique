@@ -1,0 +1,48 @@
+.parameter {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.parameterTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+.parameterTitle > div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.parameterTitle input {
+  width: 68px;
+  font: 12px monospace;
+  padding: 5px 4px;
+  color: var(--color-text);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+}
+.parameterTitle > div > span {
+  color: var(--color-text-muted);
+  font: 10px monospace;
+}
+.parameter > input {
+  width: 100%;
+  display: block;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+  height: 16px;
+  margin: 0;
+}
+.bounds {
+  display: flex;
+  justify-content: space-between;
+  font: 9px monospace;
+  color: var(--color-text-muted);
+  margin-top: 8px;
+}
+.error {
+  color: #b34332;
+  font-size: 11px;
+}

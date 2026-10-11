@@ -12,3 +12,8 @@ coverage/
 *.tsbuildinfo
 playwright-report/
 test-results/
+frontend/apps/web/generated/
+frontend/public/catalog.json
+frontend/public/search-index.json
+frontend/public/previews/
+test-results-*/

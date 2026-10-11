@@ -1,0 +1,29 @@
+[
+  {
+    "id": "0",
+    "title": "春分 · 赤道",
+    "params": {
+      "latitude": 0,
+      "declination": 0,
+      "hour": 12
+    }
+  },
+  {
+    "id": "1",
+    "title": "北半球夏至",
+    "params": {
+      "latitude": 31.2,
+      "declination": 23.44,
+      "hour": 12
+    }
+  },
+  {
+    "id": "2",
+    "title": "北极圈的夏天",
+    "params": {
+      "latitude": 75,
+      "declination": 23.44,
+      "hour": 12
+    }
+  }
+]

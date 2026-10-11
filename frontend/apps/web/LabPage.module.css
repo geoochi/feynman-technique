@@ -1,0 +1,542 @@
+.shell {
+  --color-background: #f6f4ef;
+  --color-surface: #fffefb;
+  --color-text: #2a302e;
+  --color-text-muted: #74776f;
+  --color-accent: #c9800f;
+  --color-border: #dddcd3;
+  --color-secondary: #2f6fd0;
+  background: var(--color-background);
+  color: var(--color-text);
+  min-height: 100vh;
+}
+.shell[data-theme="astronomy"] {
+  --color-background: #05070a;
+  --color-surface: #0c1016;
+  --color-text: #ece7dd;
+  --color-text-muted: #95978f;
+  --color-accent: #d8b26a;
+  --color-border: #292c31;
+  --color-secondary: #72c4ff;
+}
+.shell:fullscreen {
+  overflow: auto;
+}
+.header {
+  min-height: 60px;
+  padding: 0 22px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  background: var(--color-surface);
+}
+.header > a:first-child {
+  font-size: 15px;
+}
+.headerTitle {
+  font-size: 12px;
+  border-left: 1px solid var(--color-border);
+  padding-left: 20px;
+}
+.back {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+.header nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-left: auto;
+  font-size: 11px;
+}
+.header button {
+  border: 1px solid var(--color-border);
+  background: transparent;
+  padding: 7px 11px;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 232px minmax(0, 1fr) 372px;
+  min-height: calc(100vh - 60px);
+}
+.left {
+  border-right: 1px solid var(--color-border);
+  padding: 28px 20px;
+}
+.micro {
+  font:
+    9px "JetBrains Mono",
+    monospace;
+  color: var(--color-text-muted);
+  letter-spacing: 0.12em;
+  line-height: 1.6;
+}
+.left h1 {
+  font-family: "Noto Serif SC", "Songti SC", serif;
+  font-size: 26px;
+  line-height: 1.5;
+  font-weight: 500;
+  margin: 20px 0 12px;
+}
+.summary {
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--color-text-muted);
+}
+.lessonMeta {
+  display: flex;
+  justify-content: space-between;
+  font: 10px monospace;
+  color: var(--color-text-muted);
+  padding: 15px 0 22px;
+  border-bottom: 1px solid var(--color-border);
+}
+.asideTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 500;
+  margin: 23px 0 10px;
+}
+.asideTitle span {
+  font: 8px monospace;
+  color: var(--color-text-muted);
+}
+.chapters {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.chapters button {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 13px 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  text-align: left;
+  color: var(--color-text-muted);
+  font-size: 12px;
+}
+.chapters button span:first-child {
+  font: 9px monospace;
+  opacity: 0.6;
+}
+.chapters button span:last-child {
+  margin-left: auto;
+  font-size: 8px;
+}
+.chapters button[aria-current="step"] {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-accent);
+}
+.learning {
+  border-top: 1px solid var(--color-border);
+  margin-top: 24px;
+  padding-top: 15px;
+  font-size: 10px;
+  color: var(--color-text-muted);
+  line-height: 1.8;
+}
+.learning ul {
+  padding-left: 16px;
+}
+.learning li {
+  margin-bottom: 7px;
+}
+.readMore {
+  display: block;
+  margin-top: 25px;
+  font-size: 11px;
+  color: var(--color-accent);
+}
+.stageColumn {
+  min-width: 0;
+  padding: 26px;
+}
+.stageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 18px;
+}
+.paused {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+.paused i {
+  background: var(--color-accent);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+}
+.stage {
+  position: relative;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  min-height: 450px;
+}
+.playback {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.playback button,
+.stageTools button,
+.stateTools button,
+.chapterActions button {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  padding: 9px 12px;
+  font-size: 11px;
+  min-height: 36px;
+}
+.playback button.playButton {
+  color: var(--color-surface);
+  background: var(--color-text);
+  border-color: var(--color-text);
+  min-width: 78px;
+}
+.playback label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+.playback select {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  padding: 6px;
+}
+.clock {
+  margin-left: auto;
+  font: 10px monospace;
+  color: var(--color-accent);
+}
+.stageTools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 9px;
+  color: var(--color-text-muted);
+  margin-top: 12px;
+}
+.stageTools > div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.stageTools button {
+  font-size: 16px;
+  width: 34px;
+  padding: 4px;
+}
+.stageTools span {
+  padding-left: 7px;
+}
+.stateTools {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 25px;
+}
+.stateTools button {
+  font-size: 10px;
+}
+.stateTools span {
+  font-size: 9px;
+  color: var(--color-text-muted);
+}
+.notice {
+  font-size: 12px;
+  line-height: 1.6;
+  padding: 12px;
+  border: 1px solid var(--color-border);
+}
+.assumptions {
+  margin-top: 25px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 15px;
+  font-size: 10px;
+  color: var(--color-text-muted);
+  line-height: 1.9;
+}
+.assumptions ul {
+  padding-left: 15px;
+}
+.right {
+  border-left: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+.parameterPanel {
+  padding: 25px;
+  border-bottom: 1px solid var(--color-border);
+}
+.panelTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 7px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.panelTitle span {
+  font: 8px monospace;
+  color: var(--color-text-muted);
+}
+.hint {
+  font-size: 9px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+.presetLabel {
+  display: block;
+  font-size: 10px;
+  margin-top: 20px;
+}
+.presetLabel select {
+  display: block;
+  width: 100%;
+  background: var(--color-background);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  padding: 10px;
+  font-size: 11px;
+  margin-top: 9px;
+}
+.explanation {
+  padding: 24px 25px;
+  border-bottom: 1px solid var(--color-border);
+}
+.explanation h2 {
+  font-family: "Songti SC", serif;
+  font-weight: 500;
+  font-size: 23px;
+  margin: 12px 0 18px;
+}
+.explanation > div:not(.chapterActions) {
+  font-size: 12px;
+  line-height: 2;
+}
+.explanation p {
+  margin: 8px 0 14px;
+}
+.chapterActions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 24px;
+}
+.chapterActions button {
+  background: var(--color-background);
+  font-size: 10px;
+}
+.question {
+  padding: 22px 25px;
+  border-bottom: 1px solid var(--color-border);
+}
+.question h3 {
+  font-size: 12px;
+  line-height: 1.8;
+  font-weight: 500;
+}
+.question > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.question button {
+  text-align: left;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  padding: 11px;
+  font-size: 11px;
+}
+.question button[aria-pressed="true"] {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.question > p:last-child {
+  font-size: 11px;
+  line-height: 1.8;
+}
+.sources {
+  padding: 18px 25px 24px;
+}
+.sources a {
+  display: block;
+  font-size: 10px;
+  color: var(--color-accent);
+  margin: 10px 0;
+  line-height: 1.6;
+}
+.sources > p:last-child {
+  font-size: 8px;
+  line-height: 1.8;
+  color: var(--color-text-muted);
+  margin-top: 20px;
+}
+.loading {
+  padding: 40px;
+  color: #12202f;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+}
+.sceneError {
+  padding: 25px;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.sceneError img {
+  width: 100%;
+}
+@media (max-width: 1180px) {
+  .layout {
+    grid-template-columns: 200px minmax(0, 1fr) 336px;
+  }
+  .stageColumn {
+    padding: 20px;
+  }
+  .headerTitle {
+    display: none;
+  }
+  .left {
+    padding: 24px 16px;
+  }
+}
+@media (max-width: 900px) {
+  .layout {
+    display: flex;
+    flex-direction: column;
+  }
+  .left {
+    padding: 18px 20px;
+    border-right: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .left h1 {
+    margin: 8px 0;
+    font-size: 24px;
+  }
+  .summary,
+  .lessonMeta,
+  .learning,
+  .readMore,
+  .asideTitle {
+    display: none;
+  }
+  .chapters {
+    flex-direction: row;
+    overflow: auto;
+    margin-top: 14px;
+  }
+  .chapters button {
+    flex-shrink: 0;
+    padding: 11px;
+  }
+  .chapters button span:last-child {
+    display: none;
+  }
+  .stage {
+    min-height: 450px;
+  }
+  .right {
+    border-left: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--color-border);
+  }
+  .sources {
+    grid-column: 1/-1;
+  }
+  .header {
+    gap: 18px;
+  }
+  .header nav {
+    gap: 14px;
+  }
+}
+@media (max-width: 640px) {
+  .header {
+    padding: 0 14px;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-bottom: 9px;
+    padding-top: 9px;
+  }
+  .header nav {
+    gap: 12px;
+  }
+  .header nav a {
+    font-size: 9px;
+  }
+  .header nav a:nth-child(2) {
+    display: none;
+  }
+  .header > a:first-child small {
+    display: none;
+  }
+  .header > a:first-child {
+    font-size: 12px;
+  }
+  .back {
+    font-size: 10px;
+  }
+  .left {
+    padding: 15px 16px;
+  }
+  .left > .micro {
+    font-size: 8px;
+  }
+  .left h1 {
+    font-size: 22px;
+  }
+  .stageColumn {
+    padding: 18px 16px;
+  }
+  .stage {
+    min-height: 350px;
+  }
+  .stageTools > span {
+    display: none;
+  }
+  .clock {
+    margin-left: 0;
+  }
+  .playback {
+    gap: 8px;
+  }
+  .playback button {
+    min-height: 44px;
+  }
+  .right {
+    display: block;
+  }
+  .parameterPanel {
+    padding: 22px 20px;
+  }
+  .explanation,
+  .question,
+  .sources {
+    padding: 22px 20px;
+  }
+  .stateTools button,
+  .chapterActions button,
+  .stageTools button {
+    min-height: 44px;
+  }
+}

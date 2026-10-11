@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["theta", "omega"],
+  "properties": {
+    "theta": {
+      "type": "number",
+      "minimum": -1.5,
+      "maximum": 1.5
+    },
+    "omega": {
+      "type": "number",
+      "minimum": -20,
+      "maximum": 20
+    }
+  }
+}

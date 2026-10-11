@@ -1,6 +1,8 @@
 # Feynman 总体架构提案
 
-状态：架构方案 v0.4，尚未实现或部署。日期：2026-10-10。
+状态：首期本地实现 v0.1.0；架构方案 v0.4 的发布与扩展部分仍待实施。日期：2026-10-11。
+
+已实现：React/Vite 静态前端、三个实验、构建时清单校验与可信懒加载映射、目录搜索、预渲染讲解、参数与播放控制、完整 JSON 快照导入导出、模型与浏览器验证。未实现：独立发行 SDK/CLI、电学工作台、Worker/WASM、历史版本归档、Vercel 项目关联与正式部署。实际开发入口见 [本地开发](DEVELOPMENT.md)。
 
 ## 1. 当前结论
 
@@ -69,30 +71,29 @@ flowchart LR
 ```text
 feynman/
   frontend/
-    package.json
-    pnpm-lock.yaml
-    apps/web/
+    package.json / pnpm-lock.yaml / pnpm-workspace.yaml
+    apps/web/                 # 目录、课程壳、讲解与贡献入口
+      generated/              # 构建生成的元数据与可信 import 映射，不提交
     packages/
-      core/
-      runtime/
-      ui/
-      render-2d/
-      render-3d/
-      models/
+      core/                   # 案例类型与数值参数校验
+      runtime/                # 固定步长时钟与快照恢复
+      ui/                     # 控件、公式与场景样式
     examples/
       math/function-transform/
       physics/pendulum/
       geography/day-night/
     scripts/                  # 清单校验、目录生成、预渲染
+    tests/                    # 状态测试、Playwright 浏览器测试
+    public/                   # 品牌标识与生成的封面、目录、搜索索引
+    vercel.json               # 未来 Git 集成的静态构建配置
     dist/                     # 普通静态产物，不提交 Git
-  tooling/ai-review/           # 本地审查规则；可选辅助脚本
-  .github/                    # Issue/PR 模板、CODEOWNERS，无 Actions workflow
+  tooling/ai-review/           # 本地审查指南
   docs/
 ```
 
-这是计划结构，当前未生成应用包或 Vercel 项目。无需 backend/、Go/Rust 服务构建任务或数据库配置。
+这是已实现的首期结构。共用模块暂不独立发布为包；二维视图和纯 TS 模型在各案例内，三维依赖仅由地球案例引入。没有 backend/、服务器任务、数据库配置或 GitHub Actions。
 
-Vercel 项目配置应以实际前端构建入口为准，指定项目根目录、安装命令、build 命令与输出目录；不能对 monorepo 盲目采用单包模板路径。Node 和包管理器版本固定，依赖通过 lockfile 安装。
+未来 Vercel 项目应指定根目录 frontend、安装 pnpm install --frozen-lockfile、构建 pnpm build、产物 dist、Node 24.x、生产分支 main。仓库仅准备配置，没有创建或关联云项目。本地 Node 基线固定为 24.11.1、pnpm 固定为 12.10.1，依赖通过 lockfile 安装；Vercel 自动更新 Node 24 的补丁版本，因此不承诺云端与本地补丁版本完全一致。[Vercel Node 版本](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions)
 
 本地 AI 使用维护者已有工具与授权，不将 AI 密钥放入仓库、Vercel 构建变量或 VITE_*。静态网站生产构建不需要 AI 服务。构建只依赖已提交源码、锁定的依赖和公开资源。
 
@@ -117,7 +118,7 @@ Vite 不自动预渲染完整站点：需要显式建设只读取安全元数据
 
 ## 7. 实验 SDK 的边界
 
-视觉采用课程式和自由搭建式两种布局，配合目录、数学、天文、电学主题，具体尺寸见视觉规范。SDK 只抽象多案例重复使用的能力，先用三个种子案例验证。
+当前实现课程式布局、目录/暖纸/天文主题与最小共享运行时；自由搭建式电学工作台仍是后续设计。具体尺寸见视觉规范。共享模块只抽象三个种子案例已经使用的能力，未独立发行 SDK。
 
 核心契约包括参数校验、create、setParams、step、reset、snapshot、restore、dispose；UI 状态、计算模型和渲染状态分离。模型用纯函数或独立状态对象表示，不依赖 React 组件内部变量。
 
@@ -138,6 +139,8 @@ AI 读取的 PR、注释与文档是待分析数据，不应改变维护者的�
 详细案例文件、审查清单和贡献流程见 [案例贡献设计](CONTRIBUTING_DESIGN.md)。
 
 ## 9. 静态托管的实现与验收
+
+当前目录、贡献页、实验入口和学习文章通过 scripts/prerender.ts 生成静态 HTML；实验视图按案例懒加载。frontend/vercel.json 使用 cleanUrls 按 labs/slug.html 和 learn/slug.html 提供路由，没有全路径 SPA 重写。缺失资源应返回 404；本地浏览器检查与未来 Vercel 线上验收分开记录。
 
 目录和学习文章生成静态 HTML；实验按路由懒加载。若使用 SPA 路由，需要配置深链接回退，使直接打开 `/labs/pendulum` 可以工作；采用预渲染多页面时按生成文件路由。不能把缺失脚本、模型、JSON 请求错误地重写为 HTML。配置前确定路由方式，再按照 Vercel 文档验证。[Vite 路由部署说明](https://vercel.com/docs/frameworks/frontend/vite)
 
