@@ -109,14 +109,6 @@ function Session({ lab, module }: { lab: Lab; module: LabModule }) {
         <span className={s.headerTitle}>{lab.title[locale]}</span>
         <LanguageSwitcher />
         <nav aria-label={t("tools")}>
-          <a
-            href={`https://github.com/geoochi/feynman/tree/main/frontend/${lab.path}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {t("source")} ↗
-          </a>
-          <a href={href("/contribute")}>{t("remix")} ↗</a>
           <button onClick={toggleFull}>
             {t(fullscreen ? "exitFullscreen" : "fullscreen")}
           </button>

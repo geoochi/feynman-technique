@@ -26,7 +26,7 @@ export function pageMetadata(
   const { locale, path } = resolveRoute(pathname.split(/[?#]/)[0]);
   const match = path.match(/^\/(labs|learn)\/([a-z0-9-]+)$/);
   const lab = match ? labs.find((item) => item.slug === match[2]) : undefined;
-  const valid = path === "/" || path === "/contribute" || !!lab;
+  const valid = path === "/" || !!lab;
   const lesson = match?.[1] === "learn";
   const title = lab
     ? translate(locale, lesson ? "seoLessonTitle" : "seoExperimentTitle", {
@@ -34,16 +34,14 @@ export function pageMetadata(
       })
     : path === "/"
       ? translate(locale, "siteTitle")
-      : `${translate(locale, path === "/contribute" ? "contribute" : "pageNotFound")} · Feynman`;
+      : `${translate(locale, "pageNotFound")} · Feynman`;
   const description = lab
     ? `${lab.summary[locale]} ${translate(locale, lesson ? "seoLessonDescription" : "seoExperimentDescription")}`
     : translate(
         locale,
         path === "/"
           ? "siteDescription"
-          : path === "/contribute"
-            ? "contributeDescription"
-            : "notFoundHelp",
+          : "notFoundHelp",
       );
   const absolute = (route: string) => new URL(route, config.origin).href;
   const canonical = valid ? absolute(localizedPath(locale, path)) : undefined;
@@ -107,10 +105,6 @@ export function pageMetadata(
                   ? "Explanation"
                   : "Interactive experiment",
                 interactivityType: lesson ? "expositive" : "active",
-                author: lab.authors.map((author) => ({
-                  "@type": "Person",
-                  name: author.name,
-                })),
                 ...(lesson
                   ? {
                       teaches: lab.learningObjectives[locale],

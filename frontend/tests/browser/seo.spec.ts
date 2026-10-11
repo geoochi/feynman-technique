@@ -16,7 +16,6 @@ test("every production page has crawlable content and consistent SEO without Jav
   ]) {
     for (const path of [
       "/",
-      "/contribute",
       ...["function-transform", "pendulum", "day-night"].flatMap((slug) => [
         `/labs/${slug}`,
         `/learn/${slug}`,
@@ -25,6 +24,8 @@ test("every production page has crawlable content and consistent SEO without Jav
       const route = prefix + path;
       const response = await page.goto(route);
       expect(response!.status()).toBe(200);
+      expect(await response!.text()).not.toMatch(/geoochi|geoooochi|github\.com\/geoochi/i);
+      await expect(page.locator('a[href*="github.com"], a[href$="/contribute"]')).toHaveCount(0);
       await expect(page.locator("html")).toHaveAttribute("lang", lang);
       await expect(page.locator("main h1")).toHaveCount(1);
       const title = await page.title();
@@ -58,6 +59,7 @@ test("every production page has crawlable content and consistent SEO without Jav
           .textContent())!,
       );
       expect(json["@context"]).toBe("https://schema.org");
+      expect(JSON.stringify(json)).not.toContain('"author"');
       expect(
         json["@graph"].some(
           (item: { url: string }) => item.url === siteOrigin + route,
@@ -98,6 +100,11 @@ test("every production page has crawlable content and consistent SEO without Jav
   expect(social.headers()["content-type"]).toContain("image/png");
   expect((await request.get("/this-page-does-not-exist")).status()).toBe(404);
   expect((await request.get("/assets/missing.js")).status()).toBe(404);
+  for (const prefix of ["", "/zh", "/ja"])
+    expect((await request.get(prefix + "/contribute")).status()).toBe(404);
+  const catalog = await request.get("/catalog.json");
+  expect(catalog.status()).toBe(200);
+  expect(await catalog.text()).not.toMatch(/geoochi|geoooochi|github\.com\/geoochi/i);
   await context.close();
 });
 

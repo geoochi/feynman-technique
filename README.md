@@ -6,6 +6,8 @@
 
 访问 [feynman-technique.com](https://feynman-technique.com)。
 
+源码仓库当前保持私有，网站暂不提供源码或社区贡献入口。
+
 网站默认英语，可通过顶部语言下拉框切换中文和日语；切换语言会保留当前实验状态。
 
 ```sh

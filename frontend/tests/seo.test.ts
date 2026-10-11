@@ -41,6 +41,9 @@ describe("SEO output", () => {
       "/labs/unknown",
       "/learn/unknown",
       "/no-page",
+      "/contribute",
+      "/zh/contribute",
+      "/ja/contribute",
     ]) {
       const page = pageMetadata(path, labs, production);
       expect(page.indexable).toBe(false);
@@ -49,11 +52,11 @@ describe("SEO output", () => {
       expect(page.structuredData).toBeUndefined();
     }
   });
-  it("lists only the 24 canonical content pages, with no fabricated dates or priorities", () => {
+  it("lists only the 21 canonical content pages, with no fabricated dates or priorities", () => {
     const { sitemap, robots } = seoFiles(labs, production);
-    expect(sitemap!.match(/<loc>/g)).toHaveLength(24);
+    expect(sitemap!.match(/<loc>/g)).toHaveLength(21);
     expect(sitemap).toContain("https://education.example/ja/learn/day-night");
-    expect(sitemap).not.toMatch(/404|lastmod|priority|changefreq|localhost/);
+    expect(sitemap).not.toMatch(/404|contribute|lastmod|priority|changefreq|localhost/);
     expect(robots).toContain("Sitemap: https://education.example/sitemap.xml");
   });
   it("protects preview/development and honors an explicit indexing opt-out", () => {

@@ -53,16 +53,6 @@ function Header() {
           <a className={s.navActive} href={href("/")}>
             {t("catalog")}
           </a>
-          <a href={href("/contribute")}>
-            {t("contribute")} <span>↗</span>
-          </a>
-          <a
-            href="https://github.com/geoochi/feynman"
-            target="_blank"
-            rel="noreferrer"
-          >
-            GitHub ↗
-          </a>
         </nav>
         <LanguageSwitcher />
       </div>
@@ -70,14 +60,13 @@ function Header() {
   );
 }
 function Footer() {
-  const { t, href } = useI18n();
+  const { t } = useI18n();
   return (
     <footer className={s.footer}>
       <span>
         FEYNMAN <span className={s.muted}>{t("footer1")}</span>
       </span>
       <span>{t("footer2")}</span>
-      <a href={href("/contribute")}>{t("footerJoin")} ↗</a>
     </footer>
   );
 }
@@ -290,8 +279,7 @@ export function Catalog() {
                     <span>{t("minutes", { count: lab.estimatedMinutes })}</span>
                     <strong>{t("enter")} →</strong>
                   </div>
-                  <div className={s.cardAuthor}>
-                    {lab.authors.map((a) => a.name).join(", ")}{" "}
+                  <div className={s.cardVersion}>
                     <span>v{lab.version}</span>
                   </div>
                 </div>
@@ -312,31 +300,6 @@ export function Catalog() {
               </button>
             </div>
           )}
-        </section>
-        <section className={s.community}>
-          <div>
-            <p className={s.eyebrow}>LEARNING IS A SHARED EXPERIMENT</p>
-            <h2>
-              {t("community1")}
-              <br />
-              {t("community2")}
-            </h2>
-          </div>
-          <div>
-            <p>
-              {t("communityText1")}
-              <br />
-              {t("communityText2")}
-              <br />
-              {t("communityText3")}
-            </p>
-            <a href={href("/contribute")}>
-              {t("join")} <span>↗</span>
-            </a>
-          </div>
-          <span className={s.communitySymbol} aria-hidden="true">
-            ＋
-          </span>
         </section>
       </main>
       <Footer />
@@ -410,51 +373,8 @@ function Learn({ lab }: { lab: Lab }) {
           ))}
         </ul>
         <p className={s.note}>
-          {t("reviewNote", {
-            authors: lab.authors.map((a) => a.name).join(", "),
-          })}
+          {t("reviewNote")}
         </p>
-      </main>
-      <Footer />
-    </>
-  );
-}
-function Contribute() {
-  const { t, href } = useI18n();
-  return (
-    <>
-      <Header />
-      <main id="main" className={s.article}>
-        <p className={s.eyebrow}>BUILD WITH US</p>
-        <h1>
-          {t("contribute1")}
-          <br />
-          {t("contribute2")}
-        </h1>
-        <p>{t("contributeIntro")}</p>
-        <ol className={s.steps}>
-          <li>
-            <strong>{t("step1")}</strong>
-            <p>{t("step1Text")}</p>
-          </li>
-          <li>
-            <strong>{t("step2")}</strong>
-            <p>{t("step2Text")}</p>
-          </li>
-          <li>
-            <strong>{t("step3")}</strong>
-            <p>{t("step3Text")}</p>
-          </li>
-        </ol>
-        <a
-          className={s.primaryLink}
-          href="https://github.com/geoochi/feynman/blob/main/docs/CONTRIBUTING_DESIGN.md"
-          target="_blank"
-          rel="noreferrer"
-        >
-          {t("contributionGuide")} ↗
-        </a>
-        <p className={s.note}>{t("privateNote")}</p>
       </main>
       <Footer />
     </>
@@ -470,7 +390,6 @@ function Page({ path }: { path: string }) {
   const match = clean.match(/^\/(labs|learn)\/([a-z0-9-]+)$/);
   const lab = match && labs.find((l) => l.slug === match[2]);
   if (clean === "/") return <Catalog />;
-  if (clean === "/contribute") return <Contribute />;
   if (lab && match)
     return match[1] === "learn" ? (
       <Learn lab={lab} />

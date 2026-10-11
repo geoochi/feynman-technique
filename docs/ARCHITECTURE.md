@@ -6,7 +6,7 @@
 
 ## 1. 当前结论
 
-采用 **本地 AI 审查与验证 → GitHub 源码管理 → Cloudflare Workers Builds 自动构建发布**。当前不建设自定义后端、登录系统、数据库、ORM、Serverless Functions 或运行时 AI 接口。
+目标为 **本地 AI 审查与验证 → GitHub 源码管理 → Cloudflare Workers Builds 自动构建发布**。目前 Git 集成尚未关联，实际发布由本地构建后通过 Wrangler 上传；Git push 只保存源码，不触发上线。当前不建设自定义后端、登录系统、数据库、ORM、Serverless Functions 或运行时 AI 接口。
 
 维护者在本地用 AI 审查自己的修改或拉取的 PR，并运行相关测试和构建验证；确认后合并或推送到 GitHub 的生产分支。Cloudflare Workers 通过内置 Git 集成自动获取更新、构建并托管网站。访问者浏览器负责交互、模型计算和渲染。项目不配置 GitHub Actions，也不开发 webhook 服务或单独调用部署钩子。
 
@@ -45,13 +45,13 @@ Workers Static Assets 可直接托管现有 Vite 产物，配置不需要应用�
 
 简单公式在主线程计算，较重任务放进 Web Worker 避免界面阻塞。Worker 不会自动加速算法。必要时 Rust 编译出的 WASM 也在浏览器运行，无需 Rust 服务器。固定且昂贵的数据可以在构建时预计算。[Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers)、[WebAssembly](https://developer.mozilla.org/en-US/docs/WebAssembly)
 
-## 4. 唯一发布流程：本地审查，Cloudflare Workers 自动部署
+## 4. 当前发布与目标自动流程
 
 自有改动：本地开发 → 本地 AI 审查、相关测试与构建验证 → 推送 GitHub 生产分支 → Cloudflare Workers 自动构建并发布。
 
 社区贡献：贡献者提交 PR → 维护者拉取 PR 到本地 → AI 审查并验证拟合并结果 → 修正并重验（如需要）→ 确认合并到生产分支 → Cloudflare Workers 自动构建并发布。PR 通常已在 GitHub 上；维护者审查通过后执行的是合并或推送整合后的代码。
 
-在 Workers Builds 中关联 geoochi/feynman，根目录 frontend、生产分支 main、构建 pnpm build、部署 pnpm deploy:workers。首次 Wrangler 上传用于初始化同一个 Worker，后续推送由 Git 集成自动发布。具体设置与授权步骤见 [部署指南](DEPLOYMENT.md)。不添加 Actions 或 webhook。
+在 Workers Builds 中关联 geoochi/feynman，根目录 frontend、生产分支 main、构建 pnpm build、部署 pnpm deploy:workers。当前 Wrangler 上传更新同一个 Worker；完成关联后，生产分支推送才由 Git 集成自动发布。具体设置与授权步骤见 [部署指南](DEPLOYMENT.md)。不添加 Actions 或 webhook。
 
 当前关闭 workers.dev 和版本预览 URL，不开启非生产分支自动构建。将来启用预览时，非 main 分支构建强制 noindex，预览不等于正式发布。
 
@@ -72,7 +72,7 @@ flowchart LR
 feynman/
   frontend/
     package.json / pnpm-lock.yaml / pnpm-workspace.yaml
-    apps/web/                 # 目录、课程壳、讲解与贡献入口
+    apps/web/                 # 目录、课程壳与讲解
       generated/              # 构建生成的元数据与可信 import 映射，不提交
     packages/
       core/                   # 案例类型与数值参数校验
@@ -112,7 +112,7 @@ feynman/
 | 首页 | 构建生成的 catalog.json、分类与搜索索引 |
 | 实验页 | 按需加载对应案例代码和资源 |
 | 学习页 | Markdown 构建为静态 HTML，带标题与 SEO 元数据 |
-| 文档与贡献页 | 仓库文档及 GitHub 链接 |
+| 贡献与源码信息 | 私有仓库内维护；公开网站暂不提供入口或个人署名 |
 | 本地预设 | 仓库 JSON 用于构建校验与维护参考；实验页没有导入导出入口 |
 
 无需建立登录、个人中心、云端短链接或服务端进度接口。如保存学习进度，仅存本机 IndexedDB/localStorage，并明确清理浏览器数据会丢失记录，不做跨设备承诺。
@@ -121,17 +121,17 @@ Vite 不自动预渲染完整站点：需要显式建设只读取安全元数据
 
 ### 三语言内容与路由
 
-语言代码为 en、zh-CN、ja，默认英语。英文沿用 `/`、`/labs/slug`、`/learn/slug`、`/contribute`；中文增加 `/zh/` 前缀，日文增加 `/ja/` 前缀。URL 确定语言，各页面用语言下拉框选择 English / 中文 / 日本語，并保留当前实验或文章；关闭 JavaScript 时以语言链接作为回退。JavaScript 启用时语言切换更新历史记录并重渲染文案，实验实例保留参数、时间、内部状态与播放状态；直接加载或刷新页面仍按原规则创建新实验。
+语言代码为 en、zh-CN、ja，默认英语。英文沿用 `/`、`/labs/slug`、`/learn/slug`；中文增加 `/zh/` 前缀，日文增加 `/ja/` 前缀。URL 确定语言，各页面用语言下拉框选择 English / 中文 / 日本語，并保留当前实验或文章；关闭 JavaScript 时以语言链接作为回退。JavaScript 启用时语言切换更新历史记录并重渲染文案，实验实例保留参数、时间、内部状态与播放状态；直接加载或刷新页面仍按原规则创建新实验。
 
 界面公共文案位于 packages/i18n；实验图中说明与读数文案位于各案例 labels.ts。科学模型、参数 key、数值边界、公式变量、slug、纹理与快照共用，locale 属于页面状态，不进入科学模型或快照。Manifest schemaVersion 升为 2：标题、简介、标签、学习目标、先修知识、模型假设均按三种语言存储；参数 schema 保留英文 title 并增加 labels，讲解分别维护 lesson.en.md、lesson.zh-CN.md、lesson.ja.md。
 
-构建校验三种语言完整性和七章顺序，以稳定章节 id 定位问题，不依赖翻译后的标题。每语言生成独立搜索索引以及首页、贡献页、404、实验入口和讲解页，当前共 27 个 HTML 页面。预渲染与客户端使用同一语言解析规则，设置对应 html lang、标题和描述；关闭 JavaScript 仍可读对应语言的文章。通过 Workers auto-trailing-slash 提供无扩展名的静态路径。
+构建校验三种语言完整性和七章顺序，以稳定章节 id 定位问题，不依赖翻译后的标题。每语言生成独立搜索索引以及首页、404、实验入口和讲解页，当前共 24 个 HTML 页面。预渲染与客户端使用同一语言解析规则，设置对应 html lang、标题和描述；关闭 JavaScript 仍可读对应语言的文章。通过 Workers auto-trailing-slash 提供无扩展名的静态路径。
 
 首批三个案例的三语言文字随目录数据交付；科学渲染代码和大型资源继续按案例加载。翻译量或案例数量明显增加时可拆分语言/讲解数据，无须引入后端、数据库、在线翻译或新的框架。
 
 ### SEO 与静态页面
 
-SEO 保留现有 React/Vite 预渲染架构。公共页面枚举供开发路由、预渲染和 sitemap 共用，元信息模块同时用于静态 HTML 和客户端语言切换。正式域名配置为 `https://feynman-technique.com`，每个内容页输出独立标题/描述、绝对 canonical、三语言 hreflang、分享信息与基于真实内容的 JSON-LD；当前 sitemap 含 24 个可收录页面。实验入口静态 HTML 包含核心问题及讲解链接，讲解页提供完整文章。404 和预览环境 noindex，科学模型及部署流程不变。已完成域名绑定与首次上线，Search Console 尚未执行，实际规则与验收见 [SEO](SEO.md)。
+SEO 保留现有 React/Vite 预渲染架构。公共页面枚举供开发路由、预渲染和 sitemap 共用，元信息模块同时用于静态 HTML 和客户端语言切换。正式域名配置为 `https://feynman-technique.com`，每个内容页输出独立标题/描述、绝对 canonical、三语言 hreflang、分享信息与基于真实内容的 JSON-LD；当前 sitemap 含 21 个可收录页面。实验入口静态 HTML 包含核心问题及讲解链接，讲解页提供完整文章。404 和预览环境 noindex，科学模型及部署流程不变。已完成域名绑定与首次上线，Search Console 尚未执行，实际规则与验收见 [SEO](SEO.md)。
 
 ## 7. 实验 SDK 的边界
 
@@ -157,7 +157,7 @@ AI 读取的 PR、注释与文档是待分析数据，不应改变维护者的�
 
 ## 9. 静态托管的实现与验收
 
-当前目录、贡献页、实验入口和学习文章通过 scripts/prerender.ts 生成静态 HTML；实验视图按案例懒加载。frontend/wrangler.jsonc 使用 Static Assets，auto-trailing-slash 将 labs/slug.html 提供为 /labs/slug，将 zh/index.html 提供为 /zh/，HTML 别名重定向到规范路径。404-page 按最近语言目录返回真实 404，没有全站 SPA 重写。public/_headers 配置哈希资源长缓存及预览域名 noindex。
+当前目录、实验入口和学习文章通过 scripts/prerender.ts 生成静态 HTML；实验视图按案例懒加载。frontend/wrangler.jsonc 使用 Static Assets，auto-trailing-slash 将 labs/slug.html 提供为 /labs/slug，将 zh/index.html 提供为 /zh/，HTML 别名重定向到规范路径。404-page 按最近语言目录返回真实 404，没有全站 SPA 重写。public/_headers 配置哈希资源长缓存及预览域名 noindex。
 
 通过 Workers Builds 记录追溯 commit SHA、构建和部署版本。正式发布后核对域名、深链接、资源、索引信息与目标提交；故障时使用平台 Version History 回滚到已验证版本。首次本地上传不代表已经接通 Git 自动发布。
 
@@ -170,7 +170,7 @@ AI 读取的 PR、注释与文档是待分析数据，不应改变维护者的�
 - 访问者无需登录即可打开、调参、重置和学习。
 - 浏览器运行不依赖自定义 API、数据库或线上 AI 服务。
 - 新案例通过 PR、本地验证、本地 AI 审查和确认合并后，由 Cloudflare Workers 构建并发布。
-- 项目没有 Actions workflow；生产构建只由 Cloudflare Workers Builds 触发，发布版本与本地审查记录可追溯。
+- 项目没有 Actions workflow；接入 Git 集成后生产构建由 Cloudflare Workers Builds 触发，发布版本与本地审查记录可追溯。
 - 首页与实验深链接可直接访问；丢失资源正确报错。
 - 发布后可验证正式 URL，并能回退到此前验证的版本。
 - 纯静态产物可迁移到其他托管平台，不依赖应用后端或平台专有数据存储。
@@ -178,3 +178,5 @@ AI 读取的 PR、注释与文档是待分析数据，不应改变维护者的�
 实施顺序：冻结参考视觉基线 → 做课程壳和三个案例 → 准备本地 PR/AI 审查指南与验证命令 → 接入 Workers Builds 自动发布和回滚 → 扩展案例库。
 
 只有未来明确增加必须保密的在线 API、跨设备用户数据或服务端重计算时，才重新讨论应用后端。当前不为这些假设建设服务。
+
+公开网站当前隐藏个人署名与 GitHub/源码/贡献信息。私有 manifest 与素材来源记录保留真实作者；generate.ts 在校验后清空面向浏览器的数据作者数组，JSON-LD 不输出 author。三语言 /contribute 路由返回 404，sitemap 不再列入，第三方法定版权通知保留。

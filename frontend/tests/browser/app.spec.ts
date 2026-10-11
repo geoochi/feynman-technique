@@ -43,6 +43,7 @@ for (const slug of slugs)
         ? page.waitForResponse(/earth-blue-marble.*\.webp$/)
         : null;
     await page.goto(`/zh/labs/${slug}`);
+    await expect(page.locator('a[href*="github.com"], a[href$="/contribute"]')).toHaveCount(0);
     if (textureResponse) {
       const response = await textureResponse;
       expect(response.ok()).toBe(true);

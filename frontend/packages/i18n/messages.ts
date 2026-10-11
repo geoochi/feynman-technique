@@ -28,7 +28,6 @@ export const messages = {
   home: ["Feynman home", "Feynman 首页", "Feynman ホーム"],
   navigation: ["Main navigation", "主导航", "メインナビゲーション"],
   catalog: ["Experiments", "实验目录", "実験一覧"],
-  contribute: ["Contribute", "参与贡献", "参加する"],
   language: ["Language", "语言", "言語"],
   heroStart: ["Make knowledge", "让知识", "知識を"],
   heroEnd: ["come alive.", "发生。", "体験しよう。"],
@@ -88,38 +87,11 @@ export const messages = {
     "「周期」「自転」などのキーワードを試してください。",
   ],
   clear: ["Clear filters", "清除筛选", "絞り込みを解除"],
-  community1: ["A good question", "一个好问题，", "よい問いが、"],
-  community2: [
-    "can become the next experiment.",
-    "可以成为下一个实验。",
-    "次の実験になる。",
-  ],
-  communityText1: [
-    "Understanding is worth sharing.",
-    "我们相信，理解值得被分享。",
-    "理解を分かち合おう。",
-  ],
-  communityText2: [
-    "Start by improving an explanation or adding a preset,",
-    "从纠正一句讲解、提供一个预设开始，",
-    "解説を直したり、設定例を加えたり、",
-  ],
-  communityText3: [
-    "or contribute an experiment of your own.",
-    "也可以贡献你自己的可视化案例。",
-    "自分の可視化実験を投稿したり。",
-  ],
-  join: ["How to contribute", "了解如何参与", "参加方法を見る"],
   footer1: ["/ Explore to understand", "/ 用探索代替记忆", "/ 探索から理解へ"],
   footer2: [
     "Runs locally · Explore freely · Start with a question",
     "本地计算 · 自由探索 · 从问题开始",
     "ブラウザーで計算 · 自由に探索 · 問いから始める",
-  ],
-  footerJoin: [
-    "Help improve this lab",
-    "一起完善这个实验室",
-    "この実験室を育てよう",
   ],
   staticPreview: ["Experiment diagram", "实验示意图", "実験の模式図"],
   shellFailed: [
@@ -147,52 +119,9 @@ export const messages = {
   objectives: ["Learning goals", "学习目标", "学習目標"],
   references: ["Sources and references", "依据与引用", "出典と参考資料"],
   reviewNote: [
-    "Experimental · {authors} · Independent teaching review pending",
-    "实验性案例 · {authors} · 尚未完成独立教学审阅",
-    "試作版 · {authors} · 独立した教育内容のレビューは未実施",
-  ],
-  contribute1: ["Turn your understanding", "把你的理解，", "あなたの理解を、"],
-  contribute2: [
-    "into someone else's starting point.",
-    "变成别人的起点。",
-    "誰かの出発点に。",
-  ],
-  contributeIntro: [
-    "Feynman experiments and notes live together in the source repository. Ask a question, improve an explanation, add a preset, or build a new experiment.",
-    "Feynman 的案例与讲解由仓库源码共同维护。你可以提出问题、纠正说明、补充预设，或实现一个新的实验。",
-    "Feynman の実験と解説は、リポジトリで一緒に管理しています。問いの提案、解説の修正、設定例の追加、新しい実験の作成で参加できます。",
-  ],
-  step1: [
-    "Start with a clear question",
-    "从一个清晰问题开始",
-    "明確な問いから始める",
-  ],
-  step1Text: [
-    "Name the concept learners should understand and how interaction reveals it.",
-    "写出学习者要理解的概念，说明如何通过操作观察它。",
-    "学習者が理解する概念と、操作によって何を観察できるかを示してください。",
-  ],
-  step2: ["Validate locally", "在本地验证", "ローカルで検証する"],
-  step2Text: [
-    "Include an independent model, parameters, notes, presets, sources, and tests. Check units, boundaries, and approximations using the contribution guide.",
-    "案例包含独立模型、参数、讲解、预设、来源和测试。按贡献指南检查单位、边界和近似条件。",
-    "独立したモデル、パラメーター、解説、設定例、出典、テストを用意し、単位・境界条件・近似を確認してください。",
-  ],
-  step3: ["Submit a pull request", "提交 Pull Request", "プルリクエストを送る"],
-  step3Text: [
-    "Maintainers review the model and teaching content locally, then verify and merge.",
-    "维护者在本地审查模型与教学内容，验证后确认合并。",
-    "メンテナーがモデルと教育内容をローカルでレビューし、検証してからマージします。",
-  ],
-  contributionGuide: [
-    "Read the contribution guide",
-    "查看完整贡献指南",
-    "投稿ガイドを読む",
-  ],
-  privateNote: [
-    "The repository is currently private and requires access. Public release and licensing await maintainer confirmation.",
-    "仓库目前为私有，访问需要仓库权限。对外开放与许可证尚待维护者确认。",
-    "リポジトリは現在非公開です。公開とライセンスはメンテナーの確認待ちです。",
+    "Experimental · Independent teaching review pending",
+    "实验性案例 · 尚未完成独立教学审阅",
+    "試作版 · 独立した教育内容のレビューは未実施",
   ],
   notFound: [
     "This experiment doesn't exist yet.",
@@ -211,11 +140,6 @@ export const messages = {
     "通过可操作的可视化实验，理解数学、物理与地球运动。",
     "操作できる実験で、数学・物理・地球のしくみを理解する。",
   ],
-  contributeDescription: [
-    "Make your understanding someone else's starting point.",
-    "把你的理解变成别人的起点。",
-    "あなたの理解を、誰かの出発点に。",
-  ],
   moduleFailed: [
     "Experiment resources failed to load. Reload or read the full notes.",
     "实验资源加载失败。请刷新重试，也可以先阅读完整讲解。",
@@ -233,8 +157,6 @@ export const messages = {
     "このブラウザーでは全画面表示を利用できません。",
   ],
   tools: ["Experiment tools", "实验工具", "実験ツール"],
-  source: ["Source", "源码", "ソース"],
-  remix: ["Remix / Contribute", "改编 / 贡献", "改変 / 投稿"],
   fullscreen: ["Full screen", "全屏", "全画面"],
   exitFullscreen: ["Exit full screen", "退出全屏", "全画面を終了"],
   introduction: ["Introduction", "实验介绍", "実験の紹介"],

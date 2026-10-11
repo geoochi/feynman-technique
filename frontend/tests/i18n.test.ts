@@ -22,7 +22,6 @@ describe("language routing and messages", () => {
     for (const locale of locales)
       for (const path of [
         "/",
-        "/contribute",
         "/labs/function-transform",
         "/learn/day-night",
       ])

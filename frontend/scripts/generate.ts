@@ -3,7 +3,8 @@ import { resolve } from "node:path";
 import { scanCatalog } from "./catalog";
 import { locales } from "../packages/i18n/locales";
 const root = process.cwd();
-const labs = await scanCatalog(root);
+// Keep provenance in private manifests; public data and bundles omit personal authors.
+const labs = (await scanCatalog(root)).map((lab) => ({ ...lab, authors: [] }));
 await mkdir(resolve(root, "apps/web/generated"), { recursive: true });
 await mkdir(resolve(root, "public/previews"), { recursive: true });
 await writeFile(

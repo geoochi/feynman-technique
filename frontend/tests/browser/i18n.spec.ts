@@ -183,12 +183,12 @@ test("all languages have static lessons and localized navigation without JavaScr
         page.locator(`a[href="${prefix}/labs/${slug}"]`),
       ).toBeVisible();
     }
-    await page.goto(`${prefix}/contribute`);
+    await page.goto(`${prefix}/`);
     await expect(page.locator("html")).toHaveAttribute("lang", lang);
     await expect(page.locator("main h1")).toBeVisible();
   }
   await page.getByRole("link", { name: "中文", exact: true }).click();
-  await expect(page).toHaveURL(/\/zh\/contribute$/);
+  await expect(page).toHaveURL(/\/zh\/$/);
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
   await context.close();
 });

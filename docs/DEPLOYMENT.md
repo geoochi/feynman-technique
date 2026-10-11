@@ -2,6 +2,10 @@
 
 日期：2026-10-11。正式域名：`https://feynman-technique.com`。已完成 Cloudflare OAuth 授权、Active Zone 核对、Custom Domain 绑定与首次发布。GitHub 自动构建关联尚未完成。
 
+## 当前实际流程
+
+当前是本机 pnpm build 生成 dist，再由本机 pnpm deploy:workers（Wrangler）上传到 Cloudflare。Cloudflare 负责持有、分发线上资源；网站不运行在本机，关闭本机不影响访问。git commit/push 只保存源码，尚不自动触发部署。完成 Workers Builds 的 GitHub 关联后，生产分支推送事件才会触发 Cloudflare 构建并发布；不用另写自定义 webhook 或 GitHub Actions。
+
 ## 部署方式
 
 保持 React + Vite 和构建时预渲染，Workers Static Assets 交付 `frontend/dist`；不添加 Worker 应用脚本、SSR、数据库或存储服务。科学计算仍在访问者浏览器运行。配置位于 `frontend/wrangler.jsonc`，Wrangler 固定为 4.149.0。
@@ -58,7 +62,7 @@ Wrangler 配置绑定根域名 `feynman-technique.com`。DNS 接管不等于网�
 - Workers 部署版本与来源；Git 构建须对应目标 commit SHA，首次本地上传的版本来源应与后续 Git 构建分别记录。
 - 根域名、三语言入口及实验/讲解深链接直接返回 200，`.html` 与尾斜线别名归一正确。
 - 未知页面与缺失资源返回 404，正式页面没有 noindex 响应头，HTML canonical/hreflang 指向正式域名。
-- robots.txt、包含 24 个内容地址的 sitemap.xml、分享图片和地球贴图正常；哈希资源长缓存，HTML 可更新。
+- robots.txt、包含 21 个内容地址的 sitemap.xml、分享图片和地球贴图正常；哈希资源长缓存，HTML 可更新。
 - 检查 Git 推送触发生产发布；发生故障使用 Workers 的 Version History 回滚到此前已验证版本。
 
 Search Console 的域名验证、sitemap 提交与线上性能测量单独验收；构建成功不表示搜索收录或网络性能已经达标。
@@ -75,7 +79,7 @@ Search Console 的域名验证、sitemap 提交与线上性能测量单独验收
 - [构建工具版本](https://developers.cloudflare.com/workers/ci-cd/builds/build-image/)
 - [生产与预览分支](https://developers.cloudflare.com/workers/ci-cd/builds/build-branches/)
 
-## 当前发布记录
+## 首次发布记录（历史）
 
 - Worker：`feynman`，Custom Domain：`feynman-technique.com`，HTTPS 首页及三语言深链接可访问。
 - 发布时间：2026-10-11 04:39:39 UTC，版本：`3a0906aa-cd8c-482c-abc4-ece29df9f4ee`，100% 流量，Source=Upload。
@@ -83,3 +87,9 @@ Search Console 的域名验证、sitemap 提交与线上性能测量单独验收
 - 本地检查：39 项单元测试、50 项 Workers 浏览器检查通过；4 项桌面尺寸测试在手机项目按规则跳过；build、dry-run 通过。
 - 线上检查：27 个 HTML 与本地产物一致；sitemap 24 页；四个 HTML 别名重定向正确；入口 JS/CSS、分享图和地球贴图内容一致；未知页面与缺失脚本为 404；哈希资源 immutable，正式页面无 noindex 响应头。Chrome 线上检查三个实验的参数控件、两个动态案例播放/重置和日语语言导航，无 pageerror。
 - 待完成：Workers Builds 关联、可选 www 重定向、Search Console。
+
+当前网站保持公开访问、源码仓库保持私有；源码/贡献链接与个人署名已从公开页面及构建数据移除。当前生成 24 页 HTML，sitemap 21 页；下次 Git 自动构建关联需使用此版本配置。
+
+## 公开信息清理发布
+
+2026-10-11 通过本机 Wrangler 更新同一个 Worker，版本 `19e1445e-0cdb-4c47-a96d-9ab7121ed3a5`。本次 24 页 HTML、21 页 sitemap、公开目录、入口 JS/CSS、图片和三语言旧贡献页 404 已线上核对。相同源码随本版本 commit/push 保存；该次上传仍为本地 CLI 上传，没有因此连接 Workers Builds。审查对象与验证范围见 [本轮复核](../tooling/ai-review/2026-10-11-private-site.md)。
