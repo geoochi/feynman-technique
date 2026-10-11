@@ -132,8 +132,8 @@ Workers Builds 与 GitHub 的关联在本次基线仍未完成；`git push` 不�
 - 不改成 Next.js 或请求时 SSR，不新增后端、CMS、数据库、账户系统。
 - 不添加专门的 GEO 服务、运行时 AI 或自动生成海量内容。
 - 不把 `llms.txt`、额外 Schema 或 FAQ 堆叠当作收录前提。
-- 不恢复个人作者、GitHub/源码/贡献入口；保留真实参考资料、模型假设和诚实的审核状态，不虚构审阅人或日期。
-- 不改仓库可见性，不增加 GitHub Actions 或第二套自动发布通道。
+- SEO 首轮未恢复社区入口；后续已按维护者授权新增 GitHub 导航与 Issue/PR 投稿区。仍省略个人作者，保留真实参考资料、模型假设和诚实审核状态。
+- SEO 首轮未改仓库可见性；后续由维护者明确授权公开仓库。仍不增加 GitHub Actions 或第二套自动发布通道。
 - 不承诺排名、流量或 AI 引用提升。
 
 Google 官方说明：AI 搜索功能沿用基础 SEO 要求，不要求专门 AI 文件或额外结构化数据。参见 [AI features and your website](https://developers.google.com/search/docs/appearance/ai-features)。
@@ -167,7 +167,8 @@ pnpm exec playwright test tests/browser/seo.spec.ts
 - [x] Agent：九份讲解核心答案与必要的问题式 H3。
 - [x] Agent：案例级三语言 SEO 文案及校验、测试。
 - [x] Agent：评估并适度改进首页定位文案与排版。
-- [ ] 维护者：Search Console 验证、sitemap 提交与重点网址检查；www 网址前缀属性的 HTML 验证文件已由 Agent 发布并核对，待维护者点击“验证”后提交 sitemap。
+- [x] 维护者：已在会话中确认提交 sitemap；HTML 验证文件已由 Agent 发布并核对。Agent 未独立读取 Search Console 账号报告。
+- [ ] 维护者：后续观察重点网址的抓取、收录及搜索表现。
 - [x] Agent（维护者授权）：Cloudflare 绑定 www，配置裸域到 www 的 301，发布并线上验收。
 - [x] Agent：读取 Cloudflare AI Crawl Control 的真实访问计数与阻止开关；Googlebot 一次失败的具体原因仍未定位，见下方记录。
 - [x] Agent：性能基线测量，提交有证据的后续优化建议，见 [性能报告](PERFORMANCE_BASELINE.md)。

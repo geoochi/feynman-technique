@@ -1,3 +1,4 @@
+import { repositoryUrl } from "../../repository.config";
 import { test, expect } from "@playwright/test";
 const slugs = ["function-transform", "pendulum", "day-night"];
 test("catalog filters, searches, and has no layout overflow", async ({
@@ -43,7 +44,7 @@ for (const slug of slugs)
         ? page.waitForResponse(/earth-blue-marble.*\.webp$/)
         : null;
     await page.goto(`/zh/labs/${slug}`);
-    await expect(page.locator('a[href*="github.com"], a[href$="/contribute"]')).toHaveCount(0);
+    await expect(page.getByRole("link", { name: "GitHub ↗", exact: true })).toHaveAttribute("href", repositoryUrl);
     if (textureResponse) {
       const response = await textureResponse;
       expect(response.ok()).toBe(true);

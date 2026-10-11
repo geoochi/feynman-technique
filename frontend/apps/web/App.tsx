@@ -16,6 +16,12 @@ import { LanguageSwitcher } from "../../packages/i18n/LanguageSwitcher";
 import { pageMetadata } from "../../packages/seo/metadata";
 import { applyMetadata } from "../../packages/seo/head";
 import { siteConfig } from "../../packages/seo/site";
+import { GitHubLink } from "../../packages/ui/GitHubLink";
+import {
+  experimentIssueUrl,
+  pullRequestsUrl,
+  contributingUrl,
+} from "../../repository.config";
 const LabPage = lazy(() => import("./LabPage"));
 class LoadBoundary extends Component<
   { children: ReactNode; fallback: ReactNode },
@@ -53,6 +59,7 @@ function Header() {
           <a className={s.navActive} href={href("/")}>
             {t("catalog")}
           </a>
+          <GitHubLink />
         </nav>
         <LanguageSwitcher />
       </div>
@@ -300,6 +307,23 @@ export function Catalog() {
               </button>
             </div>
           )}
+        </section>
+        <section className={s.contribute} aria-labelledby="contribute-title">
+          <div>
+            <h2 id="contribute-title">{t("contributeTitle")}</h2>
+            <p>{t("contributeDescription")}</p>
+          </div>
+          <div className={s.contributeLinks}>
+            <a href={experimentIssueUrl} target="_blank" rel="noreferrer">
+              {t("proposeExperiment")} ↗
+            </a>
+            <a href={pullRequestsUrl} target="_blank" rel="noreferrer">
+              {t("contributePR")} ↗
+            </a>
+            <a href={contributingUrl} target="_blank" rel="noreferrer">
+              {t("contributionGuide")} ↗
+            </a>
+          </div>
         </section>
       </main>
       <Footer />

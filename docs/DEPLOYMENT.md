@@ -34,12 +34,12 @@ pnpm deploy:workers
 
 ## 后续 Git 自动发布
 
-本地审查 → 维护者确认并更新 GitHub `main` → Workers Builds 自动构建和部署。Cloudflare Dashboard 中的 Workers & Pages 选择 `feynman`，在 Settings 的 Build 设置连接 `geoochi/feynman`，授权 Cloudflare GitHub 集成访问该私有仓库；新项目也可从 Import a repository 入口创建。保持仓库私有。
+本地审查 → 维护者确认并更新 GitHub `main` → Workers Builds 自动构建和部署。Cloudflare Dashboard 中的 Workers & Pages 选择 `feynman`，在 Settings 的 Build 设置连接 `geoochi/feynman-technique`，授权 Cloudflare GitHub 集成访问该公开仓库；新项目也可从 Import a repository 入口创建。Worker 服务名称仍为 `feynman`，无需因仓库改名更改服务或域名。
 
 | 设置 | 值 |
 |---|---|
 | Worker 名称 | `feynman`，与 Wrangler 配置一致 |
-| Git 仓库 | `geoochi/feynman` |
+| Git 仓库 | `geoochi/feynman-technique` |
 | 根目录 | `frontend` |
 | 生产分支 | `main` |
 | Build command | `pnpm build` |
@@ -103,7 +103,7 @@ Search Console 的域名验证、sitemap 提交与线上性能测量单独验收
 - 线上检查：27 个 HTML 与本地产物一致；sitemap 24 页；四个 HTML 别名重定向正确；入口 JS/CSS、分享图和地球贴图内容一致；未知页面与缺失脚本为 404；哈希资源 immutable，正式页面无 noindex 响应头。Chrome 线上检查三个实验的参数控件、两个动态案例播放/重置和日语语言导航，无 pageerror。
 - 待完成：Workers Builds 关联、可选 www 重定向、Search Console。
 
-当前网站保持公开访问、源码仓库保持私有；源码/贡献链接与个人署名已从公开页面及构建数据移除。当前生成 24 页 HTML，sitemap 21 页；下次 Git 自动构建关联需使用此版本配置。
+前轮发布时网站公开、源码私有，并移除了源码/贡献链接与个人署名。后续仓库公开及 GitHub 投稿入口变更见本轮记录；个人署名仍不展示。当前生成 24 页 HTML，sitemap 21 页；下次 Git 自动构建关联需使用此版本配置。
 
 ## 公开信息清理发布
 
@@ -129,3 +129,11 @@ Search Console 的域名验证、sitemap 提交与线上性能测量单独验收
 线上 `https://www.feynman-technique.com/google845b412e18b99e6e.html` 返回同域 307 到 `/google845b412e18b99e6e`，最终 200，正文与下载文件逐字节一致，未注入统计脚本。英文、中文、日文首页仍为 200，缺失脚本仍为 404；sitemap 保持 21 个内容网址，不加入验证文件。Google 支持此种同域重定向，依据见 [SEO 文件验证说明](SEO.md#search-console-html-文件验证)。
 
 已完成文件发布和可访问性核对，尚未得到 Google 所有权验证结果。维护者返回 Search Console 点击“验证”，成功后提交 www sitemap；后续构建继续保留原验证文件。
+
+## GitHub 贡献入口发布（2026-10-11）
+
+维护者明确授权仓库改名为 `geoochi/feynman-technique`、改为公开并开放 Issue/PR 贡献。本地 remote 已同步新名称；Cloudflare Worker 仍为 `feynman`，两端域名与 301 规则不变。
+
+本机 Wrangler 上传版本 `d95e4c0d-f7eb-49e5-bc8d-e66ef4b33dc9`，部署时间 `2026-10-11T09:32:33Z`，流量 100%。该次上传来自基线 `8b5dee0` 加本轮已验证工作树，不是 Workers Builds 的 Git 构建。三语言首页加入实验提案、PR 和贡献指南，目录、讲解、实验导航加入 GitHub；仍为 24 页 HTML 与 21 个 sitemap URL，Google 验证文件保留。
+
+24 页线上 HTML 已与本地产物核对（只扣除平台注入的统计脚本）；robots、sitemap、公开目录与分享图一致，未知资源和 /contribute 返回 404，14 组裸域路径/查询参数重定向均为 301。检查与审查范围见 [本轮记录](../tooling/ai-review/2026-10-11-community.md)。Git 自动构建仍待关联，后续连接时选择新仓库名称。

@@ -4,6 +4,7 @@ import { defaults } from "../../packages/core/parameters";
 import { Simulation } from "../../packages/runtime/simulation";
 import type { Lab, LabModule } from "../../packages/core/types";
 import { ParameterControl } from "../../packages/ui/ParameterControl";
+import { GitHubLink } from "../../packages/ui/GitHubLink";
 import { Brand } from "./App";
 import s from "./LabPage.module.css";
 import { useI18n } from "../../packages/i18n/I18n";
@@ -109,6 +110,7 @@ function Session({ lab, module }: { lab: Lab; module: LabModule }) {
         <span className={s.headerTitle}>{lab.title[locale]}</span>
         <LanguageSwitcher />
         <nav aria-label={t("tools")}>
+          <GitHubLink />
           <button onClick={toggleFull}>
             {t(fullscreen ? "exitFullscreen" : "fullscreen")}
           </button>

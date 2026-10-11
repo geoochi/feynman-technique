@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { experimentIssueUrl, pullRequestsUrl, contributingUrl, repositoryUrl } from "../../repository.config";
 import { siteOrigin } from "../../site.config";
 import { catalog } from "../../apps/web/generated/catalog";
 import { messages } from "../../packages/i18n/messages";
@@ -27,8 +28,7 @@ test("every production page has crawlable content and consistent SEO without Jav
       const route = prefix + path;
       const response = await page.goto(route);
       expect(response!.status()).toBe(200);
-      expect(await response!.text()).not.toMatch(/geoochi|geoooochi|github\.com\/geoochi/i);
-      await expect(page.locator('a[href*="github.com"], a[href$="/contribute"]')).toHaveCount(0);
+      await expect(page.getByRole("link", { name: "GitHub ↗", exact: true })).toHaveAttribute("href", repositoryUrl);
       await expect(page.locator("html")).toHaveAttribute("lang", lang);
       await expect(page.locator("main h1")).toHaveCount(1);
       const title = await page.title();
@@ -195,6 +195,17 @@ test("home explains the product in all languages with readable desktop and mobil
     await page.goto(`${prefix}/`);
     const intro = page.getByText(messages.intro1[i], { exact: false });
     await expect(intro).toBeVisible();
+    const contribution = page.getByRole("region", { name: messages.contributeTitle[i] });
+    await expect(contribution).toBeVisible();
+    for (const [name, url] of [
+      [messages.proposeExperiment[i], experimentIssueUrl],
+      [messages.contributePR[i], pullRequestsUrl],
+      [messages.contributionGuide[i], contributingUrl],
+    ]) {
+      const link = contribution.getByRole("link", { name, exact: false });
+      await expect(link).toBeVisible();
+      await expect(link).toHaveAttribute("href", url);
+    }
     await page.evaluate(() => document.fonts.ready);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     const heading = await page.locator("main h1").boundingBox();

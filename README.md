@@ -1,27 +1,48 @@
-# Feynman
+# Feynman Technique
 
-通过交互式实验理解知识，把学习中的发现分享给更多人。
+English · [简体中文](README.zh-CN.md) · [日本語](README.ja.md)
 
-目前可以探索三个实验：**二次函数、单摆与时间、地球的昼与夜**。调节参数、观察变化、阅读原理。
+Understand math and science by changing something, observing what happens, and explaining why.
 
-访问 [www.feynman-technique.com](https://www.feynman-technique.com)。裸域自动通过 301 永久跳转到 www。
+**[Explore the experiments →](https://www.feynman-technique.com)**
 
-源码仓库当前保持私有，网站暂不提供源码或社区贡献入口。
+Feynman Technique is a growing collection of interactive learning experiments. Adjust parameters in your browser, test a prediction, and read the explanation behind the model. The interface and notes are available in English, Chinese, and Japanese; switching languages preserves your experiment state.
 
-网站默认英语，可通过顶部语言下拉框切换中文和日语；切换语言会保留当前实验状态。
+## Explore
+
+| Experiment | Try it |
+| --- | --- |
+| [Quadratic functions](https://www.feynman-technique.com/labs/function-transform) | Move the vertex and change the shape of a parabola. |
+| [Pendulum and time](https://www.feynman-technique.com/labs/pendulum) | Change length, gravity, and starting angle to explore the period. |
+| [Day and night on Earth](https://www.feynman-technique.com/labs/day-night) | Explore how rotation, latitude, and solar declination affect daylight. |
+
+Each experiment includes separate notes with formulas, assumptions, and references. These first experiments are marked experimental and are awaiting independent teaching review.
+
+## Help create the next experiment
+
+What would you like to understand through an experiment? **You do not need to write code to contribute.**
+
+- [Open an Issue with an experiment idea](https://github.com/geoochi/feynman-technique/issues/new?template=experiment.md): describe the question, what the learner could change, and what they should discover.
+- [Send a pull request](https://github.com/geoochi/feynman-technique/pulls): add an experiment, improve an explanation, fix a model, or help with a translation.
+- [Report a bug or an unclear explanation](https://github.com/geoochi/feynman-technique/issues/new?template=bug.md).
+
+English, Chinese, and Japanese contributions are welcome. Start with the [contribution guide](CONTRIBUTING.md); a small, well-explained experiment is a great first contribution.
+
+## Run locally
+
+Use Node 24 (baseline 24.11.1) and pnpm 12.10.1.
 
 ```sh
-cd frontend
+git clone https://github.com/geoochi/feynman-technique.git
+cd feynman-technique/frontend
 pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-使用 Node 24（本地基线 24.11.1）和 pnpm 12.10.1。网站为纯前端静态应用，已部署到 Cloudflare Workers；案例目前为实验性内容。
+Built with TypeScript, React, and Vite. Models run in the visitor's browser; the site is hosted as static assets on Cloudflare Workers.
 
-- [架构与实现范围](docs/ARCHITECTURE.md)
-- [本地开发与验证](docs/DEVELOPMENT.md)
-- [视觉规范](docs/VISUAL_SPEC.md)
-- [案例贡献指南](docs/CONTRIBUTING_DESIGN.md)
-- [SEO 与上线验收](docs/SEO.md)
+For checks and implementation details, see [development](docs/DEVELOPMENT.md), [experiment design](docs/CONTRIBUTING_DESIGN.md), and [deployment](docs/DEPLOYMENT.md).
 
-- [Cloudflare Workers 部署](docs/DEPLOYMENT.md)
+## Permissions and attribution
+
+The repository is public for reading and collaboration. No open-source license has been granted yet; the existing experiment manifests use `LicenseRef-All-Rights-Reserved`. Public visibility does not grant general reuse or redistribution rights. Third-party assets retain their own terms, recorded in each experiment's `ATTRIBUTION.md` and the site's third-party notices.

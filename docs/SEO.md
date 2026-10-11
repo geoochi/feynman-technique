@@ -70,4 +70,4 @@ SITE_INDEXABLE=false pnpm build
 - [Open Graph](https://ogp.me/)
 - [Workers Static Assets 响应头](https://developers.cloudflare.com/workers/static-assets/headers/)
 
-当前贡献页已停用，三语言 /contribute 返回 404 且不进入 sitemap。公开 HTML、客户端元信息、目录 JSON 与 JS bundle 不含私有个人署名或项目 GitHub 地址；私有素材归属记录和第三方版权通知保留。
+当前贡献页已停用，三语言 /contribute 返回 404 且不进入 sitemap。公开 HTML 与 JS 提供项目 GitHub 及 Issue/PR 链接；目录 JSON 和 JSON-LD 继续省略个人作者。源码素材归属记录和第三方版权通知保留。

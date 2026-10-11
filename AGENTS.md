@@ -8,7 +8,7 @@ Feynman 希望让任何人通过可操作的可视化实验理解知识，并通
 
 当前已实现首期本地静态前端：React + Vite、三个种子案例、清单生成、静态讲解、参数/播放和最小共享运行时。运行时保留完整快照接口，实验页不提供状态导入导出。未发布独立 SDK/CLI。已通过 Cloudflare Workers Static Assets 发布到 https://www.feynman-technique.com，裸域 301 永久跳转到 www，Workers Builds 与 GitHub 自动构建关联仍待完成。实际命令和结构见 docs/DEVELOPMENT.md；性能预算、后续社区机制与电学工作台仍是计划，不能当作已验证功能。
 
-仓库名称为 `feynman`，GitHub 所有者为 `geoochi`。当前保持私有；长期开放源码的目标不代表可以擅自改为公开。README 面向普通读者，保持简洁，把工程细节放到 docs 和本文件中。
+仓库名称为 `feynman-technique`，GitHub 所有者为 `geoochi`。2026-10-11 维护者明确授权改为公开并开放 Issue/PR 贡献；仓库可见性变更仍需明确授权。README.md 以英文为主，开头链接中文 README.zh-CN.md 和日文 README.ja.md；工程细节放到 docs，贡献入口见 CONTRIBUTING.md。公开可见不等于已授予开源许可，目前不擅自更改现有许可证。
 
 ## 2. 已确定的架构边界
 
@@ -56,7 +56,7 @@ Cloudflare Workers Builds 通过关联 GitHub 仓库接收更新；生产分支�
 
 Git 中的源码和教学文档是唯一正式内容来源。案例 PR 合并后本来就是前端源码，不需要再由 AI 复制到另一个大文件、数据库或隐蔽内容源。
 
-公开网站暂不展示 GitHub/源码/改编/贡献入口、社区招募或个人作者名；三语言贡献页停用且不进入 sitemap。私有 manifest 和 ATTRIBUTION 保留真实署名，构建生成的浏览器目录清空个人作者信息，JSON-LD 不输出作者；第三方法定许可通知继续保留。
+公开网站提供 GitHub 导航和三语言首页 Issue/PR 投稿区，鼓励新实验、纠错与翻译；贡献指南与模板在 GitHub 维护，不另建站内贡献页，/contribute 仍返回 404 且不进入 sitemap。网站卡片与 JSON-LD 继续省略个人作者；源码 manifest 和 ATTRIBUTION 保留真实署名，构建生成的浏览器目录清空作者数组；第三方法定许可通知保留。
 
 每个案例尽量包含：
 

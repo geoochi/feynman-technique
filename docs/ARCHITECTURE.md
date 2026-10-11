@@ -2,7 +2,7 @@
 
 状态：首期本地实现 v0.1.0；架构方案 v0.5 的发布与扩展部分仍待实施。日期：2026-10-11。
 
-已实现：React/Vite 静态前端、三个实验、英文默认及中文/日文界面与讲解、构建时清单校验与可信懒加载映射、目录搜索、预渲染讲解、参数与播放控制、运行时完整快照接口、模型与浏览器验证。实验页不提供倍速、视角缩放或状态导入导出入口。未实现：独立发行 SDK/CLI、电学工作台、Worker/WASM、历史版本归档、Workers Builds 的 GitHub 自动构建关联。已通过 Workers Static Assets 首次正式部署到 https://feynman-technique.com。实际开发入口见 [本地开发](DEVELOPMENT.md)。
+已实现：React/Vite 静态前端、三个实验、英文默认及中文/日文界面与讲解、构建时清单校验与可信懒加载映射、目录搜索、预渲染讲解、参数与播放控制、运行时完整快照接口、模型与浏览器验证。实验页不提供倍速、视角缩放或状态导入导出入口。未实现：独立发行 SDK/CLI、电学工作台、Worker/WASM、历史版本归档、Workers Builds 的 GitHub 自动构建关联。已通过 Workers Static Assets 正式部署到 https://www.feynman-technique.com。实际开发入口见 [本地开发](DEVELOPMENT.md)。
 
 ## 1. 当前结论
 
@@ -51,7 +51,7 @@ Workers Static Assets 可直接托管现有 Vite 产物，配置不需要应用�
 
 社区贡献：贡献者提交 PR → 维护者拉取 PR 到本地 → AI 审查并验证拟合并结果 → 修正并重验（如需要）→ 确认合并到生产分支 → Cloudflare Workers 自动构建并发布。PR 通常已在 GitHub 上；维护者审查通过后执行的是合并或推送整合后的代码。
 
-在 Workers Builds 中关联 geoochi/feynman，根目录 frontend、生产分支 main、构建 pnpm build、部署 pnpm deploy:workers。当前 Wrangler 上传更新同一个 Worker；完成关联后，生产分支推送才由 Git 集成自动发布。具体设置与授权步骤见 [部署指南](DEPLOYMENT.md)。不添加 Actions 或 webhook。
+在 Workers Builds 中关联 geoochi/feynman-technique，根目录 frontend、生产分支 main、构建 pnpm build、部署 pnpm deploy:workers。当前 Wrangler 上传更新同一个 Worker；完成关联后，生产分支推送才由 Git 集成自动发布。具体设置与授权步骤见 [部署指南](DEPLOYMENT.md)。不添加 Actions 或 webhook。
 
 当前关闭 workers.dev 和版本预览 URL，不开启非生产分支自动构建。将来启用预览时，非 main 分支构建强制 noindex，预览不等于正式发布。
 
@@ -112,7 +112,7 @@ feynman/
 | 首页 | 构建生成的 catalog.json、分类与搜索索引 |
 | 实验页 | 按需加载对应案例代码和资源 |
 | 学习页 | Markdown 构建为静态 HTML，带标题与 SEO 元数据 |
-| 贡献与源码信息 | 私有仓库内维护；公开网站暂不提供入口或个人署名 |
+| 贡献与源码信息 | 公开 GitHub 仓库、首页 Issue/PR 投稿区；网站省略个人署名 |
 | 本地预设 | 仓库 JSON 用于构建校验与维护参考；实验页没有导入导出入口 |
 
 无需建立登录、个人中心、云端短链接或服务端进度接口。如保存学习进度，仅存本机 IndexedDB/localStorage，并明确清理浏览器数据会丢失记录，不做跨设备承诺。
@@ -179,4 +179,4 @@ AI 读取的 PR、注释与文档是待分析数据，不应改变维护者的�
 
 只有未来明确增加必须保密的在线 API、跨设备用户数据或服务端重计算时，才重新讨论应用后端。当前不为这些假设建设服务。
 
-公开网站当前隐藏个人署名与 GitHub/源码/贡献信息。私有 manifest 与素材来源记录保留真实作者；generate.ts 在校验后清空面向浏览器的数据作者数组，JSON-LD 不输出 author。三语言 /contribute 路由返回 404，sitemap 不再列入，第三方法定版权通知保留。
+网站通过 GitHub 导航和三语言首页投稿区开放源码阅读与 Issue/PR 贡献。源码 manifest 与素材来源保留真实作者；generate.ts 清空浏览器数据的作者数组，JSON-LD 不输出 author，网站不展示个人署名。贡献指南在公开仓库维护，三语言 /contribute 仍返回 404，不进入 sitemap；第三方法定版权通知保留。

@@ -486,9 +486,6 @@
     order: 3;
     margin-left: 0;
   }
-  .header nav a:last-child {
-    display: none;
-  }
   .container {
     padding: 0 16px;
   }
@@ -538,3 +535,18 @@
     font-size: 30px;
   }
 }
+
+.contribute {
+  border-top: 1px solid #bdcbd8;
+  margin-top: 40px;
+  padding: 28px 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px 36px;
+}
+.contribute > div:first-child { flex: 1 1 320px; }
+.contribute h2 { font-size: 21px; font-weight: 500; margin: 0 0 10px; }
+.contribute p { margin: 0; color: var(--color-text-muted); font-size: 13px; line-height: 1.8; }
+.contributeLinks { display: flex; flex-wrap: wrap; gap: 12px 20px; font-size: 12px; }
+.contributeLinks a { color: #006b92; text-decoration: underline; text-underline-offset: 4px; }

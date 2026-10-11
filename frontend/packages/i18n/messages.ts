@@ -87,6 +87,15 @@ export const messages = {
     "「周期」「自転」などのキーワードを試してください。",
   ],
   clear: ["Clear filters", "清除筛选", "絞り込みを解除"],
+  contributeTitle: ["What should we explore next?", "下一个实验，一起创造", "次の実験を一緒につくろう"],
+  contributeDescription: [
+    "Have a question that an interactive experiment could explain? Open an Issue with your idea, or send a PR with a new experiment, a correction, or a translation.",
+    "有什么知识想用互动实验来理解？欢迎开 Issue 分享想法，或通过 PR 提交新实验、纠错和翻译。",
+    "インタラクティブ実験で理解したいことはありますか？Issue でアイデアを提案したり、PR で新しい実験・修正・翻訳を送ってください。",
+  ],
+  proposeExperiment: ["Propose an experiment · Issue", "提出实验想法 · Issue", "実験を提案 · Issue"],
+  contributePR: ["Contribute an experiment · PR", "贡献实验 · PR", "実験を投稿 · PR"],
+  contributionGuide: ["Contribution guide", "贡献指南", "コントリビューションガイド"],
   footer1: ["/ Explore to understand", "/ 用探索代替记忆", "/ 探索から理解へ"],
   footer2: [
     "Runs locally · Explore freely · Start with a question",
