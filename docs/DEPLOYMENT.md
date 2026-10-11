@@ -137,3 +137,10 @@ Search Console 的域名验证、sitemap 提交与线上性能测量单独验收
 本机 Wrangler 上传版本 `d95e4c0d-f7eb-49e5-bc8d-e66ef4b33dc9`，部署时间 `2026-10-11T09:32:33Z`，流量 100%。该次上传来自基线 `8b5dee0` 加本轮已验证工作树，不是 Workers Builds 的 Git 构建。三语言首页加入实验提案、PR 和贡献指南，目录、讲解、实验导航加入 GitHub；仍为 24 页 HTML 与 21 个 sitemap URL，Google 验证文件保留。
 
 24 页线上 HTML 已与本地产物核对（只扣除平台注入的统计脚本）；robots、sitemap、公开目录与分享图一致，未知资源和 /contribute 返回 404，14 组裸域路径/查询参数重定向均为 301。检查与审查范围见 [本轮记录](../tooling/ai-review/2026-10-11-community.md)。Git 自动构建仍待关联，后续连接时选择新仓库名称。
+
+
+## MIT 正式授权（2026-10-11）
+
+维护者明确授权原创代码、讲解、文档与图示采用 MIT，正式条款为根目录 LICENSE。构建自动将它复制为 dist/LICENSE.txt 并随网站分发；根目录文件为唯一正式来源，不手动维护第二份条款。第三方依赖、字体和 NASA 贴图继续使用自身许可/使用条件，来源通知随产物保留。许可变化不增加网页或 sitemap URL。
+
+本轮已通过本机 Wrangler 发布同一个 Worker，版本 `8dd640d1-11ec-4719-8070-51be2994705d`，创建时间 `2026-10-11T09:40:22Z`，流量 100%。上传来源为 `910ffde` 加本轮已验证工作树，仍不是 Git 自动构建。24 份线上 HTML、LICENSE.txt、THIRD_PARTY_NOTICES.txt、目录、robots、sitemap 和入口 JS/CSS 与本地一致；三个案例 code/content 均为 MIT；sitemap 保持 21 页。未知资源与 /contribute 返回 404，裸域 301 保留路径与编码查询参数。[本轮复核](../tooling/ai-review/2026-10-11-mit.md)

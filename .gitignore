@@ -18,3 +18,4 @@ frontend/public/search-index.json
 frontend/public/search-index.*.json
 frontend/public/previews/
 test-results-*/
+frontend/public/LICENSE.txt

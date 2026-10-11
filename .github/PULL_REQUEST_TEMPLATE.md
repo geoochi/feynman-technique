@@ -6,7 +6,7 @@ What question does this answer or what problem does it fix?
 <!-- What can a learner change? What should they observe? -->
 
 ## Model, references, and permissions
-<!-- Units, assumptions, approximation limits, sources, asset attribution, and proposed licensing for new material. For a text-only fix, write “not applicable” where appropriate. -->
+<!-- Units, assumptions, approximation limits, sources, asset attribution, and any third-party terms. Original contributions use the project MIT license. For a text-only fix, write “not applicable” where appropriate. -->
 
 ## Validation
 <!-- List checks actually run, their results, and anything not yet verified. Add desktop/mobile screenshots for visual changes. -->

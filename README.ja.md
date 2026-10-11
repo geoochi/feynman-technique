@@ -43,6 +43,8 @@ TypeScript、React、Vite を使用しています。計算は閲覧者のブラ
 
 詳細は[開発と検証](docs/DEVELOPMENT.md)、[実験設計](docs/CONTRIBUTING_DESIGN.md)、[デプロイ](docs/DEPLOYMENT.md)を参照してください。
 
-## 権利と出典
+## ライセンス
 
-リポジトリは閲覧と協力のために公開しています。オープンソースライセンスはまだ付与しておらず、実験の manifest は `LicenseRef-All-Rights-Reserved` を使用しています。公開されていること自体は、一般的な再利用・再配布の許可を意味しません。第三者の素材はそれぞれの利用条件に従い、各実験の `ATTRIBUTION.md` とサイトの第三者ライセンス通知に記録しています。
+オリジナルのコード・解説・ドキュメント・図は [MIT ライセンス](LICENSE)で提供します。著作権表示とライセンス表示を保持すれば、利用・変更・配布・商用利用が可能です。
+
+第三者の依存ライブラリー・フォント・NASA の地球テクスチャーはそれぞれの条件に従い、本プロジェクトの MIT ライセンスの対象外です。各実験の `ATTRIBUTION.md` と[第三者ライセンス通知](frontend/public/THIRD_PARTY_NOTICES.txt)を参照してください。サイトにも [MIT ライセンスのコピー](https://www.feynman-technique.com/LICENSE.txt)を配信しています。

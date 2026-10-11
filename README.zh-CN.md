@@ -43,6 +43,8 @@ pnpm dev
 
 开发与验证见[本地开发](docs/DEVELOPMENT.md)，案例要求见[案例设计](docs/CONTRIBUTING_DESIGN.md)，发布见[部署指南](docs/DEPLOYMENT.md)。
 
-## 权限与来源
+## 许可证
 
-仓库公开供阅读和协作，目前尚未授予开源许可证；案例清单使用 `LicenseRef-All-Rights-Reserved`。公开可见不代表授予一般复用或再分发权限。第三方素材保留自身使用条款，见各实验的 `ATTRIBUTION.md` 与网站第三方许可通知。
+原创代码、讲解、文档与图示统一采用 [MIT 许可证](LICENSE)。允许使用、修改、分发及商用，须保留版权与许可证声明。
+
+第三方依赖、字体与 NASA 地球贴图保留各自条款，不包含在本项目的 MIT 授权范围内。来源及条件见各实验的 `ATTRIBUTION.md` 与[第三方许可通知](frontend/public/THIRD_PARTY_NOTICES.txt)。官网同时提供 [MIT 许可证副本](https://www.feynman-technique.com/LICENSE.txt)。

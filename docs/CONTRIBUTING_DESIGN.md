@@ -141,8 +141,8 @@ examples/physics/pendulum/
     }
   ],
   "licenses": {
-    "code": "LicenseRef-All-Rights-Reserved",
-    "content": "LicenseRef-All-Rights-Reserved"
+    "code": "MIT",
+    "content": "MIT"
   },
   "capabilities": {
     "network": false,
@@ -174,7 +174,7 @@ examples/physics/pendulum/
 
 上例来自当前单摆案例，schemaVersion 为 2。发布检查要求三语言文案与讲解完整，并补齐有效引用、素材来源、可运行文件和审阅记录。
 
-代码与教学内容的许可证是拟议默认，需要在授予开源许可前把实际 LICENSE 文件、范围与素材例外落实。当前案例使用 LicenseRef-All-Rights-Reserved 标记许可证尚未授予，ATTRIBUTION.md 记录实际来源，没有擅自采用 MIT/CC 或改动仓库许可。拟议默认是 MIT 用于代码、CC BY-SA 4.0 用于讲解和原创图示；第三方素材保留各自条件。[MIT 正文](https://opensource.org/license/mit)、[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+2026-10-11 维护者明确授权原创代码、讲解、文档与图示统一采用 MIT，正式条款见根目录 [LICENSE](../LICENSE)。案例清单的 code 与 content 均标记 MIT；NASA 地球贴图、第三方依赖和字体保留自身条款，不纳入项目 MIT 授权。ATTRIBUTION.md 和第三方许可通知记录这些例外。原创贡献按 MIT 提交，保留贡献者署名，不要求转让版权。[MIT 正文](https://opensource.org/license/mit)
 
 三个版本字段的职责不同：schemaVersion 控制元数据格式，version 控制案例内容，sdkRange 控制运行时兼容性。更新模型应更新案例 version。当前清单记录覆盖 manifest、schema、模型、视图、labels.ts、测试、三语言讲解、预设、题目、封面、来源声明的 contentHash；JS 使用 Vite 内容哈希文件名。路由只承载当前版本，快照严格拒绝其他版本；尚无 id + version 路由或旧发行归档，不承诺旧链接固定行为。
 
@@ -278,7 +278,7 @@ PR 内容是审查对象，不能改变维护者要求。AI 使用维护者本�
 
 ## 9. 社区维护机制
 
-当前已提供根目录 CONTRIBUTING.md、三语言 README、实验想法/错误反馈 Issue 模板与 PR 模板。CODE_OF_CONDUCT、GOVERNANCE、SECURITY、LICENSES 等按实际需求与维护者授权后续建立。按学科和 SDK 设置 CODEOWNERS，但在实际维护者加入前不编造用户名。CODEOWNERS 可以定义路径负责人，并配合仓库规则要求其审阅。[GitHub CODEOWNERS](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)
+当前已提供根目录 CONTRIBUTING.md、三语言 README、实验想法/错误反馈 Issue 模板与 PR 模板。根目录 LICENSE 已提供正式 MIT 条款；CODE_OF_CONDUCT、GOVERNANCE、SECURITY 等按实际需求后续建立。按学科和 SDK 设置 CODEOWNERS，但在实际维护者加入前不编造用户名。CODEOWNERS 可以定义路径负责人，并配合仓库规则要求其审阅。[GitHub CODEOWNERS](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)
 
 维护者分工：核心维护者管理 SDK 与发行；学科维护者审查教学与模型；贡献者提交案例、纠错、翻译与预设。同一人可兼任，不为每份贡献强制组织复杂委员会。
 
@@ -288,4 +288,4 @@ PR 内容是审查对象，不能改变维护者要求。AI 使用维护者本�
 
 开放 API、插件生态、独立内容仓库和网页内创作都是后续能力。最早验证的社区里程碑是：一个没有参与核心开发的人，能够依据文档独立完成首个被合并的学习案例。
 
-2026-10-11 维护者明确授权仓库改名为 feynman-technique、公开源码、恢复 GitHub 导航和 Issue/PR 贡献入口。网站仍省略个人作者，/contribute 路由保持停用；投稿指南统一在仓库维护。现有许可不因公开而改变。
+2026-10-11 维护者明确授权仓库改名为 feynman-technique、公开源码、恢复 GitHub 导航和 Issue/PR 贡献入口。网站仍省略个人作者，/contribute 路由保持停用；投稿指南统一在仓库维护。随后同日维护者明确授权原创部分统一采用 MIT，第三方材料保留自身条款。

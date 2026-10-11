@@ -8,7 +8,7 @@ Feynman 希望让任何人通过可操作的可视化实验理解知识，并通
 
 当前已实现首期本地静态前端：React + Vite、三个种子案例、清单生成、静态讲解、参数/播放和最小共享运行时。运行时保留完整快照接口，实验页不提供状态导入导出。未发布独立 SDK/CLI。已通过 Cloudflare Workers Static Assets 发布到 https://www.feynman-technique.com，裸域 301 永久跳转到 www，Workers Builds 与 GitHub 自动构建关联仍待完成。实际命令和结构见 docs/DEVELOPMENT.md；性能预算、后续社区机制与电学工作台仍是计划，不能当作已验证功能。
 
-仓库名称为 `feynman-technique`，GitHub 所有者为 `geoochi`。2026-10-11 维护者明确授权改为公开并开放 Issue/PR 贡献；仓库可见性变更仍需明确授权。README.md 以英文为主，开头链接中文 README.zh-CN.md 和日文 README.ja.md；工程细节放到 docs，贡献入口见 CONTRIBUTING.md。公开可见不等于已授予开源许可，目前不擅自更改现有许可证。
+仓库名称为 `feynman-technique`，GitHub 所有者为 `geoochi`。2026-10-11 维护者明确授权改为公开并开放 Issue/PR 贡献；仓库可见性变更仍需明确授权。README.md 以英文为主，开头链接中文 README.zh-CN.md 和日文 README.ja.md；工程细节放到 docs，贡献入口见 CONTRIBUTING.md。同日维护者进一步明确授权原创代码、讲解和图示统一采用 MIT，正式条款见根目录 LICENSE；第三方素材与依赖保留各自条款。后续变更许可仍需明确授权。
 
 ## 2. 已确定的架构边界
 

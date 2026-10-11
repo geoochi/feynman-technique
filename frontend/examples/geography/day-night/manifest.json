@@ -63,8 +63,8 @@
     }
   ],
   "licenses": {
-    "code": "LicenseRef-All-Rights-Reserved",
-    "content": "LicenseRef-All-Rights-Reserved"
+    "code": "MIT",
+    "content": "MIT"
   },
   "capabilities": {
     "network": false,

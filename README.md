@@ -43,6 +43,8 @@ Built with TypeScript, React, and Vite. Models run in the visitor's browser; the
 
 For checks and implementation details, see [development](docs/DEVELOPMENT.md), [experiment design](docs/CONTRIBUTING_DESIGN.md), and [deployment](docs/DEPLOYMENT.md).
 
-## Permissions and attribution
+## License
 
-The repository is public for reading and collaboration. No open-source license has been granted yet; the existing experiment manifests use `LicenseRef-All-Rights-Reserved`. Public visibility does not grant general reuse or redistribution rights. Third-party assets retain their own terms, recorded in each experiment's `ATTRIBUTION.md` and the site's third-party notices.
+Original code, explanations, documentation, and artwork are licensed under the [MIT License](LICENSE). You may use, modify, distribute, and use them commercially while retaining the copyright and license notices.
+
+Third-party dependencies, fonts, and the NASA Earth texture retain their own terms and are excluded from the project's MIT grant. See each experiment's `ATTRIBUTION.md` and the [third-party notices](frontend/public/THIRD_PARTY_NOTICES.txt). The deployed site includes a copy of the [MIT license](https://www.feynman-technique.com/LICENSE.txt).

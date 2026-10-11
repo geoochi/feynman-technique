@@ -3,10 +3,12 @@ import { resolve } from "node:path";
 import { scanCatalog } from "./catalog";
 import { locales } from "../packages/i18n/locales";
 const root = process.cwd();
-// Keep provenance in private manifests; public data and bundles omit personal authors.
+// Keep provenance in source manifests; public catalog data omits personal authors.
 const labs = (await scanCatalog(root)).map((lab) => ({ ...lab, authors: [] }));
 await mkdir(resolve(root, "apps/web/generated"), { recursive: true });
 await mkdir(resolve(root, "public/previews"), { recursive: true });
+// Ship the original license with the static distribution; the root file is authoritative.
+await copyFile(resolve(root, "../LICENSE"), resolve(root, "public/LICENSE.txt"));
 await writeFile(
   resolve(root, "apps/web/generated/catalog.json"),
   JSON.stringify(labs, null, 2) + "\n",

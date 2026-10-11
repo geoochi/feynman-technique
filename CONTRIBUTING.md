@@ -50,7 +50,7 @@ Use the PR template to explain the learning goal, model and references, observab
 
 Credit contributors and record third-party sources in `ATTRIBUTION.md`. Submit your own work or material you have permission to contribute. Do not include credentials, private data, generated build files, or assets with unclear rights.
 
-No general open-source license has been granted yet. Existing cases use `LicenseRef-All-Rights-Reserved`; please discuss proposed licensing for a new contribution with the maintainer instead of assuming an MIT or Creative Commons license. A PR does not require transferring authorship or inventing a scientific reviewer.
+By submitting original code, explanations, documentation, or artwork for inclusion, you agree to license that contribution under the project's [MIT License](LICENSE). You retain your copyright and attribution. Use `MIT` for original code and content in an experiment manifest. Third-party material remains under its own terms: record its source and permissions in `ATTRIBUTION.md`, and discuss any compatibility questions before inclusion. A PR does not require transferring authorship or inventing a scientific reviewer.
 
 仓库欢迎实验想法、纠错与翻译；不会写代码也可以开 Issue。新实验生产构建需要英中日三语言材料，暂时缺翻译可先开 Issue 或草稿 PR。
 

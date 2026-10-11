@@ -104,6 +104,15 @@ Workers 部署复验：类型检查、27 页构建、39 项单元测试、Wrangl
 
 ## GitHub 社区入口
 
-2026-10-11 按维护者新要求加入 GitHub 导航与首页三语言 Issue/PR 投稿区，源码仓库改为 `geoochi/feynman-technique`。根目录 README.md 以英文为主并链接中日文版本，CONTRIBUTING.md 与 .github 模板支持实验提案、错误反馈和 PR。许可未更改。
+2026-10-11 按维护者新要求加入 GitHub 导航与首页三语言 Issue/PR 投稿区，源码仓库改为 `geoochi/feynman-technique`。根目录 README.md 以英文为主并链接中日文版本，CONTRIBUTING.md 与 .github 模板支持实验提案、错误反馈和 PR。当次公开操作未更改许可；随后按维护者明确授权统一采用 MIT，见下节。
 
 类型检查与 24 页静态构建通过；app/i18n/SEO 首轮浏览器检查 49 项通过、4 项既定跳过，1 项发现旧手机样式隐藏导航。删除该规则后最终 SEO/三语言首页复验 6 项全部通过，覆盖无 JavaScript 静态内容、GitHub 入口、投稿目的地址、语言元信息与桌面/手机溢出。模型与运行时未改，未重复运行模型数值测试。六张三语言首页截图已人工核对；线上发布记录见部署指南。
+
+
+## MIT 许可证
+
+2026-10-11 原创代码、讲解、文档和图示统一采用根目录 LICENSE 中的 MIT 条款，三份案例清单的 code/content 和 frontend/package.json 均声明 MIT。第三方依赖、字体和 NASA 地球贴图保留自身条款；THIRD_PARTY_NOTICES.txt 保留既有许可正文并补充贴图来源。
+
+pnpm generate 从根目录 LICENSE 复制到 public/LICENSE.txt，开发和生产构建均提供该文件；副本与其他生成文件一样不提交。正式发布产物包含 LICENSE.txt 与 THIRD_PARTY_NOTICES.txt。原创投稿按 MIT 授权，贡献者保留版权和署名；第三方材料需说明来源和使用条件。
+
+本轮类型检查、24 页静态构建与 44 项单元检查通过；MIT 原文副本、三个生成目录的许可字段及原有第三方许可正文已核对。模型、运行时与页面样式未改。发布验收见部署记录。

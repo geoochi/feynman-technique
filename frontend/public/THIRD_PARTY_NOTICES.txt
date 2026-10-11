@@ -1,7 +1,9 @@
 Third-party notices
 
-These licenses apply to the named dependencies and font assets only.
-They do not grant a license to Feynman project content.
+Original Feynman Technique code, explanations, documentation, and artwork
+are licensed under MIT; see LICENSE.txt in the deployed site or the repository
+root LICENSE. The third-party components and assets below retain their own
+terms and are excluded from the project MIT grant.
 
 
 ========================================================================
@@ -329,3 +331,18 @@ INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
 DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
+
+
+========================================================================
+NASA Earth Observatory — Blue Marble: Next Generation
+========================================================================
+The Earth texture is derived from the July 2004 global composite by Reto
+Stöckli, NASA Earth Observatory, with topography and bathymetry shading.
+Credit: NASA Earth Observatory.
+This asset is excluded from the project MIT grant and remains subject to
+NASA's Images and Media Usage Guidelines:
+https://www.nasa.gov/nasa-brand-center/images-and-media/
+Source: https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/
+The local texture is a resized 2048 x 1024 WebP of the complete image.
+No NASA review or endorsement is implied. See the day-night experiment's
+ATTRIBUTION.md in the repository for the source, processing, and file hashes.
