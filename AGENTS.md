@@ -6,7 +6,7 @@
 
 Feynman 希望让任何人通过可操作的可视化实验理解知识，并通过 GitHub 提交自己的学习案例。长期目标是开放源码、共享工具和发展贡献社区。
 
-当前已实现首期本地静态前端：React + Vite、三个种子案例、清单生成、静态讲解、参数/播放和最小共享运行时。运行时保留完整快照接口，实验页不提供状态导入导出。未发布独立 SDK/CLI。已通过 Cloudflare Workers Static Assets 首次发布到 https://feynman-technique.com，Workers Builds 与 GitHub 自动构建关联仍待完成。实际命令和结构见 docs/DEVELOPMENT.md；性能预算、后续社区机制与电学工作台仍是计划，不能当作已验证功能。
+当前已实现首期本地静态前端：React + Vite、三个种子案例、清单生成、静态讲解、参数/播放和最小共享运行时。运行时保留完整快照接口，实验页不提供状态导入导出。未发布独立 SDK/CLI。已通过 Cloudflare Workers Static Assets 发布到 https://www.feynman-technique.com，裸域 301 永久跳转到 www，Workers Builds 与 GitHub 自动构建关联仍待完成。实际命令和结构见 docs/DEVELOPMENT.md；性能预算、后续社区机制与电学工作台仍是计划，不能当作已验证功能。
 
 仓库名称为 `feynman`，GitHub 所有者为 `geoochi`。当前保持私有；长期开放源码的目标不代表可以擅自改为公开。README 面向普通读者，保持简洁，把工程细节放到 docs 和本文件中。
 
@@ -76,7 +76,7 @@ Git 中的源码和教学文档是唯一正式内容来源。案例 PR 合并后
 
 网站支持 en、zh-CN、ja，默认英语；顶部用一个语言下拉框选择 English / 中文 / 日本語。英文沿用原路径，中文 /zh/、日文 /ja/。公共文案位于 packages/i18n，案例文案位于 labels.ts，三语言讲解分别维护。Manifest schemaVersion 为 2；可见元数据和参数 labels 必须包含三种语言，构建检查完整性并为每语言预渲染页面及生成搜索索引。章节使用稳定 id，不能靠中文标题定位。语言切换保留实验参数、时钟、内部状态及播放状态，locale 不进入科学模型或快照；不复制三份模型，不接入在线翻译服务。
 
-SEO 沿用 React/Vite 构建预渲染，不为 SEO 增加请求时 SSR 或后端。正式域名由用户指定为 https://feynman-technique.com，存于 frontend/site.config.ts；域名配置不代表已经上线。packages/seo 共用页面枚举与元信息，静态 HTML 和语言切换必须同步 title、description、绝对 canonical/hreflang、分享标签与 JSON-LD。实验与讲解各自 canonical，每语言指向自身；404/未知页 noindex，预览与 SITE_INDEXABLE=false 不输出 sitemap。只填写真实内容，当前公开产物省略个人作者；不伪造日期、评分或排名效果；规则及上线检查见 docs/SEO.md。
+SEO 沿用 React/Vite 构建预渲染，不为 SEO 增加请求时 SSR 或后端。正式主域名由用户指定为 https://www.feynman-technique.com，存于 frontend/site.config.ts；裸域 feynman-technique.com 使用 301 永久重定向到 www，保留路径与查询参数。2026-10-11 已完成 www 绑定、HTTPS、裸域 301 及新产物发布和线上验收；后续域名配置变更仍须实际验收。packages/seo 共用页面枚举与元信息，静态 HTML 和语言切换必须同步 title、description、绝对 canonical/hreflang、分享标签与 JSON-LD。案例 manifest 可选 seo.experiment / seo.lesson 提供各页面三语言 title / description；配置时须三语言完整且非空白，未配置的页面沿用默认生成规则。九份讲解在 H1 后提供核心答案，解释章节可使用有实质正文的问题式 H3，保留七章标题与稳定 id，摘要不回填实验页。实验与讲解各自 canonical，每语言指向自身；404/未知页 noindex，预览与 SITE_INDEXABLE=false 不输出 sitemap。只填写真实内容，当前公开产物省略个人作者；不伪造日期、评分或排名效果；规则及上线检查见 docs/SEO.md。
 
 计算模型与 React、DOM 和画布分离。尽量以纯函数或独立状态对象实现，方便检查公式和边界。每个模型记录单位、假设、适用范围和误差。
 
@@ -150,13 +150,13 @@ git config --local core.hooksPath .githooks
 
 ## 10. 发布与托管
 
-Cloudflare Workers Static Assets 交付现有静态产物，不添加 Worker 应用脚本或后端。Wrangler 配置位于 frontend/wrangler.jsonc，产物目录为 dist，正式域名为 feynman-technique.com。Workers Builds 关联 GitHub，根目录 frontend、构建 pnpm build、部署 pnpm deploy:workers、生产分支 main；Node 与 pnpm 版本需按 docs/DEPLOYMENT.md 固定。接入 Git 集成前使用本地 Wrangler 发布；完成关联后，后续自动发布统一使用 Workers Builds。固定工具链及依赖锁文件，本地成功和生产构建成功分别核实。
+Cloudflare Workers Static Assets 交付现有静态产物，不添加 Worker 应用脚本或后端。Wrangler 配置位于 frontend/wrangler.jsonc，产物目录为 dist，正式主域名为 www.feynman-technique.com；裸域仅作为 301 跳转入口。Wrangler 保留两端 Custom Domain，为裸域保留代理 DNS/TLS，Zone Redirect Rule 在静态资源交付前执行 301；不要仅删除裸域绑定而破坏跳转入口。Workers Builds 关联 GitHub，根目录 frontend、构建 pnpm build、部署 pnpm deploy:workers、生产分支 main；Node 与 pnpm 版本需按 docs/DEPLOYMENT.md 固定。接入 Git 集成前使用本地 Wrangler 发布；完成关联后，后续自动发布统一使用 Workers Builds。固定工具链及依赖锁文件，本地成功和生产构建成功分别核实。
 
 当前为预渲染多页面，使用 auto-trailing-slash 和 404-page，不添加 SPA 回退；缺失脚本、JSON、模型必须返回 HTTP 404。哈希资源可长缓存，入口 HTML 应允许更新。
 
 构建成功不等于上线已验收：发布后核对部署对应提交、正式 URL、主要入口与深链接。发现故障按既定平台机制恢复此前验证的部署，不通过盲目改动掩盖错误。
 
-仅有架构设计或建好 GitHub 仓库时，不宣称 Cloudflare Workers 已接入。本地构建生成 frontend/dist 静态产物；当前线上地址为 https://feynman-technique.com，部署状态见 docs/DEPLOYMENT.md。用户尚未要求部署时不擅自创建云资源或公开私有仓库。
+仅有架构设计或建好 GitHub 仓库时，不宣称 Cloudflare Workers 已接入。本地构建生成 frontend/dist 静态产物；当前已验收的线上主域名为 https://www.feynman-technique.com，裸域 301 到 www，发布状态见 docs/DEPLOYMENT.md。用户尚未要求部署时不擅自创建云资源或公开私有仓库。
 
 ## 11. 文档与沟通
 

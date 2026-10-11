@@ -1,5 +1,7 @@
 # Day and night on Earth
 
+Earth’s rotation carries most places between the sunlit and dark sides, producing day and night. Latitude and solar declination—the Sun’s angle north or south of the equatorial plane—determine how long a place stays lit; at high latitudes, some conditions produce polar day or polar night. This geometric model uses a spherical Earth, parallel sunlight and a 24-hour solar day with fixed declination. It omits refraction, the Sun’s apparent radius and terrain, and does not simulate an orbit. Change latitude and declination to compare day lengths.
+
 ## Questions
 Why is it daytime in some places and nighttime in others at the same moment?
 
@@ -21,10 +23,15 @@ Earth rotates from west to east, counterclockwise when viewed from above the Nor
 It is daytime when the observer is on the lit side and nighttime on the unlit side. This model counts daytime when solar altitude is above 0°. Under some high-latitude conditions, the observer stays on the lit side all day: polar day.
 
 ## Explain
+### How do latitude and solar declination set day length?
 For latitude φ, solar declination δ, and hour angle H = 15° × (solar time − 12), solar altitude α satisfies sin α = sin φ sin δ + cos φ cos δ cos H.
 
 At sunset α = 0, so cos H₀ = −tan φ tan δ. An ordinary day's length is 24H₀/π hours, with H₀ in radians. If the right-hand side is ≤ −1, there is polar day; if ≥ 1, there is polar night.
 
+### Why can high latitudes have polar day?
+At latitude 75° and declination +23.44°, even the lowest solar altitude of the day stays above the horizon: the observer’s full rotation lies on the lit side, so day length is 24 hours. With declination −23.44°, the path stays on the dark side and day length is zero. The signs of latitude and declination matter; reversing both swaps hemispheres with the same day length.
+
+### What does this scene model?
 The scene uses equatorial coordinates for rotation and changes sunlight direction with declination; it does not simulate Earth's orbit. The surface uses NASA Earth Observatory's Blue Marble: Next Generation satellite composite for July 2004. It shows real land and ocean rather than live weather; lighting is computed independently.
 
 ## Check

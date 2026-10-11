@@ -30,11 +30,11 @@ FEYNMAN_WORKERS=1 pnpm test:e2e # 用 Workers 本地路由验证产物
 
 pnpm generate 只读取静态数据与文件，不执行案例模型。校验必填字段、id/slug 唯一性、元数据兼容版本、文件路径、1 MiB 单文件预算、数值参数默认值与预设、状态 schema、自测题、引用以及七章讲解。拒绝符号链接和越界文件。Markdown 经 sanitize-html 处理；封面只接受无脚本的本地 SVG。
 
-生成 apps/web/generated/catalog.{json,ts}、registry.ts，以及 public/catalog.json、search-index.en.json、search-index.zh-CN.json、search-index.ja.json、previews/。这些文件不提交，开发与构建自动生成。新增案例不修改中心路由；新增或修改 manifest、讲解、预设后重新执行 pnpm generate 或重启 pnpm dev。当前支持英文、中文、日文、lesson 布局和有限数值参数，扩展协议需同时更新 schema 与实现。
+生成 apps/web/generated/catalog.{json,ts}、registry.ts，以及 public/catalog.json、search-index.en.json、search-index.zh-CN.json、search-index.ja.json、previews/。这些文件不提交，开发与构建自动生成。新增案例不修改中心路由；新增或修改 manifest、讲解、预设后重新执行 pnpm generate 或重启 pnpm dev。当前支持英文、中文、日文、lesson 布局和有限数值参数。Manifest 可选 seo.experiment / seo.lesson 覆盖对应页面的三语言 title / description，缺失配置沿用默认规则，配置不完整则构建失败；具体约定见 [SEO](SEO.md)。扩展协议需同时更新 schema 与实现。
 
 生产构建为每种语言预渲染首页、404、三个 labs 入口和三个 learn 讲解页，共 24 页。英语为默认语言，沿用现有路径；中文与日文分别增加 /zh/ 和 /ja/ 前缀，语言首页为 zh/index.html 与 ja/index.html，其余为 zh/labs/slug.html、ja/learn/slug.html 等。实验入口提供静态说明，加载后由客户端接管；学习页关闭 JavaScript 后仍能阅读。Workers auto-trailing-slash 提供不带扩展名的链接，不使用通配 SPA 重写。
 
-SEO 域名由 site.config.ts 默认配置为 https://feynman-technique.com，可用公开构建变量 SITE_URL 覆盖。packages/seo 的页面枚举与元信息同时用于开发路由、预渲染、客户端语言导航和 sitemap；生产构建输出 robots.txt、包含 21 个内容页面的 sitemap.xml、每页绝对 canonical/hreflang、分享标签及 JSON-LD。404 noindex；开发、Workers Builds 非 main 分支或 SITE_INDEXABLE=false 的产物 noindex 且不输出 sitemap。实验入口静态正文包含核心问题。分享图已提交，修改其 SVG 后执行 pnpm generate:social-card，不作为生产构建依赖。完整规则与上线验收见 [SEO](SEO.md)。
+SEO 域名由 site.config.ts 默认配置为 https://www.feynman-technique.com，可用公开构建变量 SITE_URL 覆盖。packages/seo 的页面枚举与元信息同时用于开发路由、预渲染、客户端语言导航和 sitemap；生产构建输出 robots.txt、包含 21 个内容页面的 sitemap.xml、每页绝对 canonical/hreflang、分享标签及 JSON-LD。404 noindex；开发、Workers Builds 非 main 分支或 SITE_INDEXABLE=false 的产物 noindex 且不输出 sitemap。实验入口静态正文包含核心问题。分享图已提交，修改其 SVG 后执行 pnpm generate:social-card，不作为生产构建依赖。完整规则与上线验收见 [SEO](SEO.md)。
 
 公式与三维依赖只在相关实验加载。首批目录直接携带三个案例的文字元数据；案例库明显增长时可拆分讲解数据。共享渲染器尚未独立抽象，Worker/WASM 没有实际需求，未引入。
 
@@ -86,7 +86,7 @@ Playwright 交互覆盖 1440×900、390×844，单摆布局补充 1920×1080、7
 
 ## Workers 发布配置
 
-正式发布使用 Cloudflare Workers Static Assets；frontend/wrangler.jsonc 配置 dist、HTML 路由、真实 404 和自定义域名 feynman-technique.com。首次部署、GitHub 关联、工具链变量和线上验收见 [部署指南](DEPLOYMENT.md)。pnpm deploy:workers 上传已有产物，必须先运行 pnpm build。
+正式发布使用 Cloudflare Workers Static Assets；frontend/wrangler.jsonc 配置 dist、HTML 路由、真实 404 和自定义域名 www.feynman-technique.com（已上线验收）；裸域在 Cloudflare 使用 301 转到 www。首次部署、GitHub 关联、工具链变量和线上验收见 [部署指南](DEPLOYMENT.md)。pnpm deploy:workers 上传已有产物，必须先运行 pnpm build。
 
 本地最终审查后由维护者确认合并/推送，完成 GitHub 关联后 Workers Builds 才负责后续自动发布；目前本地构建后通过 Wrangler 上传，push 本身不更新线上文件。仓库不包含 GitHub Actions、应用后端、运行时 AI 或数据库。Cloudflare Workers 在此仅负责交付静态资源，与浏览器内用于计算的 Web Worker 不同。
 
@@ -95,3 +95,9 @@ Workers 部署复验：类型检查、27 页构建、39 项单元测试、Wrangl
 当前公开页面已移除 GitHub、源码/改编/贡献入口、社区招募与个人作者名；三语言 /contribute 不再生成。构建校验私有作者信息后仅将空 authors 数组写入浏览器目录，保留私有 ATTRIBUTION 和必要第三方许可通知。
 
 公开信息清理复验：最终构建与 39 项单元检查、50 项 Workers 浏览器检查通过，4 项按既定规则跳过。正式域名核对 24 页 HTML、21 页 sitemap、公开目录与入口资源；旧贡献页 404，三语言页面与实验工具栏不再包含账号/源码/贡献入口。详情见 [本轮复核](../tooling/ai-review/2026-10-11-private-site.md)。
+
+## SEO / GEO 首轮内容改进
+
+2026-10-11 九份讲解增加核心答案与解释章 H3，三个案例配置可选三语言 SEO 文案，首页说明直接表达产品用途。44 项单元测试、类型检查、构建通过；SEO、多语言与交互浏览器检查 50 项通过、4 项桌面矩阵按手机项目设计跳过。24 页预渲染与 21 个 sitemap 页面路径不变；后续按用户要求切换正式主机到 www，绝对 URL 的主机相应更新。此次使用本机 Node 24.21.0、pnpm 12.10.1；生产工具链配置仍按部署指南固定。
+
+移动端测量命令和实验室基线见 [性能报告](PERFORMANCE_BASELINE.md)；原始 JSON 在忽略的 `frontend/test-results-performance/`，截图在 `frontend/test-results-seo-geo/`。本轮源码与记录随本次提交保存，已通过授权的本地 Wrangler 发布并线上验收；账号侧待办与交接状态见 [开发计划](SEO_GEO_PLAN.md)。

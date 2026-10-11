@@ -90,5 +90,31 @@
       "url": "https://openstax.org/books/university-physics-volume-1/pages/15-4-pendulums"
     }
   ],
-  "status": "experimental"
+  "status": "experimental",
+  "seo": {
+    "experiment": {
+      "title": {
+        "en": "Pendulum Simulator: Length, Gravity & Period · Feynman",
+        "zh-CN": "单摆模拟器：摆长、重力与周期 · Feynman",
+        "ja": "単振り子シミュレーター：長さ・重力・周期 · Feynman"
+      },
+      "description": {
+        "en": "Adjust length, gravity and initial angle in an ideal pendulum simulation. Compare its nonlinear motion with the displayed small-angle period.",
+        "zh-CN": "调整摆长、重力加速度与初始角度，观察理想单摆运动，对比非线性动画与显示的小角度近似周期。",
+        "ja": "長さ、重力加速度、初期角度を変えて理想的な単振り子を観察。非線形の運動と表示される小角近似の周期を比べよう。"
+      }
+    },
+    "lesson": {
+      "title": {
+        "en": "Pendulum Period: Formula and Small-Angle Approximation · Feynman",
+        "zh-CN": "单摆周期：公式、摆长关系与小角度近似 · Feynman",
+        "ja": "単振り子の周期：公式と小角近似 · Feynman"
+      },
+      "description": {
+        "en": "Understand T ≈ 2π√(L/g), why bob mass does not affect an ideal pendulum’s period, and why large swings take longer than the small-angle approximation predicts.",
+        "zh-CN": "理解 T ≈ 2π√(L/g)、摆长四倍时周期约两倍，以及理想单摆周期为何与质量无关；区分小角度近似与大振幅运动。",
+        "ja": "T ≈ 2π√(L/g)、長さが4倍なら周期は約2倍になる関係、質量に依存しない理由を解説。大振幅で小角近似が周期を短く見積もる理由を確かめよう。"
+      }
+    }
+  }
 }

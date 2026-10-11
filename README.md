@@ -4,7 +4,7 @@
 
 目前可以探索三个实验：**二次函数、单摆与时间、地球的昼与夜**。调节参数、观察变化、阅读原理。
 
-访问 [feynman-technique.com](https://feynman-technique.com)。
+访问 [www.feynman-technique.com](https://www.feynman-technique.com)。裸域自动通过 301 永久跳转到 www。
 
 源码仓库当前保持私有，网站暂不提供源码或社区贡献入口。
 

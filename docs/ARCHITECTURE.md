@@ -131,7 +131,7 @@ Vite 不自动预渲染完整站点：需要显式建设只读取安全元数据
 
 ### SEO 与静态页面
 
-SEO 保留现有 React/Vite 预渲染架构。公共页面枚举供开发路由、预渲染和 sitemap 共用，元信息模块同时用于静态 HTML 和客户端语言切换。正式域名配置为 `https://feynman-technique.com`，每个内容页输出独立标题/描述、绝对 canonical、三语言 hreflang、分享信息与基于真实内容的 JSON-LD；当前 sitemap 含 21 个可收录页面。实验入口静态 HTML 包含核心问题及讲解链接，讲解页提供完整文章。404 和预览环境 noindex，科学模型及部署流程不变。已完成域名绑定与首次上线，Search Console 尚未执行，实际规则与验收见 [SEO](SEO.md)。
+SEO 保留现有 React/Vite 预渲染架构。公共页面枚举供开发路由、预渲染和 sitemap 共用，元信息模块同时用于静态 HTML 和客户端语言切换。正式主域名配置为 `https://www.feynman-technique.com`（裸域 301 到 www，已线上验收），每个内容页输出独立标题/描述、绝对 canonical、三语言 hreflang、分享信息与基于真实内容的 JSON-LD；当前 sitemap 含 21 个可收录页面。实验入口静态 HTML 包含核心问题及讲解链接，讲解页提供完整文章。404 和预览环境 noindex，科学模型及部署流程不变。www 绑定、HTTPS 与裸域重定向已配置并验收，Search Console 尚未执行，实际规则与验收见 [SEO](SEO.md)。
 
 ## 7. 实验 SDK 的边界
 

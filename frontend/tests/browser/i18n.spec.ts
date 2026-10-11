@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { catalog } from "../../apps/web/generated/catalog";
 const cases = [
   {
     prefix: "",
@@ -62,7 +63,7 @@ for (const language of cases) {
       await page.goto(`${language.prefix}/labs/${slug}`);
       await expect(page.locator("html")).toHaveAttribute("lang", language.lang);
       await expect(page).toHaveTitle(
-        `${language.titles[i]} · ${language.lang === "en" ? "Interactive experiment" : "インタラクティブ実験"} · Feynman`,
+        catalog.find((lab) => lab.slug === slug)!.seo!.experiment!.title[language.lang as "en" | "ja"],
       );
       await expect(
         page.getByRole("heading", { name: language.titles[i], exact: true }),

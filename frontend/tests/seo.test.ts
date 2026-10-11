@@ -4,6 +4,8 @@ import { pageMetadata } from "../packages/seo/metadata";
 import { renderHead } from "../packages/seo/head";
 import { readSiteConfig } from "../scripts/site-config";
 import { seoFiles } from "../scripts/seo-files";
+import { locales, localizedPath } from "../packages/i18n/locales";
+import { translate } from "../packages/i18n/I18n";
 import type { Lab } from "../packages/core/types";
 let labs: Lab[];
 beforeAll(async () => {
@@ -21,8 +23,8 @@ describe("SEO output", () => {
     expect(experiment.canonical).toBe(
       "https://education.example/zh/labs/pendulum",
     );
-    expect(experiment.title).toBe("单摆与时间 · 互动实验 · Feynman");
-    expect(lesson.title).toBe("单摆与时间 · 原理与公式 · Feynman");
+    expect(experiment.title).toBe("单摆模拟器：摆长、重力与周期 · Feynman");
+    expect(lesson.title).toBe("单摆周期：公式、摆长关系与小角度近似 · Feynman");
     expect(lesson.description).not.toBe(experiment.description);
     expect(experiment.alternates).toEqual([
       { language: "en", url: "https://education.example/labs/pendulum" },
@@ -33,6 +35,38 @@ describe("SEO output", () => {
     expect(pageMetadata("/ja/", labs, production).canonical).toBe(
       "https://education.example/ja/",
     );
+  });
+  it("uses localized case copy for both page kinds and their structured data", () => {
+    for (const lab of labs)
+      for (const locale of locales)
+        for (const [route, kind] of [["labs", "experiment"], ["learn", "lesson"]] as const) {
+          const page = pageMetadata(localizedPath(locale, `/${route}/${lab.slug}`), labs, production);
+          expect(page.title).toBe(lab.seo![kind]!.title[locale]);
+          expect(page.description).toBe(lab.seo![kind]!.description[locale]);
+          const graph = page.structuredData!["@graph"] as Record<string, any>[];
+          expect(graph[0].name).toBe(page.title);
+          expect(graph[0].description).toBe(page.description);
+          expect(graph[0].mainEntity.description).toBe(page.description);
+        }
+  });
+  it("falls back independently for an absent SEO configuration or page kind", () => {
+    const lab = labs.find((item) => item.slug === "pendulum")!;
+    for (const locale of locales) {
+      const withoutSeo = { ...lab, seo: undefined };
+      const lessonOnly = { ...lab, seo: { lesson: lab.seo!.lesson } };
+      const experimentOnly = { ...lab, seo: { experiment: lab.seo!.experiment } };
+      for (const [route, kind, titleKey, descriptionKey] of [
+        ["labs", "experiment", "seoExperimentTitle", "seoExperimentDescription"],
+        ["learn", "lesson", "seoLessonTitle", "seoLessonDescription"],
+      ] as const) {
+        const pathname = localizedPath(locale, `/${route}/${lab.slug}`);
+        const fallback = pageMetadata(pathname, [withoutSeo], production);
+        expect(fallback.title).toBe(translate(locale, titleKey, { title: lab.title[locale] }));
+        expect(fallback.description).toBe(`${lab.summary[locale]} ${translate(locale, descriptionKey)}`);
+        const partial = kind === "experiment" ? lessonOnly : experimentOnly;
+        expect(pageMetadata(pathname, [partial], production)).toEqual(fallback);
+      }
+    }
   });
   it("excludes errors and unknown experiments from indexing and language annotations", () => {
     for (const path of [
@@ -75,6 +109,7 @@ describe("SEO output", () => {
     ).toBe(true);
     expect(readSiteConfig({ WORKERS_CI: "1" }, true).indexable).toBe(false);
     expect(readSiteConfig({}, true).indexable).toBe(true);
+    expect(readSiteConfig({}, true).origin).toBe("https://www.feynman-technique.com");
     expect(seoFiles(labs, preview).sitemap).toBeUndefined();
     expect(seoFiles(labs, preview).robots).toBe("User-agent: *\nAllow: /\n");
     expect(renderHead(pageMetadata("/", labs, preview))).toContain(

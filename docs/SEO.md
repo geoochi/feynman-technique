@@ -1,6 +1,8 @@
 # SEO 实现与上线验收
 
-正式域名配置为 `https://feynman-technique.com`（用户指定），已完成 Cloudflare Workers 域名绑定与首次上线。
+后续内容优化、开发任务与维护者待办见 [SEO / GEO 改进与开发交接](SEO_GEO_PLAN.md)。首轮内容和元信息改进已完成开发、验证及 www 生产发布；Search Console 待处理，详见计划中的状态记录。
+
+正式主域名配置为 `https://www.feynman-technique.com`（用户指定）。2026-10-11 已完成 www Custom Domain 绑定、HTTPS、裸域到 www 的 301 及本次新产物发布，并通过线上验收。
 
 ## 架构与页面内容
 
@@ -9,6 +11,14 @@
 `frontend/packages/seo/pages.ts` 是页面枚举的公共入口，开发路由、预渲染和 sitemap 共用；`metadata.ts` 统一计算页面标题、描述、canonical、语言替代链接及结构化数据；`head.ts` 用于静态 head 输出与客户端语言导航更新，避免生成页面与语言切换后的信息不一致。
 
 实验入口的静态 HTML 包含标题、简介、封面、核心问题及讲解链接，JavaScript 加载后显示同一案例的实验界面。讲解页提供完整七章、公式、学习目标及引用。实验与讲解有各自的标题和描述，不把二者互相 canonical；每个语言版本 canonical 指向自身。保留真实 HTML 链接及每页单一主标题，不增加隐藏关键词或专供爬虫的另一套内容。
+
+## 案例 SEO 文案与讲解摘要
+
+三个案例各有实验页与讲解页的英中日独立 title / description，存于案例 `manifest.json` 的可选 `seo.experiment` 与 `seo.lesson`。每种页面配置都包含 `title`、`description` 两个三语言对象（en、zh-CN、ja）；允许只覆盖一种页面，其余页面沿用案例标题、摘要与通用后缀。已配置的字段必须三语言完整且含非空白文字，未知字段或空配置由构建 schema 拒绝。Manifest schemaVersion 仍为 2，此项为兼容的可选扩展。
+
+`pageMetadata` 统一读取这些文案，静态 HTML、语言切换、分享标签和 JSON-LD 的描述同步更新。资源名称继续使用案例可见标题；稳定 id、slug、页面路径与实验/讲解各自 canonical 的规则不变；正式绝对 URL 的主机随主域名切换为 www。
+
+九份讲解在 H1 后增加可独立理解的核心答案，解释章节增加少量有对应正文的问题式 H3；七个固定 H2 与稳定章节 id 保留。摘要说明小角度周期与非线性单摆动画的区别、二次函数 a = 0 的退化边界，以及昼夜几何模型的假设。实验页仍只保留原有简介、问题和操作布局。首页保留口号，在紧邻说明中直接表达“通过互动实验理解数学与科学”，已检查三语言桌面与手机换行。
 
 ## 域名与环境
 
@@ -37,9 +47,9 @@ SITE_INDEXABLE=false pnpm build
 
 本地单元验证覆盖干净 canonical、双向语言地址、不同页面标题、404、sitemap 范围、环境索引策略、配置校验以及 head/JSON-LD 转义。浏览器验证检查不运行 JavaScript 时所有生成页面的正文、标题、语言、canonical、hreflang、JSON-LD，核对 sitemap 与 HTML 页面一致，验证语言切换及历史返回时元信息同步。
 
-上线后仍需：核对正式域名/HTTPS及部署提交；检查 200/404、重定向、robots 和 sitemap；确认正式页面没有 noindex 或阻止抓取的响应头；在 Search Console 验证域名、提交 sitemap，用 URL Inspection 检查抓取结果。已完成域名绑定，24 页 HTML、21 页 sitemap、资源与 404 已线上核对；Search Console 验证和 sitemap 提交尚未执行。HTTP 到 HTTPS 已验证 301，www 尚未配置；可按部署指南添加。
+上线后仍需：核对正式域名/HTTPS及部署提交；检查 200/404、重定向、robots 和 sitemap；确认正式页面没有 noindex 或阻止抓取的响应头；在 Search Console 验证域名、提交 sitemap，用 URL Inspection 检查抓取结果。本轮 www 版本已线上核对 24 页 HTML、21 页 sitemap、资源与 404；14 个裸域 HTTP/HTTPS 请求均 301 到 https://www.feynman-technique.com，保留路径与查询，www 正式内容直接可访问。Search Console 验证和 sitemap 提交尚未执行。配置及验收步骤见部署指南。
 
-页面体积、移动体验和 Core Web Vitals 应以正式部署及实际设备测量。首页仍携带首批三个案例的讲解数据，Three.js 仅在地球案例加载，既有约 889 KB 三维 chunk 警告仍待性能专项处理。本轮不声称已通过线上性能预算或改善搜索排名；结构化数据和 sitemap 也不保证收录或富结果。
+页面体积、移动体验和 Core Web Vitals 应以正式部署及实际设备测量。首页仍携带首批三个案例的讲解数据，Three.js 仅在地球案例加载，约 889 KB 三维 chunk 警告仍待性能专项处理。移动端实验室基线、复现条件和后续建议见 [性能测量](PERFORMANCE_BASELINE.md)。本轮不声称已通过线上性能预算或改善搜索排名；结构化数据和 sitemap 也不保证收录或富结果。
 
 ## 官方依据
 

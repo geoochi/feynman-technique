@@ -1,6 +1,6 @@
 # Cloudflare Workers 静态部署
 
-日期：2026-10-11。正式域名：`https://feynman-technique.com`。已完成 Cloudflare OAuth 授权、Active Zone 核对、Custom Domain 绑定与首次发布。GitHub 自动构建关联尚未完成。
+日期：2026-10-11。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Cloudflare OAuth 授权、Active Zone、www 绑定、HTTPS、裸域重定向和本轮 SEO/GEO 产物发布已完成，并通过线上验收。GitHub 自动构建关联尚未完成。
 
 ## 当前实际流程
 
@@ -14,7 +14,7 @@
 
 ## 首次本地发布
 
-先核对 Cloudflare 中该域名所在的账户、Zone 是否 Active，以及根域名是否已有其他网站/DNS 记录。若存在其他用途，先处理冲突，避免覆盖。Wrangler 的 Custom Domain 配置会创建域名绑定和相应 DNS/证书，无需填写服务器 IP。
+先核对 Cloudflare 中该域名所在的账户、Zone 是否 Active，以及 www 与裸域是否已有其他网站/DNS 记录。若存在其他用途，先处理冲突，避免覆盖。Wrangler 的 Custom Domain 配置会创建域名绑定和相应 DNS/证书，无需填写服务器 IP。
 
 ```sh
 cd frontend
@@ -46,7 +46,7 @@ pnpm deploy:workers
 | Deploy command | `pnpm deploy:workers` |
 | Node 构建变量 | `NODE_VERSION=24.11.1` |
 | pnpm 构建变量 | `PNPM_VERSION=12.10.1` |
-| 构建公开地址 | `SITE_URL=https://feynman-technique.com`（与代码默认值一致，可不填） |
+| 构建公开地址 | `SITE_URL=https://www.feynman-technique.com`（与代码默认值一致，可不填） |
 | 非生产分支构建 | 当前关闭 |
 
 依赖按已提交的 pnpm lockfile 安装，静态资源目录由 Wrangler 的 `assets.directory` 指向 `dist`，无需设置 Pages 的输出目录或添加自定义 Worker 入口。平台构建授权留在 Cloudflare，不写入 `VITE_*` 或仓库。配置和 SEO 源码随本版本保存到 Git；连接 Git 构建时应选择包含这些配置的提交。GitHub 集成的账户授权需要由维护者完成。
@@ -55,12 +55,27 @@ pnpm deploy:workers
 
 ## 域名与正式验收
 
-Wrangler 配置绑定根域名 `feynman-technique.com`。DNS 接管不等于网站已经发布；须确认 Cloudflare Zone Active、Custom Domain 证书有效、实际页面能打开。维护者已在 Zone 的 SSL/TLS → Edge Certificates 开启 Always Use HTTPS；已实测 HTTP 返回 301 到 HTTPS，保留路径与查询参数。现有 Wrangler OAuth 不含 Zone Settings 编辑权限，此项由维护者在控制台完成。如需 `www`，在 Cloudflare 添加代理 DNS 与 Redirect Rule，将 `www.feynman-technique.com` 永久重定向到根域名并保留路径与查询；不要把它当第二个内容站点发布。
+当前配置在 Wrangler 中绑定 `www.feynman-technique.com`，SEO origin 同样使用 HTTPS www。裸域 `feynman-technique.com` 只做 301 永久跳转，路径与查询参数原样保留。原先“www → 裸域”的方向作废。DNS 接管或修改仓库配置不代表切换完成；须核对实际绑定、两端证书、重定向和新产物。
+
+本轮已按以下顺序完成切换；后续重新配置时遵循同样顺序，避免先撤掉现有入口：
+
+1. 为现有 `feynman` Worker 添加 `www.feynman-technique.com` Custom Domain，等待 www 的 HTTPS 证书可用，先确认页面及深链接可访问。不要在 www 上配置转向裸域的规则。
+2. 裸域保持代理 DNS（橙云），确认其 HTTPS 证书有效；在域名的 Redirect Rules 中新增 Single Redirect，条件为 `(http.host eq "feynman-technique.com")`，动态目标为 `concat("https://www.feynman-technique.com", http.request.uri.path)`，状态码 **301**，启用 **Preserve query string**。规则覆盖裸域的 HTTP 与 HTTPS；既有 Always Use HTTPS 可能先增加同域跳转，验收最终必须到 HTTPS www，且每个迁移跳转为 301。
+3. 配置裸域跳转并验证后，再按授权发布本次 www SEO 产物和目标 Wrangler 配置。当前配置保留 www 和裸域的 Custom Domain；裸域绑定仅保留代理 DNS/TLS，由 Zone Redirect Rule 在静态资源交付前返回 301，不作为内容站。保留该绑定可避免后续 Wrangler 发布误删裸域 DNS。若以后改用纯跳转 DNS，应先保证接收入口，再按 Cloudflare 官方方案使用代理 A 记录 `@ → 192.0.2.1`；无需服务器 IP，不修改 MX/TXT 等其他用途记录。
+4. 若 Workers Builds 或本机构建环境已有 `SITE_URL`，改为 `https://www.feynman-technique.com` 或删除旧覆盖值，重新构建。正式产物的 canonical、hreflang、分享 URL、JSON-LD、robots 与 sitemap 都必须使用 www；本次代码默认值已修改，但环境变量会覆盖它。
+5. 完成后在 Search Console 提交 `https://www.feynman-technique.com/sitemap.xml`，检查 www 首页、三个实验及讲解页，并抽查中文/日文。旧裸域网址应是跳转入口，不能继续作为内容页 canonical。
+
+现有 Wrangler OAuth 可管理 Worker/Custom Domain，但 DNS Records 与 Rulesets API 返回 403。维护者随后授权 Agent 自行操作 Cloudflare，Agent 通过本机已登录 Chrome 控制台部署 Redirect Rule，使用现有 OAuth 绑定 www 并上传静态产物；无需新增令牌或扩大权限。Custom Domain 管理与纯跳转 DNS 的关系须先核对实际状态，不能在旧绑定仍占用裸域时盲目覆盖它。
+
+例子：`https://feynman-technique.com/zh/labs/pendulum?source=test` 应 301 到 `https://www.feynman-technique.com/zh/labs/pendulum?source=test`；对应 www 深链接直接返回 200。HTTP 裸域的最终目标相同。不要依赖前端 JavaScript 完成重定向。
+
+具体动态表达式、查询保留与纯跳转 DNS 用法依据 [Cloudflare 官方重定向指南](https://developers.cloudflare.com/fundamentals/manage-domains/redirect-domain/)。
 
 发布后核对：
 
 - Workers 部署版本与来源；Git 构建须对应目标 commit SHA，首次本地上传的版本来源应与后续 Git 构建分别记录。
-- 根域名、三语言入口及实验/讲解深链接直接返回 200，`.html` 与尾斜线别名归一正确。
+- www 主域名、三语言入口及实验/讲解深链接直接返回 200，`.html` 与尾斜线别名归一正确。
+- 裸域 HTTP/HTTPS 请求均经 301 到 HTTPS www；保留 `/`、`/zh/`、`/ja/`、实验/讲解路径与查询，不循环、不出现 5xx。www 的 HTTP 到 HTTPS 同样保持路径与查询。
 - 未知页面与缺失资源返回 404，正式页面没有 noindex 响应头，HTML canonical/hreflang 指向正式域名。
 - robots.txt、包含 21 个内容地址的 sitemap.xml、分享图片和地球贴图正常；哈希资源长缓存，HTML 可更新。
 - 检查 Git 推送触发生产发布；发生故障使用 Workers 的 Version History 回滚到此前已验证版本。
@@ -93,3 +108,16 @@ Search Console 的域名验证、sitemap 提交与线上性能测量单独验收
 ## 公开信息清理发布
 
 2026-10-11 通过本机 Wrangler 更新同一个 Worker，版本 `19e1445e-0cdb-4c47-a96d-9ab7121ed3a5`。本次 24 页 HTML、21 页 sitemap、公开目录、入口 JS/CSS、图片和三语言旧贡献页 404 已线上核对。相同源码随本版本 commit/push 保存；该次上传仍为本地 CLI 上传，没有因此连接 Workers Builds。审查对象与验证范围见 [本轮复核](../tooling/ai-review/2026-10-11-private-site.md)。
+
+## www 主域名与 SEO/GEO 发布记录
+
+维护者明确指定 www 为主域名，并授权 Agent 使用本机 Cloudflare 授权自行操作。2026-10-11 06:08:33 UTC，通过本地 Wrangler 发布同一个 Worker，版本 `4ca80440-735c-4088-8f2d-deb9a90020a2`，100% 流量；控制台来源为 Wrangler（CLI 部署列表将来源显示为 Unknown/deployment），并非 Git 构建。来源为基线 `7f8e0d552ca2036163013dbd0af46dbdaae47433` 加本轮未提交工作树，没有提交或推送。
+
+- www Custom Domain 已绑定，HTTPS 可用；裸域保留原有代理 DNS/TLS 绑定，仅承担跳转入口。
+- Zone Single Redirect `裸域永久重定向到 WWW`（规则 ID `d18d0603f7f34d389a75024c465b3775`）活动，匹配与目标表达式如上，301，保留查询字符串。14 个 HTTP/HTTPS 裸域请求覆盖三语言首页、实验/讲解、缺失资源及编码查询参数，均一次 301 到 HTTPS www。www HTTP 到 HTTPS 也为 301。
+- 24 份线上 HTML（含三个 noindex 404 静态资源）与本地一致；比较时只扣除 Cloudflare 注入的 Web Analytics beacon 脚本。21 个 sitemap URL、robots、目录 JSON、分享图核对通过。实际未知路径、缺失脚本与三语言旧贡献页返回 404；正式内容没有 noindex 响应头。
+- Chrome 线上检查三个实验参数、动态案例单步/播放/重置、日语导航与 canonical，以及中文手机首页，无 pageerror。浏览器退出等待停滞后仅终止本次测试进程，不把该清理动作作为产品验证。
+- 本机 curl 的新 www HTTP 域名解析短暂失败；公共 DNS/Google DNS 已返回正确 A 记录。www HTTP 验收使用该公开 A 记录的 `--resolve`，HTTPS 与浏览器正常访问。该检查不等于所有地区 DNS 都已刷新。
+- 控制台当前仍提示连接 Git 仓库，Workers Builds 尚未关联；保持现有本地生产发布方式。旧裸域首次上线与性能样本保留真实历史，没有改写成 www 性能数据。
+
+本地验证及限制见 [本轮复核](../tooling/ai-review/2026-10-11-seo-geo.md)。Search Console 的域名验证、www sitemap 提交和 Google 选定 canonical 待完成。

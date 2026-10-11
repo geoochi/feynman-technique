@@ -72,6 +72,33 @@ describe("catalog validation", () => {
     });
     await expect(scanCatalog(root)).rejects.toThrow("manifest.json");
   });
+  it("accepts absent SEO copy and a complete override for just one page kind", async () => {
+    await modify("manifest.json", (m) => { delete m.seo; });
+    expect((await scanCatalog(root)).find((l) => l.slug === "function-transform")!.seo).toBeUndefined();
+    await modify("manifest.json", (m) => {
+      m.seo = { lesson: {
+        title: { en: "Lesson", "zh-CN": "讲解", ja: "解説" },
+        description: { en: "Explanation", "zh-CN": "说明", ja: "説明" },
+      } };
+    });
+    expect((await scanCatalog(root)).find((l) => l.slug === "function-transform")!.seo!.lesson!.title.ja).toBe("解説");
+  });
+  it.each(["experiment", "lesson"])("rejects missing languages, blank text and unknown fields in %s SEO copy", async (kind) => {
+    const original = JSON.parse(await readFile(resolve(dir(), "manifest.json"), "utf8"));
+    for (const locale of locales)
+      for (const field of ["title", "description"]) {
+        for (const value of [undefined, "", "   "]) {
+          const changed = structuredClone(original);
+          changed.seo[kind][field][locale] = value;
+          await writeFile(resolve(dir(), "manifest.json"), JSON.stringify(changed));
+          await expect(scanCatalog(root)).rejects.toThrow("manifest.json");
+        }
+      }
+    const changed = structuredClone(original);
+    changed.seo[kind].keywords = "extra";
+    await writeFile(resolve(dir(), "manifest.json"), JSON.stringify(changed));
+    await expect(scanCatalog(root)).rejects.toThrow("manifest.json");
+  });
   it("rejects incomplete parameter labels", async () => {
     await modify("parameters.schema.json", (p) => {
       delete p.properties.h.labels.en;

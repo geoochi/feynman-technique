@@ -83,5 +83,31 @@
       "url": "https://openstax.org/books/college-algebra-2e/pages/3-5-transformation-of-functions"
     }
   ],
-  "status": "experimental"
+  "status": "experimental",
+  "seo": {
+    "experiment": {
+      "title": {
+        "en": "Quadratic Function Graph: Explore a, h and k · Feynman",
+        "zh-CN": "二次函数图像：探索 a、h、k 的作用 · Feynman",
+        "ja": "二次関数のグラフ：a・h・k を動かそう · Feynman"
+      },
+      "description": {
+        "en": "Adjust a, h and k in y = a(x − h)² + k. Compare the graph with y = x² and explore its vertex, opening direction, width and the a = 0 horizontal line.",
+        "zh-CN": "调整 y = a(x − h)² + k 中的 a、h、k，与 y = x² 对照，观察顶点、开口与宽窄，以及 a = 0 时的水平直线。",
+        "ja": "y = a(x − h)² + k の a・h・k を変え、y = x² と比較。頂点、開く向き、幅の変化と a = 0 の水平な直線を観察しよう。"
+      }
+    },
+    "lesson": {
+      "title": {
+        "en": "Quadratic Vertex Form: Shifts, Scaling & Reflection · Feynman",
+        "zh-CN": "二次函数顶点式：平移、伸缩与翻转 · Feynman",
+        "ja": "二次関数の頂点形式：平行移動・拡大縮小・反転 · Feynman"
+      },
+      "description": {
+        "en": "Learn how a, h and k transform y = a(x − h)² + k, why positive h shifts the parabola right, and why a = 0 has no unique vertex.",
+        "zh-CN": "理解 y = a(x − h)² + k 的顶点、平移、伸缩与翻转，解释 h 为正时为何向右移动，以及 a = 0 时为何没有唯一顶点。",
+        "ja": "y = a(x − h)² + k の頂点と変換を解説。h が正なら右に移動する理由と、a = 0 では頂点が一意に決まらないことを確かめよう。"
+      }
+    }
+  }
 }

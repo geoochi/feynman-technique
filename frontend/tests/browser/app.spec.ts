@@ -66,7 +66,7 @@ for (const slug of slugs)
       await expect(
         page.getByRole("heading", { name: "二次函数", exact: true }),
       ).toBeVisible();
-      await expect(page).toHaveTitle("二次函数 · 互动实验 · Feynman");
+      await expect(page).toHaveTitle("二次函数图像：探索 a、h、k 的作用 · Feynman");
       for (const name of ["播放", "暂停", "单步", "重置"])
         await expect(
           page.getByRole("button", { name, exact: true }),
@@ -188,7 +188,7 @@ test("static lessons are available without JavaScript and missing resources retu
   await expect(
     page.getByRole("heading", { name: "解释", exact: true }),
   ).toBeVisible();
-  await expect(page.getByText("非线性方程", { exact: false })).toBeVisible();
+  await expect(page.getByText(/^非线性方程 θ″ =/)).toBeVisible();
   await context.close();
   const missing = await request.get("/assets/missing-resource.js");
   expect(missing.status()).toBe(404);

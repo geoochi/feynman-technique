@@ -101,5 +101,31 @@
       "url": "https://gml.noaa.gov/grad/solcalc/calcdetails.html"
     }
   ],
-  "status": "experimental"
+  "status": "experimental",
+  "seo": {
+    "experiment": {
+      "title": {
+        "en": "Day and Night Simulator: Earth’s Rotation · Feynman",
+        "zh-CN": "地球昼夜模拟器：自转、纬度与昼长 · Feynman",
+        "ja": "地球の昼夜シミュレーター：自転と昼の長さ · Feynman"
+      },
+      "description": {
+        "en": "Watch Earth rotate under parallel sunlight. Adjust latitude, solar declination and starting solar time to compare day length, polar day and polar night.",
+        "zh-CN": "观察平行太阳光下的地球自转，调整纬度、太阳赤纬与起始太阳时，比较昼长、极昼与极夜。",
+        "ja": "平行な太陽光の下で地球の自転を観察。緯度、太陽赤緯、開始時の太陽時を変え、昼の長さ、白夜、極夜を比べよう。"
+      }
+    },
+    "lesson": {
+      "title": {
+        "en": "What Causes Day and Night? Latitude & Day Length · Feynman",
+        "zh-CN": "昼夜如何形成？地球自转、纬度与昼长 · Feynman",
+        "ja": "昼と夜はなぜ生まれる？自転・緯度・昼の長さ · Feynman"
+      },
+      "description": {
+        "en": "Learn how Earth’s rotation produces day and night and how latitude and solar declination set geometric day length, with polar-day examples and model limits.",
+        "zh-CN": "解释地球自转如何形成昼夜、纬度和太阳赤纬如何决定几何昼长，结合极昼例子说明模型假设与日出日落计算的局限。",
+        "ja": "地球の自転による昼夜と、緯度・太陽赤緯で決まる幾何学的な昼の長さを解説。白夜の例と日の出・日の入りの計算の限界を確かめよう。"
+      }
+    }
+  }
 }

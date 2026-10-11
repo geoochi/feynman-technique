@@ -1,5 +1,8 @@
 import { test, expect } from "@playwright/test";
 import { siteOrigin } from "../../site.config";
+import { catalog } from "../../apps/web/generated/catalog";
+import { messages } from "../../packages/i18n/messages";
+import type { Locale } from "../../packages/i18n/locales";
 
 test("every production page has crawlable content and consistent SEO without JavaScript", async ({
   browser,
@@ -65,6 +68,26 @@ test("every production page has crawlable content and consistent SEO without Jav
           (item: { url: string }) => item.url === siteOrigin + route,
         ),
       ).toBe(true);
+      if (path !== "/") {
+        const lab = catalog.find((item) => path.endsWith(`/${item.slug}`))!;
+        const copy = lab.seo![path.startsWith("/learn/") ? "lesson" : "experiment"]!;
+        expect(title).toBe(copy.title[lang as Locale]);
+        for (const selector of ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]'])
+          await expect(page.locator(`head ${selector}`)).toHaveAttribute("content", copy.description[lang as Locale]);
+        for (const selector of ['meta[property="og:title"]', 'meta[name="twitter:title"]'])
+          await expect(page.locator(`head ${selector}`)).toHaveAttribute("content", title);
+        const entity = json["@graph"].find((item: { url: string }) => item.url === siteOrigin + route);
+        expect(entity.name).toBe(title);
+        expect(entity.description).toBe(copy.description[lang as Locale]);
+        expect(entity.mainEntity.description).toBe(copy.description[lang as Locale]);
+        if (path.startsWith("/learn/")) {
+          await expect(page.locator("main h1 + p")).toBeVisible();
+          expect((await page.locator("main h1 + p").textContent())!.length).toBeGreaterThan(40);
+          await expect(page.locator("main h2")).toHaveCount(9); // Seven chapters, objectives and sources.
+          expect(await page.locator("main h3").count()).toBeGreaterThanOrEqual(2);
+          await expect(page.locator('main a[href^="https://"]')).not.toHaveCount(0);
+        }
+      }
       if (path.startsWith("/labs/")) {
         await expect(
           page.getByRole("heading", { name: questions, exact: true }),
@@ -102,9 +125,9 @@ test("every production page has crawlable content and consistent SEO without Jav
   expect((await request.get("/assets/missing.js")).status()).toBe(404);
   for (const prefix of ["", "/zh", "/ja"])
     expect((await request.get(prefix + "/contribute")).status()).toBe(404);
-  const catalog = await request.get("/catalog.json");
-  expect(catalog.status()).toBe(200);
-  expect(await catalog.text()).not.toMatch(/geoochi|geoooochi|github\.com\/geoochi/i);
+  const catalogResponse = await request.get("/catalog.json");
+  expect(catalogResponse.status()).toBe(200);
+  expect(await catalogResponse.text()).not.toMatch(/geoochi|geoooochi|github\.com\/geoochi/i);
   await context.close();
 });
 
@@ -132,13 +155,24 @@ test("language navigation updates canonical, sharing metadata and structured dat
   );
   await expect(page.locator('head meta[property="og:title"]')).toHaveAttribute(
     "content",
-    "単振り子と時間 · インタラクティブ実験 · Feynman",
+    "単振り子シミュレーター：長さ・重力・周期 · Feynman",
   );
   expect(
     (await page
       .locator('head script[type="application/ld+json"]')
       .textContent())!,
   ).toContain('"inLanguage":"ja"');
+  const pendulum = catalog.find((lab) => lab.slug === "pendulum")!;
+  const expectCopy = async (locale: Locale) => {
+    const copy = pendulum.seo!.experiment!;
+    await expect(page).toHaveTitle(copy.title[locale]);
+    for (const selector of ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]'])
+      await expect(page.locator(`head ${selector}`)).toHaveAttribute("content", copy.description[locale]);
+    const data = JSON.parse((await page.locator('head script[type="application/ld+json"]').textContent())!);
+    expect(data["@graph"][0].name).toBe(copy.title[locale]);
+    expect(data["@graph"][0].description).toBe(copy.description[locale]);
+  };
+  await expectCopy("ja");
   await page.goBack();
   await expect(page.locator('head link[rel="canonical"]')).toHaveAttribute(
     "href",
@@ -148,9 +182,25 @@ test("language navigation updates canonical, sharing metadata and structured dat
     "content",
     "en_US",
   );
+  await expectCopy("en");
   await expect(page.locator("head title")).toHaveCount(1);
   await expect(page.locator('head meta[name="description"]')).toHaveCount(1);
   await expect(
     page.locator('head script[type="application/ld+json"]'),
   ).toHaveCount(1);
+});
+
+test("home explains the product in all languages with readable desktop and mobile layout", async ({ page }, testInfo) => {
+  for (const [i, prefix] of ["", "/zh", "/ja"].entries()) {
+    await page.goto(`${prefix}/`);
+    const intro = page.getByText(messages.intro1[i], { exact: false });
+    await expect(intro).toBeVisible();
+    await page.evaluate(() => document.fonts.ready);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    const heading = await page.locator("main h1").boundingBox();
+    const paragraph = await intro.boundingBox();
+    expect(heading!.y + heading!.height).toBeLessThanOrEqual(paragraph!.y);
+    expect(paragraph!.x + paragraph!.width).toBeLessThanOrEqual(testInfo.project.use.viewport!.width);
+    await page.screenshot({ path: testInfo.outputPath(`home-${i}.png`), fullPage: true });
+  }
 });

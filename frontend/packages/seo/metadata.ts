@@ -28,21 +28,21 @@ export function pageMetadata(
   const lab = match ? labs.find((item) => item.slug === match[2]) : undefined;
   const valid = path === "/" || !!lab;
   const lesson = match?.[1] === "learn";
-  const title = lab
-    ? translate(locale, lesson ? "seoLessonTitle" : "seoExperimentTitle", {
-        title: lab.title[locale],
-      })
-    : path === "/"
-      ? translate(locale, "siteTitle")
-      : `${translate(locale, "pageNotFound")} · Feynman`;
-  const description = lab
-    ? `${lab.summary[locale]} ${translate(locale, lesson ? "seoLessonDescription" : "seoExperimentDescription")}`
-    : translate(
-        locale,
-        path === "/"
-          ? "siteDescription"
-          : "notFoundHelp",
-      );
+  const copy = lab?.seo?.[lesson ? "lesson" : "experiment"];
+  const title = copy?.title[locale] ?? (
+    lab
+      ? translate(locale, lesson ? "seoLessonTitle" : "seoExperimentTitle", {
+          title: lab.title[locale],
+        })
+      : path === "/"
+        ? translate(locale, "siteTitle")
+        : `${translate(locale, "pageNotFound")} · Feynman`
+  );
+  const description = copy?.description[locale] ?? (
+    lab
+      ? `${lab.summary[locale]} ${translate(locale, lesson ? "seoLessonDescription" : "seoExperimentDescription")}`
+      : translate(locale, path === "/" ? "siteDescription" : "notFoundHelp")
+  );
   const absolute = (route: string) => new URL(route, config.origin).href;
   const canonical = valid ? absolute(localizedPath(locale, path)) : undefined;
   const alternates = valid
@@ -98,7 +98,7 @@ export function pageMetadata(
                 "@type": ["CreativeWork", "LearningResource"],
                 "@id": `${canonical}#resource`,
                 name: lab.title[locale],
-                description: lab.summary[locale],
+                description,
                 url: canonical,
                 inLanguage: locale,
                 learningResourceType: lesson

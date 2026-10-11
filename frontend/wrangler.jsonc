@@ -10,6 +10,8 @@
     "not_found_handling": "404-page"
   },
   "routes": [
+    { "pattern": "www.feynman-technique.com", "custom_domain": true },
+    // Keep the proxied apex DNS/TLS binding for the zone's 301 Redirect Rule.
     { "pattern": "feynman-technique.com", "custom_domain": true }
   ]
 }

@@ -32,9 +32,9 @@ export const messages = {
   heroStart: ["Make knowledge", "让知识", "知識を"],
   heroEnd: ["come alive.", "发生。", "体験しよう。"],
   intro1: [
-    "Some ideas click when you try them yourself.",
-    "有些道理，亲手试一次就懂了。",
-    "自分で試すと、見えてくることがある。",
+    "Understand math and science through interactive experiments.",
+    "通过互动实验，理解数学与科学。",
+    "インタラクティブ実験で、数学と科学を理解しよう。",
   ],
   intro2: [
     "Move a curve, change a swing, turn a planet.",

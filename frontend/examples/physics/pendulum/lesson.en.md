@@ -1,5 +1,7 @@
 # Pendulum and time
 
+For an ideal pendulum with small swings, the period is approximately T ≈ 2π√(L/g), independent of the bob’s mass. With gravity held fixed, quadrupling the length approximately doubles the period; stronger gravity shortens it. At large amplitudes, this approximation underestimates the period. The experiment displays the small-angle estimate while animating the nonlinear motion, so you can compare them.
+
 ## Questions
 How many times longer is the period when the length increases from 0.5 m to 2 m?
 
@@ -17,7 +19,11 @@ Set the initial angle to 5°, press Play, and watch the time needed to return to
 A longer pendulum swings more slowly; stronger gravity makes it swing faster. The bob is fastest at the bottom and momentarily at rest at either end. With no drag, this model does not stop on its own.
 
 ## Explain
-The nonlinear equation θ″ = −(g/L) sin θ describes the motion. Only for small angles does sin θ ≈ θ, giving the approximate period T ≈ 2π√(L/g). The displayed period is this approximation; the motion itself uses RK4 integration of the nonlinear equation.
+### What affects an ideal pendulum’s period?
+At small amplitudes, period grows with √L and decreases with √g. Quadrupling L at the same g therefore doubles the approximate period. Mass cancels from the motion equation: gravity’s restoring torque and the bob’s rotational inertia both scale with mass. Changing mass alone does not change the ideal model’s period.
+
+### Why do large swings take longer than the displayed period?
+The nonlinear equation θ″ = −(g/L) sin θ describes the motion. Only for small angles does sin θ ≈ θ, giving the approximate period T ≈ 2π√(L/g). For larger displacements, |sin θ| is smaller than |θ|, so the restoring acceleration is weaker than the linear approximation predicts and the period is longer. The displayed period is the small-angle approximation; the motion itself uses RK4 integration of the nonlinear equation.
 
 Energy per unit mass is E/m = ½(Lω)² + gL(1 − cos θ), in J/kg. The fixed simulation step is 1/120 s, split into two RK4 steps of 1/240 s. The numerical solution has error and is not exact.
 

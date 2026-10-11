@@ -18,6 +18,10 @@ export interface ParameterSchema {
   required: string[];
   properties: Record<string, Parameter>;
 }
+export interface SeoCopy {
+  title: Localized<string>;
+  description: Localized<string>;
+}
 export interface Manifest {
   schemaVersion: string;
   id: string;
@@ -26,6 +30,7 @@ export interface Manifest {
   sdkRange: string;
   title: Localized<string>;
   summary: Localized<string>;
+  seo?: { experiment?: SeoCopy; lesson?: SeoCopy };
   subjects: string[];
   levels: string[];
   locales: Locale[];
