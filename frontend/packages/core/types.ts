@@ -1,9 +1,11 @@
 import type { ComponentType } from "react";
 import type { Simulation } from "../runtime/simulation";
+import type { Localized, Locale } from "../i18n/locales";
 export type Params = Record<string, number>;
 export interface Parameter {
   type: "number";
   title: string;
+  labels: Localized<string>;
   default: number;
   minimum: number;
   maximum: number;
@@ -22,16 +24,16 @@ export interface Manifest {
   slug: string;
   version: string;
   sdkRange: string;
-  title: Record<string, string>;
-  summary: Record<string, string>;
+  title: Localized<string>;
+  summary: Localized<string>;
   subjects: string[];
   levels: string[];
-  locales: string[];
-  lessons: Record<string, string>;
+  locales: Locale[];
+  lessons: Localized<string>;
   capabilities: { network: boolean; audio: boolean };
-  tags: string[];
-  learningObjectives: string[];
-  prerequisites: string[];
+  tags: Localized<string[]>;
+  learningObjectives: Localized<string[]>;
+  prerequisites: Localized<string[]>;
   estimatedMinutes: number;
   layout: string;
   theme: string;
@@ -42,7 +44,7 @@ export interface Manifest {
   preview: string;
   authors: { name: string }[];
   licenses: { code: string; content: string };
-  modelAssumptions: string[];
+  modelAssumptions: Localized<string[]>;
   references: { title: string; url: string }[];
   status: "experimental" | "reviewed" | "draft";
 }
@@ -59,10 +61,12 @@ export interface Lab extends Manifest {
   stateSchema: Record<string, unknown>;
   presets: { id: string; title: string; params: Params }[];
   question: Question;
-  lessonHtml: string;
-  chapters: { id: string; title: string; html: string }[];
+  content: Localized<{
+    lessonHtml: string;
+    chapters: { id: string; title: string; html: string }[];
+    searchText: string;
+  }>;
   contentHash: string;
-  searchText: string;
 }
 export interface Model {
   initial(params: Params): Params;
@@ -76,6 +80,8 @@ export interface ViewProps {
   camera: number;
 }
 export interface LabModule {
+  playback?: boolean;
+  Readouts: ComponentType<ViewProps>;
   default: ComponentType<ViewProps>;
   model: Model;
 }

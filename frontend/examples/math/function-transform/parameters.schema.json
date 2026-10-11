@@ -5,30 +5,45 @@
   "properties": {
     "a": {
       "type": "number",
-      "title": "纵向伸缩",
+      "title": "Vertical scale (a)",
       "default": 1,
       "minimum": -3,
       "maximum": 3,
       "unit": "",
-      "step": 0.1
+      "step": 0.1,
+      "labels": {
+        "en": "Vertical scale (a)",
+        "zh-CN": "纵向伸缩（a）",
+        "ja": "縦方向の倍率（a）"
+      }
     },
     "h": {
       "type": "number",
-      "title": "水平平移",
+      "title": "Horizontal shift (h)",
       "default": 0,
       "minimum": -4,
       "maximum": 4,
       "unit": "",
-      "step": 0.1
+      "step": 0.1,
+      "labels": {
+        "en": "Horizontal shift (h)",
+        "zh-CN": "水平平移（h）",
+        "ja": "水平移動（h）"
+      }
     },
     "k": {
       "type": "number",
-      "title": "竖直平移",
+      "title": "Vertical shift (k)",
       "default": 0,
       "minimum": -4,
       "maximum": 4,
       "unit": "",
-      "step": 0.1
+      "step": 0.1,
+      "labels": {
+        "en": "Vertical shift (k)",
+        "zh-CN": "竖直平移（k）",
+        "ja": "垂直移動（k）"
+      }
     }
   }
 }

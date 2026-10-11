@@ -5,30 +5,45 @@
   "properties": {
     "latitude": {
       "type": "number",
-      "title": "观察纬度",
+      "title": "Latitude (φ)",
       "default": 31.2,
       "minimum": -89,
       "maximum": 89,
       "unit": "°",
-      "step": 0.1
+      "step": 0.1,
+      "labels": {
+        "en": "Latitude (φ)",
+        "zh-CN": "观察纬度（φ）",
+        "ja": "観測緯度（φ）"
+      }
     },
     "declination": {
       "type": "number",
-      "title": "太阳赤纬",
+      "title": "Solar declination (δ)",
       "default": 0,
       "minimum": -23.44,
       "maximum": 23.44,
       "unit": "°",
-      "step": 0.1
+      "step": 0.1,
+      "labels": {
+        "en": "Solar declination (δ)",
+        "zh-CN": "太阳赤纬（δ）",
+        "ja": "太陽赤緯（δ）"
+      }
     },
     "hour": {
       "type": "number",
-      "title": "起始太阳时",
+      "title": "Initial solar time (t₀)",
       "default": 12,
       "minimum": 0,
       "maximum": 24,
       "unit": "h",
-      "step": 0.1
+      "step": 0.1,
+      "labels": {
+        "en": "Initial solar time (t₀)",
+        "zh-CN": "起始太阳时（t₀）",
+        "ja": "初期太陽時（t₀）"
+      }
     }
   }
 }

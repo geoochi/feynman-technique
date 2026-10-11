@@ -1,34 +1,60 @@
 {
-  "schemaVersion": "1",
+  "schemaVersion": "2",
   "id": "geography.day-night",
   "slug": "day-night",
   "version": "0.1.0",
   "sdkRange": "^0.1.0",
   "title": {
-    "zh-CN": "地球的昼与夜"
+    "en": "Day and night on Earth",
+    "zh-CN": "地球的昼与夜",
+    "ja": "地球の昼と夜"
   },
   "summary": {
-    "zh-CN": "站在一颗旋转的星球上，看阳光如何划过一天。"
+    "en": "Stand on a rotating planet and watch sunlight sweep through a day.",
+    "zh-CN": "站在一颗旋转的星球上，看阳光如何划过一天。",
+    "ja": "回転する惑星に立ち、太陽の光が一日をどう照らすかを観察する。"
   },
   "subjects": ["geography"],
   "levels": ["high-school"],
-  "tags": ["自转", "昼夜", "纬度"],
-  "learningObjectives": [
-    "解释昼夜由地球自转形成",
-    "比较纬度和太阳赤纬对昼长的影响",
-    "识别极昼与极夜条件"
-  ],
-  "prerequisites": ["球面", "角度"],
+  "tags": {
+    "en": ["rotation", "day and night", "latitude"],
+    "zh-CN": ["自转", "昼夜", "纬度"],
+    "ja": ["自転", "昼と夜", "緯度"]
+  },
+  "learningObjectives": {
+    "en": [
+      "Explain how Earth's rotation causes day and night",
+      "Compare the effects of latitude and solar declination on day length",
+      "Identify polar day and polar night"
+    ],
+    "zh-CN": [
+      "解释昼夜由地球自转形成",
+      "比较纬度和太阳赤纬对昼长的影响",
+      "识别极昼与极夜条件"
+    ],
+    "ja": [
+      "地球の自転が昼夜を生むしくみを説明する",
+      "緯度と太陽赤緯が昼の長さに与える影響を比較する",
+      "白夜と極夜の条件を見分ける"
+    ]
+  },
+  "prerequisites": {
+    "en": ["spheres", "angles"],
+    "zh-CN": ["球面", "角度"],
+    "ja": ["球面", "角度"]
+  },
   "estimatedMinutes": 10,
   "layout": "lesson",
-  "theme": "astronomy",
+  "theme": "paper",
   "renderer": "three",
   "entry": "view.tsx",
   "parameterSchema": "parameters.schema.json",
   "snapshotSchema": "snapshot.schema.json",
-  "locales": ["zh-CN"],
+  "locales": ["en", "zh-CN", "ja"],
   "lessons": {
-    "zh-CN": "lesson.zh-CN.md"
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
   },
   "preview": "preview.svg",
   "authors": [
@@ -44,12 +70,28 @@
     "network": false,
     "audio": false
   },
-  "modelAssumptions": [
-    "球形地球、平行太阳光、忽略折射与地形",
-    "24 小时太阳日；固定赤纬，不模拟公转",
-    "动画每 1 模拟秒表示 1 个太阳小时；陆地为原创示意图，不用于地理定位"
-  ],
+  "modelAssumptions": {
+    "en": [
+      "Spherical Earth, parallel sunlight; no refraction or terrain",
+      "24-hour solar day; fixed declination, no orbital simulation",
+      "One simulation second is one solar hour; NASA's July 2004 composite is not live weather"
+    ],
+    "zh-CN": [
+      "球形地球、平行太阳光、忽略折射与地形",
+      "24 小时太阳日；固定赤纬，不模拟公转",
+      "动画每 1 模拟秒表示 1 个太阳小时；地表贴图为 NASA 2004 年 7 月卫星合成图，不代表实时天气"
+    ],
+    "ja": [
+      "球形の地球と平行な太陽光。屈折と地形は無視する",
+      "太陽日を 24 時間とし、赤緯を固定。公転は計算しない",
+      "シミュレーションの 1 秒は太陽時の 1 時間。NASA の 2004 年 7 月の合成画像は現在の天気を示さない"
+    ]
+  },
   "references": [
+    {
+      "title": "NASA Earth Observatory · Blue Marble: Next Generation",
+      "url": "https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/"
+    },
     {
       "title": "NASA · Earth Facts",
       "url": "https://science.nasa.gov/earth/facts/"

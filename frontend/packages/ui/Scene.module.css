@@ -1,74 +1,88 @@
 .scene {
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   min-width: 0;
+  padding: 16px;
 }
 .scene > svg {
   width: 100%;
+  flex: 1;
+  min-height: 0;
   display: block;
-  height: 320px;
   overflow: hidden;
 }
-.caption {
-  font: 9px monospace;
-  color: var(--color-text-muted);
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  flex-wrap: wrap;
-  line-height: 1.8;
-}
-.caption span:first-child {
-  color: var(--color-accent);
-}
-.caption span:nth-child(2) {
-  color: var(--color-secondary);
-}
 .formula {
-  font-size: 15px;
+  font-size: 12px;
   text-align: center;
-  margin: 15px 0;
+  margin: 22px 0;
   overflow-x: auto;
   overflow-y: hidden;
 }
+.formula :global(.katex-display) {
+  margin: 0;
+}
+.coefficients {
+  font:
+    10px "JetBrains Mono",
+    monospace;
+  line-height: 1.8;
+  color: var(--color-text-muted);
+  margin: 12px 0 0;
+}
 .readings {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-top: 20px;
 }
 .readings > div {
   border: 1px solid var(--color-border);
   background: var(--color-background);
-  padding: 14px;
+  padding: 12px;
 }
 .readings span {
-  font-size: 9px;
+  font-size: 10px;
   color: var(--color-text-muted);
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 .readings strong {
   font:
-    20px "JetBrains Mono",
+    18px "JetBrains Mono",
     monospace;
   color: var(--color-accent);
   display: block;
+  overflow-wrap: anywhere;
 }
 .readings small {
   font-size: 9px;
   color: var(--color-text-muted);
-  margin-left: 6px;
+  margin-left: 4px;
+}
+.readoutStatus {
+  color: var(--color-text-muted);
+  font-size: 10px;
+  line-height: 1.8;
+  margin: 16px 0 0;
 }
 .note {
   color: var(--color-text-muted);
   font-size: 10px;
-  line-height: 1.8;
+  line-height: 1.7;
   text-align: center;
-  margin: 18px 0 0;
+  margin: 12px 0 0;
+  flex-shrink: 0;
 }
 .globe {
-  height: 350px;
+  flex: 1;
+  min-height: 0;
   position: relative;
+}
+.textureCredit {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  font-size: 9px;
+  color: var(--color-text-muted);
 }
 .globe canvas {
   touch-action: pan-y;
@@ -78,7 +92,7 @@
   pointer-events: none;
   left: 15px;
   top: 10px;
-  color: #d8b26a;
+  color: var(--color-accent);
   font: 9px monospace;
   letter-spacing: 0.1em;
 }
@@ -88,16 +102,22 @@
   object-fit: contain;
 }
 @media (max-width: 640px) {
-  .scene {
-    padding: 15px;
+  .readings {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   }
-  .scene > svg {
-    height: 260px;
+  .formula {
+    margin: 12px 0 18px;
+    font-size: 15px;
+  }
+}
+@media (max-width: 640px) {
+  .scene {
+    padding: 12px;
   }
   .readings strong {
-    font-size: 19px;
+    font-size: 18px;
   }
-  .globe {
-    height: 300px;
+  .note {
+    font-size: 9px;
   }
 }

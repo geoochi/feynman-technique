@@ -7,6 +7,7 @@ import sanitize from "sanitize-html";
 import { defaults, validateParams } from "../packages/core/parameters";
 import type { Lab, Manifest, ParameterSchema } from "../packages/core/types";
 import manifestSchema from "./manifest.schema.json";
+import { locales, chapterIds, chapterTitles } from "../packages/i18n/locales";
 const ajv = new Ajv({ strict: true });
 const validateManifest = ajv.compile(manifestSchema);
 export async function scanCatalog(root: string): Promise<Lab[]> {
@@ -69,6 +70,12 @@ export async function scanCatalog(root: string): Promise<Lab[]> {
         !/^[a-z][a-zA-Z0-9]*$/.test(key) ||
         p.type !== "number" ||
         !p.title ||
+        !p.labels ||
+        Object.keys(p.labels).length !== locales.length ||
+        locales.some(
+          (locale) =>
+            typeof p.labels[locale] !== "string" || !p.labels[locale].trim(),
+        ) ||
         typeof p.unit !== "string" ||
         ![p.default, p.minimum, p.maximum, p.step].every(Number.isFinite) ||
         p.step <= 0 ||
@@ -129,6 +136,7 @@ export async function scanCatalog(root: string): Promise<Lab[]> {
     )
       throw new Error(`${m.id}: 自测题不合法`);
     await source(m.entry);
+    await source("labels.ts");
     await source("model.ts");
     await source("model.test.ts");
     await source("ATTRIBUTION.md");
@@ -140,26 +148,46 @@ export async function scanCatalog(root: string): Promise<Lab[]> {
       )
     )
       throw new Error(`${m.id}: SVG 封面必须是无脚本的本地图示`);
-    const markdown = await source("lesson.zh-CN.md");
     const safeHtml = (text: string) =>
       sanitize(marked.parse(text, { async: false }), {
         allowedTags: sanitize.defaults.allowedTags.concat(["h1", "h2"]),
         allowedSchemes: ["https"],
         allowedAttributes: { a: ["href", "title"] },
       });
-    const segments = markdown.split(/^## /m).slice(1);
-    if (segments.length !== 7)
-      throw new Error(
-        `${m.id}: 讲解需包含问题、预测、操作、观察、解释、验证、延伸七章`,
-      );
-    const chapters = segments.map((segment, i) => {
-      const newline = segment.indexOf("\n");
-      return {
-        id: `chapter-${i}`,
-        title: segment.slice(0, newline).trim(),
-        html: safeHtml(segment.slice(newline + 1)),
+    const content = {} as Lab["content"];
+    for (const locale of locales) {
+      const markdown = await source(m.lessons[locale]);
+      const segments = markdown.split(/^## /m).slice(1);
+      if (segments.length !== chapterIds.length)
+        throw new Error(
+          `${m.id}: ${locale} lesson must contain seven chapters`,
+        );
+      const chapters = segments.map((segment, i) => {
+        const newline = segment.indexOf("\n");
+        const title = segment.slice(0, newline).trim();
+        if (title !== chapterTitles[locale][i])
+          throw new Error(
+            `${m.id}: ${locale} chapter ${i + 1} must be ${chapterTitles[locale][i]}`,
+          );
+        return {
+          id: chapterIds[i],
+          title,
+          html: safeHtml(segment.slice(newline + 1)),
+        };
+      });
+      content[locale] = {
+        chapters,
+        lessonHtml: safeHtml(markdown),
+        searchText: [
+          m.title[locale],
+          m.summary[locale],
+          ...m.tags[locale],
+          ...m.subjects,
+        ]
+          .join(" ")
+          .toLocaleLowerCase(locale),
       };
-    });
+    }
     const path = relative(root, dir).split(sep).join("/");
     labs.push({
       ...m,
@@ -169,20 +197,11 @@ export async function scanCatalog(root: string): Promise<Lab[]> {
       stateSchema,
       presets,
       question,
-      chapters,
-      lessonHtml: safeHtml(markdown),
+      content,
       contentHash: createHash("sha256")
         .update(sources.join("\0"))
         .digest("hex")
         .slice(0, 16),
-      searchText: [
-        m.title["zh-CN"],
-        m.summary["zh-CN"],
-        ...m.tags,
-        ...m.subjects,
-      ]
-        .join(" ")
-        .toLowerCase(),
     });
   }
   return labs.filter((l) => l.status !== "draft");

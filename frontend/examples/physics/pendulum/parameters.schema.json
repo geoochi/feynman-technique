@@ -5,30 +5,45 @@
   "properties": {
     "length": {
       "type": "number",
-      "title": "摆长",
+      "title": "Length (L)",
       "default": 1,
       "minimum": 0.2,
       "maximum": 3,
       "unit": "m",
-      "step": 0.1
+      "step": 0.1,
+      "labels": {
+        "en": "Length (L)",
+        "zh-CN": "摆长（L）",
+        "ja": "振り子の長さ（L）"
+      }
     },
     "gravity": {
       "type": "number",
-      "title": "重力加速度",
+      "title": "Gravity (g)",
       "default": 9.81,
       "minimum": 1,
       "maximum": 20,
       "unit": "m/s²",
-      "step": 0.01
+      "step": 0.01,
+      "labels": {
+        "en": "Gravity (g)",
+        "zh-CN": "重力加速度（g）",
+        "ja": "重力加速度（g）"
+      }
     },
     "angle": {
       "type": "number",
-      "title": "初始角度",
+      "title": "Initial angle (θ₀)",
       "default": 0.2617993878,
       "minimum": 0,
       "maximum": 1.3962634016,
       "unit": "rad",
-      "step": 0.01745329252
+      "step": 0.01745329252,
+      "labels": {
+        "en": "Initial angle (θ₀)",
+        "zh-CN": "初始角度（θ₀）",
+        "ja": "初期角度（θ₀）"
+      }
     }
   }
 }

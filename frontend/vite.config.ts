@@ -1,10 +1,17 @@
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import catalog from "./apps/web/generated/catalog.json";
-const devPages = new Set([
-  "/contribute",
-  ...catalog.flatMap((lab) => [`/labs/${lab.slug}`, `/learn/${lab.slug}`]),
-]);
+import { locales, localizedPath } from "./packages/i18n/locales";
+const devPages = new Set(
+  locales.flatMap((locale) =>
+    [
+      "/",
+      "/contribute",
+      "/404",
+      ...catalog.flatMap((lab) => [`/labs/${lab.slug}`, `/learn/${lab.slug}`]),
+    ].map((path) => localizedPath(locale, path).replace(/\/$/, "")),
+  ),
+);
 export default defineConfig({
   plugins: [
     react(),

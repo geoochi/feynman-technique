@@ -1,5 +1,9 @@
 import type { Model, Params } from "../../../packages/core/types";
 const radians = (degrees: number) => (degrees * Math.PI) / 180;
+// Positive rotation around the north axis follows eastward longitude on the map.
+export function earthRotation(hour: number) {
+  return radians((hour - 12) * 15);
+}
 export function solarAltitude(
   latitude: number,
   declination: number,
@@ -7,7 +11,7 @@ export function solarAltitude(
 ) {
   const phi = radians(latitude),
     delta = radians(declination),
-    H = radians((hour - 12) * 15);
+    H = earthRotation(hour);
   return (
     (Math.asin(
       Math.max(

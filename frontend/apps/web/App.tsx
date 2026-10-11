@@ -10,6 +10,9 @@ import {
 import type { Lab } from "../../packages/core/types";
 import { catalog } from "./generated/catalog";
 import s from "./App.module.css";
+import { I18nProvider, useI18n, translate } from "../../packages/i18n/I18n";
+import { resolveRoute } from "../../packages/i18n/locales";
+import { LanguageSwitcher } from "../../packages/i18n/LanguageSwitcher";
 const LabPage = lazy(() => import("./LabPage"));
 class LoadBoundary extends Component<
   { children: ReactNode; fallback: ReactNode },
@@ -24,14 +27,10 @@ class LoadBoundary extends Component<
   }
 }
 export const labs = catalog;
-const subjects: Record<string, string> = {
-  math: "数学",
-  physics: "物理",
-  geography: "地球科学",
-};
 export function Brand() {
+  const { t, href } = useI18n();
   return (
-    <a href="/" className={s.brand} aria-label="Feynman 首页">
+    <a href={href("/")} className={s.brand} aria-label={t("home")}>
       <span className={s.mark}>
         F<span>·</span>
       </span>
@@ -42,16 +41,17 @@ export function Brand() {
   );
 }
 function Header() {
+  const { t, href } = useI18n();
   return (
     <header className={s.header}>
       <div className={s.headerInner}>
         <Brand />
-        <nav aria-label="主导航">
-          <a className={s.navActive} href="/">
-            实验目录
+        <nav aria-label={t("navigation")}>
+          <a className={s.navActive} href={href("/")}>
+            {t("catalog")}
           </a>
-          <a href="/contribute">
-            参与贡献 <span>↗</span>
+          <a href={href("/contribute")}>
+            {t("contribute")} <span>↗</span>
           </a>
           <a
             href="https://github.com/geoochi/feynman"
@@ -61,23 +61,30 @@ function Header() {
             GitHub ↗
           </a>
         </nav>
-        <span className={s.edition}>中文 / CN</span>
+        <LanguageSwitcher />
       </div>
     </header>
   );
 }
 function Footer() {
+  const { t, href } = useI18n();
   return (
     <footer className={s.footer}>
       <span>
-        FEYNMAN <span className={s.muted}>/ 用探索代替记忆</span>
+        FEYNMAN <span className={s.muted}>{t("footer1")}</span>
       </span>
-      <span>本地计算 · 自由探索 · 从问题开始</span>
-      <a href="/contribute">一起完善这个实验室 ↗</a>
+      <span>{t("footer2")}</span>
+      <a href={href("/contribute")}>{t("footerJoin")} ↗</a>
     </footer>
   );
 }
 export function Catalog() {
+  const { t, href, locale } = useI18n();
+  const subjects: Record<string, string> = {
+    math: t("math"),
+    physics: t("physics"),
+    geography: t("geography"),
+  };
   const [subject, setSubject] = useState("all"),
     [query, setQuery] = useState("");
   const search = useRef<HTMLInputElement>(null);
@@ -98,7 +105,9 @@ export function Catalog() {
   const filtered = labs.filter(
     (l) =>
       (subject === "all" || l.subjects.includes(subject)) &&
-      l.searchText.includes(query.trim().toLowerCase()),
+      l.content[locale].searchText.includes(
+        query.trim().toLocaleLowerCase(locale),
+      ),
   );
   return (
     <>
@@ -110,17 +119,19 @@ export function Catalog() {
               <span className={s.statusDot} /> INTERACTIVE LEARNING LAB
             </p>
             <h1>
-              让知识<span>发生。</span>
+              {t("heroStart")}
+              {locale === "en" ? " " : ""}
+              <span>{t("heroEnd")}</span>
             </h1>
             <p className={s.intro}>
-              有些道理，亲手试一次就懂了。
+              {t("intro1")}
               <br />
-              移动一条曲线，改变一次摆动，转动一颗星球。
+              {t("intro2")}
               <br />
-              在可操作的实验里，把「知道」变成「理解」。
+              {t("intro3")}
             </p>
             <a className={s.heroLink} href="#catalog">
-              开始一次探索 <span>↓</span>
+              {t("start")} <span>↓</span>
             </a>
           </div>
           <div className={s.heroArt} aria-hidden="true">
@@ -186,19 +197,19 @@ export function Catalog() {
             </svg>
           </div>
         </section>
-        <section id="catalog" className={s.catalog} aria-label="实验目录">
+        <section id="catalog" className={s.catalog} aria-label={t("catalog")}>
           <div className={s.sectionTitle}>
             <h2>
-              <span className={s.index}>01 /</span> 探索实验
+              <span className={s.index}>01 /</span> {t("explore")}
             </h2>
             <span className={s.counter}>
-              {labs.length.toString().padStart(2, "0")} 个可运行实验{" "}
+              {t("count", { count: labs.length.toString().padStart(2, "0") })}{" "}
               <span className={s.statusDot} />
             </span>
           </div>
           <div className={s.filterBar}>
-            <div className={s.filters} role="group" aria-label="学科筛选">
-              {[["all", "全部学科"], ...Object.entries(subjects)].map(
+            <div className={s.filters} role="group" aria-label={t("filters")}>
+              {[["all", t("all")], ...Object.entries(subjects)].map(
                 ([id, name]) => (
                   <button
                     key={id}
@@ -221,8 +232,8 @@ export function Catalog() {
               <input
                 ref={search}
                 type="search"
-                aria-label="搜索实验"
-                placeholder="搜索知识点、实验…"
+                aria-label={t("search")}
+                placeholder={t("searchPlaceholder")}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
@@ -230,12 +241,12 @@ export function Catalog() {
             </label>
           </div>
           <p className={s.srOnly} role="status">
-            找到 {filtered.length} 个实验
+            {t("found", { count: filtered.length })}
           </p>
           <div className={s.cardGrid}>
             {filtered.map((lab, i) => (
               <a
-                href={`/labs/${lab.slug}`}
+                href={href(`/labs/${lab.slug}`)}
                 className={s.card}
                 key={lab.id}
                 style={
@@ -252,7 +263,7 @@ export function Catalog() {
                 <div className={s.cardPreview}>
                   <img
                     src={lab.previewUrl}
-                    alt={`${lab.title["zh-CN"]}示意图`}
+                    alt={t("preview", { title: lab.title[locale] })}
                     width="600"
                     height="260"
                   />
@@ -263,18 +274,18 @@ export function Catalog() {
                 </div>
                 <div className={s.cardBody}>
                   <div className={s.cardTitle}>
-                    <h3>{lab.title["zh-CN"]}</h3>
+                    <h3>{lab.title[locale]}</h3>
                     <span>↗</span>
                   </div>
-                  <p>{lab.summary["zh-CN"]}</p>
+                  <p>{lab.summary[locale]}</p>
                   <div className={s.tags}>
-                    {lab.tags.map((t) => (
+                    {lab.tags[locale].map((t) => (
                       <span key={t}>{t}</span>
                     ))}
                   </div>
                   <div className={s.cardMeta}>
-                    <span>{lab.estimatedMinutes} 分钟 · 实验性案例</span>
-                    <strong>进入实验 →</strong>
+                    <span>{t("minutes", { count: lab.estimatedMinutes })}</span>
+                    <strong>{t("enter")} →</strong>
                   </div>
                   <div className={s.cardAuthor}>
                     {lab.authors.map((a) => a.name).join(", ")}{" "}
@@ -286,15 +297,15 @@ export function Catalog() {
           </div>
           {filtered.length === 0 && (
             <div className={s.empty}>
-              <h3>还没有找到这个实验</h3>
-              <p>试试“周期”“自转”或其他知识点。</p>
+              <h3>{t("emptyTitle")}</h3>
+              <p>{t("emptyHelp")}</p>
               <button
                 onClick={() => {
                   setQuery("");
                   setSubject("all");
                 }}
               >
-                清除筛选
+                {t("clear")}
               </button>
             </div>
           )}
@@ -303,21 +314,21 @@ export function Catalog() {
           <div>
             <p className={s.eyebrow}>LEARNING IS A SHARED EXPERIMENT</p>
             <h2>
-              一个好问题，
+              {t("community1")}
               <br />
-              可以成为下一个实验。
+              {t("community2")}
             </h2>
           </div>
           <div>
             <p>
-              我们相信，理解值得被分享。
+              {t("communityText1")}
               <br />
-              从纠正一句讲解、提供一个预设开始，
+              {t("communityText2")}
               <br />
-              也可以贡献你自己的可视化案例。
+              {t("communityText3")}
             </p>
-            <a href="/contribute">
-              了解如何参与 <span>↗</span>
+            <a href={href("/contribute")}>
+              {t("join")} <span>↗</span>
             </a>
           </div>
           <span className={s.communitySymbol} aria-hidden="true">
@@ -330,6 +341,7 @@ export function Catalog() {
   );
 }
 function StaticLab({ lab, failed = false }: { lab: Lab; failed?: boolean }) {
+  const { t, href, locale } = useI18n();
   return (
     <>
       <Header />
@@ -337,47 +349,44 @@ function StaticLab({ lab, failed = false }: { lab: Lab; failed?: boolean }) {
         <p className={s.eyebrow}>
           EXPERIMENT / {lab.subjects[0].toUpperCase()}
         </p>
-        <h1>{lab.title["zh-CN"]}</h1>
-        <p>{lab.summary["zh-CN"]}</p>
+        <h1>{lab.title[locale]}</h1>
+        <p>{lab.summary[locale]}</p>
         <img
           className={s.articlePreview}
           src={lab.previewUrl}
-          alt="实验示意图"
+          alt={t("staticPreview")}
         />
-        <p role="status">
-          {failed
-            ? "实验界面资源加载失败。请刷新重试，或先阅读完整讲解。"
-            : "正在准备交互实验…"}
-        </p>
+        <p role="status">{failed ? t("shellFailed") : t("preparing")}</p>
         {failed && (
-          <button onClick={() => window.location.reload()}>刷新重试</button>
+          <button onClick={() => window.location.reload()}>{t("retry")}</button>
         )}
-        <noscript>交互实验需要启用 JavaScript。你仍可阅读完整讲解。</noscript>
-        <a href={`/learn/${lab.slug}`}>阅读原理与探究指南 →</a>
+        <noscript>{t("noScript")}</noscript>
+        <a href={href(`/learn/${lab.slug}`)}>{t("readGuide")} →</a>
       </main>
     </>
   );
 }
 function Learn({ lab }: { lab: Lab }) {
+  const { t, href, locale } = useI18n();
   return (
     <>
       <Header />
       <main id="main" className={s.article}>
-        <a className={s.backLink} href={`/labs/${lab.slug}`}>
-          ← 返回实验
+        <a className={s.backLink} href={href(`/labs/${lab.slug}`)}>
+          ← {t("backLab")}
         </a>
         <p className={s.eyebrow}>FIELD NOTES / v{lab.version}</p>
         <div
           className={s.prose}
-          dangerouslySetInnerHTML={{ __html: lab.lessonHtml }}
+          dangerouslySetInnerHTML={{ __html: lab.content[locale].lessonHtml }}
         />
-        <h2>学习目标</h2>
+        <h2>{t("objectives")}</h2>
         <ul>
-          {lab.learningObjectives.map((x) => (
+          {lab.learningObjectives[locale].map((x) => (
             <li key={x}>{x}</li>
           ))}
         </ul>
-        <h2>依据与引用</h2>
+        <h2>{t("references")}</h2>
         <ul>
           {lab.references.map((r) => (
             <li key={r.url}>
@@ -388,8 +397,9 @@ function Learn({ lab }: { lab: Lab }) {
           ))}
         </ul>
         <p className={s.note}>
-          实验性案例 · {lab.authors.map((a) => a.name).join(", ")} ·
-          尚未完成独立教学审阅
+          {t("reviewNote", {
+            authors: lab.authors.map((a) => a.name).join(", "),
+          })}
         </p>
       </main>
       <Footer />
@@ -397,34 +407,30 @@ function Learn({ lab }: { lab: Lab }) {
   );
 }
 function Contribute() {
+  const { t, href } = useI18n();
   return (
     <>
       <Header />
       <main id="main" className={s.article}>
         <p className={s.eyebrow}>BUILD WITH US</p>
         <h1>
-          把你的理解，
+          {t("contribute1")}
           <br />
-          变成别人的起点。
+          {t("contribute2")}
         </h1>
-        <p>
-          Feynman
-          的案例与讲解由仓库源码共同维护。你可以提出问题、纠正说明、补充预设，或实现一个新的实验。
-        </p>
+        <p>{t("contributeIntro")}</p>
         <ol className={s.steps}>
           <li>
-            <strong>从一个清晰问题开始</strong>
-            <p>写出学习者要理解的概念，说明如何通过操作观察它。</p>
+            <strong>{t("step1")}</strong>
+            <p>{t("step1Text")}</p>
           </li>
           <li>
-            <strong>在本地验证</strong>
-            <p>
-              案例包含独立模型、参数、讲解、预设、来源和测试。按贡献指南检查单位、边界和近似条件。
-            </p>
+            <strong>{t("step2")}</strong>
+            <p>{t("step2Text")}</p>
           </li>
           <li>
-            <strong>提交 Pull Request</strong>
-            <p>维护者在本地审查模型与教学内容，验证后确认合并。</p>
+            <strong>{t("step3")}</strong>
+            <p>{t("step3Text")}</p>
           </li>
         </ol>
         <a
@@ -433,17 +439,16 @@ function Contribute() {
           target="_blank"
           rel="noreferrer"
         >
-          查看完整贡献指南 ↗
+          {t("contributionGuide")} ↗
         </a>
-        <p className={s.note}>
-          仓库目前为私有，访问需要仓库权限。对外开放与许可证尚待维护者确认。
-        </p>
+        <p className={s.note}>{t("privateNote")}</p>
       </main>
       <Footer />
     </>
   );
 }
-export function App({ path }: { path: string }) {
+function Page({ path }: { path: string }) {
+  const { t, href } = useI18n();
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
@@ -470,10 +475,53 @@ export function App({ path }: { path: string }) {
       <Header />
       <main className={s.article}>
         <p className={s.eyebrow}>404 / OUTSIDE THE LAB</p>
-        <h1>这个实验还不存在。</h1>
-        <p>从目录选择一个问题，重新开始探索。</p>
-        <a href="/">返回实验目录 →</a>
+        <h1>{t("notFound")}</h1>
+        <p>{t("notFoundHelp")}</p>
+        <a href={href("/")}>{t("backCatalog")} →</a>
       </main>
     </>
+  );
+}
+export function App({ path }: { path: string }) {
+  const [currentPath, setCurrentPath] = useState(path);
+  const route = resolveRoute(currentPath);
+  useEffect(() => {
+    const pop = () => setCurrentPath(window.location.pathname);
+    window.addEventListener("popstate", pop);
+    return () => window.removeEventListener("popstate", pop);
+  }, []);
+  useEffect(() => {
+    document.documentElement.lang = route.locale;
+    const match = route.path.match(/^\/(?:labs|learn)\/([a-z0-9-]+)$/);
+    const lab = match && labs.find((item) => item.slug === match[1]);
+    document.title = lab
+      ? `${lab.title[route.locale]} · Feynman`
+      : route.path === "/"
+        ? translate(route.locale, "siteTitle")
+        : `${translate(route.locale, route.path === "/contribute" ? "contribute" : "pageNotFound")} · Feynman`;
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute(
+        "content",
+        lab
+          ? lab.summary[route.locale]
+          : translate(route.locale, "siteDescription"),
+      );
+  }, [route.locale, route.path]);
+  const navigate = (next: string) => {
+    if (
+      window.location.pathname +
+        window.location.search +
+        window.location.hash ===
+      next
+    )
+      return;
+    window.history.pushState(null, "", next);
+    setCurrentPath(window.location.pathname);
+  };
+  return (
+    <I18nProvider {...route} navigate={navigate}>
+      <Page path={route.path} />
+    </I18nProvider>
   );
 }

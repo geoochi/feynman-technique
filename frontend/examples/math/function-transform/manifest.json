@@ -1,24 +1,48 @@
 {
-  "schemaVersion": "1",
+  "schemaVersion": "2",
   "id": "math.function-transform",
   "slug": "function-transform",
   "version": "0.1.0",
   "sdkRange": "^0.1.0",
   "title": {
-    "zh-CN": "函数变换"
+    "en": "Quadratic functions",
+    "zh-CN": "二次函数",
+    "ja": "二次関数"
   },
   "summary": {
-    "zh-CN": "移动一条曲线，读懂公式里的每一个参数。"
+    "en": "Move a curve and understand each parameter in its formula.",
+    "zh-CN": "移动一条曲线，读懂公式里的每一个参数。",
+    "ja": "曲線を動かして、式の各パラメーターの意味を理解する。"
   },
   "subjects": ["math"],
   "levels": ["high-school"],
-  "tags": ["函数", "平移", "伸缩"],
-  "learningObjectives": [
-    "识别 y = a(x − h)² + k 的顶点",
-    "解释水平平移的符号",
-    "比较伸缩与翻转"
-  ],
-  "prerequisites": ["二次函数", "坐标系"],
+  "tags": {
+    "en": ["functions", "translation", "scaling"],
+    "zh-CN": ["函数", "平移", "伸缩"],
+    "ja": ["関数", "平行移動", "拡大・縮小"]
+  },
+  "learningObjectives": {
+    "en": [
+      "Identify the vertex of y = a(x − h)² + k",
+      "Explain the sign of a horizontal shift",
+      "Compare vertical scaling and reflection"
+    ],
+    "zh-CN": [
+      "识别 y = a(x − h)² + k 的顶点",
+      "解释水平平移的符号",
+      "比较伸缩与翻转"
+    ],
+    "ja": [
+      "y = a(x − h)² + k の頂点を求める",
+      "水平移動の符号を説明する",
+      "縦方向の拡大・縮小と反転を比較する"
+    ]
+  },
+  "prerequisites": {
+    "en": ["quadratic functions", "coordinates"],
+    "zh-CN": ["二次函数", "坐标系"],
+    "ja": ["二次関数", "座標"]
+  },
   "estimatedMinutes": 12,
   "layout": "lesson",
   "theme": "paper",
@@ -26,9 +50,11 @@
   "entry": "view.tsx",
   "parameterSchema": "parameters.schema.json",
   "snapshotSchema": "snapshot.schema.json",
-  "locales": ["zh-CN"],
+  "locales": ["en", "zh-CN", "ja"],
   "lessons": {
-    "zh-CN": "lesson.zh-CN.md"
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
   },
   "preview": "preview.svg",
   "authors": [
@@ -44,7 +70,13 @@
     "network": false,
     "audio": false
   },
-  "modelAssumptions": ["实数域上的二次函数；a=0 时退化为常函数"],
+  "modelAssumptions": {
+    "en": [
+      "Quadratic functions over the real numbers; a = 0 gives a constant function"
+    ],
+    "zh-CN": ["实数域上的二次函数；a=0 时退化为常函数"],
+    "ja": ["実数上の二次関数。a = 0 のとき定数関数になる"]
+  },
   "references": [
     {
       "title": "OpenStax · Transformation of Functions",

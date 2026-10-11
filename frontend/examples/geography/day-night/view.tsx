@@ -1,29 +1,100 @@
+import { useI18n } from "../../../packages/i18n/I18n";
+import { labels } from "./labels";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Group, ShaderMaterial, Vector3 } from "three";
+import {
+  Group,
+  OrthographicCamera,
+  ShaderMaterial,
+  SRGBColorSpace,
+  TextureLoader,
+  Vector3,
+  type Texture,
+} from "three";
 import type { ViewProps } from "../../../packages/core/types";
-import { solarAltitude, solarHour, dayLength } from "./model";
+import { solarAltitude, solarHour, dayLength, earthRotation } from "./model";
+import { Formula } from "../../../packages/ui/Formula";
 import s from "../../../packages/ui/Scene.module.css";
+import earthTextureUrl from "./assets/earth-blue-marble.webp";
 export { model } from "./model";
-const vertexShader = `varying vec3 vNormal; varying vec3 vPosition; void main(){vNormal=normalize(normalMatrix*normal);vPosition=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`;
-const fragmentShader = `uniform vec3 sun; varying vec3 vNormal; varying vec3 vPosition;
-void main(){vec3 p=normalize(vPosition);float lon=atan(p.z,p.x);float lat=asin(p.y);float land=sin(lon*3.0+sin(lat*4.0))*cos(lat*7.0)+sin(lon*7.0-lat*5.0)*0.35;vec3 color=mix(vec3(0.035,0.14,0.21),vec3(0.22,0.34,0.28),smoothstep(0.12,0.25,land));float gx=abs(sin(lon*12.0)),gy=abs(sin(lat*12.0));float grid=1.0-smoothstep(0.0,0.027,min(gx,gy));color=mix(color,vec3(0.35,0.51,0.57),grid*0.35);float light=dot(normalize(vNormal),normalize(sun));float day=smoothstep(-0.012,0.012,light);color*=mix(0.14,0.55+0.65*max(light,0.0),day);gl_FragColor=vec4(color,1.0);}`;
-function Earth({ simulation, params: p, camera: distance }: ViewProps) {
+const vertexShader = `
+varying vec3 vNormal;
+varying vec2 vUv;
+void main() {
+  vNormal = normalize(normalMatrix * normal);
+  vUv = uv;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+}`;
+const fragmentShader = `
+uniform vec3 sun;
+uniform sampler2D surfaceMap;
+uniform bool hasMap;
+varying vec3 vNormal;
+varying vec2 vUv;
+void main() {
+  vec3 color = hasMap ? texture2D(surfaceMap, vUv).rgb : vec3(0.025, 0.12, 0.23);
+  float light = dot(normalize(vNormal), normalize(sun));
+  float day = smoothstep(-0.012, 0.012, light);
+  color *= mix(0.06, 0.65 + 0.35 * max(light, 0.0), day);
+  gl_FragColor = vec4(color, 1.0);
+  #include <colorspace_fragment>
+}`;
+type TextureStatus = "loading" | "ready" | "failed";
+function Earth({
+  simulation,
+  params: p,
+  camera: distance,
+  onTextureStatus,
+}: ViewProps & { onTextureStatus: (status: TextureStatus) => void }) {
   const group = useRef<Group>(null),
     marker = useRef<Group>(null),
     material = useRef<ShaderMaterial>(null);
-  const { camera } = useThree();
-  const uniforms = useMemo(() => ({ sun: { value: new Vector3() } }), []);
+  const { camera, size, gl } = useThree();
+  const [surfaceMap, setSurfaceMap] = useState<Texture | null>(null);
   useEffect(() => {
-    camera.position.set(0, 1.4, distance);
-    camera.lookAt(0, 0, 0);
-  }, [camera, distance]);
+    let active = true;
+    const texture = new TextureLoader().load(
+      earthTextureUrl,
+      () => {
+        if (!active) return;
+        texture.colorSpace = SRGBColorSpace;
+        texture.anisotropy = Math.min(4, gl.capabilities.getMaxAnisotropy());
+        setSurfaceMap(texture);
+        onTextureStatus("ready");
+      },
+      undefined,
+      () => {
+        if (active) onTextureStatus("failed");
+      },
+    );
+    return () => {
+      active = false;
+      texture.dispose();
+    };
+  }, [gl, onTextureStatus]);
+  const uniforms = useMemo(
+    () => ({
+      sun: { value: new Vector3() },
+      surfaceMap: { value: surfaceMap },
+      hasMap: { value: surfaceMap !== null },
+    }),
+    [surfaceMap],
+  );
+  useEffect(() => {
+    camera.position.set(-0.65, 1.4, distance);
+    camera.lookAt(-0.65, 0, 0);
+    if (camera instanceof OrthographicCamera) {
+      camera.zoom =
+        Math.min(size.width / 4.4, size.height / 3.8) * (5 / distance);
+      camera.updateProjectionMatrix();
+    }
+  }, [camera, distance, size.width, size.height]);
   useFrame(() => {
     const params = simulation.params,
       hour = solarHour(params, simulation.state),
       phi = (params.latitude * Math.PI) / 180,
       delta = (params.declination * Math.PI) / 180;
-    if (group.current) group.current.rotation.y = (-(hour - 12) * Math.PI) / 12;
+    if (group.current) group.current.rotation.y = earthRotation(hour);
     if (marker.current)
       marker.current.position.set(
         -Math.cos(phi) * 1.03,
@@ -43,6 +114,7 @@ function Earth({ simulation, params: p, camera: distance }: ViewProps) {
           <sphereGeometry args={[1, 64, 48]} />
           <shaderMaterial
             ref={material}
+            toneMapped={false}
             uniforms={uniforms}
             vertexShader={vertexShader}
             fragmentShader={fragmentShader}
@@ -57,18 +129,35 @@ function Earth({ simulation, params: p, camera: distance }: ViewProps) {
       </group>
       <mesh position={[0, 0, 0]}>
         <cylinderGeometry args={[0.005, 0.005, 2.7, 8]} />
-        <meshBasicMaterial color="#d8b26a" />
+        <meshBasicMaterial color="#c9800f" />
       </mesh>
-      {[-0.6, 0, 0.6].map((y, i) => (
-        <mesh
-          key={i}
-          position={[-1.9 * Math.cos(delta), y + 1.9 * Math.sin(delta), 0]}
-          rotation={[0, 0, -Math.PI / 2 - delta]}
-        >
-          <cylinderGeometry args={[0.006, 0.006, 0.8, 6]} />
-          <meshBasicMaterial color="#d8b26a" />
+      <group position={[0, 1.5, 0]}>
+        <mesh rotation={[-Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.3, 0.012, 8, 64, 1.5 * Math.PI]} />
+          <meshBasicMaterial color="#c9800f" />
         </mesh>
-      ))}
+        <mesh position={[0.045, 0, 0.3]} rotation={[0, 0, -Math.PI / 2]}>
+          <coneGeometry args={[0.045, 0.14, 12]} />
+          <meshBasicMaterial color="#c9800f" />
+        </mesh>
+      </group>
+      <group
+        position={[-1.9 * Math.cos(delta), 1.9 * Math.sin(delta), 0]}
+        rotation={[0, 0, -delta]}
+      >
+        {[-0.6, 0, 0.6].map((y) => (
+          <group key={y} position={[0, y, 0]} rotation={[0, 0, -Math.PI / 2]}>
+            <mesh>
+              <cylinderGeometry args={[0.008, 0.008, 0.8, 8]} />
+              <meshBasicMaterial color="#c9800f" />
+            </mesh>
+            <mesh position={[0, 0.46, 0]}>
+              <coneGeometry args={[0.055, 0.16, 12]} />
+              <meshBasicMaterial color="#c9800f" />
+            </mesh>
+          </group>
+        ))}
+      </group>
       <mesh rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[1.02, 0.004, 4, 100]} />
         <meshBasicMaterial color="#577280" />
@@ -77,7 +166,10 @@ function Earth({ simulation, params: p, camera: distance }: ViewProps) {
   );
 }
 export default function DayNightView(props: ViewProps) {
+  const { locale } = useI18n();
+  const text = labels[locale];
   const [available, setAvailable] = useState<boolean | null>(null);
+  const [textureStatus, setTextureStatus] = useState<TextureStatus>("loading");
   useEffect(() => {
     const c = document.createElement("canvas");
     const gl = c.getContext("webgl2");
@@ -88,6 +180,66 @@ export default function DayNightView(props: ViewProps) {
       c.height = 0;
     };
   }, []);
+  const length = dayLength(props.params.latitude, props.params.declination);
+  return (
+    <div className={s.scene}>
+      <div className={s.globe}>
+        {available && textureStatus !== "failed" ? (
+          <Canvas
+            role="img"
+            aria-label={text.diagram}
+            orthographic
+            dpr={[1, 1.5]}
+            camera={{ position: [-0.65, 1.4, 5], zoom: 100 }}
+            fallback={
+              <img
+                className={s.fallback}
+                src="/previews/day-night.svg"
+                alt={text.staticDiagram}
+              />
+            }
+          >
+            <Earth {...props} onTextureStatus={setTextureStatus} />
+          </Canvas>
+        ) : (
+          <img
+            className={s.fallback}
+            src="/previews/day-night.svg"
+            alt={text.staticDiagram}
+          />
+        )}
+        <span className={s.globeLabel}>SOLAR LIGHT → EARTH</span>
+        {available && textureStatus === "ready" && (
+          <a
+            className={s.textureCredit}
+            href="https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {text.credit}
+          </a>
+        )}
+      </div>
+      <p className={s.note}>
+        {available === false
+          ? text.noWebGL
+          : textureStatus === "failed"
+            ? text.textureFailed
+            : available && textureStatus === "loading"
+              ? text.loading
+              : length === 24
+                ? text.polarDay
+                : length === 0
+                  ? text.polarNight
+                  : text.note}
+      </p>
+    </div>
+  );
+}
+
+export function Readouts(props: ViewProps) {
+  const { locale } = useI18n();
+  const text = labels[locale];
   const hour = solarHour(props.params, props.state),
     altitude = solarAltitude(
       props.params.latitude,
@@ -96,41 +248,21 @@ export default function DayNightView(props: ViewProps) {
     ),
     length = dayLength(props.params.latitude, props.params.declination);
   return (
-    <div className={s.scene}>
-      <div className={s.globe}>
-        {available ? (
-          <Canvas
-            dpr={[1, 1.5]}
-            camera={{ position: [0, 1.4, 5], fov: 35 }}
-            fallback={
-              <img
-                className={s.fallback}
-                src="/previews/day-night.svg"
-                alt="地球昼夜静态示意图"
-              />
-            }
-          >
-            <Earth {...props} />
-          </Canvas>
-        ) : (
-          <img
-            className={s.fallback}
-            src="/previews/day-night.svg"
-            alt="地球昼夜静态示意图"
-          />
-        )}
-        <span className={s.globeLabel}>SOLAR LIGHT → EARTH</span>
-      </div>
-      <div className={s.caption}>
-        <span>— 地轴 / 太阳光</span>
-        <span>● 观察点</span>
-        <span>
-          {altitude > 0 ? "白昼" : "夜晚"} · 太阳高度 {altitude.toFixed(1)}°
-        </span>
+    <>
+      <div className={s.formula}>
+        <Formula
+          math={
+            length === 24
+              ? String.raw`D = 24\,\mathrm{h}`
+              : length === 0
+                ? String.raw`D = 0\,\mathrm{h}`
+                : String.raw`\cos H_0 = -\tan\varphi\tan\delta`
+          }
+        />
       </div>
       <div className={s.readings}>
         <div>
-          <span>当前当地太阳时</span>
+          <span>{text.hour}</span>
           <strong>
             {String(Math.floor(hour)).padStart(2, "0")}:
             {String(Math.floor((hour % 1) * 60)).padStart(2, "0")}
@@ -138,22 +270,17 @@ export default function DayNightView(props: ViewProps) {
           </strong>
         </div>
         <div>
-          <span>几何昼长</span>
+          <span>{text.length}</span>
           <strong>
             {length.toFixed(2)}
             <small>h</small>
           </strong>
         </div>
       </div>
-      <p className={s.note}>
-        {available === false
-          ? "WebGL 不可用，显示静态示意图；参数与昼长计算仍可使用。"
-          : length === 24
-            ? "此处为极昼：太阳全天在地平线上方。"
-            : length === 0
-              ? "此处为极夜：太阳全天在地平线下方。"
-              : "1 模拟秒 = 1 个太阳小时 · 金色地轴表示自转轴。"}
+      <p className={s.readoutStatus}>
+        {altitude > 0 ? text.daytime : text.nighttime} · {text.altitude}{" "}
+        {altitude.toFixed(1)}°
       </p>
-    </div>
+    </>
   );
 }

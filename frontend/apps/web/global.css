@@ -10,6 +10,14 @@ body {
     "Chakra Petch", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
+html:lang(ja) body {
+  font-family:
+    "Chakra Petch", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, system-ui,
+    sans-serif;
+}
+html:lang(ja) h1 {
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+}
 button,
 input,
 select {

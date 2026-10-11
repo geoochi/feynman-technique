@@ -1,24 +1,48 @@
 {
-  "schemaVersion": "1",
+  "schemaVersion": "2",
   "id": "physics.pendulum",
   "slug": "pendulum",
   "version": "0.1.0",
   "sdkRange": "^0.1.0",
   "title": {
-    "zh-CN": "单摆与时间"
+    "en": "Pendulum and time",
+    "zh-CN": "单摆与时间",
+    "ja": "単振り子と時間"
   },
   "summary": {
-    "zh-CN": "改变一根细线的长度，探究周期从何而来。"
+    "en": "Change a string's length and explore what sets the period.",
+    "zh-CN": "改变一根细线的长度，探究周期从何而来。",
+    "ja": "糸の長さを変えて、周期が何で決まるかを探る。"
   },
   "subjects": ["physics"],
   "levels": ["high-school"],
-  "tags": ["振动", "周期", "能量"],
-  "learningObjectives": [
-    "解释周期与摆长的平方根关系",
-    "区分非线性模型与小角度近似",
-    "观察动能与势能的转换"
-  ],
-  "prerequisites": ["三角函数", "重力", "能量"],
+  "tags": {
+    "en": ["oscillation", "period", "energy"],
+    "zh-CN": ["振动", "周期", "能量"],
+    "ja": ["振動", "周期", "エネルギー"]
+  },
+  "learningObjectives": {
+    "en": [
+      "Explain the square-root relationship between length and period",
+      "Distinguish the nonlinear model from the small-angle approximation",
+      "Understand the exchange of kinetic and potential energy"
+    ],
+    "zh-CN": [
+      "解释周期与摆长的平方根关系",
+      "区分非线性模型与小角度近似",
+      "观察动能与势能的转换"
+    ],
+    "ja": [
+      "長さと周期の平方根の関係を説明する",
+      "非線形モデルと小角近似を区別する",
+      "運動エネルギーと位置エネルギーの交換を理解する"
+    ]
+  },
+  "prerequisites": {
+    "en": ["trigonometry", "gravity", "energy"],
+    "zh-CN": ["三角函数", "重力", "能量"],
+    "ja": ["三角関数", "重力", "エネルギー"]
+  },
   "estimatedMinutes": 15,
   "layout": "lesson",
   "theme": "paper",
@@ -26,9 +50,11 @@
   "entry": "view.tsx",
   "parameterSchema": "parameters.schema.json",
   "snapshotSchema": "snapshot.schema.json",
-  "locales": ["zh-CN"],
+  "locales": ["en", "zh-CN", "ja"],
   "lessons": {
-    "zh-CN": "lesson.zh-CN.md"
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
   },
   "preview": "preview.svg",
   "authors": [
@@ -44,10 +70,20 @@
     "network": false,
     "audio": false
   },
-  "modelAssumptions": [
-    "无阻力、不可伸长的轻绳、质点摆球",
-    "固定步长 RK4 数值积分；小角度公式只用于近似对照"
-  ],
+  "modelAssumptions": {
+    "en": [
+      "No drag; a massless, inextensible string and a point-mass bob",
+      "Fixed-step RK4 integration; the small-angle formula is a comparison only"
+    ],
+    "zh-CN": [
+      "无阻力、不可伸长的轻绳、质点摆球",
+      "固定步长 RK4 数值积分；小角度公式只用于近似对照"
+    ],
+    "ja": [
+      "抵抗なし。質量のない伸びない糸と質点の振り子",
+      "固定刻みの RK4 積分。小角近似の式は比較用"
+    ]
+  },
   "references": [
     {
       "title": "OpenStax · Pendulums",

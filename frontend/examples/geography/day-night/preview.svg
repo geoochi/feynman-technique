@@ -1,1 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260"><defs><linearGradient id="earth"><stop stop-color="#254d63"/><stop offset=".48" stop-color="#173649"/><stop offset=".53" stop-color="#0b1820"/><stop offset="1" stop-color="#060c14"/></linearGradient></defs><rect width="600" height="260" fill="#080d16"/><circle cx="310" cy="130" r="94" fill="url(#earth)" stroke="#49758b"/><ellipse cx="310" cy="130" rx="94" ry="25" stroke="#8bbbd0" stroke-opacity=".4" fill="none"/><ellipse cx="310" cy="130" rx="40" ry="94" stroke="#8bbbd0" stroke-opacity=".4" fill="none"/><path d="M310 18v224" stroke="#d8b26a" stroke-dasharray="4 5"/><path d="M64 95h125m-12-5 12 5-12 5M64 130h125m-12-5 12 5-12 5M64 165h125m-12-5 12 5-12 5" stroke="#d8b26a" fill="none"/><circle cx="258" cy="100" r="5" fill="#72c4ff"/><text x="410" y="226" fill="#d8b26a" font-family="monospace" font-size="14">DAY / NIGHT</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260">
+  <defs>
+    <linearGradient id="earth">
+      <stop stop-color="#254d63"/>
+      <stop offset=".48" stop-color="#173649"/>
+      <stop offset=".53" stop-color="#0b1820"/>
+      <stop offset="1" stop-color="#060c14"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="260" fill="#fffefb"/>
+  <circle cx="310" cy="130" r="94" fill="url(#earth)" stroke="#49758b"/>
+  <ellipse cx="310" cy="130" rx="94" ry="25" stroke="#8bbbd0" stroke-opacity=".4" fill="none"/>
+  <ellipse cx="310" cy="130" rx="40" ry="94" stroke="#8bbbd0" stroke-opacity=".4" fill="none"/>
+  <path d="M310 25v217" stroke="#c9800f" stroke-dasharray="4 5"/>
+  <path d="M327 15C327 7 293 7 293 15C293 19 301 21 310 21l-4-3m4 3-4 3" stroke="#c9800f" stroke-width="2" fill="none"/>
+  <path d="M64 95h125m-12-5 12 5-12 5M64 130h125m-12-5 12 5-12 5M64 165h125m-12-5 12 5-12 5" stroke="#c9800f" fill="none"/>
+  <circle cx="258" cy="100" r="5" fill="#72c4ff"/>
+  <text x="410" y="226" fill="#c9800f" font-family="monospace" font-size="14">DAY / NIGHT</text>
+</svg>

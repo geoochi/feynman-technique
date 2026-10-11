@@ -28,7 +28,9 @@ examples/physics/pendulum/
   model.ts                    # 不依赖 UI 的科学计算
   view.tsx                    # 使用 SDK 呈现
   lesson.zh-CN.md             # 原理与探究引导
-  lesson.en.md                # 可选翻译
+  lesson.en.md                # 英文讲解（默认）
+  lesson.ja.md                # 日文讲解
+  labels.ts                   # 图中标注与读数的三语言文案
   presets.json                # 有限组可校验的参数
   questions.json              # 可选自测题
   model.test.ts               # 数值/边界测试
@@ -43,46 +45,142 @@ examples/physics/pendulum/
 
 ```json
 {
-  "schemaVersion": "1",
+  "schemaVersion": "2",
   "id": "physics.pendulum",
   "slug": "pendulum",
   "version": "0.1.0",
   "sdkRange": "^0.1.0",
-  "title": { "zh-CN": "单摆：长度如何影响周期" },
-  "summary": { "zh-CN": "调节摆长并计时，比较测量值与模型预测。" },
-  "subjects": ["physics"],
-  "levels": ["high-school"],
-  "tags": ["oscillation", "period"],
-  "learningObjectives": ["解释周期与摆长的关系", "识别小角度近似的适用范围"],
-  "prerequisites": ["速度", "加速度", "三角函数"],
-  "estimatedMinutes": 10,
+  "title": {
+    "en": "Pendulum and time",
+    "zh-CN": "单摆与时间",
+    "ja": "単振り子と時間"
+  },
+  "summary": {
+    "en": "Change a string's length and explore what sets the period.",
+    "zh-CN": "改变一根细线的长度，探究周期从何而来。",
+    "ja": "糸の長さを変えて、周期が何で決まるかを探る。"
+  },
+  "subjects": [
+    "physics"
+  ],
+  "levels": [
+    "high-school"
+  ],
+  "tags": {
+    "en": [
+      "oscillation",
+      "period",
+      "energy"
+    ],
+    "zh-CN": [
+      "振动",
+      "周期",
+      "能量"
+    ],
+    "ja": [
+      "振動",
+      "周期",
+      "エネルギー"
+    ]
+  },
+  "learningObjectives": {
+    "en": [
+      "Explain the square-root relationship between length and period",
+      "Distinguish the nonlinear model from the small-angle approximation",
+      "Understand the exchange of kinetic and potential energy"
+    ],
+    "zh-CN": [
+      "解释周期与摆长的平方根关系",
+      "区分非线性模型与小角度近似",
+      "观察动能与势能的转换"
+    ],
+    "ja": [
+      "長さと周期の平方根の関係を説明する",
+      "非線形モデルと小角近似を区別する",
+      "運動エネルギーと位置エネルギーの交換を理解する"
+    ]
+  },
+  "prerequisites": {
+    "en": [
+      "trigonometry",
+      "gravity",
+      "energy"
+    ],
+    "zh-CN": [
+      "三角函数",
+      "重力",
+      "能量"
+    ],
+    "ja": [
+      "三角関数",
+      "重力",
+      "エネルギー"
+    ]
+  },
+  "estimatedMinutes": 15,
   "layout": "lesson",
   "theme": "paper",
   "renderer": "svg",
   "entry": "view.tsx",
   "parameterSchema": "parameters.schema.json",
   "snapshotSchema": "snapshot.schema.json",
-  "locales": ["zh-CN"],
-  "lessons": { "zh-CN": "lesson.zh-CN.md" },
+  "locales": [
+    "en",
+    "zh-CN",
+    "ja"
+  ],
+  "lessons": {
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
+  },
   "preview": "preview.svg",
-  "authors": [{ "name": "示例作者" }],
-  "licenses": { "code": "MIT", "content": "CC-BY-SA-4.0" },
-  "capabilities": { "network": false, "audio": false },
-  "modelAssumptions": ["理想细线", "质点摆球", "无空气阻力"],
-  "references": [],
-  "status": "draft"
+  "authors": [
+    {
+      "name": "geoochi"
+    }
+  ],
+  "licenses": {
+    "code": "LicenseRef-All-Rights-Reserved",
+    "content": "LicenseRef-All-Rights-Reserved"
+  },
+  "capabilities": {
+    "network": false,
+    "audio": false
+  },
+  "modelAssumptions": {
+    "en": [
+      "No drag; a massless, inextensible string and a point-mass bob",
+      "Fixed-step RK4 integration; the small-angle formula is a comparison only"
+    ],
+    "zh-CN": [
+      "无阻力、不可伸长的轻绳、质点摆球",
+      "固定步长 RK4 数值积分；小角度公式只用于近似对照"
+    ],
+    "ja": [
+      "抵抗なし。質量のない伸びない糸と質点の振り子",
+      "固定刻みの RK4 積分。小角近似の式は比較用"
+    ]
+  },
+  "references": [
+    {
+      "title": "OpenStax · Pendulums",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/15-4-pendulums"
+    }
+  ],
+  "status": "experimental"
 }
 ```
 
-这只是字段示意，示例作者不是实际贡献者。发布检查要求补齐有效引用、素材来源、可运行文件和审阅记录；`draft` 且引用为空的示例不应直接进入正式目录。
+上例来自当前单摆案例，schemaVersion 为 2。发布检查要求三语言文案与讲解完整，并补齐有效引用、素材来源、可运行文件和审阅记录。
 
 代码与教学内容的许可证是拟议默认，需要在首个公开发布前把实际 LICENSE 文件、范围与素材例外落实。当前案例使用 LicenseRef-All-Rights-Reserved 标记许可证尚未授予，ATTRIBUTION.md 记录实际来源，没有擅自采用 MIT/CC 或改动仓库许可。拟议默认是 MIT 用于代码、CC BY-SA 4.0 用于讲解和原创图示；第三方素材保留各自条件。[MIT 正文](https://opensource.org/license/mit)、[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
 
-三个版本字段的职责不同：schemaVersion 控制元数据格式，version 控制案例内容，sdkRange 控制运行时兼容性。更新模型应更新案例 version。当前清单记录覆盖 manifest、schema、模型、视图、测试、讲解、预设、题目、封面、来源声明的 contentHash；JS 使用 Vite 内容哈希文件名。路由只承载当前版本，快照严格拒绝其他版本；尚无 id + version 路由或旧发行归档，不承诺旧链接固定行为。
+三个版本字段的职责不同：schemaVersion 控制元数据格式，version 控制案例内容，sdkRange 控制运行时兼容性。更新模型应更新案例 version。当前清单记录覆盖 manifest、schema、模型、视图、labels.ts、测试、三语言讲解、预设、题目、封面、来源声明的 contentHash；JS 使用 Vite 内容哈希文件名。路由只承载当前版本，快照严格拒绝其他版本；尚无 id + version 路由或旧发行归档，不承诺旧链接固定行为。
 
 ## 4. 参数、状态与教学联动
 
-参数必须有类型、默认值、范围、步长、单位和标签。SI 单位作为模型内部标准，角度在 UI 显示为度时显式转换为弧度；参数改变、计算和显示不能各自保留不同的隐式单位。
+参数必须有类型、默认值、范围、步长、单位和标签。title 是英文默认名称，labels 存放 en、zh-CN、ja 的完整标签，按当前语言显示说明及括号内的公式符号，例如“Length (L)”“摆长（L）”“振り子の長さ（L）”；不把内部字段名 length 当作公式符号。SI 单位作为模型内部标准，角度在 UI 显示为度时显式转换为弧度；参数改变、计算和显示不能各自保留不同的隐式单位。
 
 示意参数表：
 
@@ -92,20 +190,24 @@ examples/physics/pendulum/
 | gravity | 9.81 | 1–20 | m/s² | 比较不同重力条件 |
 | angle | 0.174533 | -1.396263–1.396263 | rad | 对比小角度与大角度 |
 
-分享与恢复的数据外层至少包含：
+内部运行时快照的数据外层至少包含（当前实验页不提供状态导入导出入口）：
 
 ```text
 labId, labVersion, sdkVersion, snapshotSchemaVersion,
 params, seed, simulationTime, internalState, camera, activeChapter
 ```
 
-构建时预设、外部文件导入和 URL 参数执行同一套校验。非法数值、NaN、过大的数组、未知字段和不支持的版本不能直接进入计算模型。大快照通过 JSON 文件导出分享，短参数可用 URL fragment；URL 不放个人信息，不建立服务端快照存储。
+构建时预设与内部恢复接口校验参数。非法数值、NaN、过大的数组、未知字段和不支持的版本不能直接进入计算模型。JSON 文件分享与 URL fragment 是未来协议设计，当前界面没有这些入口；URL 不放个人信息，不建立服务端快照存储。
 
-模型、视图、讲解之间通过稳定的参数名和章节 id 联动。案例作者不能依赖网站私有 DOM id，也不能随意修改网站全局样式。SDK 应提供“突出某个对象”“切换预设”“推进教学步骤”等最小接口，复杂故事仍可在案例内编排。
+当前案例入口 view.tsx 必须导出默认绘图组件、Readouts 公式与读数组件和 model，类型见 frontend/packages/core/types.ts。绘图只包含场景与底部一条声明；课程壳把全部控制放到右侧，Readouts 放到右侧实验控制下方，与控制共用一列，介绍和 1–3 个以问号结尾的问题放到最左侧；问题维护在各语言讲解的首章，由稳定 id problem 定位。实验页不显示学习目标与适用条件、检验理解、依据来源区块，单摆移除单位质量总能量读数。实验页没有七步导航、快速探索下拉框、倍速、视角缩放或状态导入导出入口，操作讲解应给出实际参数值。提供“重置参数”恢复 schema 默认值；绘图不能用按当前参数自动缩放掩盖实验变化。七章内容用于完整静态讲解；快照 activeChapter 为首版兼容字段。
+
+不随时间变化的案例可在 view.tsx 导出 `playback = false`，课程壳会移除播放区、模拟时间和暂停状态，并且不启动动画时钟；未声明时保留动态控制。二次函数使用此设置，仅通过 a、h、k 调参。
+
+模型、视图、讲解的数据使用稳定参数名；以下章节联动 SDK 接口为未来设计。案例作者不能依赖网站私有 DOM id，也不能随意修改网站全局样式。SDK 应提供“突出某个对象”“切换预设”“推进教学步骤”等最小接口，复杂故事仍可在案例内编排。
 
 ## 5. 一份合格讲解
 
-推荐顺序：提出问题 → 让学习者预测 → 操作变量 → 描述观察 → 解释机制 → 小测与反例 → 延伸实验。
+三语言完整讲解均保留七章，标题和顺序见 frontend/packages/i18n/locales.ts 的 chapterTitles，章节 id 共用且稳定。讲解依次提出问题、预测、操作、观察、解释、验证、延伸；翻译应保持公式、单位、近似条件及问题含义一致。公共界面翻译位于 packages/i18n/messages.ts，案例图示和读数翻译放在自己的 labels.ts，使用 useI18n 获取 locale。
 
 每个案例至少交代学习目标、先修知识、操作方法、数学/科学依据、近似条件、一个值得思考的问题，以及作者和来源。允许简洁，不能只剩一张漂亮动画。
 
@@ -127,7 +229,7 @@ pnpm build
 pnpm test:e2e
 ```
 
-新案例目前复制现有目录并编辑元数据、模型、视图和讲解；没有 create:lab 或 --lab 参数。pnpm check:lab 校验全部清单并运行全部模型与状态测试。清单支持 lesson 布局、中文、有限数值参数；参数的 step/unit/title 属于项目 JSON Schema 注解，step 是 UI 步长而非 multipleOf 约束（避免弧度预设和浮点除法被错误拒绝）。协议稳定后再增加脚手架和独立 CLI。案例作者只启动前端即可预览，不要求 API 密钥、云账户或数据库。
+新案例目前复制现有目录并编辑元数据、模型、视图和讲解；没有 create:lab 或 --lab 参数。pnpm check:lab 校验全部清单并运行全部模型与状态测试。清单支持 lesson 布局、英文/中文/日文、有限数值参数；参数的 step/unit/title/labels 属于项目 JSON Schema 注解，step 是 UI 步长而非 multipleOf 约束（避免弧度预设和浮点除法被错误拒绝）。协议稳定后再增加脚手架和独立 CLI。案例作者只启动前端即可预览，不要求 API 密钥、云账户或数据库。
 
 ```mermaid
 flowchart LR

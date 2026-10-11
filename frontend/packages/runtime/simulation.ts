@@ -85,7 +85,10 @@ export class Simulation {
     this.publish();
   }
   setChapter(chapter: number) {
-    this.chapter = Math.max(0, Math.min(this.lab.chapters.length - 1, chapter));
+    this.chapter = Math.max(
+      0,
+      Math.min(this.lab.content.en.chapters.length - 1, chapter),
+    );
     this.publish();
   }
   setCamera(distance: number) {
@@ -146,7 +149,7 @@ export class Simulation {
     if (
       !Number.isInteger(v.activeChapter) ||
       v.activeChapter < 0 ||
-      v.activeChapter >= this.lab.chapters.length
+      v.activeChapter >= this.lab.content.en.chapters.length
     )
       throw new Error("章节不存在。");
     // Validate everything before changing any state; importing never resumes playback.

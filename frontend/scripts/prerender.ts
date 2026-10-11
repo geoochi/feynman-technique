@@ -2,6 +2,8 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { createServer } from "vite";
 import type { Lab } from "../packages/core/types";
+import { locales, localizedPath, resolveRoute } from "../packages/i18n/locales";
+import { translate } from "../packages/i18n/I18n";
 const root = process.cwd(),
   dist = resolve(root, "dist");
 const template = await readFile(resolve(dist, "index.html"), "utf8");
@@ -25,36 +27,45 @@ try {
   const { render } = (await server.ssrLoadModule(
     "/apps/web/entry-server.tsx",
   )) as { render: (path: string) => string };
-  const pages = [
-    {
-      route: "/",
-      file: "index.html",
-      title: "Feynman · 让知识发生",
-      description: "通过可操作的可视化实验，理解数学、物理与地球运动。",
-    },
-    {
-      route: "/contribute",
-      file: "contribute.html",
-      title: "参与贡献 · Feynman",
-      description: "把你的理解变成别人的起点。",
-    },
-    {
-      route: "/404",
-      file: "404.html",
-      title: "页面未找到 · Feynman",
-      description: "返回目录，开始一次探索。",
-    },
-    ...labs.flatMap((l) =>
-      ["labs", "learn"].map((section) => ({
-        route: `/${section}/${l.slug}`,
-        file: `${section}/${l.slug}.html`,
-        title: `${l.title["zh-CN"]} · Feynman`,
-        description: l.summary["zh-CN"],
-      })),
-    ),
-  ];
+  const pages = locales.flatMap((locale) =>
+    [
+      {
+        route: localizedPath(locale, "/"),
+        title: translate(locale, "siteTitle"),
+        description: translate(locale, "siteDescription"),
+      },
+      {
+        route: localizedPath(locale, "/contribute"),
+        title: `${translate(locale, "contribute")} · Feynman`,
+        description: translate(locale, "contributeDescription"),
+      },
+      {
+        route: localizedPath(locale, "/404"),
+        title: `${translate(locale, "pageNotFound")} · Feynman`,
+        description: translate(locale, "notFoundHelp"),
+      },
+      ...labs.flatMap((l) =>
+        ["labs", "learn"].map((section) => ({
+          route: localizedPath(locale, `/${section}/${l.slug}`),
+          title: `${l.title[locale]} · Feynman`,
+          description: l.summary[locale],
+        })),
+      ),
+    ].map((page) => ({
+      ...page,
+      locale,
+      file: page.route.endsWith("/")
+        ? page.route.slice(1) + "index.html"
+        : page.route.slice(1) + ".html",
+    })),
+  );
   for (const page of pages) {
     const html = template
+      .replace(/<html lang="[^"]*"/, `<html lang="${page.locale}"`)
+      .replace(
+        "</head>",
+        `${locales.map((locale) => `<link rel="alternate" hreflang="${locale}" href="${localizedPath(locale, resolveRoute(page.route).path)}"/>`).join("")}<link rel="alternate" hreflang="x-default" href="${localizedPath("en", resolveRoute(page.route).path)}"/></head>`,
+      )
       .replace("<!--app-->", render(page.route))
       .replace(/<title>.*?<\/title>/, `<title>${escape(page.title)}</title>`)
       .replace(

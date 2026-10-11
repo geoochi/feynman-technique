@@ -1,82 +1,78 @@
-import { useEffect, useId, useRef } from "react";
+import { useI18n } from "../../../packages/i18n/I18n";
+import { labels } from "./labels";
+import { useId } from "react";
 import type { ViewProps } from "../../../packages/core/types";
+import { useDiagramFrame } from "../../../packages/ui/useDiagramFrame";
 import { Formula } from "../../../packages/ui/Formula";
 import s from "../../../packages/ui/Scene.module.css";
-import { evaluate } from "./model";
 export { model } from "./model";
-export default function FunctionView({
-  simulation,
-  params: p,
-  state,
-  camera,
-}: ViewProps) {
-  const id = useId().replace(/:/g, ""),
-    dot = useRef<SVGCircleElement>(null);
+export const playback = false;
+export default function FunctionView({ params: p, camera }: ViewProps) {
+  const { locale } = useI18n();
+  const text = labels[locale];
+  const id = useId().replace(/:/g, "");
+  const frame = useDiagramFrame(500, 320);
   const scale = (36 * 5) / camera,
     X = (x: number) => 250 + x * scale,
-    Y = (y: number) => 160 - y * scale;
+    Y = (y: number) => frame.height / 2 - y * scale;
   const path = (a: number, h: number, k: number) =>
     Array.from({ length: 241 }, (_, i) => {
       const x = -7 + (i * 14) / 240;
       return `${i ? "L" : "M"}${X(x)},${Y(a * (x - h) ** 2 + k)}`;
     }).join(" ");
-  useEffect(
-    () =>
-      simulation.onRender(() => {
-        const x = (simulation.state.phase % 8) - 4,
-          y = evaluate(x, simulation.params);
-        dot.current?.setAttribute("cx", String(X(x)));
-        dot.current?.setAttribute("cy", String(Y(y)));
-      }),
-    [simulation, camera],
-  );
-  const ticks = Array.from({ length: 13 }, (_, i) => i - 6);
+  const extent = Math.ceil(Math.max(250, frame.height / 2) / scale);
+  const ticks = Array.from({ length: extent * 2 + 1 }, (_, i) => i - extent);
   return (
     <div className={s.scene}>
       <svg
-        viewBox="0 0 500 320"
+        ref={frame.ref}
+        viewBox={`0 0 500 ${frame.height}`}
         role="img"
-        aria-label="原始抛物线与当前函数的对照坐标图"
+        aria-label={text.diagram}
       >
         <defs>
           <clipPath id={`clip-${id}`}>
-            <rect width="500" height="320" />
+            <rect width="500" height={frame.height} />
           </clipPath>
         </defs>
         <g clipPath={`url(#clip-${id})`}>
           {ticks.map((v) => (
             <g key={v}>
               <path
-                d={`M${X(v)} 0V320M0 ${Y(v)}H500`}
+                d={`M${X(v)} 0V${frame.height}M0 ${Y(v)}H500`}
                 stroke="var(--color-border)"
                 strokeWidth=".6"
               />
               {v !== 0 && (
                 <>
-                  <text
-                    x={X(v)}
-                    y={Y(0) + 15}
-                    fill="var(--color-text-muted)"
-                    fontSize="8"
-                    textAnchor="middle"
-                  >
-                    {v}
-                  </text>
-                  <text
-                    x={X(0) - 8}
-                    y={Y(v) + 3}
-                    fill="var(--color-text-muted)"
-                    fontSize="8"
-                    textAnchor="end"
-                  >
-                    {v}
-                  </text>
+                  {X(v) > 12 && X(v) < 488 && (
+                    <text
+                      x={X(v)}
+                      y={Y(0) + 15}
+                      fill="var(--color-text-muted)"
+                      fontSize="8"
+                      textAnchor="middle"
+                    >
+                      {v}
+                    </text>
+                  )}
+                  {Y(v) > 12 && Y(v) < frame.height - 12 && (
+                    <text
+                      x={X(0) - 8}
+                      y={Y(v) + 3}
+                      fill="var(--color-text-muted)"
+                      fontSize="8"
+                      textAnchor="end"
+                    >
+                      {v}
+                    </text>
+                  )}
                 </>
               )}
             </g>
           ))}
           <path
-            d={`M0 ${Y(0)}H500M${X(0)} 0V320`}
+            d={`M0 ${Y(0)}H500M${X(0)} 0V${frame.height}`}
             stroke="var(--color-text-muted)"
             strokeWidth="1"
           />
@@ -111,13 +107,6 @@ export default function FunctionView({
               </text>
             </>
           )}
-          <circle
-            ref={dot}
-            r="4"
-            fill="var(--color-text)"
-            cx={X((state.phase % 8) - 4)}
-            cy={Y(evaluate((state.phase % 8) - 4, p))}
-          />
         </g>
         <text x="481" y={Y(0) - 7} fill="var(--color-text-muted)" fontSize="10">
           x
@@ -126,19 +115,25 @@ export default function FunctionView({
           y
         </text>
       </svg>
-      <div className={s.caption}>
-        <span>— 当前函数</span>
-        <span>┄ 原始 y = x²</span>
-        <span>● 扫描采样点</span>
-      </div>
+      <p className={s.note}>{text.note}</p>
+    </div>
+  );
+}
+
+export function Readouts({ params: p }: ViewProps) {
+  const { locale } = useI18n();
+  const text = labels[locale];
+  return (
+    <>
       <div className={s.formula}>
-        <Formula
-          math={`y = ${p.a.toFixed(1)}(x ${p.h >= 0 ? "-" : "+"} ${Math.abs(p.h).toFixed(1)})^2 ${p.k >= 0 ? "+" : "-"} ${Math.abs(p.k).toFixed(1)}`}
-        />
+        <Formula math="y = a(x-h)^2+k" />
+        <p className={s.coefficients}>
+          a = {p.a.toFixed(1)} · h = {p.h.toFixed(1)} · k = {p.k.toFixed(1)}
+        </p>
       </div>
       <div className={s.readings}>
         <div>
-          <span>{p.a === 0 ? "常函数" : "顶点坐标"}</span>
+          <span>{p.a === 0 ? text.constant : text.vertex}</span>
           <strong>
             {p.a === 0
               ? `y = ${p.k.toFixed(1)}`
@@ -146,11 +141,10 @@ export default function FunctionView({
           </strong>
         </div>
         <div>
-          <span>开口方向</span>
-          <strong>{p.a > 0 ? "向上 ↑" : p.a < 0 ? "向下 ↓" : "水平 →"}</strong>
+          <span>{text.opening}</span>
+          <strong>{p.a > 0 ? text.up : p.a < 0 ? text.down : text.flat}</strong>
         </div>
       </div>
-      <p className={s.note}>只改变一个参数，观察公式与图像如何一起变化。</p>
-    </div>
+    </>
   );
 }
