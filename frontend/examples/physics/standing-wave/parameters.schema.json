@@ -1,0 +1,63 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["mode", "amplitude", "length", "speed"],
+  "properties": {
+    "mode": {
+      "type": "number",
+      "title": "Mode number (n)",
+      "default": 2,
+      "minimum": 1,
+      "maximum": 6,
+      "unit": "",
+      "step": 1,
+      "labels": {
+        "en": "Mode number (n)",
+        "zh-CN": "模式数（n）",
+        "ja": "モード数（n）"
+      }
+    },
+    "amplitude": {
+      "type": "number",
+      "title": "Amplitude of each wave (A)",
+      "default": 0.1,
+      "minimum": 0.02,
+      "maximum": 0.25,
+      "unit": "m",
+      "step": 0.01,
+      "labels": {
+        "en": "Amplitude (A)",
+        "zh-CN": "振幅（A）",
+        "ja": "振幅（A）"
+      }
+    },
+    "length": {
+      "type": "number",
+      "title": "String length (L)",
+      "default": 2,
+      "minimum": 1,
+      "maximum": 4,
+      "unit": "m",
+      "step": 0.1,
+      "labels": {
+        "en": "Length (L)",
+        "zh-CN": "弦长（L）",
+        "ja": "弦の長さ（L）"
+      }
+    },
+    "speed": {
+      "type": "number",
+      "title": "Wave speed (v)",
+      "default": 8,
+      "minimum": 1,
+      "maximum": 20,
+      "unit": "m/s",
+      "step": 0.1,
+      "labels": {
+        "en": "Wave speed (v)",
+        "zh-CN": "波速（v）",
+        "ja": "波の速さ（v）"
+      }
+    }
+  }
+}
