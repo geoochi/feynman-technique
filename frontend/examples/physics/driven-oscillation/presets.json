@@ -1,0 +1,68 @@
+[
+  {
+    "id": "near-resonance",
+    "title": "接近共振（默认）",
+    "params": {
+      "mass": 1,
+      "stiffness": 30,
+      "damping": 0.8,
+      "force": 2,
+      "driveFrequency": 5.5
+    }
+  },
+  {
+    "id": "below-resonance",
+    "title": "低于共振（ω_d 小）",
+    "params": {
+      "mass": 1,
+      "stiffness": 30,
+      "damping": 0.8,
+      "force": 2,
+      "driveFrequency": 2
+    }
+  },
+  {
+    "id": "above-resonance",
+    "title": "高于共振（ω_d 大）",
+    "params": {
+      "mass": 1,
+      "stiffness": 30,
+      "damping": 0.8,
+      "force": 2,
+      "driveFrequency": 11
+    }
+  },
+  {
+    "id": "weak-damping",
+    "title": "弱阻尼共振峰",
+    "params": {
+      "mass": 1,
+      "stiffness": 30,
+      "damping": 0.4,
+      "force": 2,
+      "driveFrequency": 5.5
+    }
+  },
+  {
+    "id": "strong-damping",
+    "title": "强阻尼压平共振峰",
+    "params": {
+      "mass": 1,
+      "stiffness": 30,
+      "damping": 5,
+      "force": 2,
+      "driveFrequency": 5.5
+    }
+  },
+  {
+    "id": "no-drive",
+    "title": "无驱动力（F₀ = 0，衰减到静止）",
+    "params": {
+      "mass": 1,
+      "stiffness": 30,
+      "damping": 0.8,
+      "force": 0,
+      "driveFrequency": 5.5
+    }
+  }
+]

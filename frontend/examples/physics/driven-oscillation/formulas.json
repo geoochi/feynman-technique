@@ -1,0 +1,32 @@
+{
+  "default": {
+    "en": "A = \\dfrac{F_0}{\\sqrt{(k - m\\omega_d^{2})^{2} + (c\\,\\omega_d)^{2}}}",
+    "zh-CN": "A = \\dfrac{F_0}{\\sqrt{(k - m\\omega_d^{2})^{2} + (c\\,\\omega_d)^{2}}}",
+    "ja": "A = \\dfrac{F_0}{\\sqrt{(k - m\\omega_d^{2})^{2} + (c\\,\\omega_d)^{2}}}"
+  },
+  "natural": {
+    "en": "\\omega_0 = \\sqrt{\\dfrac{k}{m}}",
+    "zh-CN": "\\omega_0 = \\sqrt{\\dfrac{k}{m}}",
+    "ja": "\\omega_0 = \\sqrt{\\dfrac{k}{m}}"
+  },
+  "phase": {
+    "en": "\\varphi = \\operatorname{atan2}\\!\\left(c\\,\\omega_d,\\; k - m\\omega_d^{2}\\right)",
+    "zh-CN": "\\varphi = \\operatorname{atan2}\\!\\left(c\\,\\omega_d,\\; k - m\\omega_d^{2}\\right)",
+    "ja": "\\varphi = \\operatorname{atan2}\\!\\left(c\\,\\omega_d,\\; k - m\\omega_d^{2}\\right)"
+  },
+  "ratio": {
+    "en": "\\zeta = \\dfrac{c}{2\\sqrt{k\\,m}}",
+    "zh-CN": "\\zeta = \\dfrac{c}{2\\sqrt{k\\,m}}",
+    "ja": "\\zeta = \\dfrac{c}{2\\sqrt{k\\,m}}"
+  },
+  "static": {
+    "en": "A_0 = \\dfrac{F_0}{k}",
+    "zh-CN": "A_0 = \\dfrac{F_0}{k}",
+    "ja": "A_0 = \\dfrac{F_0}{k}"
+  },
+  "equation": {
+    "en": "m\\,x'' + c\\,x' + k\\,x = F_0\\cos(\\omega_d t)",
+    "zh-CN": "m\\,x'' + c\\,x' + k\\,x = F_0\\cos(\\omega_d t)",
+    "ja": "m\\,x'' + c\\,x' + k\\,x = F_0\\cos(\\omega_d t)"
+  }
+}

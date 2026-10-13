@@ -1,0 +1,77 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["mass", "stiffness", "damping", "force", "driveFrequency"],
+  "properties": {
+    "mass": {
+      "type": "number",
+      "title": "Mass (m)",
+      "default": 1,
+      "minimum": 0.5,
+      "maximum": 4,
+      "unit": "kg",
+      "step": 0.1,
+      "labels": {
+        "en": "Mass (m)",
+        "zh-CN": "质量（m）",
+        "ja": "質量（m）"
+      }
+    },
+    "stiffness": {
+      "type": "number",
+      "title": "Spring stiffness (k)",
+      "default": 30,
+      "minimum": 10,
+      "maximum": 80,
+      "unit": "N/m",
+      "step": 1,
+      "labels": {
+        "en": "Spring stiffness (k)",
+        "zh-CN": "弹簧劲度系数（k）",
+        "ja": "ばね定数（k）"
+      }
+    },
+    "damping": {
+      "type": "number",
+      "title": "Damping coefficient (c)",
+      "default": 0.8,
+      "minimum": 0.4,
+      "maximum": 5,
+      "unit": "N·s/m",
+      "step": 0.1,
+      "labels": {
+        "en": "Damping coefficient (c)",
+        "zh-CN": "阻尼系数（c）",
+        "ja": "減衰係数（c）"
+      }
+    },
+    "force": {
+      "type": "number",
+      "title": "Driving amplitude (F₀)",
+      "default": 2,
+      "minimum": 0,
+      "maximum": 5,
+      "unit": "N",
+      "step": 0.5,
+      "labels": {
+        "en": "Driving amplitude (F₀)",
+        "zh-CN": "驱动力幅值（F₀）",
+        "ja": "駆動力の振幅（F₀）"
+      }
+    },
+    "driveFrequency": {
+      "type": "number",
+      "title": "Driving frequency (ω_d)",
+      "default": 5.5,
+      "minimum": 0.5,
+      "maximum": 16,
+      "unit": "rad/s",
+      "step": 0.1,
+      "labels": {
+        "en": "Driving frequency (ω_d)",
+        "zh-CN": "驱动频率（ω_d）",
+        "ja": "駆動角振動数（ω_d）"
+      }
+    }
+  }
+}
