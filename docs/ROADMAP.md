@@ -14,10 +14,10 @@
 
 | 方向 | 当前状态 | 依据与下一步 |
 | --- | --- | --- |
-| 可操作实验 | 首期案例加后续扩展，共十六个案例，模型、控制与独立讲解已实现 | [本地开发](DEVELOPMENT.md)；继续验证真实用户的学习效果 |
+| 可操作实验 | 首期案例加后续扩展，共十七个案例，模型、控制与独立讲解已实现 | [本地开发](DEVELOPMENT.md)；继续验证真实用户的学习效果 |
 | 多语言 | 英语默认、中文、日文；语言切换保留实验状态 | 源码与现有浏览器检查；新增案例也要完整三语言 |
 | 发布 | www 正式站点、裸域 301、HTTPS、真实 404，静态产物已上线验收 | [部署记录](DEPLOYMENT.md)；Workers Builds 的 GitHub 关联仍待完成 |
-| 搜索可读性 | 预渲染正文、元信息、canonical/hreflang、robots/sitemap 已实现 | [SEO](SEO.md)；扩库后为 102 个预渲染页面（含 3 个语言 404）、99 个 sitemap 页面，另有 Google 验证文件 |
+| 搜索可读性 | 预渲染正文、元信息、canonical/hreflang、robots/sitemap 已实现 | [SEO](SEO.md)；扩库后为 108 个预渲染页面（含 3 个语言 404）、105 个 sitemap 页面，另有 Google 验证文件 |
 | Next.js 前端重构 | 全量代码已统一为 Next/out，2026-10-13 正式发布与线上验收完成 | [重构计划](archive/2026-10-13-nextjs-migration.md)及[完整复核记录](../tooling/ai-review/2026-10-13-next-migration.md)；内容与实验拆分已完成，未达性能预算与真实设备验证继续跟进 |
 | Search Console | 验证文件已发布，维护者已确认提交 sitemap | [SEO 观测待办](SEO.md#搜索观测待办)；未独立读取账号报告，不声称已收录或产生流量 |
 | 开源贡献 | 公开仓库、三语言 README、MIT、贡献指南和 Issue/PR 模板已就绪 | [贡献指南](../CONTRIBUTING.md)；外部贡献成果尚待记录 |

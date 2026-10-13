@@ -10,6 +10,7 @@
 | 环境、命令、目录和本地检查 | [DEVELOPMENT](DEVELOPMENT.md) |
 | Cloudflare 配置、发布方式和最近正式版本 | [DEPLOYMENT](DEPLOYMENT.md) |
 | 案例文件、科学模型、三语言与贡献协议 | [CONTRIBUTING_DESIGN](CONTRIBUTING_DESIGN.md) |
+| 自由搭建电学工作台的交互与求解设计（未实施） | [CIRCUIT_WORKBENCH_DESIGN](CIRCUIT_WORKBENCH_DESIGN.md) |
 | 布局、交互和截图验证条件 | [VISUAL_SPEC](VISUAL_SPEC.md) |
 | 元信息、索引配置和搜索观测待办 | [SEO](SEO.md) |
 | 实测性能、环境及未达预算 | [PERFORMANCE_BASELINE](PERFORMANCE_BASELINE.md) |

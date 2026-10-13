@@ -1,6 +1,6 @@
 # Cloudflare Workers 静态部署
 
-更新：2026-10-13。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Next 静态迁移已发布并通过线上验收，当前来源 d7f0e74（实验扩展 01–12），版本与检查见文末；更早的历史发布记录保留。GitHub 自动构建关联尚未完成。
+更新：2026-10-13。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Next 静态迁移已发布并通过线上验收，当前来源 426c88f（实验扩展 01–13），版本与检查见文末；更早的历史发布记录保留。GitHub 自动构建关联尚未完成。
 
 ## 当前实际流程
 
@@ -176,3 +176,15 @@ Search Console 的域名验证、sitemap 提交与线上性能测量单独验收
 线上验收：`/labs/damped-oscillation`、`/zh/labs/driven-oscillation`、`/labs/ohms-law`、`/labs/series-parallel` 均返回 200，未知页返回真实 404；sitemap 为 99 个内容地址。
 
 本轮未做实体设备与独立教学审阅；四个新案例保持 experimental。此发布记录为纯文档提交，不再循环触发部署。
+
+## 2026-10-13 实验扩展发布（13）
+
+合并提交 `426c88f` 已推送 `origin/main`，本机固定 Node 24.11.1 / pnpm 12.10.1 构建正式 out 后上传现有 feynman Worker。版本 `a83b32dd-fab2-49d3-a853-2a72e7453e2d`，两个 Custom Domain 不变；上一版本 `21e35cb6-9636-4740-93f7-5055adad56bf` 保留，未执行回滚。
+
+新增案例：电容充放电（`physics.rc-circuit`），三语言七章讲解。参数为电源电动势 E、初始电容电压 u₀、电阻 R、电容 C；模型用解析闭式 u(t) = E + (u₀−E)e^(−t/τ) 推进（τ = RC），因此没有步进误差，快照可精确恢复电容电压。绘图使用固定比例的坐标系（u–t 曲线、τ 标记与渐近线 E），并自带 `tests/browser/rc-circuit.spec.ts` 回归测试。
+
+工程验证（本机）：`generate` 注册 17 个案例、`typecheck` 通过、单元测试 22 文件 242 项通过、`build` 输出 108 页（105 内容路由 + 3 个语言 404）且 SEO/正文边界/许可校验通过、Playwright e2e 202 通过 / 4 按设计跳过 / 0 失败。
+
+线上验收：`/labs/rc-circuit`、`/zh/labs/rc-circuit`、`/ja/learn/rc-circuit` 返回 200，未知页返回真实 404；sitemap 为 105 个内容地址。
+
+本轮未做实体设备与独立教学审阅；案例保持 experimental。此发布记录为纯文档提交，不再循环触发部署。
