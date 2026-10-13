@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["x", "v"],
+  "properties": {
+    "x": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1
+    },
+    "v": {
+      "type": "number",
+      "minimum": -10,
+      "maximum": 10
+    }
+  }
+}

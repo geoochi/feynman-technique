@@ -1,0 +1,47 @@
+{
+  "default": {
+    "en": "m\\,x'' + c\\,x' + k\\,x = 0",
+    "zh-CN": "m\\,x'' + c\\,x' + k\\,x = 0",
+    "ja": "m\\,x'' + c\\,x' + k\\,x = 0"
+  },
+  "ratio": {
+    "en": "\\zeta = \\dfrac{c}{2\\sqrt{mk}}",
+    "zh-CN": "\\zeta = \\dfrac{c}{2\\sqrt{mk}}",
+    "ja": "\\zeta = \\dfrac{c}{2\\sqrt{mk}}"
+  },
+  "natural": {
+    "en": "\\omega_0 = \\sqrt{\\dfrac{k}{m}}",
+    "zh-CN": "\\omega_0 = \\sqrt{\\dfrac{k}{m}}",
+    "ja": "\\omega_0 = \\sqrt{\\dfrac{k}{m}}"
+  },
+  "damped": {
+    "en": "\\omega_d = \\omega_0\\sqrt{1-\\zeta^{2}}",
+    "zh-CN": "\\omega_d = \\omega_0\\sqrt{1-\\zeta^{2}}",
+    "ja": "\\omega_d = \\omega_0\\sqrt{1-\\zeta^{2}}"
+  },
+  "underdamped": {
+    "en": "x(t) = e^{-\\zeta\\omega_0 t}\\left[x_0\\cos(\\omega_d t) + \\dfrac{v_0+\\zeta\\omega_0 x_0}{\\omega_d}\\sin(\\omega_d t)\\right]",
+    "zh-CN": "x(t) = e^{-\\zeta\\omega_0 t}\\left[x_0\\cos(\\omega_d t) + \\dfrac{v_0+\\zeta\\omega_0 x_0}{\\omega_d}\\sin(\\omega_d t)\\right]",
+    "ja": "x(t) = e^{-\\zeta\\omega_0 t}\\left[x_0\\cos(\\omega_d t) + \\dfrac{v_0+\\zeta\\omega_0 x_0}{\\omega_d}\\sin(\\omega_d t)\\right]"
+  },
+  "critical": {
+    "en": "x(t) = \\left[x_0 + (v_0 + \\omega_0 x_0)t\\right]e^{-\\omega_0 t}",
+    "zh-CN": "x(t) = \\left[x_0 + (v_0 + \\omega_0 x_0)t\\right]e^{-\\omega_0 t}",
+    "ja": "x(t) = \\left[x_0 + (v_0 + \\omega_0 x_0)t\\right]e^{-\\omega_0 t}"
+  },
+  "overdamped": {
+    "en": "x(t) = A\\,e^{(-\\zeta+\\sqrt{\\zeta^{2}-1})\\omega_0 t} + B\\,e^{(-\\zeta-\\sqrt{\\zeta^{2}-1})\\omega_0 t}",
+    "zh-CN": "x(t) = A\\,e^{(-\\zeta+\\sqrt{\\zeta^{2}-1})\\omega_0 t} + B\\,e^{(-\\zeta-\\sqrt{\\zeta^{2}-1})\\omega_0 t}",
+    "ja": "x(t) = A\\,e^{(-\\zeta+\\sqrt{\\zeta^{2}-1})\\omega_0 t} + B\\,e^{(-\\zeta-\\sqrt{\\zeta^{2}-1})\\omega_0 t}"
+  },
+  "energy": {
+    "en": "E = \\tfrac{1}{2} k\\,x^{2} + \\tfrac{1}{2} m\\,v^{2}",
+    "zh-CN": "E = \\tfrac{1}{2} k\\,x^{2} + \\tfrac{1}{2} m\\,v^{2}",
+    "ja": "E = \\tfrac{1}{2} k\\,x^{2} + \\tfrac{1}{2} m\\,v^{2}"
+  },
+  "power": {
+    "en": "\\dfrac{dE}{dt} = -c\\,v^{2} \\le 0",
+    "zh-CN": "\\dfrac{dE}{dt} = -c\\,v^{2} \\le 0",
+    "ja": "\\dfrac{dE}{dt} = -c\\,v^{2} \\le 0"
+  }
+}

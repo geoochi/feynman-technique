@@ -1,0 +1,52 @@
+[
+  {
+    "id": "underdamped",
+    "title": "欠阻尼（ζ = 0.2）",
+    "params": {
+      "mass": 1,
+      "stiffness": 25,
+      "damping": 2,
+      "initialDisplacement": 0.2
+    }
+  },
+  {
+    "id": "no-damping",
+    "title": "零阻尼（ζ = 0）",
+    "params": {
+      "mass": 1,
+      "stiffness": 25,
+      "damping": 0,
+      "initialDisplacement": 0.2
+    }
+  },
+  {
+    "id": "critical",
+    "title": "临界阻尼（ζ = 1）",
+    "params": {
+      "mass": 1,
+      "stiffness": 25,
+      "damping": 10,
+      "initialDisplacement": 0.2
+    }
+  },
+  {
+    "id": "overdamped",
+    "title": "过阻尼（ζ = 2.5）",
+    "params": {
+      "mass": 1,
+      "stiffness": 25,
+      "damping": 25,
+      "initialDisplacement": 0.2
+    }
+  },
+  {
+    "id": "light-damping",
+    "title": "弱阻尼、慢衰减（ζ = 0.02）",
+    "params": {
+      "mass": 1,
+      "stiffness": 25,
+      "damping": 0.2,
+      "initialDisplacement": 0.2
+    }
+  }
+]
