@@ -1,0 +1,81 @@
+[
+  {
+    "id": "0",
+    "title": "串联两个电阻",
+    "params": {
+      "circuit": {
+        "elements": [
+          { "id": "s1", "kind": "source", "a": 1, "b": 0, "value": 12 },
+          { "id": "r1", "kind": "resistor", "a": 1, "b": 2, "value": 100 },
+          { "id": "r2", "kind": "resistor", "a": 2, "b": 0, "value": 200 }
+        ]
+      }
+    }
+  },
+  {
+    "id": "1",
+    "title": "并联两个电阻",
+    "params": {
+      "circuit": {
+        "elements": [
+          { "id": "s1", "kind": "source", "a": 1, "b": 0, "value": 12 },
+          { "id": "r1", "kind": "resistor", "a": 1, "b": 0, "value": 100 },
+          { "id": "r2", "kind": "resistor", "a": 1, "b": 0, "value": 200 }
+        ]
+      }
+    }
+  },
+  {
+    "id": "2",
+    "title": "等阻分压",
+    "params": {
+      "circuit": {
+        "elements": [
+          { "id": "s1", "kind": "source", "a": 1, "b": 0, "value": 12 },
+          { "id": "r1", "kind": "resistor", "a": 1, "b": 2, "value": 100 },
+          { "id": "r2", "kind": "resistor", "a": 2, "b": 0, "value": 100 }
+        ]
+      }
+    }
+  },
+  {
+    "id": "3",
+    "title": "用导线合并节点",
+    "params": {
+      "circuit": {
+        "elements": [
+          { "id": "s1", "kind": "source", "a": 1, "b": 0, "value": 12 },
+          { "id": "w1", "kind": "wire", "a": 1, "b": 3, "value": 0 },
+          { "id": "r1", "kind": "resistor", "a": 3, "b": 0, "value": 100 },
+          { "id": "r2", "kind": "resistor", "a": 3, "b": 0, "value": 200 }
+        ]
+      }
+    }
+  },
+  {
+    "id": "4",
+    "title": "悬空节点（报错示例）",
+    "params": {
+      "circuit": {
+        "elements": [
+          { "id": "s1", "kind": "source", "a": 1, "b": 0, "value": 12 },
+          { "id": "r1", "kind": "resistor", "a": 1, "b": 2, "value": 100 },
+          { "id": "r2", "kind": "resistor", "a": 3, "b": 4, "value": 50 }
+        ]
+      }
+    }
+  },
+  {
+    "id": "5",
+    "title": "电源被短接（报错示例）",
+    "params": {
+      "circuit": {
+        "elements": [
+          { "id": "s1", "kind": "source", "a": 1, "b": 0, "value": 12 },
+          { "id": "w1", "kind": "wire", "a": 1, "b": 0, "value": 0 },
+          { "id": "r1", "kind": "resistor", "a": 1, "b": 0, "value": 100 }
+        ]
+      }
+    }
+  }
+]

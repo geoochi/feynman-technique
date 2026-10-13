@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["circuit"],
+  "properties": {
+    "circuit": {
+      "type": "netlist",
+      "title": "电路网表",
+      "labels": {
+        "en": "Circuit netlist",
+        "zh-CN": "电路网表",
+        "ja": "回路ネットリスト"
+      },
+      "default": {
+        "elements": [
+          { "id": "s1", "kind": "source", "a": 1, "b": 0, "value": 12 },
+          { "id": "r1", "kind": "resistor", "a": 1, "b": 2, "value": 100 },
+          { "id": "r2", "kind": "resistor", "a": 2, "b": 0, "value": 200 }
+        ]
+      },
+      "maxNodes": 6,
+      "maxElements": 10,
+      "resistance": {
+        "minimum": 1,
+        "maximum": 1000,
+        "step": 10,
+        "unit": "Ω"
+      },
+      "emf": {
+        "minimum": -24,
+        "maximum": 24,
+        "step": 1,
+        "unit": "V"
+      }
+    }
+  }
+}

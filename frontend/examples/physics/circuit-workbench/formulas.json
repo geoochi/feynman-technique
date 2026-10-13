@@ -1,0 +1,27 @@
+{
+  "default": {
+    "en": "R_{\\mathrm{eq}} = R_1 + R_2",
+    "zh-CN": "R_{\\mathrm{eq}} = R_1 + R_2",
+    "ja": "R_{\\mathrm{eq}} = R_1 + R_2"
+  },
+  "parallel": {
+    "en": "\\dfrac{1}{R_{\\mathrm{eq}}} = \\dfrac{1}{R_1} + \\dfrac{1}{R_2}",
+    "zh-CN": "\\dfrac{1}{R_{\\mathrm{eq}}} = \\dfrac{1}{R_1} + \\dfrac{1}{R_2}",
+    "ja": "\\dfrac{1}{R_{\\mathrm{eq}}} = \\dfrac{1}{R_1} + \\dfrac{1}{R_2}"
+  },
+  "ohm": {
+    "en": "I = \\dfrac{U}{R}",
+    "zh-CN": "I = \\dfrac{U}{R}",
+    "ja": "I = \\dfrac{U}{R}"
+  },
+  "power": {
+    "en": "P = U\\,I = I^{2} R = \\dfrac{U^{2}}{R}",
+    "zh-CN": "P = U\\,I = I^{2} R = \\dfrac{U^{2}}{R}",
+    "ja": "P = U\\,I = I^{2} R = \\dfrac{U^{2}}{R}"
+  },
+  "balance": {
+    "en": "\\sum P = 0",
+    "zh-CN": "\\sum P = 0",
+    "ja": "\\sum P = 0"
+  }
+}
