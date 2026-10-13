@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "2",
+  "id": "physics.series-parallel",
+  "slug": "series-parallel",
+  "version": "0.1.0",
+  "sdkRange": "^0.1.0",
+  "title": {
+    "en": "Series and parallel circuits",
+    "zh-CN": "串联与并联",
+    "ja": "直列と並列"
+  },
+  "summary": {
+    "en": "Compare one series and one parallel two-resistor circuit that share the same source.",
+    "zh-CN": "对比共用同一电源的串联与并联两电阻电路。",
+    "ja": "同じ電源を共有する直列回路と並列回路を比べる。"
+  },
+  "subjects": ["physics"],
+  "levels": ["high-school"],
+  "tags": {
+    "en": ["circuits", "series", "parallel", "Kirchhoff's laws"],
+    "zh-CN": ["电路", "串联", "并联", "基尔霍夫定律"],
+    "ja": ["回路", "直列", "並列", "キルヒホッフの法則"]
+  },
+  "learningObjectives": {
+    "en": [
+      "Explain why a series circuit divides voltage while the current stays the same",
+      "Explain why a parallel circuit divides current while the voltage stays the same",
+      "Compute the equivalent resistance, the branch readings and the total power of each circuit"
+    ],
+    "zh-CN": [
+      "解释串联电路为何分压而电流处处相同",
+      "解释并联电路为何分流而各支路电压相同",
+      "计算两种电路的等效电阻、支路读数与总功率"
+    ],
+    "ja": [
+      "直列回路が電圧を分け、電流がどこでも等しい理由を説明する",
+      "並列回路が電流を分け、電圧が等しい理由を説明する",
+      "両回路の合成抵抗・枝の値・全電力を計算する"
+    ]
+  },
+  "prerequisites": {
+    "en": ["Ohm's law", "electric current and voltage", "reciprocals"],
+    "zh-CN": ["欧姆定律", "电流与电压", "倒数运算"],
+    "ja": ["オームの法則", "電流と電圧", "逆数"]
+  },
+  "estimatedMinutes": 15,
+  "layout": "lesson",
+  "theme": "paper",
+  "renderer": "svg",
+  "entry": "view.tsx",
+  "parameterSchema": "parameters.schema.json",
+  "snapshotSchema": "snapshot.schema.json",
+  "locales": ["en", "zh-CN", "ja"],
+  "lessons": {
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
+  },
+  "preview": "preview.svg",
+  "authors": [
+    {
+      "name": "geoochi"
+    }
+  ],
+  "licenses": {
+    "code": "MIT",
+    "content": "MIT"
+  },
+  "capabilities": {
+    "network": false,
+    "audio": false
+  },
+  "modelAssumptions": {
+    "en": [
+      "Ideal source with no internal resistance and ideal wires with zero resistance",
+      "Ohmic resistors: each branch obeys V = I R over the whole parameter range",
+      "Both circuits share the same source voltage V and the same R₁ and R₂; no other components, so all quantities are steady-state DC values"
+    ],
+    "zh-CN": [
+      "理想电源（无内阻）与理想导线（电阻为零）",
+      "电阻遵循欧姆定律：在整个参数范围内都有 V = I R",
+      "两条电路共用同一电源电压 V 与相同的 R₁、R₂，没有其他元件，所有量都是稳态直流值"
+    ],
+    "ja": [
+      "内部抵抗のない理想電源と抵抗ゼロの理想的な導線",
+      "抵抗はオームの法則に従い、パラメーターの全範囲で V = I R が成り立つ",
+      "2 つの回路は同じ電源電圧 V と同じ R₁、R₂ を共有し、他の素子はない。すべての量は定常的な直流の値"
+    ]
+  },
+  "references": [
+    {
+      "title": "OpenStax · Resistors in Series and Parallel",
+      "url": "https://openstax.org/books/college-physics-2e/pages/21-1-resistors-in-series-and-parallel"
+    },
+    {
+      "title": "OpenStax · Kirchhoff's Rules",
+      "url": "https://openstax.org/books/college-physics-2e/pages/21-3-kirchhoffs-rules"
+    }
+  ],
+  "status": "experimental",
+  "seo": {
+    "experiment": {
+      "title": {
+        "en": "Series & Parallel Circuits: Voltage Division and Current Division · Feynman",
+        "zh-CN": "串联与并联电路模拟器：分压、分流与等效电阻 · Feynman",
+        "ja": "直列・並列回路シミュレーター：分圧・分流と合成抵抗 · Feynman"
+      },
+      "description": {
+        "en": "Change the source voltage and the two resistances and compare a series and a parallel circuit side by side: branch voltages, branch currents, equivalent resistance and total power.",
+        "zh-CN": "改变电源电压与两个电阻，并排对比串联与并联电路：各支路电压、电流、等效电阻与总功率。",
+        "ja": "電源電圧と 2 つの抵抗を変え、直列回路と並列回路を並べて比較。各枝の電圧・電流、合成抵抗、全電力を確かめよう。"
+      }
+    },
+    "lesson": {
+      "title": {
+        "en": "Why Series Divides Voltage and Parallel Divides Current · Feynman",
+        "zh-CN": "为什么串联分压、并联分流 · Feynman",
+        "ja": "直列が電圧を分け、並列が電流を分ける理由 · Feynman"
+      },
+      "description": {
+        "en": "Learn why a series circuit shares one current and divides the source voltage, while a parallel circuit shares one voltage and divides the current, and how R_eq = R₁ + R₂ and 1/R_eq = 1/R₁ + 1/R₂ follow from Kirchhoff's laws.",
+        "zh-CN": "理解串联为何电流相同而分压、并联为何电压相同而分流，以及等效电阻 R_eq = R₁ + R₂ 与 1/R_eq = 1/R₁ + 1/R₂ 如何由基尔霍夫定律得到。",
+        "ja": "直列では電流が共通で電圧が分かれ、並列では電圧が共通で電流が分かれる理由を解説。合成抵抗 R_eq = R₁ + R₂ と 1/R_eq = 1/R₁ + 1/R₂ がキルヒホッフの法則から導かれることを確かめよう。"
+      }
+    }
+  },
+  "playback": false
+}
