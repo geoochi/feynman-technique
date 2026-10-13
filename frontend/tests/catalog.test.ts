@@ -25,7 +25,17 @@ async function modify(
 describe("catalog validation", () => {
   it("registers local modules with content fingerprints", async () => {
     const labs = await scanCatalog(root);
-    expect(labs.map(l => l.slug).sort()).toEqual(["day-night", "derivative-tangent", "function-transform", "pendulum"]);
+    const slugs = labs.map((l) => l.slug);
+    // Seed cases must stay registered; new cases append without editing this test.
+    expect(slugs).toEqual(
+      expect.arrayContaining([
+        "day-night",
+        "derivative-tangent",
+        "function-transform",
+        "pendulum",
+      ]),
+    );
+    expect(new Set(slugs).size).toBe(slugs.length);
     expect(
       labs.every(
         (l) =>

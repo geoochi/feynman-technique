@@ -1,14 +1,11 @@
 import { test, expect } from "@playwright/test";
 import { catalog } from "../../apps/web/generated/catalog";
+import { pageMetadata } from "../../packages/seo/metadata";
+import { siteOrigin } from "../../site.config";
 const cases = [
   {
     prefix: "",
     lang: "en",
-    titles: [
-      "Quadratic functions",
-      "Pendulum and time",
-      "Day and night on Earth",
-    ],
     questions: "Questions",
     reset: "Reset parameters",
     play: "Play",
@@ -20,7 +17,6 @@ const cases = [
   {
     prefix: "/ja",
     lang: "ja",
-    titles: ["二次関数", "単振り子と時間", "地球の昼と夜"],
     questions: "問い",
     reset: "パラメーターを戻す",
     play: "再生",
@@ -29,8 +25,23 @@ const cases = [
     search: "自転",
     filters: "絞り込みを解除",
   },
-];
-const slugs = ["function-transform", "pendulum", "day-night"];
+] as const;
+// Derived from the generated catalog so adding a case never edits this list.
+const slugs = catalog.map((l) => l.slug);
+const titleOf = (slug: string, lang: "en" | "ja") =>
+  catalog.find((l) => l.slug === slug)!.title[lang];
+const expectedTitle = (slug: string, lang: "en" | "ja") =>
+  pageMetadata(
+    lang === "en" ? `/labs/${slug}` : `/${lang}/labs/${slug}`,
+    catalog,
+    { origin: siteOrigin, indexable: true },
+  ).title;
+const hasPlayback = (slug: string) =>
+  catalog.find((l) => l.slug === slug)!.playback !== false;
+const searchMatches = (lang: "en" | "ja", term: string) =>
+  catalog.filter((l) =>
+    l.content[lang].searchText.includes(term.toLocaleLowerCase(lang)),
+  ).length;
 for (const language of cases) {
   test(`${language.lang}: catalog, search and direct experiment links`, async ({
     page,
@@ -43,9 +54,12 @@ for (const language of cases) {
     await page.getByRole("searchbox").fill(language.search);
     await expect(
       page.locator(`a[href^="${language.prefix}/labs/"]`),
-    ).toHaveCount(1);
+    ).toHaveCount(searchMatches(language.lang, language.search));
     await page
-      .getByRole("heading", { name: language.titles[2], exact: true })
+      .getByRole("heading", {
+        name: titleOf("day-night", language.lang),
+        exact: true,
+      })
       .click();
     await expect(page).toHaveURL(
       new RegExp(`${language.prefix}/labs/day-night$`),
@@ -54,7 +68,7 @@ for (const language of cases) {
       page.getByRole("button", { name: language.play, exact: true }),
     ).toBeVisible();
   });
-  for (const [i, slug] of slugs.entries())
+  for (const slug of slugs)
     test(`${language.lang}: ${slug} translated controls and layout`, async ({
       page,
     }, testInfo) => {
@@ -62,11 +76,12 @@ for (const language of cases) {
       page.on("pageerror", (e) => errors.push(e.message));
       await page.goto(`${language.prefix}/labs/${slug}`);
       await expect(page.locator("html")).toHaveAttribute("lang", language.lang);
-      await expect(page).toHaveTitle(
-        catalog.find((lab) => lab.slug === slug)!.seo!.experiment!.title[language.lang as "en" | "ja"],
-      );
+      await expect(page).toHaveTitle(expectedTitle(slug, language.lang));
       await expect(
-        page.getByRole("heading", { name: language.titles[i], exact: true }),
+        page.getByRole("heading", {
+          name: titleOf(slug, language.lang),
+          exact: true,
+        }),
       ).toBeVisible();
       await expect(
         page.getByRole("heading", { name: language.questions, exact: true }),
@@ -82,7 +97,7 @@ for (const language of cases) {
         .getByRole("button", { name: language.reset, exact: true })
         .click();
       await expect(input).toHaveAttribute("aria-invalid", "false");
-      if (slug !== "function-transform") {
+      if (hasPlayback(slug)) {
         await page
           .getByRole("button", { name: language.play, exact: true })
           .click();

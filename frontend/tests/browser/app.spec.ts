@@ -1,6 +1,11 @@
 import { repositoryUrl } from "../../repository.config";
 import { test, expect } from "@playwright/test";
-const slugs = ["function-transform", "pendulum", "day-night"];
+import { catalog } from "../../apps/web/generated/catalog";
+// Derived from the generated catalog so adding a case never edits this list.
+const slugs = catalog.map((l) => l.slug);
+const hasPlayback = (slug: string) =>
+  catalog.find((l) => l.slug === slug)!.playback !== false;
+const mathCount = catalog.filter((l) => l.subjects.includes("math")).length;
 test("catalog filters, searches, and has no layout overflow", async ({
   page,
 }, testInfo) => {
@@ -10,12 +15,23 @@ test("catalog filters, searches, and has no layout overflow", async ({
   await expect(
     page.getByRole("heading", { name: "让知识发生。" }),
   ).toBeVisible();
-  await expect(page.locator('a[href^="/zh/labs/"]')).toHaveCount(4);
-  await page.getByRole("button", { name: "数学2", exact: true }).click();
-  await expect(page.locator('a[href^="/zh/labs/"]')).toHaveCount(2);
-  await page.getByRole("button", { name: "全部学科4", exact: true }).click();
+  await expect(page.locator('a[href^="/zh/labs/"]')).toHaveCount(
+    catalog.length,
+  );
+  await page
+    .getByRole("button", { name: `数学${mathCount}`, exact: true })
+    .click();
+  await expect(page.locator('a[href^="/zh/labs/"]')).toHaveCount(mathCount);
+  await page
+    .getByRole("button", { name: `全部学科${catalog.length}`, exact: true })
+    .click();
   await page.getByRole("searchbox").fill("自转");
-  await expect(page.locator('a[href^="/zh/labs/"]')).toHaveCount(1);
+  const matches = catalog.filter((l) =>
+    l.content["zh-CN"].searchText.includes("自转"),
+  ).length;
+  expect(matches).toBeGreaterThan(0);
+  expect(matches).toBeLessThan(catalog.length);
+  await expect(page.locator('a[href^="/zh/labs/"]')).toHaveCount(matches);
   await page.getByRole("searchbox").fill("不存在的知识点");
   await expect(page.getByText("还没有找到这个实验")).toBeVisible();
   await page.getByRole("button", { name: "清除筛选" }).click();
@@ -90,6 +106,13 @@ for (const slug of slugs)
         graph.getByText("(2.0, 0.0)", { exact: true }),
       ).toBeVisible();
       await page.getByRole("button", { name: "重置参数", exact: true }).click();
+    } else if (!hasPlayback(slug)) {
+      // Generic static case: no playback controls or simulation clock.
+      for (const name of ["播放", "暂停", "单步", "重置"])
+        await expect(
+          page.getByRole("button", { name, exact: true }),
+        ).toHaveCount(0);
+      await expect(page.getByLabel("模拟时间")).toHaveCount(0);
     } else {
       await expect(page.getByLabel("模拟时间")).toHaveText("t = 0.00 s");
       await page.getByRole("button", { name: "单步", exact: true }).click();
@@ -117,7 +140,7 @@ for (const slug of slugs)
     await parameter.press("Enter");
     await expect(parameter).toHaveAttribute("aria-invalid", "true");
     await page.getByRole("button", { name: "重置参数", exact: true }).click();
-    if (slug !== "function-transform")
+    if (hasPlayback(slug))
       await expect(
         page.getByRole("button", { name: "播放", exact: true }),
       ).toBeVisible();
@@ -143,7 +166,7 @@ for (const slug of slugs)
     );
     await expect(page.locator("input[type=file]")).toHaveCount(0);
     await expect(parameter).toHaveAttribute("aria-invalid", "false");
-    if (slug !== "function-transform")
+    if (hasPlayback(slug))
       await expect(page.getByLabel("模拟时间")).toHaveText("t = 0.00 s");
     await expect(
       page.getByRole("heading", { name: "问题", exact: true }),
