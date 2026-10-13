@@ -1,6 +1,6 @@
-# Feynman 总体架构提案
+# Feynman 总体架构
 
-状态：首期本地实现 v0.1.0；架构方案 v0.5 的发布与扩展部分仍待实施。日期：2026-10-11。
+更新：2026-10-13。首期 v0.1.0 已上线；Git 自动发布与扩展部分仍待实施。长期优先级、阶段目标与推进条件统一见 [开发路线图](ROADMAP.md)，本文维护技术结构和边界。
 
 已实现：React/Vite 静态前端、三个实验、英文默认及中文/日文界面与讲解、构建时清单校验与可信懒加载映射、目录搜索、预渲染讲解、参数与播放控制、运行时完整快照接口、模型与浏览器验证。实验页不提供倍速、视角缩放或状态导入导出入口。未实现：独立发行 SDK/CLI、电学工作台、Worker/WASM、历史版本归档、Workers Builds 的 GitHub 自动构建关联。已通过 Workers Static Assets 正式部署到 https://www.feynman-technique.com。实际开发入口见 [本地开发](DEVELOPMENT.md)。
 
@@ -25,7 +25,7 @@
 | 可选计算模块 | Rust → WASM | 实测有瓶颈后再增加，仍随前端发布 |
 | 内容 | Git 中的 JSON、Markdown、TS/TSX | 案例、目录与文档 |
 | 本地验证 | Vitest + Playwright + 本地 AI 工具 | 数值、交互、视觉和教学检查 |
-| 生产构建 | Cloudflare Workers Builds | 生产分支更新后自动安装依赖、构建与发布 |
+| 生产构建 | 当前本地；目标 Cloudflare Workers Builds | 关联后生产分支更新自动构建发布，目前由本地构建和 Wrangler 上传 |
 | 托管 | Cloudflare Workers Static Assets | 文件分发、域名和 HTTPS |
 
 不再为“需要一个文件服务器”开发 Go/Rust 服务；现成托管承担此职责。Rust 仍可作为浏览器计算模块的实现语言，但不是当前必需项。参考视觉保持 [视觉规范](VISUAL_SPEC.md) 中的设计。
@@ -37,7 +37,7 @@ Workers Static Assets 可直接托管现有 Vite 产物，配置不需要应用�
 | 阶段 | 地点 | 行为 |
 |---|---|---|
 | PR 检查 | 维护者本地环境 | 拉取 PR，用 AI 检查源码和教学内容，运行相关验证 |
-| 生产构建 | Cloudflare Workers | 获取生产分支源码，输出 HTML、CSS、JS、JSON、模型与可选 WASM |
+| 生产构建 | 当前维护者本机；关联后 Cloudflare Workers Builds | 从源码输出 HTML、CSS、JS、JSON、模型与可选 WASM，当前未自动获取 Git 更新 |
 | 页面交付 | Cloudflare Workers | 将现成产物交付浏览器 |
 | 实验运行 | 用户电脑或手机 | 改参数、计算模型、绘图与播放 |
 
@@ -46,6 +46,8 @@ Workers Static Assets 可直接托管现有 Vite 产物，配置不需要应用�
 简单公式在主线程计算，较重任务放进 Web Worker 避免界面阻塞。Worker 不会自动加速算法。必要时 Rust 编译出的 WASM 也在浏览器运行，无需 Rust 服务器。固定且昂贵的数据可以在构建时预计算。[Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers)、[WebAssembly](https://developer.mozilla.org/en-US/docs/WebAssembly)
 
 ## 4. 当前发布与目标自动流程
+
+完成 Git 关联后的目标流程：
 
 自有改动：本地开发 → 本地 AI 审查、相关测试与构建验证 → 推送 GitHub 生产分支 → Cloudflare Workers 自动构建并发布。
 
@@ -117,7 +119,7 @@ feynman/
 
 无需建立登录、个人中心、云端短链接或服务端进度接口。如保存学习进度，仅存本机 IndexedDB/localStorage，并明确清理浏览器数据会丢失记录，不做跨设备承诺。
 
-Vite 不自动预渲染完整站点：需要显式建设只读取安全元数据、Markdown 和已批准组件的预渲染步骤。案例逻辑、Canvas 和 Worker 在客户端运行。大量案例仍可整站构建，但按需下载，不能把所有 Three 场景放进首页首包。
+Vite 本身不自动预渲染完整站点；本项目已通过 scripts/prerender.ts 实现读取安全元数据、Markdown 和已批准组件的预渲染。案例逻辑、Canvas 和 Worker 在客户端运行。大量案例仍可整站构建，但按需下载，不能把所有 Three 场景放进首页首包。
 
 ### 三语言内容与路由
 
@@ -131,7 +133,7 @@ Vite 不自动预渲染完整站点：需要显式建设只读取安全元数据
 
 ### SEO 与静态页面
 
-SEO 保留现有 React/Vite 预渲染架构。公共页面枚举供开发路由、预渲染和 sitemap 共用，元信息模块同时用于静态 HTML 和客户端语言切换。正式主域名配置为 `https://www.feynman-technique.com`（裸域 301 到 www，已线上验收），每个内容页输出独立标题/描述、绝对 canonical、三语言 hreflang、分享信息与基于真实内容的 JSON-LD；当前 sitemap 含 21 个可收录页面。实验入口静态 HTML 包含核心问题及讲解链接，讲解页提供完整文章。404 和预览环境 noindex，科学模型及部署流程不变。www 绑定、HTTPS 与裸域重定向已配置并验收，Search Console 尚未执行，实际规则与验收见 [SEO](SEO.md)。
+SEO 保留现有 React/Vite 预渲染架构。公共页面枚举供开发路由、预渲染和 sitemap 共用，元信息模块同时用于静态 HTML 和客户端语言切换。正式主域名配置为 `https://www.feynman-technique.com`（裸域 301 到 www，已线上验收），每个内容页输出独立标题/描述、绝对 canonical、三语言 hreflang、分享信息与基于真实内容的 JSON-LD；当前 sitemap 含 21 个可收录页面。实验入口静态 HTML 包含核心问题及讲解链接，讲解页提供完整文章。404 和预览环境 noindex，科学模型及部署流程不变。www 绑定、HTTPS 与裸域重定向已配置并验收，维护者已确认提交 sitemap，但 Agent 未独立读取 Search Console 的索引或搜索报告；后续观测见 [首轮计划](SEO_GEO_PLAN.md)，实际规则与验收见 [SEO](SEO.md)。
 
 ## 7. 实验 SDK 的边界
 
@@ -161,7 +163,7 @@ AI 读取的 PR、注释与文档是待分析数据，不应改变维护者的�
 
 通过 Workers Builds 记录追溯 commit SHA、构建和部署版本。正式发布后核对域名、深链接、资源、索引信息与目标提交；故障时使用平台 Version History 回滚到已验证版本。首次本地上传不代表已经接通 Git 自动发布。
 
-带内容哈希的资源使用长缓存，HTML 入口允许更新。长期打开的页面需要应对部署后懒加载 chunk 失效：验证部署平台的保留行为，并提供保存本地状态后刷新到新版本的提示；不能未经验证就承诺旧页面永远可运行。需要长期固定的教案，另提供固定发行版本的可下载静态包。
+带内容哈希的资源使用长缓存，HTML 入口允许更新。长期打开的页面需要应对部署后懒加载 chunk 失效：验证部署平台的保留行为，并保留资源失败回退与刷新提示；当前实验页不提供状态导出，若以后设计状态恢复需单独实现和验证，不能未经验证就承诺旧页面永远可运行。需要长期固定的教案，另提供固定发行版本的可下载静态包。
 
 模型、纹理、视频按案例加载并控制大小；大型资源是否放独立对象存储由实际产物规模决定。Cloudflare Workers 不等于无限免费托管，部署前检查当时套餐适用条件、资源配额及目标地区实际访问表现；本方案不作价格或国内网络可用性的保证。
 
@@ -175,7 +177,7 @@ AI 读取的 PR、注释与文档是待分析数据，不应改变维护者的�
 - 发布后可验证正式 URL，并能回退到此前验证的版本。
 - 纯静态产物可迁移到其他托管平台，不依赖应用后端或平台专有数据存储。
 
-实施顺序：冻结参考视觉基线 → 做课程壳和三个案例 → 准备本地 PR/AI 审查指南与验证命令 → 接入 Workers Builds 自动发布和回滚 → 扩展案例库。
+当前课程壳、三个案例、贡献指南与本地验证已具备。后续按 [开发路线图](ROADMAP.md) 并行推进真实使用反馈、Git 自动发布、内容扩展与外部贡献；工具与大型工作台按明确需求逐项设计，不将它们作为首期能力。
 
 只有未来明确增加必须保密的在线 API、跨设备用户数据或服务端重计算时，才重新讨论应用后端。当前不为这些假设建设服务。
 

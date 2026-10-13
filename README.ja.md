@@ -43,6 +43,8 @@ TypeScript、React、Vite を使用しています。計算は閲覧者のブラ
 
 詳細は[開発と検証](docs/DEVELOPMENT.md)、[実験設計](docs/CONTRIBUTING_DESIGN.md)、[デプロイ](docs/DEPLOYMENT.md)を参照してください。
 
+今後の方針・段階ごとの目標・進める条件は[開発ロードマップ](docs/ROADMAP.md)（中国語）をご覧ください。
+
 ## ライセンス
 
 オリジナルのコード・解説・ドキュメント・図は [MIT ライセンス](LICENSE)で提供します。著作権表示とライセンス表示を保持すれば、利用・変更・配布・商用利用が可能です。

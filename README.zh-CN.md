@@ -43,6 +43,8 @@ pnpm dev
 
 开发与验证见[本地开发](docs/DEVELOPMENT.md)，案例要求见[案例设计](docs/CONTRIBUTING_DESIGN.md)，发布见[部署指南](docs/DEPLOYMENT.md)。
 
+后续方向、阶段目标与推进条件见[长期开发路线图](docs/ROADMAP.md)。
+
 ## 许可证
 
 原创代码、讲解、文档与图示统一采用 [MIT 许可证](LICENSE)。允许使用、修改、分发及商用，须保留版权与许可证声明。

@@ -6,6 +6,8 @@
 
 接手 Agent 先阅读根目录 [AGENTS.md](../AGENTS.md)、[SEO 实现说明](SEO.md)、[开发指南](DEVELOPMENT.md) 和 [部署指南](DEPLOYMENT.md)。实施前检查最新提交与工作树，避免把本次基线检查当成最新版本的验证。
 
+本文件保留 SEO/GEO 首轮任务及结果；项目长期开发优先级统一见 [ROADMAP](ROADMAP.md)，索引实施规则见 [SEO](SEO.md)。
+
 ## 1. 结论与范围
 
 现有 React + Vite 构建时预渲染架构适合当前 SEO / GEO 需求。下一轮重点是更具体的搜索文案、可独立理解的讲解答案，以及实际收录验证；不需要增加 SSR、后端、数据库或运行时 AI。

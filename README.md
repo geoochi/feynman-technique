@@ -43,6 +43,8 @@ Built with TypeScript, React, and Vite. Models run in the visitor's browser; the
 
 For checks and implementation details, see [development](docs/DEVELOPMENT.md), [experiment design](docs/CONTRIBUTING_DESIGN.md), and [deployment](docs/DEPLOYMENT.md).
 
+For the next stages and milestones, see the [development roadmap](docs/ROADMAP.md) (Chinese).
+
 ## License
 
 Original code, explanations, documentation, and artwork are licensed under the [MIT License](LICENSE). You may use, modify, distribute, and use them commercially while retaining the copyright and license notices.
