@@ -5,6 +5,7 @@
 | 要了解的内容 | 文档 |
 | --- | --- |
 | 长期目标与尚未完成的工作 | [ROADMAP](ROADMAP.md) |
+| 待开发实验、建议顺序与交付清单 | [EXPERIMENT_TODO](EXPERIMENT_TODO.md) |
 | 当前技术结构、内容与计算边界 | [ARCHITECTURE](ARCHITECTURE.md) |
 | 环境、命令、目录和本地检查 | [DEVELOPMENT](DEVELOPMENT.md) |
 | Cloudflare 配置、发布方式和最近正式版本 | [DEPLOYMENT](DEPLOYMENT.md) |
