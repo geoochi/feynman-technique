@@ -1,0 +1,32 @@
+[
+  {
+    "id": "left-coarse",
+    "title": "Left edge, coarse",
+    "params": { "a": 0, "b": 2, "n": 4, "s": 0 }
+  },
+  {
+    "id": "right-coarse",
+    "title": "Right edge, coarse",
+    "params": { "a": 0, "b": 2, "n": 4, "s": 1 }
+  },
+  {
+    "id": "midpoint-fine",
+    "title": "Midpoint, fine",
+    "params": { "a": 0, "b": 2, "n": 16, "s": 0.5 }
+  },
+  {
+    "id": "symmetric",
+    "title": "Symmetric interval",
+    "params": { "a": -1, "b": 1, "n": 8, "s": 0.5 }
+  },
+  {
+    "id": "zero-length",
+    "title": "Zero-length interval",
+    "params": { "a": 1, "b": 1, "n": 8, "s": 0.5 }
+  },
+  {
+    "id": "reversed",
+    "title": "Reversed endpoints",
+    "params": { "a": 2, "b": 0, "n": 8, "s": 0.5 }
+  }
+]

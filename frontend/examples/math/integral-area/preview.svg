@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Riemann rectangles under the curve y = x squared on a coordinate grid">
+<rect width="640" height="360" fill="#f6f4ef"/>
+<path d="M110 20V308M165 20V308M220 20V308M275 20V308M330 20V308M385 20V308M440 20V308M495 20V308M550 20V308M60 255H600M60 210H600M60 165H600M60 120H600M60 75H600" fill="none" stroke="#e2e0d8" stroke-width="1"/>
+<path d="M60 300H600M330 20V308" stroke="#8a918c" stroke-width="1.4" fill="none"/>
+<rect x="330" y="298.75" width="36.67" height="1.25" fill="#c9800f" fill-opacity=".22" stroke="#c9800f" stroke-width="1"/>
+<rect x="366.67" y="288.75" width="36.67" height="11.25" fill="#c9800f" fill-opacity=".22" stroke="#c9800f" stroke-width="1"/>
+<rect x="403.33" y="268.75" width="36.67" height="31.25" fill="#c9800f" fill-opacity=".22" stroke="#c9800f" stroke-width="1"/>
+<rect x="440" y="238.75" width="36.67" height="61.25" fill="#c9800f" fill-opacity=".22" stroke="#c9800f" stroke-width="1"/>
+<rect x="476.67" y="198.75" width="36.67" height="101.25" fill="#c9800f" fill-opacity=".22" stroke="#c9800f" stroke-width="1"/>
+<rect x="513.33" y="148.75" width="36.67" height="151.25" fill="#c9800f" fill-opacity=".22" stroke="#c9800f" stroke-width="1"/>
+<path d="M66,40.8 L70.4,49.37 L74.8,57.79 L79.2,66.07 L83.6,74.21 L88,82.2 L92.4,90.05 L96.8,97.75 L101.2,105.31 L105.6,112.73 L110,120 L114.4,127.13 L118.8,134.11 L123.2,140.95 L127.6,147.65 L132,154.2 L136.4,160.61 L140.8,166.87 L145.2,172.99 L149.6,178.97 L154,184.8 L158.4,190.49 L162.8,196.03 L167.2,201.43 L171.6,206.69 L176,211.8 L180.4,216.77 L184.8,221.59 L189.2,226.27 L193.6,230.81 L198,235.2 L202.4,239.45 L206.8,243.55 L211.2,247.51 L215.6,251.33 L220,255 L224.4,258.53 L228.8,261.91 L233.2,265.15 L237.6,268.25 L242,271.2 L246.4,274.01 L250.8,276.67 L255.2,279.19 L259.6,281.57 L264,283.8 L268.4,285.89 L272.8,287.83 L277.2,289.63 L281.6,291.29 L286,292.8 L290.4,294.17 L294.8,295.39 L299.2,296.47 L303.6,297.41 L308,298.2 L312.4,298.85 L316.8,299.35 L321.2,299.71 L325.6,299.93 L330,300 L334.4,299.93 L338.8,299.71 L343.2,299.35 L347.6,298.85 L352,298.2 L356.4,297.41 L360.8,296.47 L365.2,295.39 L369.6,294.17 L374,292.8 L378.4,291.29 L382.8,289.63 L387.2,287.83 L391.6,285.89 L396,283.8 L400.4,281.57 L404.8,279.19 L409.2,276.67 L413.6,274.01 L418,271.2 L422.4,268.25 L426.8,265.15 L431.2,261.91 L435.6,258.53 L440,255 L444.4,251.33 L448.8,247.51 L453.2,243.55 L457.6,239.45 L462,235.2 L466.4,230.81 L470.8,226.27 L475.2,221.59 L479.6,216.77 L484,211.8 L488.4,206.69 L492.8,201.43 L497.2,196.03 L501.6,190.49 L506,184.8 L510.4,178.97 L514.8,172.99 L519.2,166.87 L523.6,160.61 L528,154.2 L532.4,147.65 L536.8,140.95 L541.2,134.11 L545.6,127.13 L550,120 L554.4,112.73 L558.8,105.31 L563.2,97.75 L567.6,90.05 L572,82.2 L576.4,74.21 L580.8,66.07 L585.2,57.79 L589.6,49.37 L594,40.8" fill="none" stroke="#2a302e" stroke-width="3"/>
+<circle cx="348.33" cy="298.75" r="3.4" fill="#c9800f"/>
+<circle cx="385" cy="288.75" r="3.4" fill="#c9800f"/>
+<circle cx="421.67" cy="268.75" r="3.4" fill="#c9800f"/>
+<circle cx="458.33" cy="238.75" r="3.4" fill="#c9800f"/>
+<circle cx="495" cy="198.75" r="3.4" fill="#c9800f"/>
+<circle cx="531.67" cy="148.75" r="3.4" fill="#c9800f"/>
+<g font-family="sans-serif" font-size="14" fill="#758492">
+<text x="110" y="322" text-anchor="middle">-2</text>
+<text x="220" y="322" text-anchor="middle">-1</text>
+<text x="440" y="322" text-anchor="middle">1</text>
+<text x="550" y="322" text-anchor="middle">2</text>
+<text x="320" y="260" text-anchor="end">1</text>
+<text x="320" y="215" text-anchor="end">2</text>
+<text x="320" y="170" text-anchor="end">3</text>
+<text x="320" y="125" text-anchor="end">4</text>
+<text x="320" y="80" text-anchor="end">5</text>
+</g>
+<g font-family="sans-serif" font-size="16" fill="#2a302e">
+<text x="66" y="32">Sₙ = Σ f(xᵢ) Δx</text>
+<text x="342" y="32">y = x²</text>
+<text x="596" y="290" text-anchor="end">x</text>
+</g>
+</svg>
