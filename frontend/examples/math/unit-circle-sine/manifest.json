@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "2",
+  "id": "math.unit-circle-sine",
+  "slug": "unit-circle-sine",
+  "version": "0.1.0",
+  "sdkRange": "^0.1.0",
+  "title": {
+    "en": "Unit circle and the sine curve",
+    "zh-CN": "单位圆与正弦曲线",
+    "ja": "単位円とサイン曲線"
+  },
+  "summary": {
+    "en": "Watch a point turn on a circle and trace its height as a sine curve against time.",
+    "zh-CN": "观察圆周上转动的一点如何把高度随时间描成正弦曲线。",
+    "ja": "円周上を回る点の高さが、時間に対してサイン曲線を描くようすを観察する。"
+  },
+  "subjects": ["math"],
+  "levels": ["high-school"],
+  "tags": {
+    "en": ["unit circle", "sine wave", "circular motion", "phase"],
+    "zh-CN": ["单位圆", "正弦曲线", "圆周运动", "相位"],
+    "ja": ["単位円", "サイン曲線", "円運動", "位相"]
+  },
+  "learningObjectives": {
+    "en": [
+      "Relate the height of a point on a circle to the sine function",
+      "Read the amplitude as the radius and the period as T = 2π/ω",
+      "Distinguish an angle shown in degrees from the radian value used in the formula"
+    ],
+    "zh-CN": [
+      "把圆上点的高度与正弦函数联系起来",
+      "从图像读出振幅等于半径、周期 T = 2π/ω",
+      "区分用度显示的角度与公式中使用的弧度"
+    ],
+    "ja": [
+      "円周上の点の高さとサイン関数を結びつける",
+      "振幅が半径に等しく、周期が T = 2π/ω であることを図から読み取る",
+      "度で表示する角度と式で使うラジアンを区別する"
+    ]
+  },
+  "prerequisites": {
+    "en": ["trigonometry", "angles in degrees and radians", "coordinate axes"],
+    "zh-CN": ["三角函数", "角度与弧度", "坐标轴"],
+    "ja": ["三角関数", "度とラジアン", "座標軸"]
+  },
+  "estimatedMinutes": 15,
+  "layout": "lesson",
+  "theme": "paper",
+  "renderer": "svg",
+  "entry": "view.tsx",
+  "parameterSchema": "parameters.schema.json",
+  "snapshotSchema": "snapshot.schema.json",
+  "locales": ["en", "zh-CN", "ja"],
+  "lessons": {
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
+  },
+  "preview": "preview.svg",
+  "authors": [
+    {
+      "name": "geoochi"
+    }
+  ],
+  "licenses": {
+    "code": "MIT",
+    "content": "MIT"
+  },
+  "capabilities": {
+    "network": false,
+    "audio": false
+  },
+  "modelAssumptions": {
+    "en": [
+      "Ideal uniform circular motion: constant angular speed, no friction; radius in metres and time in seconds",
+      "The sine trace is the analytic function y = R sin(ωt + φ₀); the phase advances by ω·dt at the fixed step dt = 1/120 s",
+      "Angles are shown in degrees but computed in radians; the circle panel and the time axis use a fixed scale"
+    ],
+    "zh-CN": [
+      "理想匀速圆周运动：角速度恒定、无摩擦；半径以米计、时间以秒计",
+      "正弦轨迹为解析式 y = R sin(ωt + φ₀)；相位在每个固定步长 dt = 1/120 s 内增加 ω·dt",
+      "角度用度显示、用弧度计算；圆面板与时间轴采用固定比例尺"
+    ],
+    "ja": [
+      "理想的な等速円運動：角速度は一定で摩擦なし。半径はメートル、時間は秒で表す",
+      "サインの軌跡は解析式 y = R sin(ωt + φ₀)。位相は固定刻み dt = 1/120 s ごとに ω·dt だけ進む",
+      "角度は度で表示し、ラジアンで計算する。円パネルと時間軸は固定の縮尺を使う"
+    ]
+  },
+  "references": [
+    {
+      "title": "OpenStax · Unit Circle: Sine and Cosine Functions",
+      "url": "https://openstax.org/books/algebra-and-trigonometry-2e/pages/7-3-unit-circle"
+    },
+    {
+      "title": "OpenStax · Uniform Circular Motion",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/4-4-uniform-circular-motion"
+    }
+  ],
+  "status": "experimental",
+  "playback": true,
+  "seo": {
+    "experiment": {
+      "title": {
+        "en": "Unit Circle & Sine Wave Simulator: Radius, ω and Phase · Feynman",
+        "zh-CN": "单位圆与正弦曲线模拟器：半径、角速度与初相位 · Feynman",
+        "ja": "単位円とサイン波シミュレーター：半径・角速度・初期位相 · Feynman"
+      },
+      "description": {
+        "en": "Set the radius, angular speed and initial phase of a point moving on a circle. Watch its height trace y = R sin(ωt + φ₀) against time on a fixed-scale graph.",
+        "zh-CN": "设置圆周运动点的半径、角速度与初相位，观察它的高度如何随时间描出 y = R sin(ωt + φ₀) 的正弦曲线。",
+        "ja": "円周上を動く点の半径・角速度・初期位相を設定し、その高さが時間に対して y = R sin(ωt + φ₀) のサイン曲線を描くようすを観察する。"
+      }
+    },
+    "lesson": {
+      "title": {
+        "en": "From Circular Motion to the Sine Curve: Amplitude, Period and Phase · Feynman",
+        "zh-CN": "从圆周运动到正弦曲线：振幅、周期与相位 · Feynman",
+        "ja": "円運動からサイン曲線へ：振幅・周期・位相 · Feynman"
+      },
+      "description": {
+        "en": "See why the height of a point on a circle is a sine of time, why the amplitude equals the radius, why the period is T = 2π/ω, and how the initial phase shifts the curve.",
+        "zh-CN": "理解圆上点的高度为何是时间的正弦、振幅为何等于半径、周期为何是 T = 2π/ω，以及初相位如何平移曲线。",
+        "ja": "円周上の点の高さがなぜ時間のサインになるのか、振幅が半径に等しい理由、周期が T = 2π/ω になる理由、初期位相が曲線をずらすしくみを解説する。"
+      }
+    }
+  }
+}

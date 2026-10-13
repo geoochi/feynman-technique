@@ -1,0 +1,49 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["radius", "omega", "phase"],
+  "properties": {
+    "radius": {
+      "type": "number",
+      "title": "Radius (R)",
+      "default": 1,
+      "minimum": 0.5,
+      "maximum": 2.5,
+      "step": 0.1,
+      "unit": "m",
+      "labels": {
+        "en": "Radius (R)",
+        "zh-CN": "半径（R）",
+        "ja": "半径（R）"
+      }
+    },
+    "omega": {
+      "type": "number",
+      "title": "Angular speed (ω)",
+      "default": 2,
+      "minimum": 0.5,
+      "maximum": 6,
+      "step": 0.1,
+      "unit": "rad/s",
+      "labels": {
+        "en": "Angular speed (ω)",
+        "zh-CN": "角速度（ω）",
+        "ja": "角速度（ω）"
+      }
+    },
+    "phase": {
+      "type": "number",
+      "title": "Initial phase (φ₀)",
+      "default": 0,
+      "minimum": 0,
+      "maximum": 360,
+      "step": 5,
+      "unit": "°",
+      "labels": {
+        "en": "Initial phase (φ₀)",
+        "zh-CN": "初相位（φ₀）",
+        "ja": "初期位相（φ₀）"
+      }
+    }
+  }
+}

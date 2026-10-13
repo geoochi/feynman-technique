@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["theta"],
+  "properties": {
+    "theta": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 6.283185307179586
+    }
+  }
+}

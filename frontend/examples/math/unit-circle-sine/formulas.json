@@ -1,0 +1,17 @@
+{
+  "default": {
+    "en": "y = R\\sin(\\omega t + \\varphi_{0})",
+    "zh-CN": "y = R\\sin(\\omega t + \\varphi_{0})",
+    "ja": "y = R\\sin(\\omega t + \\varphi_{0})"
+  },
+  "period": {
+    "en": "T = \\dfrac{2\\pi}{\\omega}",
+    "zh-CN": "T = \\dfrac{2\\pi}{\\omega}",
+    "ja": "T = \\dfrac{2\\pi}{\\omega}"
+  },
+  "amplitude": {
+    "en": "A = R",
+    "zh-CN": "A = R",
+    "ja": "A = R"
+  }
+}

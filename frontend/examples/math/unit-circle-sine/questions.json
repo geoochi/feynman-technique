@@ -1,0 +1,10 @@
+{
+  "prompt": "A point turns on a circle with angular speed ω. If ω is doubled while the radius stays the same, what happens to the period of the traced sine curve?",
+  "options": [
+    "The period doubles",
+    "The period is halved",
+    "The period stays the same"
+  ],
+  "answer": 1,
+  "explanation": "The period is T = 2π/ω, so doubling ω halves the period. The radius only sets the amplitude, not the period."
+}
