@@ -14,7 +14,7 @@
 
 ## 案例 SEO 文案与讲解摘要
 
-十二个案例各有实验页与讲解页的英中日独立 title / description，存于案例 `manifest.json` 的可选 `seo.experiment` 与 `seo.lesson`。每种页面配置都包含 `title`、`description` 两个三语言对象（en、zh-CN、ja）；允许只覆盖一种页面，其余页面沿用案例标题、摘要与通用后缀。已配置的字段必须三语言完整且含非空白文字，未知字段或空配置由构建 schema 拒绝。Manifest schemaVersion 仍为 2，此项为兼容的可选扩展。
+十六个案例各有实验页与讲解页的英中日独立 title / description，存于案例 `manifest.json` 的可选 `seo.experiment` 与 `seo.lesson`。每种页面配置都包含 `title`、`description` 两个三语言对象（en、zh-CN、ja）；允许只覆盖一种页面，其余页面沿用案例标题、摘要与通用后缀。已配置的字段必须三语言完整且含非空白文字，未知字段或空配置由构建 schema 拒绝。Manifest schemaVersion 仍为 2，此项为兼容的可选扩展。
 
 `pageMetadata` 统一读取这些文案，静态 HTML、语言切换、分享标签和 JSON-LD 的描述同步更新。资源名称继续使用案例可见标题；稳定 id、slug、页面路径与实验/讲解各自 canonical 的规则不变；正式绝对 URL 的主机随主域名切换为 www。
 
