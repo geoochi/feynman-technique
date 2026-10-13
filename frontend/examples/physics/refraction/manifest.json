@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "2",
+  "id": "physics.refraction",
+  "slug": "refraction",
+  "version": "0.1.0",
+  "sdkRange": "^0.1.0",
+  "title": {
+    "en": "Refraction of light",
+    "zh-CN": "光的折射",
+    "ja": "光の屈折"
+  },
+  "summary": {
+    "en": "Change the incidence angle and the two refractive indices to see how a ray bends at a plane interface, and when it cannot enter the second medium at all.",
+    "zh-CN": "改变入射角与两种介质的折射率，观察光线在平面界面处如何偏折，以及它完全无法进入第二种介质的情形。",
+    "ja": "入射角と 2 つの屈折率を変えて、光が平面境界面でどう曲がるか、第 2 の媒質へまったく入れなくなる場合を観察する。"
+  },
+  "subjects": ["physics"],
+  "levels": ["high-school"],
+  "tags": {
+    "en": ["geometric optics", "refraction", "Snell's law", "total internal reflection"],
+    "zh-CN": ["几何光学", "折射", "斯涅尔定律", "全反射"],
+    "ja": ["幾何光学", "屈折", "スネルの法則", "全反射"]
+  },
+  "learningObjectives": {
+    "en": [
+      "Apply Snell's law n₁ sin θ₁ = n₂ sin θ₂ to find the refracted angle",
+      "Explain why a ray at normal incidence (θ₁ = 0) is not deviated",
+      "Find the critical angle from sin θc = n₂/n₁ when n₁ > n₂ and identify total internal reflection beyond it"
+    ],
+    "zh-CN": [
+      "运用斯涅尔定律 n₁ sin θ₁ = n₂ sin θ₂ 求折射角",
+      "解释垂直入射（θ₁ = 0）时光线为何不偏折",
+      "在 n₁ > n₂ 时由 sin θc = n₂/n₁ 求临界角，并判断超过临界角后的全反射"
+    ],
+    "ja": [
+      "スネルの法則 n₁ sin θ₁ = n₂ sin θ₂ で屈折角を求める",
+      "垂直入射（θ₁ = 0）で光が曲がらない理由を説明する",
+      "n₁ > n₂ のとき sin θc = n₂/n₁ から臨界角を求め、それを超える全反射を判定する"
+    ]
+  },
+  "prerequisites": {
+    "en": ["straight-line propagation of light", "trigonometry: the sine of an angle", "angles measured from the normal"],
+    "zh-CN": ["光的直线传播", "三角函数：角的正弦", "以法线为基准测量角度"],
+    "ja": ["光の直進", "三角関数：角の正弦", "法線を基準にした角度の測り方"]
+  },
+  "estimatedMinutes": 15,
+  "layout": "lesson",
+  "theme": "paper",
+  "renderer": "svg",
+  "entry": "view.tsx",
+  "parameterSchema": "parameters.schema.json",
+  "snapshotSchema": "snapshot.schema.json",
+  "locales": ["en", "zh-CN", "ja"],
+  "lessons": {
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
+  },
+  "preview": "preview.svg",
+  "authors": [
+    {
+      "name": "geoochi"
+    }
+  ],
+  "licenses": {
+    "code": "MIT",
+    "content": "MIT"
+  },
+  "capabilities": {
+    "network": false,
+    "audio": false
+  },
+  "modelAssumptions": {
+    "en": [
+      "An ideal, flat interface between two homogeneous, isotropic, non-absorbing media; the light travels as a straight ray inside each medium",
+      "Only ray directions are modelled: n₁ sin θ₁ = n₂ sin θ₂ gives the direction of the refracted ray, but the intensity split between the reflected and refracted beams (Fresnel reflectance and transmittance) is NOT modelled",
+      "The indices n₁ and n₂ are real numbers ≥ 1 with no dispersion (n does not depend on wavelength); the reflected ray is drawn only to mark its direction"
+    ],
+    "zh-CN": [
+      "两种均匀、各向同性、不吸收的介质之间的理想平面界面；光在每种介质内沿直线传播",
+      "只建立光线方向模型：n₁ sin θ₁ = n₂ sin θ₂ 给出折射光的方向，但反射光与折射光之间的强度分配（菲涅耳反射率与透射率）不在模型范围内",
+      "折射率 n₁、n₂ 为不小于 1 的实数，且不考虑色散（n 不随波长变化）；反射光仅为方向示意"
+    ],
+    "ja": [
+      "均質・等方・非吸収の 2 つの媒質の間の理想的な平面境界面。光は各媒質内を直線的に進む",
+      "光線の向きだけをモデル化する。n₁ sin θ₁ = n₂ sin θ₂ は屈折光の向きを与えるが、反射光と屈折光の強度配分（フレネルの反射率・透過率）はモデル化しない",
+      "屈折率 n₁、n₂ は 1 以上の実数で、分散は考えない（n は波長によらない）。反射光は向きの参考として描く"
+    ]
+  },
+  "references": [
+    {
+      "title": "OpenStax · The Law of Reflection",
+      "url": "https://openstax.org/books/college-physics-2e/pages/25-2-the-law-of-reflection"
+    },
+    {
+      "title": "OpenStax · The Law of Refraction",
+      "url": "https://openstax.org/books/college-physics-2e/pages/25-3-the-law-of-refraction"
+    },
+    {
+      "title": "OpenStax · Total Internal Reflection",
+      "url": "https://openstax.org/books/college-physics-2e/pages/25-4-total-internal-reflection"
+    }
+  ],
+  "status": "experimental",
+  "seo": {
+    "experiment": {
+      "title": {
+        "en": "Refraction Simulator: Incidence Angle, Refractive Index & Critical Angle · Feynman",
+        "zh-CN": "光的折射模拟器：入射角、折射率与临界角 · Feynman",
+        "ja": "光の屈折シミュレーター：入射角・屈折率・臨界角 · Feynman"
+      },
+      "description": {
+        "en": "Adjust the incidence angle and the two refractive indices of a plane interface. Read the refracted angle from a fixed-scale ray diagram, find the critical angle when n₁ > n₂ and see total internal reflection.",
+        "zh-CN": "调整平面界面的入射角与两种介质的折射率，在固定比例的光路图中读出折射角；当 n₁ > n₂ 时求临界角，并观察全反射。",
+        "ja": "平面境界面の入射角と 2 つの屈折率を変え、固定スケールの光路図から屈折角を読み取る。n₁ > n₂ のとき臨界角を求め、全反射を観察しよう。"
+      }
+    },
+    "lesson": {
+      "title": {
+        "en": "Snell's Law and the Critical Angle: Why Light Bends · Feynman",
+        "zh-CN": "斯涅尔定律与临界角：光为什么会转弯 · Feynman",
+        "ja": "スネルの法則と臨界角：光はなぜ曲がるのか · Feynman"
+      },
+      "description": {
+        "en": "Learn why n₁ sin θ₁ = n₂ sin θ₂ fixes the refracted direction, why normal incidence is not deviated, and why sin θc = n₂/n₁ makes the refracted ray disappear beyond the critical angle.",
+        "zh-CN": "理解 n₁ sin θ₁ = n₂ sin θ₂ 如何决定折射方向，解释垂直入射为何不偏折，以及 sin θc = n₂/n₁ 为何使折射光在超过临界角后消失。",
+        "ja": "n₁ sin θ₁ = n₂ sin θ₂ が屈折方向をどう決めるかを解説。垂直入射で曲がらない理由と、sin θc = n₂/n₁ により臨界角を超えると屈折光が消える理由を確かめよう。"
+      }
+    }
+  },
+  "playback": false
+}
