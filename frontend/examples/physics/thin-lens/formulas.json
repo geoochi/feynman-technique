@@ -1,0 +1,12 @@
+{
+  "default": {
+    "en": "\\frac{1}{u} + \\frac{1}{v} = \\frac{1}{f}",
+    "zh-CN": "\\frac{1}{u} + \\frac{1}{v} = \\frac{1}{f}",
+    "ja": "\\frac{1}{u} + \\frac{1}{v} = \\frac{1}{f}"
+  },
+  "magnification": {
+    "en": "m = -\\frac{v}{u}, \\quad h' = m\\,h",
+    "zh-CN": "m = -\\frac{v}{u}, \\quad h' = m\\,h",
+    "ja": "m = -\\frac{v}{u}, \\quad h' = m\\,h"
+  }
+}
