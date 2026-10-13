@@ -1,0 +1,63 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["emf", "initialVoltage", "resistance", "capacitance"],
+  "properties": {
+    "emf": {
+      "type": "number",
+      "title": "Source EMF (E)",
+      "default": 6,
+      "minimum": 0,
+      "maximum": 10,
+      "unit": "V",
+      "step": 0.5,
+      "labels": {
+        "en": "Source EMF (E)",
+        "zh-CN": "电源电动势（E）",
+        "ja": "電源の起電力（E）"
+      }
+    },
+    "initialVoltage": {
+      "type": "number",
+      "title": "Initial capacitor voltage (u₀)",
+      "default": 0,
+      "minimum": -10,
+      "maximum": 10,
+      "unit": "V",
+      "step": 0.5,
+      "labels": {
+        "en": "Initial capacitor voltage (u₀)",
+        "zh-CN": "电容初始电压（u₀）",
+        "ja": "コンデンサーの初期電圧（u₀）"
+      }
+    },
+    "resistance": {
+      "type": "number",
+      "title": "Resistance (R)",
+      "default": 40,
+      "minimum": 20,
+      "maximum": 200,
+      "unit": "Ω",
+      "step": 10,
+      "labels": {
+        "en": "Resistance (R)",
+        "zh-CN": "电阻（R）",
+        "ja": "抵抗（R）"
+      }
+    },
+    "capacitance": {
+      "type": "number",
+      "title": "Capacitance (C)",
+      "default": 0.05,
+      "minimum": 0.01,
+      "maximum": 0.1,
+      "unit": "F",
+      "step": 0.01,
+      "labels": {
+        "en": "Capacitance (C)",
+        "zh-CN": "电容（C）",
+        "ja": "静電容量（C）"
+      }
+    }
+  }
+}

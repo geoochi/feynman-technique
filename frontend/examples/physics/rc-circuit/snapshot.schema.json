@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["u"],
+  "properties": {
+    "u": {
+      "type": "number",
+      "minimum": -10,
+      "maximum": 10
+    }
+  }
+}
