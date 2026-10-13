@@ -1,0 +1,10 @@
+{
+  "prompt": "On [0, 2] for f(x) = x², which sampling position gives the largest overestimate for the same n?",
+  "options": [
+    "Left edge (s = 0)",
+    "Midpoint (s = 0.5)",
+    "Right edge (s = 1)"
+  ],
+  "answer": 2,
+  "explanation": "f(x) = x² is increasing on [0, 2], so the right edge of every subinterval uses the largest value in that subinterval and overestimates the area. Left sampling underestimates, and the midpoint is the closest of the three."
+}

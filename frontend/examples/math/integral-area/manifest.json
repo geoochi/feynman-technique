@@ -1,0 +1,169 @@
+{
+  "schemaVersion": "2",
+  "id": "math.integral-area",
+  "slug": "integral-area",
+  "version": "0.1.0",
+  "sdkRange": "^0.1.0",
+  "title": {
+    "en": "Area under a curve",
+    "zh-CN": "定积分与黎曼和",
+    "ja": "曲線下の面積とリーマン和"
+  },
+  "summary": {
+    "en": "Stack rectangles under a curve and watch the sum approach the exact area.",
+    "zh-CN": "在曲线下叠放小矩形，观察面积之和怎样逼近精确值。",
+    "ja": "曲線の下に長方形を並べ、面積の和が正確な値に近づく様子を見よう。"
+  },
+  "subjects": [
+    "math"
+  ],
+  "levels": [
+    "high-school"
+  ],
+  "tags": {
+    "en": [
+      "integral",
+      "Riemann sum",
+      "area",
+      "approximation"
+    ],
+    "zh-CN": [
+      "定积分",
+      "黎曼和",
+      "面积",
+      "逼近"
+    ],
+    "ja": [
+      "定積分",
+      "リーマン和",
+      "面積",
+      "近似"
+    ]
+  },
+  "learningObjectives": {
+    "en": [
+      "Read a Riemann sum as a sum of rectangle areas",
+      "Explain why the sum approaches the exact integral as n grows",
+      "Compare left, midpoint and right sampling for a monotonic integrand",
+      "Tell the signed integral apart from the geometric area"
+    ],
+    "zh-CN": [
+      "把黎曼和理解为小矩形面积之和",
+      "解释 n 增大时面积之和为何逼近精确值",
+      "对单调函数比较左端、中点与右端采样",
+      "区分带符号定积分与几何面积"
+    ],
+    "ja": [
+      "リーマン和を長方形の面積の和として読む",
+      "n を大きくすると和が正確な値に近づく理由を説明する",
+      "単調な関数で左端・中点・右端の標本を比較する",
+      "符号付き定積分と図形の面積を区別する"
+    ]
+  },
+  "prerequisites": {
+    "en": [
+      "coordinates",
+      "area of a rectangle",
+      "quadratic functions"
+    ],
+    "zh-CN": [
+      "坐标",
+      "矩形面积",
+      "二次函数"
+    ],
+    "ja": [
+      "座標",
+      "長方形の面積",
+      "二次関数"
+    ]
+  },
+  "estimatedMinutes": 12,
+  "layout": "lesson",
+  "theme": "paper",
+  "renderer": "svg",
+  "entry": "view.tsx",
+  "parameterSchema": "parameters.schema.json",
+  "snapshotSchema": "snapshot.schema.json",
+  "locales": [
+    "en",
+    "zh-CN",
+    "ja"
+  ],
+  "lessons": {
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
+  },
+  "preview": "preview.svg",
+  "authors": [
+    {
+      "name": "geoochi"
+    }
+  ],
+  "licenses": {
+    "code": "MIT",
+    "content": "MIT"
+  },
+  "capabilities": {
+    "network": false,
+    "audio": false
+  },
+  "modelAssumptions": {
+    "en": [
+      "One fixed integrand, f(x) = x², with the exact antiderivative F(x) = x³/3",
+      "Each subinterval uses one sampling position s ∈ [0, 1]; s = 0, 0.5 and 1 are the left edge, midpoint and right edge",
+      "The parameter n is rounded to an integer count ≥ 1; coordinates are dimensionless",
+      "The readout is the signed integral; because f(x) = x² is never negative it equals the geometric area here"
+    ],
+    "zh-CN": [
+      "只研究一个固定被积函数 f(x) = x²，其原函数为 F(x) = x³/3",
+      "每个子区间取一个采样位置 s ∈ [0, 1]；s = 0、0.5、1 分别对应左端、中点、右端",
+      "参数 n 取整为不小于 1 的整数；坐标无量纲",
+      "读数显示带符号定积分；由于 f(x) = x² 不会取负值，此处它与几何面积相等"
+    ],
+    "ja": [
+      "被積分関数は f(x) = x² の一つだけ。原始関数は F(x) = x³/3",
+      "各小区間で標本位置 s ∈ [0, 1] を一つ選ぶ。s = 0、0.5、1 は左端・中点・右端",
+      "パラメーター n は 1 以上の整数に丸める。座標は無次元",
+      "表示は符号付き定積分。f(x) = x² は負にならないため、ここでは図形の面積と一致する"
+    ]
+  },
+  "references": [
+    {
+      "title": "OpenStax · Calculus Volume 1, 5.1 Approximating Areas",
+      "url": "https://openstax.org/books/calculus-volume-1/pages/5-1-approximating-areas"
+    },
+    {
+      "title": "OpenStax · Calculus Volume 1, 5.3 The Fundamental Theorem of Calculus",
+      "url": "https://openstax.org/books/calculus-volume-1/pages/5-3-the-fundamental-theorem-of-calculus"
+    }
+  ],
+  "status": "experimental",
+  "seo": {
+    "experiment": {
+      "title": {
+        "en": "Riemann Sum Explorer: Rectangles Under y = x² · Feynman",
+        "zh-CN": "黎曼和实验：曲线 y = x² 下的小矩形 · Feynman",
+        "ja": "リーマン和の実験：y = x² の下の長方形 · Feynman"
+      },
+      "description": {
+        "en": "Change the interval [a, b], the number of subintervals n and the sampling position s. Compare the rectangle sum with the exact integral (b³ − a³)/3 and watch the error shrink.",
+        "zh-CN": "调整积分区间 [a, b]、子区间数 n 与采样位置 s，把矩形面积之和与精确值 (b³ − a³)/3 对照，观察误差怎样随 n 增大而减小。",
+        "ja": "積分区間 [a, b]、小区間の数 n、標本位置 s を変え、長方形の和と正確な値 (b³ − a³)/3 を比べ、誤差が n とともに小さくなる様子を観察しよう。"
+      }
+    },
+    "lesson": {
+      "title": {
+        "en": "Why a Riemann Sum Approaches the Exact Integral · Feynman",
+        "zh-CN": "黎曼和为什么能逼近精确的定积分 · Feynman",
+        "ja": "リーマン和はなぜ正確な定積分に近づくのか · Feynman"
+      },
+      "description": {
+        "en": "Derive ∫ₐᵇ x² dx = (b³ − a³)/3, see why left and right sums bracket the exact value, why the midpoint is more accurate, and why the signed integral equals the geometric area for x².",
+        "zh-CN": "推导 ∫ₐᵇ x² dx = (b³ − a³)/3，理解左端与右端之和为何从两侧夹住精确值、中点为何更准，以及 x² 的带符号定积分为何等于几何面积。",
+        "ja": "∫ₐᵇ x² dx = (b³ − a³)/3 を導き、左端と右端の和が正確な値を挟む理由、中点がより正確な理由、x² では符号付き定積分が面積に等しい理由を学ぼう。"
+      }
+    }
+  },
+  "playback": false
+}

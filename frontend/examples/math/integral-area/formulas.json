@@ -1,0 +1,17 @@
+{
+  "default": {
+    "en": "\\int_{a}^{b} x^{2}\\,dx=\\frac{b^{3}-a^{3}}{3}",
+    "zh-CN": "\\int_{a}^{b} x^{2}\\,dx=\\frac{b^{3}-a^{3}}{3}",
+    "ja": "\\int_{a}^{b} x^{2}\\,dx=\\frac{b^{3}-a^{3}}{3}"
+  },
+  "riemann": {
+    "en": "S_{n}=\\sum_{i=0}^{n-1} f(x_{i})\\,\\Delta x,\\quad x_{i}=a+(i+s)\\Delta x,\\quad \\Delta x=\\frac{b-a}{n}",
+    "zh-CN": "S_{n}=\\sum_{i=0}^{n-1} f(x_{i})\\,\\Delta x,\\quad x_{i}=a+(i+s)\\Delta x,\\quad \\Delta x=\\frac{b-a}{n}",
+    "ja": "S_{n}=\\sum_{i=0}^{n-1} f(x_{i})\\,\\Delta x,\\quad x_{i}=a+(i+s)\\Delta x,\\quad \\Delta x=\\frac{b-a}{n}"
+  },
+  "error": {
+    "en": "E=S_{n}-\\int_{a}^{b} x^{2}\\,dx",
+    "zh-CN": "E=S_{n}-\\int_{a}^{b} x^{2}\\,dx",
+    "ja": "E=S_{n}-\\int_{a}^{b} x^{2}\\,dx"
+  }
+}
