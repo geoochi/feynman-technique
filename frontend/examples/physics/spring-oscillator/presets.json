@@ -1,0 +1,38 @@
+[
+  {
+    "id": "0",
+    "title": "参考状态",
+    "params": {
+      "mass": 1,
+      "stiffness": 20,
+      "amplitude": 0.2
+    }
+  },
+  {
+    "id": "1",
+    "title": "更硬的弹簧",
+    "params": {
+      "mass": 1,
+      "stiffness": 80,
+      "amplitude": 0.2
+    }
+  },
+  {
+    "id": "2",
+    "title": "更大的质量",
+    "params": {
+      "mass": 4,
+      "stiffness": 20,
+      "amplitude": 0.2
+    }
+  },
+  {
+    "id": "3",
+    "title": "更大的振幅",
+    "params": {
+      "mass": 1,
+      "stiffness": 20,
+      "amplitude": 0.5
+    }
+  }
+]
