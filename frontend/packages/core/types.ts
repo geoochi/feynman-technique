@@ -104,7 +104,7 @@ export interface Lab extends Manifest {
   previewUrl: string;
   parameters: ParameterSchema;
   stateSchema: Record<string, unknown>;
-  presets: { id: string; title: string; params: Params }[];
+  presets: { id: string; title: string; params: ParamValues }[];
   question: Question;
   content: Localized<{
     lessonHtml: string;

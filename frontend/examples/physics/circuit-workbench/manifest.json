@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "2",
+  "id": "physics.circuit-workbench",
+  "slug": "circuit-workbench",
+  "version": "0.1.0",
+  "sdkRange": "^0.1.0",
+  "title": {
+    "en": "Circuit workbench",
+    "zh-CN": "电学工作台",
+    "ja": "回路ワークベンチ"
+  },
+  "summary": {
+    "en": "Build a DC circuit yourself: place a source, resistors and wires on a fixed lattice and read every branch's voltage and current.",
+    "zh-CN": "自己搭一个直流电路：在固定格点上放置电源、电阻与导线，读出每条支路的电压与电流。",
+    "ja": "自分で直流回路を組む：固定した格子に電源・抵抗・導線を置き、各枝の電圧と電流を読み取る。"
+  },
+  "subjects": ["physics"],
+  "levels": ["high-school"],
+  "tags": {
+    "en": ["circuit", "current", "voltage", "resistance"],
+    "zh-CN": ["电路", "电流", "电压", "电阻"],
+    "ja": ["回路", "電流", "電圧", "抵抗"]
+  },
+  "learningObjectives": {
+    "en": [
+      "Build a working DC circuit from a source, resistors and wires",
+      "Read branch voltages and currents and connect them to equivalent resistance",
+      "Recognise open, shorted and floating topologies and what the solver reports"
+    ],
+    "zh-CN": [
+      "用电源、电阻和导线搭出可以工作的直流电路",
+      "读出各支路电压与电流，并把它和等效电阻联系起来",
+      "识别开路、短接和悬空等拓扑，并理解求解器给出的提示"
+    ],
+    "ja": [
+      "電源・抵抗・導線から動く直流回路を組む",
+      "各枝の電圧と電流を読み、等価抵抗と結びつける",
+      "開放・短絡・浮遊などの接続状況と、ソルバーが出す警告を見分ける"
+    ]
+  },
+  "prerequisites": {
+    "en": ["voltage", "current", "resistance", "series and parallel"],
+    "zh-CN": ["电压", "电流", "电阻", "串联与并联"],
+    "ja": ["電圧", "電流", "抵抗", "直列と並列"]
+  },
+  "estimatedMinutes": 18,
+  "layout": "lesson",
+  "theme": "paper",
+  "renderer": "svg",
+  "entry": "view.tsx",
+  "parameterSchema": "parameters.schema.json",
+  "snapshotSchema": "snapshot.schema.json",
+  "locales": ["en", "zh-CN", "ja"],
+  "lessons": {
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
+  },
+  "preview": "preview.svg",
+  "authors": [
+    {
+      "name": "geoochi"
+    }
+  ],
+  "licenses": {
+    "code": "MIT",
+    "content": "MIT"
+  },
+  "capabilities": {
+    "network": false,
+    "audio": false
+  },
+  "modelAssumptions": {
+    "en": [
+      "One ideal voltage source (no internal resistance), one or more positive linear resistors and ideal wires",
+      "DC steady state: currents and voltages follow a nodal-analysis solution, so there is no time evolution",
+      "Wires only merge nodes; the workbench never creates a wire loop, so wire currents stay unique"
+    ],
+    "zh-CN": [
+      "一个理想电压源（无内阻）、若干正线性电阻与理想导线",
+      "直流稳态：各支路电压、电流由节点电压法一次解出，不随时间演变",
+      "导线只用于合并节点；本工作台不允许出现导线环，因此导线电流唯一"
+    ],
+    "ja": [
+      "理想電圧源（内部抵抗なし）1 つ、正の線形抵抗と理想導線",
+      "直流定常：各枝の電圧・電流は節点電圧法で一度に解かれ、時間発展しない",
+      "導線はノードをまとめるだけ。ワークベンチでは導線の環を作れないため、導線の電流は一意"
+    ]
+  },
+  "references": [
+    {
+      "title": "OpenStax · Kirchhoff's Rules",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/10-4-kirchhoffs-rules"
+    }
+  ],
+  "status": "experimental",
+  "playback": false,
+  "seo": {
+    "experiment": {
+      "title": {
+        "en": "Circuit Workbench: Build a DC Circuit · Feynman",
+        "zh-CN": "电学工作台：自己搭一个直流电路 · Feynman",
+        "ja": "回路ワークベンチ：自分で組む直流回路 · Feynman"
+      },
+      "description": {
+        "en": "Place a voltage source, resistors and wires on a fixed lattice, connect them and read every branch's voltage and current. Open, shorted and floating topologies are reported clearly.",
+        "zh-CN": "在固定格点上放置电压源、电阻与导线，自己连接并读出每条支路的电压与电流；开路、短接和悬空都会被明确提示。",
+        "ja": "固定した格子に電圧源・抵抗・導線を置いて自分でつなぎ、各枝の電圧と電流を読み取る。開放・短絡・浮遊は明確に報告される。"
+      }
+    },
+    "lesson": {
+      "title": {
+        "en": "Build Circuits: Kirchhoff's Rules and Nodal Analysis · Feynman",
+        "zh-CN": "搭电路：基尔霍夫定律与节点电压法 · Feynman",
+        "ja": "回路を組む：キルヒホッフの法則と節点電圧法 · Feynman"
+      },
+      "description": {
+        "en": "See how Kirchhoff's rules determine a DC circuit, why series and parallel give different equivalent resistances, and how to tell an open, shorted or floating topology from the solver's answer.",
+        "zh-CN": "理解基尔霍夫定律如何决定一个直流电路，串联与并联为何给出不同的等效电阻，以及如何从求解结果判断开路、短接或悬空。",
+        "ja": "キルヒホッフの法則が直流回路をどう決めるか、直列と並列で等価抵抗がどう変わるか、そして解から開放・短絡・浮遊をどう見分けるかを解説する。"
+      }
+    }
+  }
+}
