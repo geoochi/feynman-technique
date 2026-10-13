@@ -1,0 +1,38 @@
+[
+  {
+    "id": "unit",
+    "title": "Unit circle, ω = 2 rad/s",
+    "params": {
+      "radius": 1,
+      "omega": 2,
+      "phase": 0
+    }
+  },
+  {
+    "id": "general",
+    "title": "General circle, R = 2 m",
+    "params": {
+      "radius": 2,
+      "omega": 2,
+      "phase": 0
+    }
+  },
+  {
+    "id": "phase-shift",
+    "title": "Initial phase φ₀ = 90°",
+    "params": {
+      "radius": 1,
+      "omega": 2,
+      "phase": 90
+    }
+  },
+  {
+    "id": "slow",
+    "title": "Slow rotation, ω = 0.5 rad/s",
+    "params": {
+      "radius": 1.5,
+      "omega": 0.5,
+      "phase": 0
+    }
+  }
+]
