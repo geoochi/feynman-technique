@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["phase"],
+  "properties": {
+    "phase": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 6.283185307179586
+    }
+  }
+}

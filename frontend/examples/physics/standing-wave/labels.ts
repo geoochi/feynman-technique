@@ -1,0 +1,66 @@
+import type { Localized } from "../../../packages/i18n/locales";
+
+const en = {
+  diagram:
+    "Standing wave on a string with fixed ends: the two counter-propagating waves, their resultant, the nodes, the antinodes and the envelope",
+  note: "Solid: resultant standing wave y = 2A sin(kx)cos(ωt) · thin: the two equal waves travelling in opposite directions · dashed: envelope ±2A|sin(kx)| · filled dots: nodes, always at rest · open dots: antinodes · fixed scale: 1 m per horizontal grid step and 0.1 m per vertical grid step, so changing a parameter moves the drawing instead of rescaling it.",
+  axisX: "x / m",
+  axisY: "y / m",
+  resultant: "Resultant y",
+  right: "Wave y₁ (+x)",
+  left: "Wave y₂ (−x)",
+  envelope: "Envelope ±2A",
+  node: "Node",
+  antinode: "Antinode",
+  wavelength: "Allowed wavelength λₙ",
+  frequency: "Mode frequency fₙ",
+  nodes: "Nodes (n+1)",
+  antinodes: "Antinodes (n)",
+  nodeSpacing: "Node spacing",
+  mode: "Mode number n",
+  offFrame: "Curve leaves the frame at this amplitude",
+};
+
+export const labels: Localized<Record<keyof typeof en, string>> = {
+  en,
+  "zh-CN": {
+    diagram:
+      "两端固定弦上的驻波：两列反向传播的波、它们的合位移、波节、波腹与包络",
+    note: "粗实线：合驻波 y = 2A sin(kx)cos(ωt) · 细线：沿相反方向传播的两列等振幅波 · 虚线：包络 ±2A|sin(kx)| · 实心点：波节，始终不动 · 空心点：波腹 · 固定比例：横向每格 1 m、纵向每格 0.1 m，改变参数时图形只平移、不缩放。",
+    axisX: "x / m",
+    axisY: "y / m",
+    resultant: "合位移 y",
+    right: "波 y₁（+x）",
+    left: "波 y₂（−x）",
+    envelope: "包络 ±2A",
+    node: "波节",
+    antinode: "波腹",
+    wavelength: "允许波长 λₙ",
+    frequency: "模式频率 fₙ",
+    nodes: "波节数（n+1）",
+    antinodes: "波腹数（n）",
+    nodeSpacing: "波节间距",
+    mode: "模式数 n",
+    offFrame: "该振幅下曲线超出画面",
+  },
+  ja: {
+    diagram:
+      "両端を固定した弦の定常波：逆向きに進む2つの波、その合成変位、節、腹、包絡線",
+    note: "太い実線：合成した定常波 y = 2A sin(kx)cos(ωt) · 細線：逆向きに進む等振幅の2つの波 · 破線：包絡線 ±2A|sin(kx)| · 塗りつぶした点：節（常に静止）· 白抜きの点：腹 · 固定スケール：横 1 目盛 1 m、縦 1 目盛 0.1 m。パラメーターを変えても図は平行移動のみで、拡大縮小しない。",
+    axisX: "x / m",
+    axisY: "y / m",
+    resultant: "合成変位 y",
+    right: "波 y₁（+x）",
+    left: "波 y₂（−x）",
+    envelope: "包絡線 ±2A",
+    node: "節",
+    antinode: "腹",
+    wavelength: "許される波長 λₙ",
+    frequency: "モードの振動数 fₙ",
+    nodes: "節の数（n+1）",
+    antinodes: "腹の数（n）",
+    nodeSpacing: "節の間隔",
+    mode: "モード数 n",
+    offFrame: "この振幅では曲線が画面をはみ出す",
+  },
+};

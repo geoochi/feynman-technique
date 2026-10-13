@@ -1,0 +1,42 @@
+[
+  {
+    "id": "mode1",
+    "title": "一阶（n = 1）",
+    "params": {
+      "mode": 1,
+      "amplitude": 0.1,
+      "length": 2,
+      "speed": 8
+    }
+  },
+  {
+    "id": "mode2",
+    "title": "二阶（n = 2）",
+    "params": {
+      "mode": 2,
+      "amplitude": 0.1,
+      "length": 2,
+      "speed": 8
+    }
+  },
+  {
+    "id": "mode3",
+    "title": "三阶（n = 3）",
+    "params": {
+      "mode": 3,
+      "amplitude": 0.1,
+      "length": 2,
+      "speed": 8
+    }
+  },
+  {
+    "id": "mode6-long",
+    "title": "六阶长弦（n = 6, L = 4 m）",
+    "params": {
+      "mode": 6,
+      "amplitude": 0.08,
+      "length": 4,
+      "speed": 8
+    }
+  }
+]

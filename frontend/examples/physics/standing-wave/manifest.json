@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "2",
+  "id": "physics.standing-wave",
+  "slug": "standing-wave",
+  "version": "0.1.0",
+  "sdkRange": "^0.1.0",
+  "title": {
+    "en": "Standing waves and nodes",
+    "zh-CN": "驻波与波节",
+    "ja": "定常波と節"
+  },
+  "summary": {
+    "en": "Send two equal waves in opposite directions along a string with fixed ends and see why some points never move.",
+    "zh-CN": "让两列相同的波沿相反方向在两端固定的弦上传播，看看为什么有些点始终不动。",
+    "ja": "同じ2つの波を逆向きに、両端を固定した弦に送り、なぜ動かない点ができるのかを見る。"
+  },
+  "subjects": ["physics"],
+  "levels": ["high-school"],
+  "tags": {
+    "en": ["wave", "standing wave", "node", "antinode", "resonance"],
+    "zh-CN": ["波", "驻波", "波节", "波腹", "共振"],
+    "ja": ["波", "定常波", "節", "腹", "共鳴"]
+  },
+  "learningObjectives": {
+    "en": [
+      "Explain why two equal waves travelling in opposite directions add up to y = 2A sin(kx) cos(ωt)",
+      "Locate the nodes of a standing wave from the fixed-end condition sin(kL) = 0",
+      "Derive the allowed wavelengths λₙ = 2L/n and mode frequencies fₙ = n v / (2L) instead of choosing a wavelength freely",
+      "Relate the mode number to the number of nodes and antinodes on the string"
+    ],
+    "zh-CN": [
+      "解释两列振幅、频率相同且反向传播的波为何叠加成 y = 2A sin(kx)cos(ωt)",
+      "由固定端条件 sin(kL) = 0 确定驻波的波节位置",
+      "推导允许的波长 λₙ = 2L/n 与模式频率 fₙ = n v /(2L)，而不是任意选取波长",
+      "把模式数与弦上的波节、波腹数目对应起来"
+    ],
+    "ja": [
+      "振幅と振動数が等しく逆向きに進む2つの波が、なぜ y = 2A sin(kx)cos(ωt) になるかを説明する",
+      "固定端の条件 sin(kL) = 0 から定常波の節の位置を求める",
+      "許される波長 λₙ = 2L/n とモードの振動数 fₙ = n v /(2L) を導く（波長を自由には選べない）",
+      "モード数と弦上の節・腹の個数を対応づける"
+    ]
+  },
+  "prerequisites": {
+    "en": ["sine functions", "radians", "wave speed, wavelength and frequency"],
+    "zh-CN": ["正弦函数", "弧度", "波速、波长与频率"],
+    "ja": ["正弦関数", "弧度法", "波の速さ・波長・振動数"]
+  },
+  "estimatedMinutes": 15,
+  "layout": "lesson",
+  "theme": "paper",
+  "renderer": "svg",
+  "entry": "view.tsx",
+  "parameterSchema": "parameters.schema.json",
+  "snapshotSchema": "snapshot.schema.json",
+  "locales": ["en", "zh-CN", "ja"],
+  "lessons": {
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
+  },
+  "preview": "preview.svg",
+  "authors": [
+    {
+      "name": "geoochi"
+    }
+  ],
+  "licenses": {
+    "code": "MIT",
+    "content": "MIT"
+  },
+  "capabilities": {
+    "network": false,
+    "audio": false
+  },
+  "modelAssumptions": {
+    "en": [
+      "An ideal string with both ends fixed at x = 0 and x = L; small transverse displacements in a linear medium",
+      "Two sinusoidal waves of equal amplitude A and equal frequency travel in opposite directions, so their sum is y = 2A sin(kx) cos(ωt)",
+      "No damping and no energy loss; the mode number n is an integer, and the wavelength λₙ = 2L/n is derived from it rather than chosen freely"
+    ],
+    "zh-CN": [
+      "理想弦，两端固定在 x = 0 与 x = L；线性介质中的小振幅横向位移",
+      "两列振幅 A、频率相同的正弦波沿相反方向传播，合位移为 y = 2A sin(kx)cos(ωt)",
+      "无衰减、无能量损耗；模式数 n 取整数，波长 λₙ = 2L/n 由 n 导出而非任意选取"
+    ],
+    "ja": [
+      "両端を x = 0 と x = L に固定した理想的な弦。線形媒質中の小さな横変位",
+      "振幅 A と振動数が等しい2つの正弦波が逆向きに進み、合成変位は y = 2A sin(kx)cos(ωt)",
+      "減衰もエネルギー散逸もない。モード数 n は整数で、波長 λₙ = 2L/n は自由には選べず n から導かれる"
+    ]
+  },
+  "references": [
+    {
+      "title": "OpenStax · Standing Waves and Resonance",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/16-6-standing-waves-and-resonance"
+    }
+  ],
+  "status": "experimental",
+  "playback": true,
+  "seo": {
+    "experiment": {
+      "title": {
+        "en": "Standing Wave Simulator: Nodes, Antinodes and Modes · Feynman",
+        "zh-CN": "驻波模拟器：波节、波腹与模式 · Feynman",
+        "ja": "定常波シミュレーター：節・腹・モード · Feynman"
+      },
+      "description": {
+        "en": "Send two equal waves in opposite directions along a string with fixed ends. Pick the mode number, amplitude, length and wave speed to watch the nodes stay still while the antinodes swing, and read the allowed wavelength λₙ = 2L/n and frequency fₙ = n v / (2L).",
+        "zh-CN": "让两列相同的波沿相反方向在两端固定的弦上传播。选择模式数、振幅、弦长与波速，观察波节保持不动、波腹来回振动，并读出允许的波长 λₙ = 2L/n 与频率 fₙ = n v /(2L)。",
+        "ja": "同じ2つの波を逆向きに、両端を固定した弦へ送る。モード数・振幅・弦の長さ・波の速さを選び、節が動かず腹が振動する様子を観察し、許される波長 λₙ = 2L/n と振動数 fₙ = n v /(2L) を読む。"
+      }
+    },
+    "lesson": {
+      "title": {
+        "en": "Standing Waves: Why Nodes Form and λₙ = 2L/n · Feynman",
+        "zh-CN": "驻波：波节为何形成与 λₙ = 2L/n · Feynman",
+        "ja": "定常波：なぜ節ができるのか、λₙ = 2L/n · Feynman"
+      },
+      "description": {
+        "en": "Understand why two counter-propagating waves of equal amplitude and frequency add up to y = 2A sin(kx) cos(ωt), why the fixed ends force sin(kL) = 0, and why the wavelength must be λₙ = 2L/n with mode frequency fₙ = n v / (2L).",
+        "zh-CN": "理解两列反向传播的等振幅、等频率波为何叠加成 y = 2A sin(kx)cos(ωt)，两端固定为何要求 sin(kL) = 0，以及波长为何只能取 λₙ = 2L/n、模式频率为何是 fₙ = n v /(2L)。",
+        "ja": "振幅と振動数が等しい逆向きの2つの波が、なぜ y = 2A sin(kx)cos(ωt) になるのか、両端の固定がなぜ sin(kL) = 0 を要求するのか、波長がなぜ λₙ = 2L/n に限られ、モードの振動数が fₙ = n v /(2L) になるのかを理解する。"
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "default": {
+    "en": "y(x,t) = 2A\\sin(kx)\\cos(\\omega t)",
+    "zh-CN": "y(x,t) = 2A\\sin(kx)\\cos(\\omega t)",
+    "ja": "y(x,t) = 2A\\sin(kx)\\cos(\\omega t)"
+  },
+  "wavelength": {
+    "en": "\\lambda_n = \\frac{2L}{n}",
+    "zh-CN": "\\lambda_n = \\frac{2L}{n}",
+    "ja": "\\lambda_n = \\frac{2L}{n}"
+  },
+  "frequency": {
+    "en": "f_n = \\frac{v}{\\lambda_n} = \\frac{n v}{2L}",
+    "zh-CN": "f_n = \\frac{v}{\\lambda_n} = \\frac{n v}{2L}",
+    "ja": "f_n = \\frac{v}{\\lambda_n} = \\frac{n v}{2L}"
+  },
+  "nodes": {
+    "en": "x_k = \\frac{kL}{n},\\quad k = 0,1,\\dots,n",
+    "zh-CN": "x_k = \\frac{kL}{n},\\quad k = 0,1,\\dots,n",
+    "ja": "x_k = \\frac{kL}{n},\\quad k = 0,1,\\dots,n"
+  }
+}
