@@ -7,6 +7,23 @@ import { labels } from "./labels";
 import { imageDistance, imageKind, magnification } from "./model";
 
 const WIDTH = 600;
+// Fixed optical scale. Changing a parameter moves the drawing; it never rescales
+// it, so the same grid step always means the same distance in metres.
+const X_RANGE = 0.9; // metres shown on each side of the lens
+const Y_RANGE = 0.16; // metres shown on each side of the optical axis
+const MARGIN = 24;
+const GRID_STEP_X = 0.1;
+const GRID_STEP_Y = 0.04;
+
+function ticks(step: number, range: number) {
+  const out: number[] = [];
+  for (let m = step; m <= range + 1e-9; m += step) out.push(Number(m.toFixed(2)));
+  return out;
+}
+const X_GRID = ticks(GRID_STEP_X, X_RANGE);
+const Y_GRID = ticks(GRID_STEP_Y, Y_RANGE);
+const X_LABELS = [0.2, 0.4, 0.6, 0.8];
+const Y_LABELS = [0.08, 0.16];
 
 function Arrow({
   x,
@@ -46,7 +63,9 @@ export default function ThinLensView({ params: p }: ViewProps) {
   const frame = useDiagramFrame(WIDTH, 360);
   const height = frame.height;
   const lensX = WIDTH / 2;
-  const axisY = height * 0.56;
+  const axisY = height / 2;
+  const sx = (WIDTH / 2 - MARGIN) / X_RANGE;
+  const sy = (height / 2 - MARGIN) / Y_RANGE;
 
   const { u, f, h } = p;
   const v = imageDistance(u, f);
@@ -55,22 +74,12 @@ export default function ThinLensView({ params: p }: ViewProps) {
   const finite = Number.isFinite(v);
   const virtual = kind === "virtual";
 
-  // Fit the object and the focal points; cap how far a very distant image can shrink the scale.
-  const reach = Math.max(u, f);
-  const span = Math.max(
-    u,
-    f,
-    finite ? Math.min(Math.abs(v), 2.5 * reach) : 2.5 * reach,
-  );
-  const sx = (lensX - 46) / span;
-  const sy = (height * 0.15) / 0.06;
-
   const objectX = lensX - u * sx;
   const objectTipY = axisY - h * sy;
   const nearFocusX = lensX - f * sx;
   const farFocusX = lensX + f * sx;
 
-  const tipRise = axisY - objectTipY;
+  const tipRise = h * sy;
   const parallelSlope = tipRise / (f * sx);
   const centralSlope = tipRise / (u * sx);
   const drawFocalRay = Math.abs(u - f) > 1e-6;
@@ -79,14 +88,17 @@ export default function ThinLensView({ params: p }: ViewProps) {
 
   const imageX = lensX + v * sx;
   const imageTipY = axisY - m * h * sy;
+  const imageInFrame = finite && imageX >= 0 && imageX <= WIDTH;
+  // The image leaves the fixed frame when it sits past the edge, or when it is
+  // taller than the fixed vertical range (u close to f).
+  const imageClipped =
+    finite && (!imageInFrame || Math.abs(m * h) > Y_RANGE);
 
   const segment = (x0: number, y0: number, x1: number, y1: number) =>
     `M${x0},${y0}L${x1},${y1}`;
   const rayTo = (x0: number, y0: number, slope: number, x1: number) =>
     `M${x0},${y0}L${x1},${y0 + slope * (x1 - x0)}`;
 
-  const rightEdge = WIDTH + 2;
-  const leftEdge = -2;
   const rayStyle = "var(--color-secondary)";
 
   return (
@@ -103,11 +115,93 @@ export default function ThinLensView({ params: p }: ViewProps) {
           </clipPath>
         </defs>
         <g clipPath={`url(#clip-${id})`}>
+          {/* Coordinate grid: one cell is 0.1 m across and 0.02 m up. */}
+          <g stroke="var(--color-border)" strokeWidth="0.5">
+            {X_GRID.map((metres) => (
+              <g key={`gx-${metres}`}>
+                <path d={`M${lensX - metres * sx},0V${height}`} />
+                <path d={`M${lensX + metres * sx},0V${height}`} />
+              </g>
+            ))}
+            {Y_GRID.map((metres) => (
+              <g key={`gy-${metres}`}>
+                <path d={`M0,${axisY - metres * sy}H${WIDTH}`} />
+                <path d={`M0,${axisY + metres * sy}H${WIDTH}`} />
+              </g>
+            ))}
+          </g>
+
+          {/* Axes: the optical axis and the lens plane meet at the origin. */}
           <path
-            d={`M0 ${axisY}H${WIDTH}`}
-            stroke="var(--color-border)"
+            d={`M0,${axisY}H${WIDTH}`}
+            stroke="var(--color-text-muted)"
             strokeWidth="1"
           />
+          <path
+            d={`M${lensX},0V${height}`}
+            stroke="var(--color-text-muted)"
+            strokeWidth="1"
+          />
+          <g stroke="var(--color-text-muted)" strokeWidth="1">
+            {X_GRID.map((metres) => (
+              <g key={`tx-${metres}`}>
+                <path
+                  d={`M${lensX - metres * sx},${axisY - 3}V${axisY + 3}`}
+                />
+                <path
+                  d={`M${lensX + metres * sx},${axisY - 3}V${axisY + 3}`}
+                />
+              </g>
+            ))}
+          </g>
+          <g
+            fill="var(--color-text-muted)"
+            fontSize="9"
+            textAnchor="middle"
+          >
+            {X_LABELS.map((metres) => (
+              <g key={`lx-${metres}`}>
+                <text x={lensX - metres * sx} y={axisY + 14}>
+                  {metres.toFixed(1)}
+                </text>
+                <text x={lensX + metres * sx} y={axisY + 14}>
+                  {metres.toFixed(1)}
+                </text>
+              </g>
+            ))}
+          </g>
+          <g fill="var(--color-text-muted)" fontSize="9" textAnchor="start">
+            {Y_LABELS.map((metres) => (
+              <g key={`ly-${metres}`}>
+                <text x={4} y={axisY - metres * sy + 3}>
+                  {metres.toFixed(2)}
+                </text>
+                <text x={4} y={axisY + metres * sy + 3}>
+                  {metres.toFixed(2)}
+                </text>
+              </g>
+            ))}
+          </g>
+          <text
+            x={WIDTH - 4}
+            y={axisY - 6}
+            fill="var(--color-text-muted)"
+            fontSize="9"
+            textAnchor="end"
+          >
+            {text.axisDistance}
+          </text>
+          <text
+            x={4}
+            y={12}
+            fill="var(--color-text-muted)"
+            fontSize="9"
+            textAnchor="start"
+          >
+            {text.axisHeight}
+          </text>
+
+          {/* The lens itself is schematic. */}
           <path
             d={`M${lensX},${axisY - height * 0.34} Q${lensX + 16},${axisY} ${lensX},${axisY + height * 0.34} Q${lensX - 16},${axisY} ${lensX},${axisY - height * 0.34} Z`}
             fill="var(--color-background)"
@@ -137,7 +231,7 @@ export default function ThinLensView({ params: p }: ViewProps) {
             fill="none"
           />
           <path
-            d={rayTo(lensX, objectTipY, parallelSlope, rightEdge)}
+            d={rayTo(lensX, objectTipY, parallelSlope, WIDTH)}
             stroke={rayStyle}
             strokeWidth="1.1"
             fill="none"
@@ -150,7 +244,7 @@ export default function ThinLensView({ params: p }: ViewProps) {
             fill="none"
           />
           <path
-            d={rayTo(lensX, axisY, centralSlope, rightEdge)}
+            d={rayTo(lensX, axisY, centralSlope, WIDTH)}
             stroke={rayStyle}
             strokeWidth="1.1"
             fill="none"
@@ -165,7 +259,7 @@ export default function ThinLensView({ params: p }: ViewProps) {
                 fill="none"
               />
               <path
-                d={rayTo(lensX, focalHitY, 0, rightEdge)}
+                d={rayTo(lensX, focalHitY, 0, WIDTH)}
                 stroke={rayStyle}
                 strokeWidth="1.1"
                 fill="none"
@@ -177,14 +271,14 @@ export default function ThinLensView({ params: p }: ViewProps) {
           {virtual && (
             <>
               <path
-                d={rayTo(lensX, objectTipY, parallelSlope, leftEdge)}
+                d={rayTo(lensX, objectTipY, parallelSlope, 0)}
                 stroke="var(--color-text-muted)"
                 strokeWidth="1"
                 strokeDasharray="5 5"
                 fill="none"
               />
               <path
-                d={rayTo(lensX, axisY, centralSlope, leftEdge)}
+                d={rayTo(lensX, axisY, centralSlope, 0)}
                 stroke="var(--color-text-muted)"
                 strokeWidth="1"
                 strokeDasharray="5 5"
@@ -192,7 +286,7 @@ export default function ThinLensView({ params: p }: ViewProps) {
               />
               {drawFocalRay && (
                 <path
-                  d={rayTo(lensX, focalHitY, 0, leftEdge)}
+                  d={rayTo(lensX, focalHitY, 0, 0)}
                   stroke="var(--color-text-muted)"
                   strokeWidth="1"
                   strokeDasharray="5 5"
@@ -202,7 +296,7 @@ export default function ThinLensView({ params: p }: ViewProps) {
             </>
           )}
 
-          {finite && (
+          {finite && imageInFrame && (
             <Arrow
               x={imageX}
               yBase={axisY}
@@ -227,7 +321,7 @@ export default function ThinLensView({ params: p }: ViewProps) {
           >
             {text.object}
           </text>
-          {finite && (
+          {finite && imageInFrame && (
             <text
               x={imageX}
               y={imageTipY + (imageTipY < axisY ? -8 : 16)}
@@ -247,6 +341,17 @@ export default function ThinLensView({ params: p }: ViewProps) {
               textAnchor="end"
             >
               {text.infinite}
+            </text>
+          )}
+          {imageClipped && (
+            <text
+              x={v >= 0 ? WIDTH - 12 : 12}
+              y={axisY + (v >= 0 ? -14 : 20)}
+              fill="var(--color-accent)"
+              fontSize="11"
+              textAnchor={v >= 0 ? "end" : "start"}
+            >
+              {text.offFrame}
             </text>
           )}
         </g>
