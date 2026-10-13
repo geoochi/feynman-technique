@@ -1,6 +1,6 @@
 # Cloudflare Workers 静态部署
 
-更新：2026-10-13。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Next 静态迁移已发布并通过线上验收，当前来源 3a45196（实验扩展 01–04），版本与检查见文末；更早的历史发布记录保留。GitHub 自动构建关联尚未完成。
+更新：2026-10-13。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Next 静态迁移已发布并通过线上验收，当前来源 f430d5a（实验扩展 01–04 及凸透镜绘图修复），版本与检查见文末；更早的历史发布记录保留。GitHub 自动构建关联尚未完成。
 
 ## 当前实际流程
 
@@ -140,3 +140,13 @@ Search Console 的域名验证、sitemap 提交与线上性能测量单独验收
 线上验收：新案例 `/labs/wave-superposition`、`/zh/labs/thin-lens`、`/ja/learn/daylight-latitude`、`/labs/spring-oscillator` 返回 200；未知页 `/zh/labs/does-not-exist` 返回真实 404；裸域 `http://feynman-technique.com/labs/wave-superposition` 保留路径 301 到 HTTPS www；新案例 canonical 与 en/zh-CN/ja/x-default hreflang 正确；sitemap 为 51 个内容地址。
 
 本轮未做实体设备与独立教学审阅；四个新案例保持 experimental。此发布记录为纯文档提交，不再循环触发部署。
+
+## 2026-10-13 凸透镜绘图修复
+
+反馈：凸透镜成像页没有坐标系，且改变物距时整张图会重新缩放。原因是绘图比例 `sx` 随参数（u、f、像距 v）自适应，违反「绘图不能用按当前参数自动缩放掩盖实验变化」。
+
+修复（提交 `f430d5a`）：改为固定光学比例（横向每格 0.1 m、纵向每格 0.04 m），绘制带米制刻度的坐标系（网格、光轴、透镜平面、x/y 轴标注），像超出固定画面时给出提示；同步更新三语言说明文字，并新增回归测试 `tests/browser/thin-lens.spec.ts`（改变物距时固定参照不移动、物体移动）。
+
+验证：`typecheck`、`build` 54 页与导出校验、Playwright e2e 130 通过 / 4 按设计跳过 / 0 失败。
+
+发布：本机重新构建后上传现有 feynman Worker，版本 `16947142-5d34-4e6a-bb76-39666cd6bba8`，212 个文件上传，两个 Custom Domain 不变。线上验收：`/zh/labs/thin-lens` 与 `/labs/thin-lens` 返回 200；场景分块 `/_next/static/chunks/1_tk-ude5-2s_.js` 已更新（含 `y / m` 与「像超出画面」）。此记录为纯文档提交，不再循环触发部署。
