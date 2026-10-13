@@ -1,0 +1,17 @@
+{
+  "default": {
+    "en": "A = \\sqrt{A_1^2 + A_2^2 + 2A_1A_2\\cos\\varphi}",
+    "zh-CN": "A = \\sqrt{A_1^2 + A_2^2 + 2A_1A_2\\cos\\varphi}",
+    "ja": "A = \\sqrt{A_1^2 + A_2^2 + 2A_1A_2\\cos\\varphi}"
+  },
+  "superposition": {
+    "en": "y = y_1 + y_2 = A_1\\sin(kx - \\omega t) + A_2\\sin(kx - \\omega t + \\varphi)",
+    "zh-CN": "y = y_1 + y_2 = A_1\\sin(kx - \\omega t) + A_2\\sin(kx - \\omega t + \\varphi)",
+    "ja": "y = y_1 + y_2 = A_1\\sin(kx - \\omega t) + A_2\\sin(kx - \\omega t + \\varphi)"
+  },
+  "waveNumber": {
+    "en": "k = \\frac{2\\pi}{\\lambda}, \\qquad \\omega = kc",
+    "zh-CN": "k = \\frac{2\\pi}{\\lambda}, \\qquad \\omega = kc",
+    "ja": "k = \\frac{2\\pi}{\\lambda}, \\qquad \\omega = kc"
+  }
+}
