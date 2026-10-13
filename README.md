@@ -39,7 +39,7 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Built with TypeScript, React, and Next.js App Router using static export. Models run in the visitor's browser; the site is hosted as static assets on Cloudflare Workers. The Next.js migration is implemented locally and has not yet been deployed.
+Built with TypeScript, React, and Next.js App Router using static export. Models run in the visitor's browser; the site is hosted as static assets on Cloudflare Workers. The Next.js migration was deployed and verified on October 13, 2026.
 
 For checks and implementation details, see [development](docs/DEVELOPMENT.md), [experiment design](docs/CONTRIBUTING_DESIGN.md), and [deployment](docs/DEPLOYMENT.md).
 

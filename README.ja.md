@@ -39,7 +39,7 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-TypeScript、React、Next.js App Router の静的エクスポートを使用しています。Next.js への移行はローカルで実装済みですが、まだ公開サイトへデプロイしていません。計算は閲覧者のブラウザーで行い、Cloudflare Workers の静的アセットとして配信します。
+TypeScript、React、Next.js App Router の静的エクスポートを使用しています。Next.js への移行は 2026 年 10 月 13 日にデプロイし、公開サイトの動作を確認しました。計算は閲覧者のブラウザーで行い、Cloudflare Workers の静的アセットとして配信します。
 
 詳細は[開発と検証](docs/DEVELOPMENT.md)、[実験設計](docs/CONTRIBUTING_DESIGN.md)、[デプロイ](docs/DEPLOYMENT.md)を参照してください。
 

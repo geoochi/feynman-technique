@@ -1,10 +1,10 @@
 # Cloudflare Workers 静态部署
 
-日期：2026-10-11。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Cloudflare OAuth 授权、Active Zone、www 绑定、HTTPS、裸域重定向和本轮 SEO/GEO 产物发布已完成，并通过线上验收。GitHub 自动构建关联尚未完成。
+更新：2026-10-13。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Next 静态迁移已发布并通过线上验收，来源 ccedbd2，版本与检查见文末；2026-10-11 的历史发布记录保留。GitHub 自动构建关联尚未完成。
 
 ## 当前实际流程
 
-当前源码已迁移为本机 pnpm build 生成 out（本次尚未上传；线上仍是此前 Vite 版本），再由本机 pnpm deploy:workers（Wrangler）上传到 Cloudflare。Cloudflare 负责持有、分发线上资源；网站不运行在本机，关闭本机不影响访问。git commit/push 只保存源码，尚不自动触发部署。完成 Workers Builds 的 GitHub 关联后，生产分支推送事件才会触发 Cloudflare 构建并发布；不用另写自定义 webhook 或 GitHub Actions。
+当前源码由本机 pnpm build 生成 Next 静态 out，再由本机 pnpm deploy:workers（Wrangler）上传到 Cloudflare；2026-10-13 已按这一方式发布。Cloudflare 负责持有、分发线上资源；网站不运行在本机，关闭本机不影响访问。git commit/push 只保存源码，尚不自动触发部署。完成 Workers Builds 的 GitHub 关联后，生产分支推送事件才会触发 Cloudflare 构建并发布；不用另写自定义 webhook 或 GitHub Actions。
 
 ## 部署方式
 
@@ -145,8 +145,16 @@ Search Console 的域名验证、sitemap 提交与线上性能测量单独验收
 
 本轮已通过本机 Wrangler 发布同一个 Worker，版本 `8dd640d1-11ec-4719-8070-51be2994705d`，创建时间 `2026-10-11T09:40:22Z`，流量 100%。上传来源为 `910ffde` 加本轮已验证工作树，仍不是 Git 自动构建。24 份线上 HTML、LICENSE.txt、THIRD_PARTY_NOTICES.txt、目录、robots、sitemap 和入口 JS/CSS 与本地一致；三个案例 code/content 均为 MIT；sitemap 保持 21 页。未知资源与 /contribute 返回 404，裸域 301 保留路径与编码查询参数。[本轮复核](../tooling/ai-review/2026-10-11-mit.md)
 
-## 2026-10-13 Next 迁移发布准备（未发布）
+## 2026-10-13 Next 迁移发布准备（阶段历史）
 
 默认 pnpm build 产物改为 out，Wrangler 的 Worker 名称、www/裸域绑定、HTML 规则与真实 404 不变；只交付静态文件，无 Next 运行服务器。缓存仅覆盖 /_next/static/* 的哈希资源，RSC 文本与 HTML 可更新。完整 out（含 RSC/segment 文件）作为同一版本上传，不能只复制 HTML 或使用 next start。GitHub Builds 尚未关联，推送仍不会更新官网。
 
 发布前复查 Next 安全补丁、确认最终源码/审查范围及回退版本，重新完成冻结安装和生产构建；不要上传 noindex 预览产物。上一正式验收对应版本继续保留在本文件历史中，但回退候选是否仍可用需发布时在平台核实。获得发布授权后上传同一 Worker，随后核对正式域名、裸域 301、21 个内容 URL、3 个语言错误页、RSC/资源/验证文件、robots/sitemap 与交互。本文既有线上验收均为历史，不算本次 Next 上线验收。
+
+## 2026-10-13 Next 正式发布与验收
+
+维护者明确授权自动提交、推送与部署。来源为已推送 main 的 `ccedbd2c374d2b1f36f0200850a7fc6855ee0fa7`，该提交重新构建的正式可索引 out 通过审计后由 Wrangler 上传。版本 `80b67878-c31f-447c-bca2-e22033a1e027`，部署创建于 `2026-10-13T06:40:54.285Z`（北京时间 14:40:54），100% 流量，tag 为 ccedbd2，消息包含完整源码 SHA。Worker 仍为 feynman，两个 Custom Domain 与 301 方向保留，Git 自动构建未关联。
+
+21 个内容页面与 3 个语言 404 的线上 HTML 与本地一致；196 个非 HTML 资产含 JS/CSS/字体/纹理/目录/robots/sitemap/RSC 逐字节核对通过。Google 验证文件和 favicon 保留；14 个裸域请求 301、4 个别名 307 保留查询，9 个缺失页面/资源为真实 404。Chrome 桌面/手机模拟下三实验、语言状态/播放、静态导航及三语言无 JS 讲解通过。首轮资源请求超时后完整复验，未盲改配置。详细范围及限制见 [本次正式复核](../tooling/ai-review/2026-10-13-next-deployment.md)。
+
+发布前平台核实旧版本 8dd640d1-11ec-4719-8070-51be2994705d，本次未回滚。依赖固定为 Next 16.4.0、Ajv 8.18.0、KaTeX 0.18.2；当前 production audit 无已知漏洞。Next 已预告 10 月 14 日安全更新，补丁与影响范围尚未公开，届时需复查。未重新测量线上性能、实体设备或搜索效果；部署记录的后续 Git 提交只更新文档，不改变上述静态产物来源。

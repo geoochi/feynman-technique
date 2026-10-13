@@ -2,7 +2,7 @@
 
 更新：2026-10-13。首期 v0.1.0 已上线；Git 自动发布与扩展部分仍待实施。长期优先级、阶段目标与推进条件统一见 [开发路线图](ROADMAP.md)，本文维护技术结构和边界。
 
-前端已统一为 Next.js App Router + output:export，详见 [迁移方案与实施状态](NEXTJS_REFACTOR_PLAN.md)。21 个三语言内容 URL 在构建时渲染，实验使用局部客户端会话，默认产物 out。原 Vite 入口和正常页面预渲染器已移除；Vitest 仍使用 Vite 依赖。生产站当前仍是此前部署，迁移产物尚未发布。
+前端已统一为 Next.js App Router + output:export，详见 [迁移方案与实施状态](NEXTJS_REFACTOR_PLAN.md)。21 个三语言内容 URL 在构建时渲染，实验使用局部客户端会话，默认产物 out。原 Vite 入口和正常页面预渲染器已移除；Vitest 仍使用 Vite 依赖。迁移版本已于 2026-10-13 发布并完成线上验收，来源 ccedbd2；实际版本见部署记录。
 
 已实现：Next.js 静态导出前端、三个实验、英文默认及中文/日文界面与讲解、构建时清单校验与可信懒加载映射、目录搜索、预渲染讲解、参数与播放控制、运行时完整快照接口、模型与浏览器验证。实验页不提供倍速、视角缩放或状态导入导出入口。未实现：独立发行 SDK/CLI、电学工作台、Worker/WASM、历史版本归档、Workers Builds 的 GitHub 自动构建关联。原 Vite 版本已通过 Workers Static Assets 正式部署到 https://www.feynman-technique.com。实际开发入口见 [本地开发](DEVELOPMENT.md)。
 

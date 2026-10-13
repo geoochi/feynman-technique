@@ -210,4 +210,8 @@ Worker 控制台仍提示连接 Git 仓库，Git 自动构建尚未关联。Sear
 
 ## 13. Next 静态迁移的本地复核（2026-10-13）
 
-全量源码迁移已实现，尚未发布。21 个规范内容 URL、三语言独立元信息/正文/JSON-LD、Google 验证文件、robots/sitemap 与真实语言 404 已本地复核；首页无需下载全语言讲解集合。Next Metadata 使用原有纯规则，预览及非 main 构建强制 noindex 且无 sitemap。详细结果见 [全量迁移记录](../tooling/ai-review/2026-10-13-next-migration.md)。本节不覆盖第 9–12 节历史上线事实，也没有读取新的 Search Console/爬虫/流量报告；不能据框架迁移声称收录或 GEO 效果改善。
+初次全量本地验收时源码迁移已实现，尚未发布；随后获得授权并完成第 14 节的上线复核。21 个规范内容 URL、三语言独立元信息/正文/JSON-LD、Google 验证文件、robots/sitemap 与真实语言 404 已本地复核；首页无需下载全语言讲解集合。Next Metadata 使用原有纯规则，预览及非 main 构建强制 noindex 且无 sitemap。详细结果见 [全量迁移记录](../tooling/ai-review/2026-10-13-next-migration.md)。本节不覆盖第 9–12 节历史上线事实，也没有读取新的 Search Console/爬虫/流量报告；不能据框架迁移声称收录或 GEO 效果改善。
+
+## 14. Next 正式上线后的索引配置复核（2026-10-13）
+
+源码 ccedbd2 已推送并发布，版本 80b67878-c31f-447c-bca2-e22033a1e027、100% 流量。21 个正式内容页、三语言 404、robots/sitemap、Google 验证文件及裸域跳转已线上核对；页面与静态导航载荷和本地产物一致，三语言交互/无 JS 讲解通过。见 [正式生产复核](../tooling/ai-review/2026-10-13-next-deployment.md)。没有读取新的 Search Console 或流量/真实用户性能数据，不声称产生索引、排名或 GEO 效果。

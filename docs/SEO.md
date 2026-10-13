@@ -6,7 +6,7 @@
 
 ## 架构与页面内容
 
-当前采用 Next.js App Router 静态导出，首页、完整讲解和实验框架在构建时渲染。三个语言共 21 个内容 URL 与 3 个语言 404；正文与科学交互边界见 [迁移记录](NEXTJS_REFACTOR_PLAN.md)。正式构建生成 sitemap，预览/非 main/显式 SITE_INDEXABLE=false 都 noindex 且不生成 sitemap。生产官网尚未切换到本次产物。
+当前采用 Next.js App Router 静态导出，首页、完整讲解和实验框架在构建时渲染。三个语言共 21 个内容 URL 与 3 个语言 404；正文与科学交互边界见 [迁移记录](NEXTJS_REFACTOR_PLAN.md)。正式构建生成 sitemap，预览/非 main/显式 SITE_INDEXABLE=false 都 noindex 且不生成 sitemap。生产官网已于 2026-10-13 切换到 Next 产物，页面、robots/sitemap、验证文件和跳转已线上复核；未读取新的搜索效果数据。
 
 `frontend/packages/seo/pages.ts` 统一页面枚举，metadata.ts 提供纯规则；apps/web/pages/metadata.tsx 将其适配为 Next Metadata 和安全 JSON-LD。旧 head.ts、applyMetadata 与正常页面预渲染器已删除；scripts/check-export.ts 校验导出正文、元信息、许可和客户端内容边界。
 
