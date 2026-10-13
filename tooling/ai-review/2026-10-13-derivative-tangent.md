@@ -25,4 +25,12 @@ Google Chrome 155.0.8059.40、Darwin 27.0.0，1440×900 与 390×844 CSS px，DP
 
 ## 正式发布
 
-待源码提交及现有 feynman Worker 发布后，补充实际来源、版本与线上验收。本节在上线前不作为完成证明。
+最终源码 `298d44ba9fb1f05a054ad44cb64fcc4537e1a8c6` 已核对作者与 Codex trailer、推送并通过远端 SHA 校验。提交后复核最终文件范围，无额外源码修改；从该提交重新构建并通过同一 30 页静态审计，再发布到 feynman。
+
+Worker 版本 `61247a7c-3ed2-48c0-a70c-7f5d6fc094db`，部署创建于 2026-10-13T08:18:38.963Z（北京时间 16:18:38）、100% 流量，tag 298d44b。平台版本消息记录完整源码 SHA；未更改域名或发布通道。
+
+线上 HTTP 验收：30 HTML、223 非 HTML 资源、27 sitemap 地址、12 个裸域 301（保留路径与查询）、10 个真实 404、2 个别名跳转及缓存检查通过。HTML 比较只去除已具体定位的 Cloudflare Insights 注入脚本；资源按 URL 编码请求，避免将平台对未编码 $ 的 307 误判为缺失。HTTP 原始结果位于本机忽略目录 `frontend/test-results-derivative/live-http.json`。
+
+线上 Chrome 复验 14 passed / exit 0，三语言、桌面/手机、新案例交互和状态、搜索与自然链接、全站无 JS 正文和 SEO 均通过。首次运行未保留最终退出结果，恢复后完整重跑确认，日志与截图保存在 `frontend/test-results-derivative/live-browser.log` 和 `live-browser/`。上述证据是本次验收，不沿用历史发布检查。未增加独立教学审阅或性能达标声明。
+
+发布状态同步 AGENTS、DEVELOPMENT、DEPLOYMENT、ROADMAP；文档收尾单独提交，不改本次部署源码或触发重复发布。

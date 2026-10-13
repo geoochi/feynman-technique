@@ -1,6 +1,6 @@
 # Cloudflare Workers 静态部署
 
-更新：2026-10-13。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Next 静态迁移已发布并通过线上验收，当前来源 a35e6d4，版本与检查见文末；2026-10-11 的历史发布记录保留。GitHub 自动构建关联尚未完成。
+更新：2026-10-13。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Next 静态迁移已发布并通过线上验收，当前来源 298d44b，版本与检查见文末；2026-10-11 的历史发布记录保留。GitHub 自动构建关联尚未完成。
 
 ## 当前实际流程
 
@@ -80,7 +80,7 @@ Wrangler 上传更新同一个现有 Worker，不代表 Git 自动发布已经�
 - www 主域名、三语言入口及实验/讲解深链接直接返回 200，`.html` 与尾斜线别名归一正确。
 - 裸域 HTTP/HTTPS 请求均经 301 到 HTTPS www；保留 `/`、`/zh/`、`/ja/`、实验/讲解路径与查询，不循环、不出现 5xx。www 的 HTTP 到 HTTPS 同样保持路径与查询。
 - 未知页面与缺失资源返回 404，正式页面没有 noindex 响应头，HTML canonical/hreflang 指向正式域名。
-- robots.txt、包含 21 个内容地址的 sitemap.xml、分享图片和地球贴图正常；哈希资源长缓存，HTML 可更新。
+- robots.txt、包含 27 个内容地址的 sitemap.xml、分享图片和地球贴图正常；哈希资源长缓存，HTML 可更新。
 - Git 自动构建关联后再核对推送触发发布；当前仍需手动上传。故障按平台 Version History 恢复此前已验证版本。
 
 Search Console 的域名验证、sitemap 提交与线上性能测量单独验收；构建成功不表示搜索收录或网络性能已经达标。
@@ -116,3 +116,15 @@ Search Console 的域名验证、sitemap 提交与线上性能测量单独验收
 当前版本为 8d12ef67-3f27-4e4e-9f15-80e96c3abfca，部署创建于 2026-10-13T07:53:23.214Z（北京时间 15:53:23）、100% 流量，tag 为 a35e6d4，版本消息含完整源码 SHA。此前版本 80b67878-c31f-447c-bca2-e22033a1e027 保留历史，不算当前版本的重新验收。
 
 本次正式复验：21 个内容页和 3 个语言 404 的 HTML 与产物一致；196 个非 HTML 资产含 RSC/segment、脚本/样式/字体/纹理、robots/sitemap 逐字节一致。18 个重定向、9 个缺失页/资源请求、Google 验证文件与缓存检查通过。Chrome 桌面/手机模拟下三个实验共 6 组语言/状态检查及三语言无 JS 讲解通过，无页面异常。原始材料归档到仓库旁的本机证据目录，详见 [清理复核](../tooling/ai-review/2026-10-13-repository-cleanup.md)。部署记录后续只提交推送，不再触发部署。
+
+## 2026-10-13 导数与切线内容扩展发布
+
+来源 `298d44ba9fb1f05a054ad44cb64fcc4537e1a8c6` 已推送 `origin/main`，固定 Node 24.11.1 / pnpm 12.10.1 从该提交重新构建并审计正式 out 后上传到现有 feynman Worker。版本 `61247a7c-3ed2-48c0-a70c-7f5d6fc094db`，部署创建于 `2026-10-13T08:18:38.963Z`（北京时间 16:18:38）、100% 流量，tag 为 298d44b，版本消息包含完整源码 SHA。上一版本 8d12ef67-3f27-4e4e-9f15-80e96c3abfca 保留，未执行回滚。两个 Custom Domain 不变，GitHub Builds 关联仍未完成。
+
+新增第四个案例“导数与切线”，三语言实验/讲解均可直接访问，sitemap 为 27 个内容地址。正式复验 30 个 HTML（含 3 个语言 404）与本地产物一致，仅精确去除平台注入的 Cloudflare Insights 脚本后比较；223 个非 HTML 资源（包括 RSC/segment、JS/CSS、字体、纹理、封面、目录、验证文件和 robots/sitemap）逐字节一致。Next 特殊文件名按 URL 编码请求；未编码的 $ 会由平台返回 307 到编码 URL，此前检查脚本已修正，未改站点配置。
+
+12 个 HTTP/HTTPS 裸域请求保留路径与查询并 301 到 HTTPS www；10 个缺失页面/脚本/JSON/模型及停用贡献页返回真实 404；2 个 HTML/尾斜线别名归一通过。哈希 JS 长缓存，实验 HTML 为 public, max-age=0, must-revalidate，正式页面无 noindex 响应头。
+
+正式站 Chrome 桌面/手机模拟共 14 项检查通过：三语言新增实验的调参、零间隔、边界、重置与语言状态，关联讲解链接、搜索，全站无 JS 正文与 canonical/hreflang/JSON-LD。测试首次运行输出已完成逐项检查但未保留最终退出结果，恢复后完整重跑并确认 14 passed / exit 0，不以中断结果替代完成证明。
+
+本轮未测量生产性能、实体设备或学习效果。独立教学审阅与母语审校待完成，案例保持 experimental。完整记录见 [本轮复核](../tooling/ai-review/2026-10-13-derivative-tangent.md)；后续发布记录提交仅更新文档，不再循环部署。

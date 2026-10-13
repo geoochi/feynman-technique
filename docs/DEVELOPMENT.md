@@ -1,6 +1,6 @@
 # 本地开发与验证
 
-更新：2026-10-13。当前源码已统一为 Next.js App Router 静态导出；正常页面由 Next 构建渲染，实验在浏览器运行。迁移版本已在官网发布并完成线上验收，迁移初次发布来源 ccedbd2，当前清理版本来源 a35e6d4。完整记录见 [迁移计划](archive/2026-10-13-nextjs-migration.md)和 [部署记录](DEPLOYMENT.md)。
+更新：2026-10-13。当前源码已统一为 Next.js App Router 静态导出；正常页面由 Next 构建渲染，实验在浏览器运行。迁移版本已在官网发布并完成线上验收，迁移初次发布来源 ccedbd2，清理版本来源 a35e6d4，当前导数与切线扩展版本来源 298d44b。完整记录见 [迁移计划](archive/2026-10-13-nextjs-migration.md)和 [部署记录](DEPLOYMENT.md)。
 
 ## 当前环境与命令
 
