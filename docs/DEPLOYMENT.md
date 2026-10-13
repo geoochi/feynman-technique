@@ -1,6 +1,6 @@
 # Cloudflare Workers 静态部署
 
-更新：2026-10-13。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Next 静态迁移已发布并通过线上验收，当前来源 298d44b，版本与检查见文末；2026-10-11 的历史发布记录保留。GitHub 自动构建关联尚未完成。
+更新：2026-10-13。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Next 静态迁移已发布并通过线上验收，当前来源 3a45196（实验扩展 01–04），版本与检查见文末；更早的历史发布记录保留。GitHub 自动构建关联尚未完成。
 
 ## 当前实际流程
 
@@ -128,3 +128,15 @@ Search Console 的域名验证、sitemap 提交与线上性能测量单独验收
 正式站 Chrome 桌面/手机模拟共 14 项检查通过：三语言新增实验的调参、零间隔、边界、重置与语言状态，关联讲解链接、搜索，全站无 JS 正文与 canonical/hreflang/JSON-LD。测试首次运行输出已完成逐项检查但未保留最终退出结果，恢复后完整重跑并确认 14 passed / exit 0，不以中断结果替代完成证明。
 
 本轮未测量生产性能、实体设备或学习效果。独立教学审阅与母语审校待完成，案例保持 experimental。完整记录见 [本轮复核](../tooling/ai-review/2026-10-13-derivative-tangent.md)；后续发布记录提交仅更新文档，不再循环部署。
+
+## 2026-10-13 实验扩展发布（01–04）
+
+合并提交 `3a45196` 已推送 `origin/main`，由本机固定 Node 24.11.1 / pnpm 12.10.1 构建正式 out 后上传到现有 feynman Worker。版本 `f911d736-cf0b-44aa-8167-7b58a1bf2c88`，227 个文件上传，两个 Custom Domain（www 与裸域）不变。上一版本 `61247a7c-3ed2-48c0-a70c-7f5d6fc094db` 保留，未执行回滚。
+
+新增四个案例：波的叠加（`physics.wave-superposition`）、弹簧振子（`physics.spring-oscillator`）、凸透镜成像（`physics.thin-lens`）、纬度与昼长（`geography.daylight-latitude`），均为三语言七章讲解。案例目录自包含，未修改任何中心路由或共享文件；并行开发所需的前置测试改造见提交 `36ded68`。
+
+工程验证（本机）：`generate` 注册 8 个案例、`typecheck` 通过、单元测试 13 文件 102 项通过、`build` 输出 54 页（51 内容路由 + 3 个语言 404）且 SEO/正文边界/许可校验通过、Playwright e2e 128 通过 / 4 按设计跳过 / 0 失败。
+
+线上验收：新案例 `/labs/wave-superposition`、`/zh/labs/thin-lens`、`/ja/learn/daylight-latitude`、`/labs/spring-oscillator` 返回 200；未知页 `/zh/labs/does-not-exist` 返回真实 404；裸域 `http://feynman-technique.com/labs/wave-superposition` 保留路径 301 到 HTTPS www；新案例 canonical 与 en/zh-CN/ja/x-default hreflang 正确；sitemap 为 51 个内容地址。
+
+本轮未做实体设备与独立教学审阅；四个新案例保持 experimental。此发布记录为纯文档提交，不再循环触发部署。
