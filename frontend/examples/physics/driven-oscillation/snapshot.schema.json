@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["x", "v", "phase"],
+  "properties": {
+    "x": {
+      "type": "number",
+      "minimum": -50,
+      "maximum": 50
+    },
+    "v": {
+      "type": "number",
+      "minimum": -100,
+      "maximum": 100
+    },
+    "phase": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 6.283185307179586
+    }
+  }
+}

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260" width="600" height="260" role="img" aria-label="受迫振动与共振：阻尼弹簧振子、驱动力与幅频响应曲线">
+  <defs>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#6b869e" stroke-opacity=".12"/>
+    </pattern>
+    <marker id="forceArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 10 5 0 10z" fill="#2f6fd0"/>
+    </marker>
+  </defs>
+  <rect width="600" height="260" fill="#f5f8fb"/>
+  <rect width="600" height="260" fill="url(#grid)"/>
+  <rect x="26" y="90" width="10" height="60" fill="#778897"/>
+  <path d="M36 120 L48 120 L60 106 L76 134 L92 106 L108 134 L124 106 L140 134 L152 120 L164 120" fill="none" stroke="#c9800f" stroke-width="2.2"/>
+  <rect x="164" y="96" width="48" height="48" rx="6" fill="#0092c7" stroke="#0077a8"/>
+  <text x="188" y="126" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="16">m</text>
+  <line x1="212" y1="120" x2="280" y2="120" stroke="#2f6fd0" stroke-width="2.4" marker-end="url(#forceArrow)"/>
+  <text x="248" y="106" text-anchor="middle" fill="#2f6fd0" font-family="monospace" font-size="13">F(t)</text>
+  <line x1="188" y1="70" x2="188" y2="170" stroke="#a9b4bc" stroke-dasharray="5 5"/>
+  <text x="188" y="64" text-anchor="middle" fill="#758492" font-family="monospace" font-size="11">x = 0</text>
+  <text x="26" y="196" fill="#758492" font-family="monospace" font-size="12">m x'' + c x' + k x = F₀ cos(ω_d t)</text>
+  <path d="M330 202H584" stroke="#778897" stroke-width="1"/>
+  <path d="M330 202V44" stroke="#778897" stroke-width="1"/>
+  <path d="M330 200 C388 198 420 194 434 170 C448 146 448 76 462 66 C476 56 488 152 508 180 C528 198 556 201 584 201" fill="none" stroke="#0092c7" stroke-width="2.4"/>
+  <line x1="462" y1="44" x2="462" y2="202" stroke="#a9b4bc" stroke-dasharray="4 4"/>
+  <text x="462" y="38" text-anchor="middle" fill="#758492" font-family="monospace" font-size="11">ω₀</text>
+  <text x="584" y="220" text-anchor="end" fill="#758492" font-family="monospace" font-size="11">ω_d / (rad/s)</text>
+  <text x="326" y="54" text-anchor="end" fill="#758492" font-family="monospace" font-size="11">A / m</text>
+</svg>

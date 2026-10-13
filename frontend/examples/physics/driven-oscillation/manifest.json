@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "2",
+  "id": "physics.driven-oscillation",
+  "slug": "driven-oscillation",
+  "version": "0.1.0",
+  "sdkRange": "^0.1.0",
+  "title": {
+    "en": "Driven oscillator and resonance",
+    "zh-CN": "受迫振动与共振",
+    "ja": "強制振動と共振"
+  },
+  "summary": {
+    "en": "Drive a damped spring with a sinusoidal force and see why one frequency builds a large amplitude.",
+    "zh-CN": "用周期性外力驱动带阻尼的弹簧振子，观察为什么某个频率会让振幅变得很大。",
+    "ja": "減衰するばね振り子を周期的な外力で駆動し、ある振動数で振幅が大きくなる理由を見る。"
+  },
+  "subjects": ["physics"],
+  "levels": ["high-school"],
+  "tags": {
+    "en": ["oscillation", "resonance", "damping", "driven motion"],
+    "zh-CN": ["振动", "共振", "阻尼", "受迫振动"],
+    "ja": ["振動", "共振", "減衰", "強制振動"]
+  },
+  "learningObjectives": {
+    "en": [
+      "Read the steady-state amplitude A = F₀/√((k−mω_d²)²+(cω_d)²) off the response curve",
+      "Separate the transient build-up from the steady state and identify the phase lag φ",
+      "Explain how damping caps the amplitude at resonance"
+    ],
+    "zh-CN": [
+      "从幅频曲线读出稳态振幅 A = F₀/√((k−mω_d²)²+(cω_d)²)",
+      "区分暂态与稳态，并识别相位差 φ",
+      "解释阻尼如何限制共振时的振幅"
+    ],
+    "ja": [
+      "振幅・振動数応答から定常振幅 A = F₀/√((k−mω_d²)²+(cω_d)²) を読み取る",
+      "過渡状態と定常状態を区別し、位相の遅れ φ を見つける",
+      "共振時の振幅を減衰が抑えるしくみを説明する"
+    ]
+  },
+  "prerequisites": {
+    "en": ["spring-mass oscillator", "Hooke's law", "Newton's second law"],
+    "zh-CN": ["弹簧振子", "胡克定律", "牛顿第二定律"],
+    "ja": ["ばね振り子", "フックの法則", "ニュートンの運動の第2法則"]
+  },
+  "estimatedMinutes": 20,
+  "layout": "lesson",
+  "theme": "paper",
+  "renderer": "svg",
+  "entry": "view.tsx",
+  "parameterSchema": "parameters.schema.json",
+  "snapshotSchema": "snapshot.schema.json",
+  "locales": ["en", "zh-CN", "ja"],
+  "lessons": {
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
+  },
+  "preview": "preview.svg",
+  "authors": [
+    {
+      "name": "geoochi"
+    }
+  ],
+  "licenses": {
+    "code": "MIT",
+    "content": "MIT"
+  },
+  "capabilities": {
+    "network": false,
+    "audio": false
+  },
+  "modelAssumptions": {
+    "en": [
+      "Linear viscous damping −c v and a sinusoidal driving force F₀ cos(ω_d t)",
+      "The block slides on a horizontal track, so gravity does not act along the motion",
+      "Fixed-step RK4 with 1/960 s substeps; the closed-form steady state is a comparison only",
+      "The driving phase is carried in the model state so the force stays continuous across snapshots"
+    ],
+    "zh-CN": [
+      "线性黏性阻尼 −c v，外力为简谐形式 F₀ cos(ω_d t)",
+      "滑块沿水平轨道运动，重力不沿运动方向做功",
+      "固定步长 RK4，子步 1/960 s；稳态解析解只用于对照",
+      "驱动相位保存在模型状态中，使外力在快照恢复后仍严格连续"
+    ],
+    "ja": [
+      "線形の粘性減衰 −c v と、正弦的な駆動力 F₀ cos(ω_d t)",
+      "物体は水平なトラック上を動くので、重力は運動方向に働かない",
+      "固定刻みの RK4、サブステップは 1/960 s。定常解は比較用",
+      "駆動の位相をモデルの状態に保持し、スナップショット復元後も外力が厳密に続くようにする"
+    ]
+  },
+  "references": [
+    {
+      "title": "OpenStax · Forced Oscillations",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/15-6-forced-oscillations"
+    },
+    {
+      "title": "OpenStax · Damped Oscillations",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/15-5-damped-oscillations"
+    }
+  ],
+  "status": "experimental",
+  "playback": true,
+  "seo": {
+    "experiment": {
+      "title": {
+        "en": "Driven Oscillator Simulator: Resonance, Damping & Phase Lag · Feynman",
+        "zh-CN": "受迫振动模拟器：共振、阻尼与相位差 · Feynman",
+        "ja": "強制振動シミュレーター：共振・減衰・位相の遅れ · Feynman"
+      },
+      "description": {
+        "en": "Adjust the mass, stiffness, damping, driving force and driving frequency of a damped spring. Watch the transient build up into the steady state, then read the amplitude–frequency response and the phase lag.",
+        "zh-CN": "调整质量、劲度系数、阻尼、驱动力与驱动频率，观察暂态如何过渡到稳态，并读出幅频响应与相位差。",
+        "ja": "質量・ばね定数・減衰・駆動力・駆動角振動数を変えて、過渡状態が定常状態へ移るようす、振幅・振動数応答、位相の遅れを読み取ろう。"
+      }
+    },
+    "lesson": {
+      "title": {
+        "en": "Forced Oscillations: Why Resonance Amplifies and Damping Limits It · Feynman",
+        "zh-CN": "受迫振动：共振为何放大振幅、阻尼如何限制它 · Feynman",
+        "ja": "強制振動：共振が振幅を大きくする理由と減衰の役割 · Feynman"
+      },
+      "description": {
+        "en": "Understand the steady-state amplitude A = F₀/√((k−mω_d²)²+(cω_d)²), why it peaks near ω₀ = √(k/m), how damping caps the peak, and why the phase lag approaches 90° at resonance.",
+        "zh-CN": "理解稳态振幅 A = F₀/√((k−mω_d²)²+(cω_d)²)：为什么振幅在 ω₀ = √(k/m) 附近出现峰值，阻尼如何压低峰值，以及共振时相位差为何接近 90°。",
+        "ja": "定常振幅 A = F₀/√((k−mω_d²)²+(cω_d)²) を理解する。ω₀ = √(k/m) の近くで振幅が最大になる理由、減衰がピークを抑えるしくみ、共振で位相の遅れが 90° に近づく理由を確かめよう。"
+      }
+    }
+  }
+}

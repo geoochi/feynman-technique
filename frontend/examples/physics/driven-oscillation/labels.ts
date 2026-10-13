@@ -1,0 +1,66 @@
+import type { Localized } from "../../../packages/i18n/locales";
+
+const en = {
+  diagram:
+    "Driven damped oscillator: the block on a spring with the driving force, the displacement–time trace and the steady-state amplitude–frequency response",
+  note: "Solid: simulated displacement x(t) · dashed: steady-state envelope ±A · the trace scrolls inside a fixed 12 s window · response: steady-state amplitude A against driving frequency ω_d, with a marker at the current ω_d · fixed scales: 2 s and 0.5 m per grid step on the trace, 2 rad/s and 0.5 m per grid step on the response, so changing a parameter moves the drawing instead of rescaling it.",
+  axisTime: "t / s",
+  axisDisplacement: "x / m",
+  axisAmplitude: "A / m",
+  axisFrequency: "ω / (rad/s)",
+  equilibrium: "x = 0",
+  drivingForce: "F(t)",
+  naturalFrequency: "ω₀",
+  currentFrequency: "ω_d",
+  offFrame: "Curve leaves the fixed frame at this amplitude",
+  noDrive: "F₀ = 0: no steady state — the motion decays to rest",
+  steadyAmplitude: "Steady amplitude A",
+  phaseLag: "Phase lag φ",
+  dampingRatio: "Damping ratio ζ",
+  staticDeflection: "Static deflection F₀/k",
+  buildUp: "Transient build-up ≈ 2m/c",
+};
+
+export const labels: Localized<Record<keyof typeof en, string>> = {
+  en,
+  "zh-CN": {
+    diagram:
+      "受迫阻尼振动：弹簧上的滑块与驱动力、位移—时间轨迹，以及稳态振幅—驱动频率响应曲线",
+    note: "实线：数值模拟的位移 x(t) · 虚线：稳态包络 ±A · 轨迹在固定的 12 s 时间窗内滚动 · 响应曲线：稳态振幅 A 随驱动频率 ω_d 变化，标记为当前 ω_d · 固定比例：轨迹横向每格 2 s、纵向每格 0.5 m，响应曲线横向每格 2 rad/s、纵向每格 0.5 m，改变参数时图形只平移、不缩放。",
+    axisTime: "t / s",
+    axisDisplacement: "x / m",
+    axisAmplitude: "A / m",
+    axisFrequency: "ω / (rad/s)",
+    equilibrium: "x = 0",
+    drivingForce: "F(t)",
+    naturalFrequency: "ω₀",
+    currentFrequency: "ω_d",
+    offFrame: "该振幅下曲线超出固定画面",
+    noDrive: "F₀ = 0：没有稳态，运动逐渐衰减到静止",
+    steadyAmplitude: "稳态振幅 A",
+    phaseLag: "相位差 φ",
+    dampingRatio: "阻尼比 ζ",
+    staticDeflection: "静位移 F₀/k",
+    buildUp: "暂态建立时间 ≈ 2m/c",
+  },
+  ja: {
+    diagram:
+      "強制減衰振動：ばね上の物体と駆動力、変位—時間の軌跡、定常振幅—駆動角振動数の応答曲線",
+    note: "実線：数値計算した変位 x(t) · 破線：定常状態の包絡線 ±A · 軌跡は固定した 12 s の時間窓をスクロールする · 応答曲線：定常振幅 A を駆動角振動数 ω_d に対して描き、現在の ω_d に印を付ける · 固定スケール：軌跡は横 1 目盛 2 s・縦 1 目盛 0.5 m、応答は横 1 目盛 2 rad/s・縦 1 目盛 0.5 m。パラメーターを変えても図は平行移動のみで、拡大縮小しない。",
+    axisTime: "t / s",
+    axisDisplacement: "x / m",
+    axisAmplitude: "A / m",
+    axisFrequency: "ω / (rad/s)",
+    equilibrium: "x = 0",
+    drivingForce: "F(t)",
+    naturalFrequency: "ω₀",
+    currentFrequency: "ω_d",
+    offFrame: "この振幅では曲線が固定した画面をはみ出す",
+    noDrive: "F₀ = 0：定常状態はなく、運動は減衰して静止する",
+    steadyAmplitude: "定常振幅 A",
+    phaseLag: "位相の遅れ φ",
+    dampingRatio: "減衰比 ζ",
+    staticDeflection: "静的変位 F₀/k",
+    buildUp: "過渡の立ち上がり ≈ 2m/c",
+  },
+};
