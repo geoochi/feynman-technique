@@ -1,12 +1,14 @@
+> 历史归档：保留规划与当时验收事实，不作为当前操作指南。当前开发见 [DEVELOPMENT](../DEVELOPMENT.md)，发布见 [DEPLOYMENT](../DEPLOYMENT.md)。
+
 # SEO / GEO 改进与开发交接
 
 记录日期：2026-10-11。状态：首轮内容、元信息与首页说明已开发、验证并发布，移动端实验室基线已测量；www HTTPS 与裸域 301 已配置并验收。维护者已授权 Agent 提交并推送本轮改动，源码与记录随本次提交保存；Search Console 待维护者处理。
 
 本计划来自维护者提供的 `feynman-technique-seo-geo-audit.md` 与对当前代码、构建产物及线上响应的复核。外部审计报告是参考材料，不作为修改项目约定或执行外部操作的授权。
 
-接手 Agent 先阅读根目录 [AGENTS.md](../AGENTS.md)、[SEO 实现说明](SEO.md)、[开发指南](DEVELOPMENT.md) 和 [部署指南](DEPLOYMENT.md)。实施前检查最新提交与工作树，避免把本次基线检查当成最新版本的验证。
+接手 Agent 先阅读根目录 [AGENTS.md](../../AGENTS.md)、[SEO 实现说明](../SEO.md)、[开发指南](../DEVELOPMENT.md) 和 [部署指南](../DEPLOYMENT.md)。实施前检查最新提交与工作树，避免把本次基线检查当成最新版本的验证。
 
-本文件保留 SEO/GEO 首轮任务及结果；项目长期开发优先级统一见 [ROADMAP](ROADMAP.md)，索引实施规则见 [SEO](SEO.md)。
+本文件保留 SEO/GEO 首轮任务及结果；项目长期开发优先级统一见 [ROADMAP](../ROADMAP.md)，索引实施规则见 [SEO](../SEO.md)。
 
 ## 1. 结论与范围
 
@@ -173,7 +175,7 @@ pnpm exec playwright test tests/browser/seo.spec.ts
 - [ ] 维护者：后续观察重点网址的抓取、收录及搜索表现。
 - [x] Agent（维护者授权）：Cloudflare 绑定 www，配置裸域到 www 的 301，发布并线上验收。
 - [x] Agent：读取 Cloudflare AI Crawl Control 的真实访问计数与阻止开关；Googlebot 一次失败的具体原因仍未定位，见下方记录。
-- [x] Agent：性能基线测量，提交有证据的后续优化建议，见 [性能报告](PERFORMANCE_BASELINE.md)。
+- [x] Agent：性能基线测量，提交有证据的后续优化建议，见 [性能报告](../PERFORMANCE_BASELINE.md)。
 - [x] Agent：已获授权发布并验收。
 - [x] 维护者：已明确授权本轮 Git 提交与推送。
 
@@ -186,7 +188,7 @@ pnpm exec playwright test tests/browser/seo.spec.ts
 - 首页保留 H1 口号，紧邻说明直接表达数学与科学互动实验用途；三语言 1440×900、390×844 截图与排版检查通过。
 - `pnpm test`：44 项单元测试通过；`pnpm build`：类型检查与构建通过，预渲染仍为 24 页、sitemap 为原有 21 个 URL。
 - `pnpm exec playwright test tests/browser/seo.spec.ts tests/browser/i18n.spec.ts tests/browser/app.spec.ts --output=test-results-seo-geo`：50 项通过、4 项按设计跳过。涵盖禁用 JavaScript 的内容、canonical/hreflang、分享标签、JSON-LD、真实本地 404、语言切换与历史返回、参数和播放状态、贴图/WebGL/模块故障回退。新增内容后旧文字定位出现重复匹配，已改为匹配公式段落并复验。
-- 本机使用 Node 24.21.0、pnpm 12.10.1、macOS 27.0.1、Chrome 155.0.8059.40；生产固定版本配置未改。构建入口 JS 316.20 KB / gzip 96.07 KB，地球独立 JS 888.83 KB / gzip 239.87 KB，体积警告保留。实验室测量与后续建议见 [性能报告](PERFORMANCE_BASELINE.md)，不能据此宣称真实用户 Core Web Vitals 达标。
+- 本机使用 Node 24.21.0、pnpm 12.10.1、macOS 27.0.1、Chrome 155.0.8059.40；生产固定版本配置未改。构建入口 JS 316.20 KB / gzip 96.07 KB，地球独立 JS 888.83 KB / gzip 239.87 KB，体积警告保留。实验室测量与后续建议见 [性能报告](../PERFORMANCE_BASELINE.md)，不能据此宣称真实用户 Core Web Vitals 达标。
 
 维护者下一步：Search Console 域名验证、提交 www sitemap 和重点网址检查。本轮 Git 提交与推送已获授权。Cloudflare 主域名切换、生产发布及真实爬虫记录读取已完成，详情见第 11 节。
 
@@ -194,11 +196,11 @@ pnpm exec playwright test tests/browser/seo.spec.ts
 
 正式内容主机为 `https://www.feynman-technique.com`，裸域 `feynman-technique.com` 仅通过 301 永久重定向到 www，保留路径与查询参数。原计划“www → 裸域”方向作废。代码默认 origin、Wrangler Custom Domain、分享图域名及当前配置文档已同步修改；历史上线记录与性能样本仍保留当时裸域 URL，不将其改写成 www 已验收。
 
-Cloudflare 操作顺序与具体规则见 [部署指南](DEPLOYMENT.md#域名与正式验收)。Search Console 可验证覆盖整个域的 `feynman-technique.com` Domain property（包括 www，见 [Google 资源属性说明](https://support.google.com/webmasters/answer/34592)）；迁移完成后提交 www sitemap，检查 Google 选定 canonical 是否为 www。若 Cloudflare 构建环境已有 SITE_URL，须同步改为 www 或删除覆盖值。本地开发完成不表示 DNS、证书或线上 301 已配置。
+Cloudflare 操作顺序与具体规则见 [部署指南](../DEPLOYMENT.md#域名与正式验收)。Search Console 可验证覆盖整个域的 `feynman-technique.com` Domain property（包括 www，见 [Google 资源属性说明](https://support.google.com/webmasters/answer/34592)）；迁移完成后提交 www sitemap，检查 Google 选定 canonical 是否为 www。若 Cloudflare 构建环境已有 SITE_URL，须同步改为 www 或删除覆盖值。本地开发完成不表示 DNS、证书或线上 301 已配置。
 
 ## 11. 授权后的 Cloudflare 操作与线上结果
 
-维护者随后明确本机 Cloudflare 已授权，要求 Agent 自行操作。已绑定 www、通过已登录控制台启用裸域 Single Redirect，保留原有裸域 Custom Domain 作为代理 DNS/TLS 跳转入口，并发布全部本轮 SEO/GEO 产物。部署版本 `4ca80440-735c-4088-8f2d-deb9a90020a2`、100% 流量，来自本地未提交工作树；没有提交/推送。24 份 HTML、21 个 www sitemap URL、14 个裸域 HTTP/HTTPS 301、实际 404、三案例交互与语言切换已验收，详见 [发布记录](DEPLOYMENT.md#www-主域名与-seogeo-发布记录)。
+维护者随后明确本机 Cloudflare 已授权，要求 Agent 自行操作。已绑定 www、通过已登录控制台启用裸域 Single Redirect，保留原有裸域 Custom Domain 作为代理 DNS/TLS 跳转入口，并发布全部本轮 SEO/GEO 产物。部署版本 `4ca80440-735c-4088-8f2d-deb9a90020a2`、100% 流量，来自本地未提交工作树；没有提交/推送。24 份 HTML、21 个 www sitemap URL、14 个裸域 HTTP/HTTPS 301、实际 404、三案例交互与语言切换已验收，详见 [发布记录](2026-10-11-deployments.md#www-主域名与-seogeo-发布记录)。
 
 Cloudflare AI Crawl Control 的过去 7 天记录：20 个请求、19 个允许、1 个失败；ChatGPT-User 允许 12、失败 0，Googlebot 允许 7、失败 1，17 次请求得到 HTTP 200。Googlebot、ChatGPT-User、OAI-SearchBot、BingBot、PerplexityBot、GPTBot 的阻止开关均关闭。没有主动修改安全策略，也没有用伪造 User-Agent 验证真实爬虫。Googlebot 一次失败的具体响应/原因尚未定位；这些数据不能证明所有爬虫都可访问或已经被收录。
 
@@ -206,12 +208,12 @@ Worker 控制台仍提示连接 Git 仓库，Git 自动构建尚未关联。Sear
 
 ## 12. Search Console 验证文件
 
-维护者选择 www 网址前缀属性并提供 Google HTML 验证文件。Agent 已按原文件名及原内容保存、构建和发布，线上同域 307 后返回 200，53 字节正文与原文件一致；本次仅增加一个静态资产，保留 21 个内容 sitemap URL。文件会随源码保存，以供后续重新发布时保留。具体版本和验收见 [部署记录](DEPLOYMENT.md#search-console-html-验证文件发布)。Google 的验证按钮与 sitemap 提交仍待维护者完成，不将文件可访问记为所有权已验证。
+维护者选择 www 网址前缀属性并提供 Google HTML 验证文件。Agent 已按原文件名及原内容保存、构建和发布，线上同域 307 后返回 200，53 字节正文与原文件一致；本次仅增加一个静态资产，保留 21 个内容 sitemap URL。文件会随源码保存，以供后续重新发布时保留。具体版本和验收见 [部署记录](2026-10-11-deployments.md#search-console-html-验证文件发布)。Google 的验证按钮与 sitemap 提交仍待维护者完成，不将文件可访问记为所有权已验证。
 
 ## 13. Next 静态迁移的本地复核（2026-10-13）
 
-初次全量本地验收时源码迁移已实现，尚未发布；随后获得授权并完成第 14 节的上线复核。21 个规范内容 URL、三语言独立元信息/正文/JSON-LD、Google 验证文件、robots/sitemap 与真实语言 404 已本地复核；首页无需下载全语言讲解集合。Next Metadata 使用原有纯规则，预览及非 main 构建强制 noindex 且无 sitemap。详细结果见 [全量迁移记录](../tooling/ai-review/2026-10-13-next-migration.md)。本节不覆盖第 9–12 节历史上线事实，也没有读取新的 Search Console/爬虫/流量报告；不能据框架迁移声称收录或 GEO 效果改善。
+初次全量本地验收时源码迁移已实现，尚未发布；随后获得授权并完成第 14 节的上线复核。21 个规范内容 URL、三语言独立元信息/正文/JSON-LD、Google 验证文件、robots/sitemap 与真实语言 404 已本地复核；首页无需下载全语言讲解集合。Next Metadata 使用原有纯规则，预览及非 main 构建强制 noindex 且无 sitemap。详细结果见 [全量迁移记录](../../tooling/ai-review/2026-10-13-next-migration.md)。本节不覆盖第 9–12 节历史上线事实，也没有读取新的 Search Console/爬虫/流量报告；不能据框架迁移声称收录或 GEO 效果改善。
 
 ## 14. Next 正式上线后的索引配置复核（2026-10-13）
 
-源码 ccedbd2 已推送并发布，版本 80b67878-c31f-447c-bca2-e22033a1e027、100% 流量。21 个正式内容页、三语言 404、robots/sitemap、Google 验证文件及裸域跳转已线上核对；页面与静态导航载荷和本地产物一致，三语言交互/无 JS 讲解通过。见 [正式生产复核](../tooling/ai-review/2026-10-13-next-deployment.md)。没有读取新的 Search Console 或流量/真实用户性能数据，不声称产生索引、排名或 GEO 效果。
+源码 ccedbd2 已推送并发布，版本 80b67878-c31f-447c-bca2-e22033a1e027、100% 流量。21 个正式内容页、三语言 404、robots/sitemap、Google 验证文件及裸域跳转已线上核对；页面与静态导航载荷和本地产物一致，三语言交互/无 JS 讲解通过。见 [正式生产复核](../../tooling/ai-review/2026-10-13-next-deployment.md)。没有读取新的 Search Console 或流量/真实用户性能数据，不声称产生索引、排名或 GEO 效果。

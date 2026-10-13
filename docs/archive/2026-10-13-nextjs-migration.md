@@ -1,3 +1,5 @@
+> 历史归档：保留规划与当时验收事实，不作为当前操作指南。当前开发见 [DEVELOPMENT](../DEVELOPMENT.md)，发布见 [DEPLOYMENT](../DEPLOYMENT.md)。
+
 # Next.js 前端重构计划
 
 更新：2026-10-13。状态：全量 Next 静态迁移已提交、推送、正式发布并完成线上验收；本地结果见第 12 节，实际部署见第 13 节。性能预算与实体设备待办继续保留。
@@ -19,7 +21,7 @@
 | SEO | Next Metadata API 对接现有纯元信息规则 | 统一初始 HTML 与路由导航后的信息 |
 | 视觉 | 先保持现有布局与视觉基线，改善加载与反馈 | 框架迁移和视觉重设计分别验收 |
 
-初次规划只交付方案和文档。维护者随后授权按本计划开发，首个实施包完成 P0/P1，随后按维护者要求继续完整迁移。第 1–10 节保留初始规划依据，第 11 节为原型阶段历史，第 12 节记录最终实现。详见下方实施状态与 [本地复核](../tooling/ai-review/2026-10-13-next-p0-p1.md)。
+初次规划只交付方案和文档。维护者随后授权按本计划开发，首个实施包完成 P0/P1，随后按维护者要求继续完整迁移。第 1–10 节保留初始规划依据，第 11 节为原型阶段历史，第 12 节记录最终实现。详见下方实施状态与 [本地复核](../../tooling/ai-review/2026-10-13-next-p0-p1.md)。
 
 ### 渲染方式的取舍
 
@@ -36,7 +38,7 @@
 
 | 当前实现 | 源码或记录（代码路径相对 frontend） | 迁移处理 |
 | --- | --- | --- |
-| 已有 24 个三语言 HTML 页面、21 个可收录 URL，包含正文、canonical、hreflang 和 JSON-LD | `packages/seo/pages.ts`、`scripts/prerender.ts`、[SEO](SEO.md) | 保持现有 SEO 能力，减少手工维护的渲染链路 |
+| 已有 24 个三语言 HTML 页面、21 个可收录 URL，包含正文、canonical、hreflang 和 JSON-LD | `packages/seo/pages.ts`、`scripts/prerender.ts`、[SEO](../SEO.md) | 保持现有 SEO 能力，减少手工维护的渲染链路 |
 | `App.tsx` 同时负责目录、实验回退、讲解、路径解析和导航；全页 hydrate | `apps/web/App.tsx`、`main.tsx`、`entry-server.tsx` | 拆为页面、静态内容组件和有限的交互组件 |
 | 完整 catalog 含三个案例三语言 lessonHtml、章节和 schema，被浏览器入口引入 | `scripts/generate.ts`、`scripts/catalog.ts`、`App.tsx` | 拆分构建内容、轻量目录、当前语言搜索和实验配置 |
 | 实验有 App → lazy LabPage → loaders[slug] → view 的加载链；view 同时导出 model/Readouts | `App.tsx`、`LabPage.tsx`、registry 生成逻辑 | 将模型/控制/读数与重型场景模块分离，减少串行等待 |
@@ -45,7 +47,7 @@
 | 贴图 import 在 Vite 中为 URL 字符串；浏览器类型来自 vite/client | `examples/geography/day-night/view.tsx`、`tsconfig.json` | 适配 Next 静态图片类型与 TypeScript 配置 |
 | 发布目录 dist，哈希缓存匹配 /assets/*，Vite preview 驱动部分 E2E | `wrangler.jsonc`、`public/_headers`、`playwright.config.ts` | 切换输出目录、缓存路径及验证服务器 |
 
-历史性能记录中，本地入口约 gzip 96 KB，地球绘图块约 gzip 240 KB、贴图约 272 KB；限速移动模拟下地球就绪中位数约 5.6 秒。这些是 2026-10-11 的旧版本实验室数据，只用于定位候选优化，不能作为当前 HEAD 或 Next 方案的实测结果。[性能基线](PERFORMANCE_BASELINE.md)
+历史性能记录中，本地入口约 gzip 96 KB，地球绘图块约 gzip 240 KB、贴图约 272 KB；限速移动模拟下地球就绪中位数约 5.6 秒。这些是 2026-10-11 的旧版本实验室数据，只用于定位候选优化，不能作为当前 HEAD 或 Next 方案的实测结果。[性能基线](../PERFORMANCE_BASELINE.md)
 
 本轮优先解决内容数据进入首包、页面/模型/绘图加载耦合及渲染维护复杂度。Three.js 的下载、GPU 绘制和贴图解码仍需单独优化，不会随框架切换自动消失。
 
@@ -288,7 +290,7 @@ Next 静态导出使用 next build，不引入已删除的 next export 命令；
 - 对照发现框架成本：首页 JS 传输高于旧版，单摆控件就绪约 2.4 秒，尚未达到 2 秒目标。状态与路由门槛满足，可继续 P2/P3；P4 必须处理预算差距，原型目前不满足生产切换条件。
 - 没有生产验收、真实手机操作、独立教学审阅或搜索效果观测。官方已预告 10 月 14 日安全更新，发布前需复查补丁与适用范围。
 
-环境、最终测试范围和测量限制见 [本轮记录](../tooling/ai-review/2026-10-13-next-p0-p1.md)。后续仍按 P2–P5 门槛推进，不把原型标记为全量重构完成。
+环境、最终测试范围和测量限制见 [本轮记录](../../tooling/ai-review/2026-10-13-next-p0-p1.md)。后续仍按 P2–P5 门槛推进，不把原型标记为全量重构完成。
 
 ## 12. 全量迁移完成与本地验收（2026-10-13）
 
@@ -300,10 +302,10 @@ Next 静态导出使用 next build，不引入已删除的 next export 命令；
 - 工具链：固定 Next 16.4.0、React 19.3.0、Node 24.11.1、pnpm 12.10.1。默认构建 out，完整 RSC/segment 静态文件一并交付，同一 Worker/域名/真实 404/无 SPA 规则保留。
 - 验证：冻结安装、类型、51 项单元、24 页构建审计、正式及两种 noindex 构建通过；90 项浏览器检查通过、4 项按设计跳过；开发 Strict Mode 6 项通过；Wrangler dry-run 通过。
 
-性能的最终样本、与 P0 的可比限制及处理决定见 [性能基线](PERFORMANCE_BASELINE.md#2026-10-13-next-全量迁移)。保留未达预算，不宣称全面性能达标。完整实现范围、截图环境与发布待办见 [全量复核](../tooling/ai-review/2026-10-13-next-migration.md)。三语言 README、工作约定、架构/开发/部署、案例协议、路线图、SEO 与视觉记录均已同步。本地实现完成不等于已经部署，实体手机、真实 CWV、独立教学审阅和搜索效果仍待单独验证。
+性能的最终样本、与 P0 的可比限制及处理决定见 [性能基线](../PERFORMANCE_BASELINE.md#2026-10-13-next-全量迁移)。保留未达预算，不宣称全面性能达标。完整实现范围、截图环境与发布待办见 [全量复核](../../tooling/ai-review/2026-10-13-next-migration.md)。三语言 README、工作约定、架构/开发/部署、案例协议、路线图、SEO 与视觉记录均已同步。本地实现完成不等于已经部署，实体手机、真实 CWV、独立教学审阅和搜索效果仍待单独验证。
 
 ## 13. 授权后的 P5 正式发布（2026-10-13）
 
 维护者要求自动 commit、push、deploy。升级 Ajv 8.18.0/KaTeX 0.18.2 修复已公布问题，并修正早期脚本失败提示的时序；最终类型/51 项单元/构建、90 项浏览器与 10 项重复故障检查通过。提交 ccedbd2 已推送 main，重建并上传同一 Worker，版本 80b67878-c31f-447c-bca2-e22033a1e027、100% 流量。
 
-P5 正式发布验收完成：三语言 24 份页面、196 个非 HTML 资产/导航载荷、robots/sitemap/验证文件、真实 404、301/别名及正式站三个实验交互通过。详见 [部署记录](DEPLOYMENT.md#2026-10-13-next-正式发布与验收)与 [生产复核](../tooling/ai-review/2026-10-13-next-deployment.md)。Git 自动构建未关联，性能预算、实体设备、教学与搜索观测继续分别跟进；Next 预告更新尚未发布，届时复查。
+P5 正式发布验收完成：三语言 24 份页面、196 个非 HTML 资产/导航载荷、robots/sitemap/验证文件、真实 404、301/别名及正式站三个实验交互通过。详见 [部署记录](../DEPLOYMENT.md#2026-10-13-next-正式发布与验收)与 [生产复核](../../tooling/ai-review/2026-10-13-next-deployment.md)。Git 自动构建未关联，性能预算、实体设备、教学与搜索观测继续分别跟进；Next 预告更新尚未发布，届时复查。

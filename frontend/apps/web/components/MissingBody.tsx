@@ -1,3 +1,4 @@
+// The standalone export finalizer also renders this JSX via tsx.
 import React from "react";
 import type { Locale } from "../../../packages/i18n/locales";
 import { localizedPath } from "../../../packages/i18n/locales";

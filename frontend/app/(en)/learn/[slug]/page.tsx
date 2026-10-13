@@ -1,6 +1,6 @@
 import { Lesson } from "../../../../apps/web/pages/Lesson";
 import { metadataFor } from "../../../../apps/web/pages/metadata";
-import { catalog, routeLocale } from "../../../../apps/web/pages/content";
+import { catalog } from "../../../../apps/web/pages/content";
 export const dynamicParams = false;
 export function generateStaticParams() {
   return catalog.map((l) => ({ slug: l.slug }));

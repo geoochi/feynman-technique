@@ -101,7 +101,7 @@ function Session({
   tools: ReactNode;
   formulas: Record<string, PreparedFormula>;
 }) {
-  const { t, href, locale } = useI18n();
+  const { t } = useI18n();
   const hasPlayback = lab.playback;
   const [ready, setReady] = useState(false);
   const [restoreFailed, setRestoreFailed] = useState(false);

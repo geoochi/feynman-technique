@@ -35,7 +35,7 @@ examples/physics/pendulum/
   lesson.ja.md                # 日文讲解
   labels.ts                   # 图中标注与读数的三语言文案
   presets.json                # 有限组可校验的参数
-  questions.json              # 可选自测题
+  questions.json              # 构建校验的自测题
   model.test.ts               # 数值/边界测试
   preview.svg                 # 自有或获许可的封面
   assets/                     # 模型/纹理等

@@ -61,7 +61,7 @@ await rm(resolve(root, "apps/web/generated/registry.ts"), { force: true });
 const imageImports: string[] = [],
   imageEntries: string[] = [];
 for (const lab of labs) {
-  const names = (lab.preloadImages ?? []).map((file, i) => {
+  const names = (lab.preloadImages ?? []).map((file) => {
     const name = `image${imageImports.length}`;
     imageImports.push(
       `import ${name} from ${JSON.stringify("../../../" + lab.path + "/" + file)};`,

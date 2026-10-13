@@ -3,8 +3,7 @@ import type { Locale } from "../../../packages/i18n/locales";
 import { localizedPath } from "../../../packages/i18n/locales";
 import { translate } from "../../../packages/i18n/translate";
 import { labBySlug } from "./content";
-import { Header, Brand, GitHub, Footer } from "../components/Chrome";
-import { LanguageSelect } from "../client/LanguageSelect";
+import { Header, Footer } from "../components/Chrome";
 import { StructuredData } from "./metadata";
 import s from "../App.module.css";
 export function Lesson({ locale, slug }: { locale: Locale; slug: string }) {

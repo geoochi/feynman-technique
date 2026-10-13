@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useContext, type ReactNode } from "react";
-import { locales, localizedPath, type Locale } from "./locales";
+import { localizedPath, type Locale } from "./locales";
 import { type MessageKey } from "./messages";
 import { translate } from "./translate";
 export { translate } from "./translate";

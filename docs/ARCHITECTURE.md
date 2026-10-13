@@ -2,7 +2,7 @@
 
 更新：2026-10-13。首期 v0.1.0 已上线；Git 自动发布与扩展部分仍待实施。长期优先级、阶段目标与推进条件统一见 [开发路线图](ROADMAP.md)，本文维护技术结构和边界。
 
-前端已统一为 Next.js App Router + output:export，详见 [迁移方案与实施状态](NEXTJS_REFACTOR_PLAN.md)。21 个三语言内容 URL 在构建时渲染，实验使用局部客户端会话，默认产物 out。原 Vite 入口和正常页面预渲染器已移除；Vitest 仍使用 Vite 依赖。迁移版本已于 2026-10-13 发布并完成线上验收，来源 ccedbd2；实际版本见部署记录。
+前端已统一为 Next.js App Router + output:export，详见 [迁移方案与实施状态](archive/2026-10-13-nextjs-migration.md)。21 个三语言内容 URL 在构建时渲染，实验使用局部客户端会话，默认产物 out。原 Vite 入口和正常页面预渲染器已移除；Vitest 仍使用 Vite 依赖。迁移版本已于 2026-10-13 发布并完成线上验收，来源 ccedbd2；实际版本见部署记录。
 
 已实现：Next.js 静态导出前端、三个实验、英文默认及中文/日文界面与讲解、构建时清单校验与可信懒加载映射、目录搜索、预渲染讲解、参数与播放控制、运行时完整快照接口、模型与浏览器验证。实验页不提供倍速、视角缩放或状态导入导出入口。未实现：独立发行 SDK/CLI、电学工作台、Worker/WASM、历史版本归档、Workers Builds 的 GitHub 自动构建关联。原 Vite 版本已通过 Workers Static Assets 正式部署到 https://www.feynman-technique.com。实际开发入口见 [本地开发](DEVELOPMENT.md)。
 
@@ -136,7 +136,7 @@ Next 在构建时渲染正常页面；scripts/finalize-next.ts 只整理本地�
 
 ### SEO 与静态页面
 
-当前 SEO 由 Next Metadata API 适配既有纯元信息规则，以下规则继续适用。公共页面枚举供静态路由、导出检查和 sitemap 共用，软导航和语言页面均使用同一元信息规则。正式主域名配置为 `https://www.feynman-technique.com`（裸域 301 到 www，已线上验收），每个内容页输出独立标题/描述、绝对 canonical、三语言 hreflang、分享信息与基于真实内容的 JSON-LD；当前 sitemap 含 21 个可收录页面。实验入口静态 HTML 包含核心问题及讲解链接，讲解页提供完整文章。404 和预览环境 noindex，科学模型及部署流程不变。www 绑定、HTTPS 与裸域重定向已配置并验收，维护者已确认提交 sitemap，但 Agent 未独立读取 Search Console 的索引或搜索报告；后续观测见 [首轮计划](SEO_GEO_PLAN.md)，实际规则与验收见 [SEO](SEO.md)。
+当前 SEO 由 Next Metadata API 适配既有纯元信息规则，以下规则继续适用。公共页面枚举供静态路由、导出检查和 sitemap 共用，软导航和语言页面均使用同一元信息规则。正式主域名配置为 `https://www.feynman-technique.com`（裸域 301 到 www，已线上验收），每个内容页输出独立标题/描述、绝对 canonical、三语言 hreflang、分享信息与基于真实内容的 JSON-LD；当前 sitemap 含 21 个可收录页面。实验入口静态 HTML 包含核心问题及讲解链接，讲解页提供完整文章。404 和预览环境 noindex，科学模型及部署流程不变。www 绑定、HTTPS 与裸域重定向已配置并验收，维护者已确认提交 sitemap，但 Agent 未独立读取 Search Console 的索引或搜索报告；当前规则与观测待办见 [SEO](SEO.md)，首轮计划已归档。
 
 ## 7. 实验 SDK 的边界
 

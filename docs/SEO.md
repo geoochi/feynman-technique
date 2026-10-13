@@ -1,12 +1,12 @@
 # SEO 实现与上线验收
 
-后续内容优化、开发任务与维护者待办见 [SEO / GEO 改进与开发交接](SEO_GEO_PLAN.md)。首轮内容和元信息改进已完成开发、验证及 www 生产发布；Search Console 待处理，详见计划中的状态记录。
+更新：2026-10-13。本文维护当前索引规则与观测待办；已完成的首轮规划和历史数据见 [SEO / GEO 归档](archive/2026-10-13-seo-geo-plan.md)。维护者已确认提交 sitemap，Agent 未独立读取 Search Console 的验证、索引或搜索报告。
 
 正式主域名配置为 `https://www.feynman-technique.com`（用户指定）。2026-10-11 已完成 www Custom Domain 绑定、HTTPS、裸域到 www 的 301 及本次新产物发布，并通过线上验收。
 
 ## 架构与页面内容
 
-当前采用 Next.js App Router 静态导出，首页、完整讲解和实验框架在构建时渲染。三个语言共 21 个内容 URL 与 3 个语言 404；正文与科学交互边界见 [迁移记录](NEXTJS_REFACTOR_PLAN.md)。正式构建生成 sitemap，预览/非 main/显式 SITE_INDEXABLE=false 都 noindex 且不生成 sitemap。生产官网已于 2026-10-13 切换到 Next 产物，页面、robots/sitemap、验证文件和跳转已线上复核；未读取新的搜索效果数据。
+当前采用 Next.js App Router 静态导出，首页、完整讲解和实验框架在构建时渲染。三个语言共 21 个内容 URL 与 3 个语言 404；正文与科学交互边界见 [迁移记录](archive/2026-10-13-nextjs-migration.md)。正式构建生成 sitemap，预览/非 main/显式 SITE_INDEXABLE=false 都 noindex 且不生成 sitemap。生产官网已于 2026-10-13 切换到 Next 产物，页面、robots/sitemap、验证文件和跳转已线上复核；未读取新的搜索效果数据。
 
 `frontend/packages/seo/pages.ts` 统一页面枚举，metadata.ts 提供纯规则；apps/web/pages/metadata.tsx 将其适配为 Next Metadata 和安全 JSON-LD。旧 head.ts、applyMetadata 与正常页面预渲染器已删除；scripts/check-export.ts 校验导出正文、元信息、许可和客户端内容边界。
 
@@ -57,7 +57,18 @@ SITE_INDEXABLE=false pnpm build
 
 验证入口为 `https://www.feynman-technique.com/google845b412e18b99e6e.html`。保持原文件名和内容，验证成功后继续保留，以便 Google 定期复核。当前 Workers HTML 路由会把 `.html` 同域归一到无扩展名地址；Google 的 [HTML 文件验证故障排查](https://support.google.com/webmasters/answer/9008080?hl=en) 说明支持同域重定向。发布后须实际核对完整跳转链，最终返回 200，正文与下载文件一致。
 
-文件可访问只证明上传已完成，不能写成 Google 已验证所有权。维护者返回 Search Console 点击“验证”，成功后提交 www sitemap。若选择覆盖所有子域名的 Domain property，则仍需 DNS 验证；HTML 文件仅用于当前网址前缀属性。
+文件可访问只证明上传已完成，不能写成 Google 已验证所有权。维护者已确认提交 sitemap，账号侧所有权和实际索引结果仍以 Search Console 为准。若选择覆盖所有子域名的 Domain property，则需 DNS 验证；HTML 文件仅用于当前网址前缀属性。
+
+## 搜索观测待办
+
+正式页面、验证文件、robots/sitemap 与跳转已有对应版本的工程验收，后续需单独记录：
+
+- Search Console 的所有权、抓取/索引状态及 Google 选定 canonical，重点抽查三语言首页、实验与讲解。
+- 爬虫失败的时间、请求和响应原因；历史一次 Googlebot 失败尚未定位，不沿用旧计数推断现在的可访问性。
+- 有足够样本后的真实用户性能、曝光、点击与查询；没有数据时保持未知。
+- 按实际读者反馈改进三语言讲解，并完成独立教学审阅。
+
+不凭框架迁移、结构化数据、sitemap 提交或短期爬虫请求宣称排名、收录或 AI 引用效果。历史观测和当前状态分别保存。
 
 ## 官方依据
 

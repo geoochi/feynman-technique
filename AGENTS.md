@@ -21,11 +21,11 @@
 | [README](README.md)、[中文](README.zh-CN.md)、[日文](README.ja.md) | 面向普通读者，介绍产品、体验与贡献入口；英文为主，开头链接中日文 |
 | [ROADMAP](docs/ROADMAP.md) | 长期目标、优先级、阶段成果与推进条件 |
 | [ARCHITECTURE](docs/ARCHITECTURE.md) | 技术结构、构建与浏览器运行、发布边界 |
-| [Next.js 重构计划](docs/NEXTJS_REFACTOR_PLAN.md) | 前端迁移方案与实施记录；全量代码已迁移，本地验收与发布状态分开记录 |
+| [文档入口](docs/README.md)、[历史归档](docs/archive/README.md) | 当前指南导航与已完成的方案、旧工具链和阶段记录 |
 | [DEVELOPMENT](docs/DEVELOPMENT.md) | 当前可执行命令、目录、构建校验与验证范围 |
 | [VISUAL_SPEC](docs/VISUAL_SPEC.md) | 视觉与布局基线、固定状态截图验收 |
 | [CONTRIBUTING](CONTRIBUTING.md)、[案例协议](docs/CONTRIBUTING_DESIGN.md) | 投稿方式、文件要求、教学与科学审查 |
-| [SEO](docs/SEO.md)、[SEO/GEO 首轮计划](docs/SEO_GEO_PLAN.md) | 索引与元信息规则、首轮结果与后续观测 |
+| [SEO](docs/SEO.md) | 索引与元信息规则、已确认状态及搜索观测待办；首轮计划已归档 |
 | [DEPLOYMENT](docs/DEPLOYMENT.md)、[性能基线](docs/PERFORMANCE_BASELINE.md) | 发布配置、历史线上验收、测量方法与局限 |
 | [本地 AI 审查](tooling/ai-review/README.md) | 审查方法与绑定具体版本的历史记录 |
 
@@ -35,7 +35,7 @@
 
 - 保持纯前端静态部署；不默认增加后端、登录、账户同步、数据库、ORM、CMS、Serverless Functions、请求时 SSR 或运行时 AI 接口。
 - TypeScript + React + Next.js App Router 静态导出；CSS Modules + 限定作用域的 CSS Variables；二维使用 SVG/Canvas，三维使用 Three.js/React Three Fiber，公式使用 KaTeX。
-- 前端已迁移到 Next.js App Router 静态生成，详见 [重构计划](docs/NEXTJS_REFACTOR_PLAN.md)。默认 dev/typecheck/build/preview 统一为 Next/out；旧 Vite 入口与预渲染器已退出。科学计算、静态部署和案例协议边界继续适用；本地完成不代表已经更新官网。
+- 前端已迁移到 Next.js App Router 静态生成，历史方案见 [迁移归档](docs/archive/2026-10-13-nextjs-migration.md)，当前操作见 DEVELOPMENT/DEPLOYMENT。默认 dev/typecheck/build/preview 统一为 Next/out；旧 Vite 入口与预渲染器已退出。科学计算、静态部署和案例协议边界继续适用；本地完成不代表已经更新官网。
 - 科学模型优先纯 TS；重任务有实际需要时使用 Web Worker。它用于避免阻塞 UI，不会自动加速算法，也不是不可信代码的安全沙箱。Rust/WASM 只在测量证明必要时引入。
 - Git 中的案例源码和讲解是唯一正式内容来源。PR 本身就是前端变更，不另行复制到数据库、大文件或隐蔽内容源。
 - 只从构建枚举的可信 import 映射加载案例；不根据外部 URL 拼接可执行模块。按案例加载模型、纹理、三维资源，不塞入首页首包。
@@ -106,7 +106,9 @@ AI 审查阅读 diff、模型/依赖、讲解/引用、实际检查结果与必�
 
 ## 8. Git 与发布
 
-提交、推送、合并、发布及其他外部操作按用户授权执行，不因文档中的流程自动获得授权。提交前检查暂存 diff、无关改动、凭据、依赖、缓存、构建产物和临时文件，保留用户为主作者，不重写已推送历史。
+维护者已明确给予本仓库持续授权：每次完成工作区修改及相称验证后，自动 commit 并 push 到已核对的远端与工作分支；涉及网站代码、内容、素材、依赖、构建或发布配置的改动，随后自动构建、部署到现有 feynman Worker 并完成线上验收。仅仓库说明、归档和工作约定的修改提交并推送即可。此约定持续有效，除非维护者明确暂停或撤销，不再逐次请求确认。
+
+自动提交只包含当前任务的改动，保护维护者已有无关修改；检查暂存 diff、凭据、依赖、缓存、构建产物和临时文件，保留用户为主作者，不重写已推送历史。检查、推送或部署失败时修复或明确报告实际阻塞，不能记录为完成。合并、账号权限或其他外部操作继续按具体授权执行。
 
 每次提交必须包含独立 trailer：
 
@@ -126,5 +128,5 @@ Co-authored-by: Codex <noreply@openai.com>
 
 1. 确认结果满足本次要求并保持既有边界，更新受影响的状态说明与路线图。
 2. 完成相称的验证，明确实际范围、结果、限制和未核实项，不伪造命令、数据、审阅者或链接。
-3. 检查暂存内容和敏感信息；获授权时提交、核对署名、推送并验证远端，发布另行验收。
+3. 检查暂存内容和敏感信息，按持续授权自动提交、核对署名、推送并验证远端；涉及网站的改动自动发布并另行验收。部署后补充的纯文档记录只需提交推送，避免循环部署。
 4. 汇报文件、完成状态、检查与必要用户事项；区分建议、已实现、已验证与已部署。历史记录保留当时事实，当前说明不得沿用旧结论。
