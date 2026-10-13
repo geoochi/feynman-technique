@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "2",
+  "id": "physics.thin-lens",
+  "slug": "thin-lens",
+  "version": "0.1.0",
+  "sdkRange": "^0.1.0",
+  "title": {
+    "en": "Thin lens and images",
+    "zh-CN": "薄透镜成像",
+    "ja": "薄レンズと像"
+  },
+  "summary": {
+    "en": "Move an object and watch a convex lens form real or virtual images.",
+    "zh-CN": "移动物体，观察凸透镜如何成实像或虚像。",
+    "ja": "物体を動かして、凸レンズが実像や虚像をつくる様子を観察する。"
+  },
+  "subjects": ["physics"],
+  "levels": ["high-school"],
+  "tags": {
+    "en": ["geometric optics", "thin lens", "image formation"],
+    "zh-CN": ["几何光学", "薄透镜", "成像"],
+    "ja": ["幾何光学", "薄レンズ", "結像"]
+  },
+  "learningObjectives": {
+    "en": [
+      "Apply the thin-lens equation 1/u + 1/v = 1/f",
+      "Classify an image as real or virtual from the sign of the image distance v",
+      "Explain the u = f case in which the outgoing rays are parallel and no finite image forms"
+    ],
+    "zh-CN": [
+      "运用薄透镜公式 1/u + 1/v = 1/f",
+      "由像距 v 的正负判断实像与虚像",
+      "解释 u = f 时出射光平行、不成有限像的情形"
+    ],
+    "ja": [
+      "薄レンズの式 1/u + 1/v = 1/f を使う",
+      "像距離 v の符号から実像と虚像を区別する",
+      "u = f で出射光が平行になり有限の像ができない理由を説明する"
+    ]
+  },
+  "prerequisites": {
+    "en": ["straight-line propagation of light", "similar triangles", "reciprocals"],
+    "zh-CN": ["光的直线传播", "相似三角形", "倒数运算"],
+    "ja": ["光の直進", "相似な三角形", "逆数"]
+  },
+  "estimatedMinutes": 15,
+  "layout": "lesson",
+  "theme": "paper",
+  "renderer": "svg",
+  "entry": "view.tsx",
+  "parameterSchema": "parameters.schema.json",
+  "snapshotSchema": "snapshot.schema.json",
+  "locales": ["en", "zh-CN", "ja"],
+  "lessons": {
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
+  },
+  "preview": "preview.svg",
+  "authors": [
+    {
+      "name": "geoochi"
+    }
+  ],
+  "licenses": {
+    "code": "MIT",
+    "content": "MIT"
+  },
+  "capabilities": {
+    "network": false,
+    "audio": false
+  },
+  "modelAssumptions": {
+    "en": [
+      "Thin lens with paraxial rays; the object stands on the principal axis",
+      "Chinese textbook convention: 1/u + 1/v = 1/f with v > 0 for a real image and v < 0 for a virtual image",
+      "Ideal lens: no aberration or thickness; all lengths in metres"
+    ],
+    "zh-CN": [
+      "薄透镜、近轴光线；物体位于主轴上",
+      "采用人教版符号约定：1/u + 1/v = 1/f，实像 v > 0，虚像 v < 0",
+      "理想透镜：忽略像差与厚度；长度以米为单位"
+    ],
+    "ja": [
+      "薄レンズ・近軸光線。物体は主軸上に立つ",
+      "中国の教科書の符号規約 1/u + 1/v = 1/f。実像は v > 0、虚像は v < 0",
+      "理想レンズ：収差と厚みを無視。長さの単位はメートル"
+    ]
+  },
+  "references": [
+    {
+      "title": "OpenStax · Thin Lenses",
+      "url": "https://openstax.org/books/university-physics-volume-3/pages/2-4-thin-lenses"
+    },
+    {
+      "title": "OpenStax · Image Formation by Lenses",
+      "url": "https://openstax.org/books/physics/pages/16-3-lenses"
+    }
+  ],
+  "status": "experimental",
+  "seo": {
+    "experiment": {
+      "title": {
+        "en": "Thin Lens Simulator: Object Distance, Focal Length & Images · Feynman",
+        "zh-CN": "薄透镜成像模拟器：物距、焦距与像 · Feynman",
+        "ja": "薄レンズ結像シミュレーター：物体距離・焦点距離・像 · Feynman"
+      },
+      "description": {
+        "en": "Adjust the object distance, focal length and object height of a convex lens. See the ray diagram, the signed image distance, the magnification and whether the image is real, virtual or at infinity.",
+        "zh-CN": "调整凸透镜的物距、焦距与物高，观察光路图、像距的正负、放大率，以及实像、虚像与不成有限像的情形。",
+        "ja": "凸レンズの物体距離・焦点距離・物体の高さを変えて、光路図、像距離の符号、倍率、そして実像・虚像・有限の像がない状態を観察しよう。"
+      }
+    },
+    "lesson": {
+      "title": {
+        "en": "Thin Lens Equation: Real and Virtual Images Explained · Feynman",
+        "zh-CN": "薄透镜公式：实像与虚像的成因 · Feynman",
+        "ja": "薄レンズの式：実像と虚像のしくみ · Feynman"
+      },
+      "description": {
+        "en": "Learn why 1/u + 1/v = 1/f makes the image move and change size as the object approaches a convex lens, and why u = f leaves the outgoing rays parallel with no finite image.",
+        "zh-CN": "理解 1/u + 1/v = 1/f 如何决定像的位置与大小，解释物体靠近凸透镜时像的变化，以及 u = f 时出射光平行、不成有限像的原因。",
+        "ja": "1/u + 1/v = 1/f が像の位置と大きさをどう決めるかを解説。物体が凸レンズに近づくときの変化と、u = f で出射光が平行になり有限の像ができない理由を確かめよう。"
+      }
+    }
+  },
+  "playback": false
+}

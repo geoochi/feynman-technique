@@ -1,0 +1,49 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["u", "f", "h"],
+  "properties": {
+    "u": {
+      "type": "number",
+      "title": "Object distance (u)",
+      "default": 0.2,
+      "minimum": 0.05,
+      "maximum": 0.8,
+      "unit": "m",
+      "step": 0.01,
+      "labels": {
+        "en": "Object distance (u)",
+        "zh-CN": "物距（u）",
+        "ja": "物体距離（u）"
+      }
+    },
+    "f": {
+      "type": "number",
+      "title": "Focal length (f)",
+      "default": 0.1,
+      "minimum": 0.05,
+      "maximum": 0.25,
+      "unit": "m",
+      "step": 0.01,
+      "labels": {
+        "en": "Focal length (f)",
+        "zh-CN": "焦距（f）",
+        "ja": "焦点距離（f）"
+      }
+    },
+    "h": {
+      "type": "number",
+      "title": "Object height (h)",
+      "default": 0.03,
+      "minimum": 0.01,
+      "maximum": 0.06,
+      "unit": "m",
+      "step": 0.01,
+      "labels": {
+        "en": "Object height (h)",
+        "zh-CN": "物高（h）",
+        "ja": "物体の高さ（h）"
+      }
+    }
+  }
+}
