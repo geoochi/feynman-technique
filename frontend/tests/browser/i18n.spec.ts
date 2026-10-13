@@ -39,7 +39,7 @@ for (const language of cases) {
     await expect(page.locator("html")).toHaveAttribute("lang", language.lang);
     await expect(
       page.locator(`a[href^="${language.prefix}/labs/"]`),
-    ).toHaveCount(3);
+    ).toHaveCount(catalog.length);
     await page.getByRole("searchbox").fill(language.search);
     await expect(
       page.locator(`a[href^="${language.prefix}/labs/"]`),

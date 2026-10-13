@@ -6,7 +6,7 @@
 
 ## 架构与页面内容
 
-当前采用 Next.js App Router 静态导出，首页、完整讲解和实验框架在构建时渲染。三个语言共 21 个内容 URL 与 3 个语言 404；正文与科学交互边界见 [迁移记录](archive/2026-10-13-nextjs-migration.md)。正式构建生成 sitemap，预览/非 main/显式 SITE_INDEXABLE=false 都 noindex 且不生成 sitemap。生产官网已于 2026-10-13 切换到 Next 产物，页面、robots/sitemap、验证文件和跳转已线上复核；未读取新的搜索效果数据。
+当前采用 Next.js App Router 静态导出，首页、完整讲解和实验框架在构建时渲染。三个语言共 27 个内容 URL 与 3 个语言 404；正文与科学交互边界见 [迁移记录](archive/2026-10-13-nextjs-migration.md)。正式构建生成 sitemap，预览/非 main/显式 SITE_INDEXABLE=false 都 noindex 且不生成 sitemap。生产官网已于 2026-10-13 切换到 Next 产物，页面、robots/sitemap、验证文件和跳转已线上复核；未读取新的搜索效果数据。
 
 `frontend/packages/seo/pages.ts` 统一页面枚举，metadata.ts 提供纯规则；apps/web/pages/metadata.tsx 将其适配为 Next Metadata 和安全 JSON-LD。旧 head.ts、applyMetadata 与正常页面预渲染器已删除；scripts/check-export.ts 校验导出正文、元信息、许可和客户端内容边界。
 
@@ -14,7 +14,7 @@
 
 ## 案例 SEO 文案与讲解摘要
 
-三个案例各有实验页与讲解页的英中日独立 title / description，存于案例 `manifest.json` 的可选 `seo.experiment` 与 `seo.lesson`。每种页面配置都包含 `title`、`description` 两个三语言对象（en、zh-CN、ja）；允许只覆盖一种页面，其余页面沿用案例标题、摘要与通用后缀。已配置的字段必须三语言完整且含非空白文字，未知字段或空配置由构建 schema 拒绝。Manifest schemaVersion 仍为 2，此项为兼容的可选扩展。
+四个案例各有实验页与讲解页的英中日独立 title / description，存于案例 `manifest.json` 的可选 `seo.experiment` 与 `seo.lesson`。每种页面配置都包含 `title`、`description` 两个三语言对象（en、zh-CN、ja）；允许只覆盖一种页面，其余页面沿用案例标题、摘要与通用后缀。已配置的字段必须三语言完整且含非空白文字，未知字段或空配置由构建 schema 拒绝。Manifest schemaVersion 仍为 2，此项为兼容的可选扩展。
 
 `pageMetadata` 统一读取这些文案，静态 HTML、语言切换、分享标签和 JSON-LD 的描述同步更新。资源名称继续使用案例可见标题；稳定 id、slug、页面路径与实验/讲解各自 canonical 的规则不变；正式绝对 URL 的主机随主域名切换为 www。
 
@@ -37,7 +37,7 @@ SITE_INDEXABLE=false pnpm build
 
 - canonical 使用无参数、无锚点的正式绝对地址；语言首页保留 `/zh/`、`/ja/`，其他页面使用无尾斜线的 clean URL。
 - hreflang 在每个内容页列出 en、zh-CN、ja、自身及指向英语的 x-default，使用完整 HTTPS 地址。语言切换同时更新 title、description、canonical、hreflang、Open Graph、Twitter Card 和 JSON-LD。
-- `out/sitemap.xml` 自动列出当前 21 个可收录页面；404 和未知案例不进入清单。不伪造 lastmod、优先级或更新频率。
+- `out/sitemap.xml` 自动列出当前 27 个可收录页面；404 和未知案例不进入清单。不伪造 lastmod、优先级或更新频率。
 - `out/robots.txt` 允许抓取页面和资源，并在可收录构建中声明 sitemap。noindex 使用页面 meta，避免 Disallow 阻止爬虫读取该指令。
 - 404 页面提供 noindex，不生成 canonical、hreflang 或 JSON-LD。本地静态预览中未知 URL 和缺失资源返回 HTTP 404，没有全站 SPA 回退；Workers 正式部署已实测未知页面与缺失脚本返回 HTTP 404。
 - JSON-LD 描述 WebSite、CollectionPage/ItemList、WebPage 和 CreativeWork/LearningResource，仅使用真实标题、语言、讲解目标和引用；暂不输出个人作者。不填写虚构评分、发布日期、课程认证或 FAQ。

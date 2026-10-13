@@ -1,0 +1,12 @@
+{
+  "default": {
+    "en": "f(x)=x^2,\\quad f\\prime(x_0)=2x_0",
+    "zh-CN": "f(x)=x^2,\\quad f\\prime(x_0)=2x_0",
+    "ja": "f(x)=x^2,\\quad f\\prime(x_0)=2x_0"
+  },
+  "secant": {
+    "en": "m_{\\mathrm{sec}}=2x_0+h\\quad(h\\ne0)",
+    "zh-CN": "m_{\\mathrm{sec}}=2x_0+h\\quad(h\\ne0)",
+    "ja": "m_{\\mathrm{sec}}=2x_0+h\\quad(h\\ne0)"
+  }
+}

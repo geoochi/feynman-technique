@@ -28,13 +28,13 @@ pnpm deploy:workers          # 仅上传既有 out；网站改动按持续授权
 
 完整 catalog 只供构建侧页面及 SEO；server-only 边界和导出检查阻止讲解集合进入浏览器 JS。首页只传当前语言卡片/搜索字段；当前页面正文可能进入 RSC 数据。公共 catalog.json、search-index.<locale>.json、封面、Google 验证文件与许可 URL 继续兼容。状态 schema 在构建时用 Ajv standalone 编译，浏览器不加载 Ajv 编译器；controller 仅导出 model/Readouts，场景独立按需加载；运行时只接收 RuntimeLabConfig，不携带全文。
 
-默认输出 out，21 个内容 URL 与 3 个语言 404；Next 还会生成内部错误/导航文件。英文旧路径、zh/ja 前缀保留；仅把本地化首页 HTML 整理为 index.html，RSC/segment 载荷原路径整体发布。真实 404 与别名由 Workers auto-trailing-slash/404-page 承担，不使用 SPA 回退。只有 /_next/static/* 哈希资源长缓存，RSC/HTML 可更新。
+默认输出 out，27 个内容 URL 与 3 个语言 404；Next 还会生成内部错误/导航文件。英文旧路径、zh/ja 前缀保留；仅把本地化首页 HTML 整理为 index.html，RSC/segment 载荷原路径整体发布。真实 404 与别名由 Workers auto-trailing-slash/404-page 承担，不使用 SPA 回退。只有 /_next/static/* 哈希资源长缓存，RSC/HTML 可更新。
 
 默认正式配置输出 sitemap；SITE_INDEXABLE=false 或非 main 的 Workers 构建都 noindex 且不留 sitemap。SITE_URL 只接受 HTTPS origin；Next Metadata、JSON-LD 与 robots/sitemap 使用同一纯规则。删除了旧 head.ts/applyMetadata、prerender.ts、Vite 配置与入口。
 
 ## 浏览器与运行时
 
-初始暂停；manifest.playback=false 的二次函数不启动时钟。参数、两个重置、单摆比例、地球相机/平行太阳光与本地 NASA 图保持原有行为。控制器和场景独立加载，静态框架/示意/问题/笔记链接先可读；模型失败时禁用控制并给出重试，场景失败时仍可调参/查看读数。贴图失败或无 WebGL 保留静态说明；资源随卸载释放。
+初始暂停；manifest.playback=false 的二次函数和导数与切线不启动时钟。参数、两个重置、单摆比例、地球相机/平行太阳光与本地 NASA 图保持原有行为。控制器和场景独立加载，静态框架/示意/问题/笔记链接先可读；模型失败时禁用控制并给出重试，场景失败时仍可调参/查看读数。贴图失败或无 WebGL 保留静态说明；资源随卸载释放。
 
 语言交接用当前标签页短期完整快照及 playing，校验导航标识、目标、版本、大小和期限。刷新/直接访问开始新实验；普通历史与 BFCache 分别验证，BFCache 在 Storage 视图更新后恢复并启用控件。快照继续校验 seed、时间、内部状态、相机与章节；不提供用户导入/导出入口。
 

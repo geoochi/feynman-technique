@@ -20,7 +20,7 @@ test("every production page has crawlable content and consistent SEO without Jav
   ]) {
     for (const path of [
       "/",
-      ...["function-transform", "pendulum", "day-night"].flatMap((slug) => [
+      ...catalog.map(lab => lab.slug).flatMap((slug) => [
         `/labs/${slug}`,
         `/learn/${slug}`,
       ]),

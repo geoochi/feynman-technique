@@ -1,0 +1,34 @@
+[
+  {
+    "id": "right",
+    "title": "From the right",
+    "params": {
+      "x0": 1,
+      "h": 1
+    }
+  },
+  {
+    "id": "left",
+    "title": "From the left",
+    "params": {
+      "x0": 1,
+      "h": -0.5
+    }
+  },
+  {
+    "id": "vertex",
+    "title": "At the vertex",
+    "params": {
+      "x0": 0,
+      "h": 0.1
+    }
+  },
+  {
+    "id": "coincident",
+    "title": "Coincident points",
+    "params": {
+      "x0": 1,
+      "h": 0
+    }
+  }
+]

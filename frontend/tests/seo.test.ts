@@ -86,9 +86,9 @@ describe("SEO output", () => {
       expect(page.structuredData).toBeUndefined();
     }
   });
-  it("lists only the 21 canonical content pages, with no fabricated dates or priorities", () => {
+  it("lists all canonical content pages, with no fabricated dates or priorities", () => {
     const { sitemap, robots } = seoFiles(labs, production);
-    expect(sitemap!.match(/<loc>/g)).toHaveLength(21);
+    expect(sitemap!.match(/<loc>/g)).toHaveLength(locales.length * (1 + 2 * labs.length));
     expect(sitemap).toContain("https://education.example/ja/learn/day-night");
     expect(sitemap).not.toMatch(/404|contribute|lastmod|priority|changefreq|localhost/);
     expect(robots).toContain("Sitemap: https://education.example/sitemap.xml");

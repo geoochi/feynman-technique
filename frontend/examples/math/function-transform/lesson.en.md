@@ -30,3 +30,5 @@ Move the vertex to (2, −1) and make the parabola open downward: h = 2, k = −
 
 ## Explore further
 Do the same transformations work for the absolute-value function? For any function f, y = a f(x − h) + k follows similar rules for translation and vertical scaling.
+
+Continue with [Derivatives and tangents](/labs/derivative-tangent): how does the slope between two points approach the slope at one point? In that experiment, h means the gap between inputs, not a horizontal shift.

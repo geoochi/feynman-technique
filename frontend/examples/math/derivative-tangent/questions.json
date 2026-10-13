@@ -1,0 +1,10 @@
+{
+  "prompt": "For f(x) = x² at x₀ = 1, what happens when h = 0?",
+  "options": [
+    "The difference quotient equals 0",
+    "The difference quotient is undefined; the derivative is 2",
+    "The derivative is undefined"
+  ],
+  "answer": 1,
+  "explanation": "The quotient would be 0/0. The derivative is the limit of 2 + h as nonzero h approaches 0."
+}

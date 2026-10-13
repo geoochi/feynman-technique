@@ -13,6 +13,7 @@ Feynman Technique is a growing collection of interactive learning experiments. A
 | Experiment | Try it |
 | --- | --- |
 | [Quadratic functions](https://www.feynman-technique.com/labs/function-transform) | Move the vertex and change the shape of a parabola. |
+| [Derivatives and tangents](https://www.feynman-technique.com/labs/derivative-tangent) | Bring two points together and compare secant and tangent slopes. |
 | [Pendulum and time](https://www.feynman-technique.com/labs/pendulum) | Change length, gravity, and starting angle to explore the period. |
 | [Day and night on Earth](https://www.feynman-technique.com/labs/day-night) | Explore how rotation, latitude, and solar declination affect daylight. |
 

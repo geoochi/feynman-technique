@@ -13,6 +13,7 @@ Feynman Technique は、少しずつ成長するインタラクティブな学�
 | 実験 | 試せること |
 | --- | --- |
 | [二次関数](https://www.feynman-technique.com/ja/labs/function-transform) | 頂点を動かし、放物線の形や向きを変える。 |
+| [微分と接線](https://www.feynman-technique.com/ja/labs/derivative-tangent) | 二点を近づけ、割線と接線の傾きを比較する。 |
 | [単振り子と時間](https://www.feynman-technique.com/ja/labs/pendulum) | 長さ・重力・初期角度を変え、周期を調べる。 |
 | [地球の昼と夜](https://www.feynman-technique.com/ja/labs/day-night) | 自転・緯度・太陽赤緯が日照に与える影響を調べる。 |
 

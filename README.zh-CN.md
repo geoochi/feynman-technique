@@ -13,6 +13,7 @@ Feynman Technique 是持续成长的互动学习实验库。在浏览器里调�
 | 实验 | 可以探索什么 |
 | --- | --- |
 | [二次函数](https://www.feynman-technique.com/zh/labs/function-transform) | 移动顶点，改变抛物线的形状与开口。 |
+| [导数与切线](https://www.feynman-technique.com/zh/labs/derivative-tangent) | 让两点逐渐靠近，对比割线与切线斜率。 |
 | [单摆与时间](https://www.feynman-technique.com/zh/labs/pendulum) | 改变摆长、重力与初始角度，探索周期。 |
 | [地球的昼与夜](https://www.feynman-technique.com/zh/labs/day-night) | 探索自转、纬度与太阳赤纬如何影响日照。 |
 

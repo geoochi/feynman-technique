@@ -10,10 +10,10 @@ test("catalog filters, searches, and has no layout overflow", async ({
   await expect(
     page.getByRole("heading", { name: "让知识发生。" }),
   ).toBeVisible();
-  await expect(page.locator('a[href^="/zh/labs/"]')).toHaveCount(3);
-  await page.getByRole("button", { name: "数学1", exact: true }).click();
-  await expect(page.locator('a[href^="/zh/labs/"]')).toHaveCount(1);
-  await page.getByRole("button", { name: "全部学科3", exact: true }).click();
+  await expect(page.locator('a[href^="/zh/labs/"]')).toHaveCount(4);
+  await page.getByRole("button", { name: "数学2", exact: true }).click();
+  await expect(page.locator('a[href^="/zh/labs/"]')).toHaveCount(2);
+  await page.getByRole("button", { name: "全部学科4", exact: true }).click();
   await page.getByRole("searchbox").fill("自转");
   await expect(page.locator('a[href^="/zh/labs/"]')).toHaveCount(1);
   await page.getByRole("searchbox").fill("不存在的知识点");

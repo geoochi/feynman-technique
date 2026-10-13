@@ -45,5 +45,5 @@ for (const locale of locales)
       throw new Error(`Invalid exported page ${route}`);
   }
 console.log(
-  `Checked 21 content routes + 3 localized 404 files; indexing: ${files.sitemap ? "enabled" : "disabled"}.`,
+  `Checked ${locales.length * (1 + 2 * catalog.length)} content routes + ${locales.length} localized 404 files; indexing: ${files.sitemap ? "enabled" : "disabled"}.`,
 );

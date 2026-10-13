@@ -25,7 +25,7 @@ async function modify(
 describe("catalog validation", () => {
   it("registers local modules with content fingerprints", async () => {
     const labs = await scanCatalog(root);
-    expect(labs).toHaveLength(3);
+    expect(labs.map(l => l.slug).sort()).toEqual(["day-night", "derivative-tangent", "function-transform", "pendulum"]);
     expect(
       labs.every(
         (l) =>

@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "2",
+  "id": "math.derivative-tangent",
+  "slug": "derivative-tangent",
+  "version": "0.1.0",
+  "sdkRange": "^0.1.0",
+  "title": {
+    "en": "Derivatives and tangents",
+    "zh-CN": "导数与切线",
+    "ja": "微分と接線"
+  },
+  "summary": {
+    "en": "Bring two points together and discover the slope at one point.",
+    "zh-CN": "让两点逐渐靠近，探索一个点处的变化率。",
+    "ja": "二つの点を近づけて、一点での変化率を探ろう。"
+  },
+  "subjects": [
+    "math"
+  ],
+  "levels": [
+    "high-school"
+  ],
+  "tags": {
+    "en": [
+      "derivative",
+      "tangent",
+      "secant",
+      "limit"
+    ],
+    "zh-CN": [
+      "导数",
+      "切线",
+      "割线",
+      "极限"
+    ],
+    "ja": [
+      "微分",
+      "接線",
+      "割線",
+      "極限"
+    ]
+  },
+  "learningObjectives": {
+    "en": [
+      "Distinguish a secant slope from a derivative",
+      "Approach a tangent from both sides",
+      "Explain why zero separation gives no difference quotient"
+    ],
+    "zh-CN": [
+      "区分割线斜率与导数",
+      "从左右两侧逼近切线",
+      "解释间隔为零时差商为何无定义"
+    ],
+    "ja": [
+      "割線の傾きと微分係数を区別する",
+      "左右両側から接線に近づく",
+      "間隔がゼロのとき差商が定義されない理由を説明する"
+    ]
+  },
+  "prerequisites": {
+    "en": [
+      "coordinates",
+      "slope of a line",
+      "quadratic functions"
+    ],
+    "zh-CN": [
+      "坐标",
+      "直线斜率",
+      "二次函数"
+    ],
+    "ja": [
+      "座標",
+      "直線の傾き",
+      "二次関数"
+    ]
+  },
+  "estimatedMinutes": 12,
+  "layout": "lesson",
+  "theme": "paper",
+  "renderer": "svg",
+  "entry": "view.tsx",
+  "parameterSchema": "parameters.schema.json",
+  "snapshotSchema": "snapshot.schema.json",
+  "locales": [
+    "en",
+    "zh-CN",
+    "ja"
+  ],
+  "lessons": {
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
+  },
+  "preview": "preview.svg",
+  "authors": [
+    {
+      "name": "geoochi"
+    }
+  ],
+  "licenses": {
+    "code": "MIT",
+    "content": "MIT"
+  },
+  "capabilities": {
+    "network": false,
+    "audio": false
+  },
+  "modelAssumptions": {
+    "en": [
+      "Only f(x) = x²; coordinates are dimensionless",
+      "Analytic derivative; nonzero secant slope uses the equivalent expression 2x₀ + h to avoid cancellation",
+      "Finite graph and rounded readouts illustrate a limit; they do not prove differentiability of arbitrary functions"
+    ],
+    "zh-CN": [
+      "仅研究 f(x) = x²；坐标无量纲",
+      "导数由解析式计算；非零间隔的割线斜率使用等价式 2x₀ + h，避免相减消去误差",
+      "有限图像与舍入读数用于展示极限，不能证明任意函数可导"
+    ],
+    "ja": [
+      "f(x) = x² のみを扱い、座標は無次元",
+      "微分係数は解析式で計算。ゼロでない間隔の割線の傾きは桁落ちを避ける等価式 2x₀ + h を使う",
+      "有限の図と丸めた表示は極限の説明用で、任意の関数の微分可能性を証明するものではない"
+    ]
+  },
+  "references": [
+    {
+      "title": "OpenStax · Defining the Derivative",
+      "url": "https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative"
+    }
+  ],
+  "status": "experimental",
+  "seo": {
+    "experiment": {
+      "title": {
+        "en": "Derivative Explorer: From Secant to Tangent · Feynman",
+        "zh-CN": "导数实验：从割线到切线 · Feynman",
+        "ja": "微分の実験：割線から接線へ · Feynman"
+      },
+      "description": {
+        "en": "Change x₀ and the signed gap h on y = x². Compare secant and tangent slopes, approach from either side, and inspect the undefined h = 0 quotient.",
+        "zh-CN": "调整 y = x² 上的基点 x₀ 与有符号间隔 h，对照割线与切线斜率，从两侧逼近，并观察 h = 0 时差商无定义的情况。",
+        "ja": "y = x² の基点 x₀ と符号付き間隔 h を変え、割線と接線の傾きを比較。両側から近づけ、h = 0 で差商が定義されないことを確かめよう。"
+      }
+    },
+    "lesson": {
+      "title": {
+        "en": "Why a Derivative Is a Limit of Secant Slopes · Feynman",
+        "zh-CN": "导数为什么是割线斜率的极限 · Feynman",
+        "ja": "微分係数はなぜ割線の傾きの極限なのか · Feynman"
+      },
+      "description": {
+        "en": "Derive f′(x₀) = 2x₀ for f(x) = x², compare positive and negative gaps, and distinguish a limit from substituting zero into a difference quotient.",
+        "zh-CN": "用 f(x) = x² 推导 f′(x₀) = 2x₀，对比正负间隔，并区分求极限与把零直接代入差商。",
+        "ja": "f(x) = x² から f′(x₀) = 2x₀ を導き、正負の間隔を比較。極限を求めることと差商にゼロを代入することの違いを学ぼう。"
+      }
+    }
+  },
+  "playback": false
+}

@@ -1,0 +1,38 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "x0",
+    "h"
+  ],
+  "properties": {
+    "x0": {
+      "type": "number",
+      "title": "Base point (x₀)",
+      "default": 1,
+      "minimum": -1.5,
+      "maximum": 1.5,
+      "step": 0.1,
+      "unit": "",
+      "labels": {
+        "en": "Base point (x₀)",
+        "zh-CN": "基点横坐标（x₀）",
+        "ja": "基点の横座標（x₀）"
+      }
+    },
+    "h": {
+      "type": "number",
+      "title": "Signed gap (h)",
+      "default": 1,
+      "minimum": -1,
+      "maximum": 1,
+      "step": 0.01,
+      "unit": "",
+      "labels": {
+        "en": "Signed gap (h)",
+        "zh-CN": "有符号间隔（h）",
+        "ja": "符号付き間隔（h）"
+      }
+    }
+  }
+}
