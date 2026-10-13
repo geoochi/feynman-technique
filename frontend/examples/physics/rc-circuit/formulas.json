@@ -1,0 +1,27 @@
+{
+  "default": {
+    "en": "u(t) = E + (u_{0} - E)\\,e^{-t/\\tau}",
+    "zh-CN": "u(t) = E + (u_{0} - E)\\,e^{-t/\\tau}",
+    "ja": "u(t) = E + (u_{0} - E)\\,e^{-t/\\tau}"
+  },
+  "tau": {
+    "en": "\\tau = R\\,C",
+    "zh-CN": "\\tau = R\\,C",
+    "ja": "\\tau = R\\,C"
+  },
+  "current": {
+    "en": "i(t) = \\dfrac{E - u_{0}}{R}\\,e^{-t/\\tau}",
+    "zh-CN": "i(t) = \\dfrac{E - u_{0}}{R}\\,e^{-t/\\tau}",
+    "ja": "i(t) = \\dfrac{E - u_{0}}{R}\\,e^{-t/\\tau}"
+  },
+  "final": {
+    "en": "u(\\infty) = E",
+    "zh-CN": "u(\\infty) = E",
+    "ja": "u(\\infty) = E"
+  },
+  "charge": {
+    "en": "q = C\\,u",
+    "zh-CN": "q = C\\,u",
+    "ja": "q = C\\,u"
+  }
+}

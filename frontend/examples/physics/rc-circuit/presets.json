@@ -1,0 +1,32 @@
+[
+  {
+    "id": "0",
+    "title": "充电（u₀ = 0 V，τ = 2 s）",
+    "params": { "emf": 6, "initialVoltage": 0, "resistance": 40, "capacitance": 0.05 }
+  },
+  {
+    "id": "1",
+    "title": "放电（u₀ = 10 V > E = 0 V，τ = 2 s）",
+    "params": { "emf": 0, "initialVoltage": 10, "resistance": 40, "capacitance": 0.05 }
+  },
+  {
+    "id": "2",
+    "title": "快速充电（τ = 0.2 s）",
+    "params": { "emf": 6, "initialVoltage": 0, "resistance": 20, "capacitance": 0.01 }
+  },
+  {
+    "id": "3",
+    "title": "慢速充电（τ = 20 s，超出 10 s 窗口）",
+    "params": { "emf": 6, "initialVoltage": 0, "resistance": 200, "capacitance": 0.1 }
+  },
+  {
+    "id": "4",
+    "title": "从 −10 V 充到 10 V（τ = 4 s）",
+    "params": { "emf": 10, "initialVoltage": -10, "resistance": 80, "capacitance": 0.05 }
+  },
+  {
+    "id": "5",
+    "title": "从 2 V 继续充电（τ = 4 s）",
+    "params": { "emf": 6, "initialVoltage": 2, "resistance": 40, "capacitance": 0.1 }
+  }
+]

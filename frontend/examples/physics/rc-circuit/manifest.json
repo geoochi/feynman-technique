@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "2",
+  "id": "physics.rc-circuit",
+  "slug": "rc-circuit",
+  "version": "0.1.0",
+  "sdkRange": "^0.1.0",
+  "title": {
+    "en": "RC circuit and time constant",
+    "zh-CN": "RC 电路与时间常数",
+    "ja": "RC 回路と時定数"
+  },
+  "summary": {
+    "en": "Close one loop with a source, a resistor and a capacitor, and watch the capacitor voltage approach the source EMF at a rate set by τ = RC.",
+    "zh-CN": "让电源、电阻与电容组成一个回路，观察电容电压如何以 τ = RC 决定的快慢趋向电源电动势。",
+    "ja": "電源・抵抗・コンデンサーを 1 つの回路につなぎ、コンデンサーの電圧が τ = RC で決まる速さで起電力に近づくようすを観察する。"
+  },
+  "subjects": ["physics"],
+  "levels": ["high-school", "undergraduate"],
+  "tags": {
+    "en": ["electricity", "capacitor", "transient", "time constant"],
+    "zh-CN": ["电学", "电容", "暂态过程", "时间常数"],
+    "ja": ["電気", "コンデンサー", "過渡現象", "時定数"]
+  },
+  "learningObjectives": {
+    "en": [
+      "Explain why the capacitor voltage is continuous and cannot jump",
+      "Read the time constant τ = RC from the curve and state what happens after one τ",
+      "Use u(t) = E + (u₀ − E)e^(−t/τ) to predict charging (u₀ < E) and discharging (u₀ > E)",
+      "Identify the initial voltage u₀ and the long-term voltage E as the two limits of the solution"
+    ],
+    "zh-CN": [
+      "解释电容电压为何连续、不能发生跳变",
+      "从曲线上读出时间常数 τ = RC，并说明经过一个 τ 后发生了什么",
+      "用 u(t) = E + (u₀ − E)e^(−t/τ) 预测充电（u₀ < E）与放电（u₀ > E）",
+      "指出初始电压 u₀ 与长期电压 E 是解的两端极限"
+    ],
+    "ja": [
+      "コンデンサーの電圧が連続で、跳ぶことができない理由を説明する",
+      "曲線から時定数 τ = RC を読み取り、1 つの τ の後どうなるかを述べる",
+      "u(t) = E + (u₀ − E)e^(−t/τ) を使って充電（u₀ < E）と放電（u₀ > E）を予測する",
+      "初期電圧 u₀ と長期電圧 E が解の両端の極限であることを指摘する"
+    ]
+  },
+  "prerequisites": {
+    "en": ["Ohm's law", "series circuits", "exponential decay"],
+    "zh-CN": ["欧姆定律", "串联电路", "指数衰减"],
+    "ja": ["オームの法則", "直列回路", "指数関数的な減衰"]
+  },
+  "estimatedMinutes": 16,
+  "layout": "lesson",
+  "theme": "paper",
+  "renderer": "svg",
+  "entry": "view.tsx",
+  "parameterSchema": "parameters.schema.json",
+  "snapshotSchema": "snapshot.schema.json",
+  "locales": ["en", "zh-CN", "ja"],
+  "lessons": {
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
+  },
+  "preview": "preview.svg",
+  "authors": [
+    {
+      "name": "geoochi"
+    }
+  ],
+  "licenses": {
+    "code": "MIT",
+    "content": "MIT"
+  },
+  "capabilities": {
+    "network": false,
+    "audio": false
+  },
+  "modelAssumptions": {
+    "en": [
+      "One fixed series loop with an ideal source (no internal resistance), one positive linear resistor and one ideal capacitor",
+      "The switch closes at t = 0; before that the capacitor holds its initial voltage u₀ and no current flows",
+      "Every fixed step is advanced with the exact closed-form solution u(t + dt) = E + (u(t) − E)e^(−dt/τ), so the curve carries no time-stepping error",
+      "The capacitor voltage is the only internal state; it is continuous at every instant and always lies between u₀ and E"
+    ],
+    "zh-CN": [
+      "固定串联回路，由一个理想电源（内阻为零）、一个正电阻和一个理想电容组成",
+      "开关在 t = 0 时闭合；此前电容保持初始电压 u₀，回路中没有电流",
+      "每一步用解析解 u(t + dt) = E + (u(t) − E)e^(−dt/τ) 精确推进，曲线不含时间步进误差",
+      "电容电压是唯一的内部状态，它在任何时刻都连续，且始终介于 u₀ 与 E 之间"
+    ],
+    "ja": [
+      "固定した直列回路で、理想電源（内部抵抗ゼロ）1 つ、正の線形抵抗 1 つ、理想的なコンデンサー 1 つでできている",
+      "スイッチは t = 0 で閉じる。それ以前はコンデンサーは初期電圧 u₀ を保ち、電流は流れない",
+      "各固定刻みは解析解 u(t + dt) = E + (u(t) − E)e^(−dt/τ) で正確に進めるため、曲線に時間刻みの誤差はない",
+      "コンデンサーの電圧が唯一の内部状態で、常に連続であり、つねに u₀ と E の間にある"
+    ]
+  },
+  "references": [
+    {
+      "title": "OpenStax · University Physics Volume 2 · 10.5 RC Circuits",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/10-5-rc-circuits"
+    },
+    {
+      "title": "OpenStax · College Physics 2e · 21.6 DC Circuits Containing Resistors and Capacitors",
+      "url": "https://openstax.org/books/college-physics-2e/pages/21-6-dc-circuits-containing-resistors-and-capacitors"
+    }
+  ],
+  "status": "experimental",
+  "playback": true,
+  "seo": {
+    "experiment": {
+      "title": {
+        "en": "RC Circuit Simulator: Charging, Discharging and the Time Constant τ = RC · Feynman",
+        "zh-CN": "RC 电路模拟器：充电、放电与时间常数 τ = RC · Feynman",
+        "ja": "RC 回路シミュレーター：充電・放電と時定数 τ = RC · Feynman"
+      },
+      "description": {
+        "en": "Adjust the source EMF, the initial capacitor voltage, the resistance and the capacitance. Watch the capacitor voltage approach the source on a fixed voltage–time plot, with the time constant τ = RC and the asymptote E marked.",
+        "zh-CN": "调整电源电动势、电容初始电压、电阻与电容，在固定坐标的电压—时间图上观察电容电压如何趋向电源电动势，并标出时间常数 τ = RC 与渐近线 E。",
+        "ja": "電源の起電力・コンデンサーの初期電圧・抵抗・静電容量を変え、固定座標の電圧—時間グラフでコンデンサーの電圧が起電力に近づくようすを観察。時定数 τ = RC と漸近線 E を表示する。"
+      }
+    },
+    "lesson": {
+      "title": {
+        "en": "RC Circuit: Why the Capacitor Voltage Takes Time and What τ = RC Means · Feynman",
+        "zh-CN": "RC 电路：为什么电容电压需要时间变化、τ = RC 意味着什么 · Feynman",
+        "ja": "RC 回路：コンデンサーの電圧になぜ時間がかかるのか、τ = RC の意味 · Feynman"
+      },
+      "description": {
+        "en": "Derive RC du/dt = E − u from Kirchhoff's voltage law and i = C du/dt, read the solution u(t) = E + (u₀ − E)e^(−t/τ), and see why the capacitor voltage is continuous and settles at E.",
+        "zh-CN": "由基尔霍夫电压定律与 i = C du/dt 导出 RC du/dt = E − u，理解解 u(t) = E + (u₀ − E)e^(−t/τ)，并解释电容电压为何连续、最终稳定在 E。",
+        "ja": "キルヒホッフの電圧則と i = C du/dt から RC du/dt = E − u を導き、解 u(t) = E + (u₀ − E)e^(−t/τ) を読み、コンデンサーの電圧がなぜ連続で E に落ち着くのかを説明する。"
+      }
+    }
+  }
+}
