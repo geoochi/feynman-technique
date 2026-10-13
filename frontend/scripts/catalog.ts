@@ -5,12 +5,23 @@ import Ajv from "ajv";
 import { marked } from "marked";
 import sanitize from "sanitize-html";
 import katex from "katex";
-import { defaults, validateParams } from "../packages/core/parameters";
-import type { Lab, Manifest, ParameterSchema } from "../packages/core/types";
+import { defaults, validateNetlist, validateParams } from "../packages/core/parameters";
+import type {
+  Lab,
+  Manifest,
+  ParameterSchema,
+  ValueRange,
+} from "../packages/core/types";
 import manifestSchema from "./manifest.schema.json";
 import { locales, chapterIds, chapterTitles } from "../packages/i18n/locales";
 const ajv = new Ajv({ strict: true });
 const validateManifest = ajv.compile(manifestSchema);
+const validRange = (range: ValueRange | undefined) =>
+  !!range &&
+  typeof range.unit === "string" &&
+  [range.minimum, range.maximum, range.step].every(Number.isFinite) &&
+  range.step > 0 &&
+  range.minimum <= range.maximum;
 export async function scanCatalog(root: string): Promise<Lab[]> {
   const examples = await realpath(resolve(root, "examples"));
   const manifests: string[] = [];
@@ -67,22 +78,45 @@ export async function scanCatalog(root: string): Promise<Lab[]> {
     )
       throw new Error(`${m.id}: 参数 schema 结构错误`);
     for (const [key, p] of Object.entries(parameters.properties)) {
-      if (
-        !/^[a-z][a-zA-Z0-9]*$/.test(key) ||
-        p.type !== "number" ||
-        !p.title ||
-        !p.labels ||
-        Object.keys(p.labels).length !== locales.length ||
-        locales.some(
+      const labelled =
+        !!p.title &&
+        !!p.labels &&
+        Object.keys(p.labels).length === locales.length &&
+        locales.every(
           (locale) =>
-            typeof p.labels[locale] !== "string" || !p.labels[locale].trim(),
-        ) ||
-        typeof p.unit !== "string" ||
-        ![p.default, p.minimum, p.maximum, p.step].every(Number.isFinite) ||
-        p.step <= 0 ||
-        p.minimum > p.maximum
-      )
+            typeof p.labels[locale] === "string" && !!p.labels[locale].trim(),
+        );
+      if (!/^[a-z][a-zA-Z0-9]*$/.test(key) || !labelled)
         throw new Error(`${m.id}: 参数 ${key} 不完整`);
+      if (p.type === "number") {
+        if (
+          typeof p.unit !== "string" ||
+          ![p.default, p.minimum, p.maximum, p.step].every(Number.isFinite) ||
+          p.step <= 0 ||
+          p.minimum > p.maximum
+        )
+          throw new Error(`${m.id}: 参数 ${key} 不完整`);
+      } else if (p.type === "netlist") {
+        if (
+          !Number.isInteger(p.maxNodes) ||
+          p.maxNodes < 2 ||
+          p.maxNodes > 64 ||
+          !Number.isInteger(p.maxElements) ||
+          p.maxElements < 1 ||
+          p.maxElements > 64 ||
+          !validRange(p.resistance) ||
+          !validRange(p.emf)
+        )
+          throw new Error(`${m.id}: 参数 ${key} 不完整`);
+        try {
+          validateNetlist(p.default, p);
+        } catch (error) {
+          throw new Error(
+            `${m.id}: 参数 ${key} 默认值不合法：${(error as Error).message}`,
+          );
+        }
+      } else
+        throw new Error(`${m.id}: 参数 ${key} 的类型不受支持`);
     }
     validateParams(defaults(parameters), parameters);
     const stateSchema = JSON.parse(await source(m.snapshotSchema));

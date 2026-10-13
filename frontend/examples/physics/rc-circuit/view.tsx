@@ -86,7 +86,7 @@ export default function RcCircuitView({ simulation, params: p, state }: ViewProp
   useEffect(
     () =>
       simulation.onRender(() => {
-        const q = simulation.params;
+        const q = simulation.numeric;
         const t = simulation.time;
         const voltage = simulation.state.u ?? 0;
         trace.current?.setAttribute("d", sample(q, t));

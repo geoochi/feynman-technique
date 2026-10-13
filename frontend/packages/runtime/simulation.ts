@@ -1,13 +1,22 @@
-import { defaults, validateParams } from "../core/parameters";
+import {
+  cloneParamValues,
+  defaults,
+  numericParams,
+  validateParams,
+} from "../core/parameters";
 import type {
   RuntimeLabConfig,
   Model,
   Params,
+  ParamValues,
   Snapshot,
 } from "../core/types";
 const DT = 1 / 120;
 export class Simulation {
-  params: Params;
+  /** Raw parameter values, including any structured netlist parameter. */
+  params: ParamValues;
+  /** The numeric projection that models, views and readouts compute with. */
+  numeric: Params;
   state: Params;
   time = 0;
   playing = false;
@@ -32,7 +41,11 @@ export class Simulation {
     private validateState: (value: unknown) => boolean,
   ) {
     this.params = defaults(lab.parameters);
-    this.state = model.initial(this.params);
+    this.numeric = numericParams(this.params, lab.parameters);
+    this.state = model.initial(this.numeric);
+  }
+  private syncNumeric() {
+    this.numeric = numericParams(this.params, this.lab.parameters);
   }
   subscribe = (callback: () => void) => {
     this.listeners.add(callback);
@@ -51,13 +64,14 @@ export class Simulation {
     for (const fn of this.listeners) fn();
     for (const fn of this.renderers) fn();
   }
-  setParams(params: Params) {
+  setParams(params: ParamValues) {
     validateParams(params, this.lab.parameters);
-    this.params = { ...params };
+    this.params = cloneParamValues(params);
+    this.syncNumeric();
     this.reset();
   }
   reset() {
-    this.state = this.model.initial(this.params);
+    this.state = this.model.initial(this.numeric);
     this.time = 0;
     this.accumulator = 0;
     this.last = null;
@@ -74,7 +88,7 @@ export class Simulation {
       this.publish();
       return;
     }
-    this.state = this.model.step(this.state, this.params, dt);
+    this.state = this.model.step(this.state, this.numeric, dt);
     this.time += dt;
   }
   singleStep() {
@@ -101,7 +115,7 @@ export class Simulation {
       labVersion: this.lab.version,
       sdkVersion: "0.1.0",
       snapshotSchemaVersion: "1",
-      params: { ...this.params },
+      params: cloneParamValues(this.params),
       seed: this.seed,
       simulationTime: this.time,
       internalState: { ...this.state },
@@ -153,7 +167,8 @@ export class Simulation {
     )
       throw new Error("章节不存在。");
     // Validate everything before changing any state; importing never resumes playback.
-    this.params = { ...v.params };
+    this.params = cloneParamValues(v.params);
+    this.syncNumeric();
     this.state = { ...v.internalState };
     this.time = v.simulationTime;
     this.camera = v.camera.distance;

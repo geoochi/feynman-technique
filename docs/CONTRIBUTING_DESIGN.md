@@ -206,6 +206,18 @@ params, seed, simulationTime, internalState, camera, activeChapter
 
 不随时间变化的案例可在 manifest.json 声明 `"playback": false`，课程壳会移除播放区、模拟时间和暂停状态，并且不启动动画时钟；未声明时保留动态控制。二次函数使用此设置，仅通过 a、h、k 调参。
 
+### 结构化参数：网表（netlist）
+
+除数值参数外，一个案例可以声明一个 `type: "netlist"` 的结构化参数，用于需要学习者自己搭接的交互（例如自由搭建电学工作台）。这是向后兼容的可选扩展，`schemaVersion` 仍为 2，与 `playback`、`seo` 的接入方式一致；既有数值案例不受影响。
+
+- 参数形式：`{ "type": "netlist", "title", "labels", "default", "maxNodes", "maxElements", "resistance", "emf" }`。`default` 是 `{ "elements": [...] }`，每个元件是 `{ "id", "kind", "a", "b", "value" }`：`kind` 取 `resistor` / `source` / `wire`；`a` 与 `b` 是 0 起的节点编号；`value` 分别是电阻（Ω）、电动势（V），导线固定为 0。`resistance` 与 `emf` 是含 `minimum` / `maximum` / `step` / `unit` 的取值范围。
+- 构建校验（`scripts/catalog.ts`）：元件数量、节点取值、元件 id 的唯一性与格式、`value` 的取值范围，并且必须恰好包含一个理想电压源；默认网表也要通过同一校验。
+- 运行时（`packages/core/parameters.ts`）：`validateParams` 校验，`defaults` 与快照存取都做深拷贝，因此快照不会与正在编辑的电路共享引用。
+- 课程壳：只为数值参数渲染控件，**不为网表渲染控件**；`ViewProps.params` 仍然是纯数值投影，`ViewProps.netlist` 给出当前网表，`Model` 接口不变（`initial` / `step` 只收到数值投影）。案例在自己的 `view` 里提供放置、连线、改值、删除，并通过 `simulation.setParams({ ...simulation.params, <关键字>: 新网表 })` 提交。
+- 边界：元件数量不超过 `maxElements`，并要能被 `handoff` 的 16 KB sessionStorage 限制容纳。
+- 结构**不进** `snapshot.schema.json`：网表是参数，不是模型内部状态；直流网络的解是纯函数，由案例自己算，不随时间演变。定期演化的案例仍需把随时间变化的状态写进快照 schema。
+- 例外：条款 4 要求“参数必须有步长”只适用于数值参数；网表没有 `step`，改用 `resistance` / `emf` 的取值范围。
+
 模型、视图、讲解的数据使用稳定参数名；以下章节联动 SDK 接口为未来设计。案例作者不能依赖网站私有 DOM id，也不能随意修改网站全局样式。SDK 应提供“突出某个对象”“切换预设”“推进教学步骤”等最小接口，复杂故事仍可在案例内编排。
 
 ## 5. 一份合格讲解

@@ -101,7 +101,7 @@ function Earth({
     }
   }, [camera, distance, size.width, size.height]);
   useFrame(() => {
-    const params = simulation.params,
+    const params = simulation.numeric,
       hour = solarHour(params, simulation.state),
       phi = (params.latitude * Math.PI) / 180,
       delta = (params.declination * Math.PI) / 180;

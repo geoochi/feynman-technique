@@ -126,31 +126,35 @@ for (const slug of slugs)
       await expect(page.getByLabel("模拟时间")).toHaveText("t = 0.00 s");
     }
     const inputs = page.locator("input[type=number]");
-    for (const input of await inputs.all())
-      await expect(input).toHaveAccessibleName(/.+（.+）$/);
-    const initialValues = await inputs.evaluateAll((nodes) =>
-      nodes.map((node) => (node as HTMLInputElement).value),
-    );
-    for (const input of await inputs.all()) {
-      await input.fill((await input.getAttribute("min"))!);
-      await input.press("Enter");
+    // A case may declare no numeric parameters at all (a netlist-only case).
+    const hasNumericParams = (await inputs.count()) > 0;
+    if (hasNumericParams) {
+      for (const input of await inputs.all())
+        await expect(input).toHaveAccessibleName(/.+（.+）$/);
+      const initialValues = await inputs.evaluateAll((nodes) =>
+        nodes.map((node) => (node as HTMLInputElement).value),
+      );
+      for (const input of await inputs.all()) {
+        await input.fill((await input.getAttribute("min"))!);
+        await input.press("Enter");
+      }
+      const parameter = inputs.first();
+      await parameter.fill("99999");
+      await parameter.press("Enter");
+      await expect(parameter).toHaveAttribute("aria-invalid", "true");
+      await page.getByRole("button", { name: "重置参数", exact: true }).click();
+      if (hasPlayback(slug))
+        await expect(
+          page.getByRole("button", { name: "播放", exact: true }),
+        ).toBeVisible();
+      await expect
+        .poll(() =>
+          inputs.evaluateAll((nodes) =>
+            nodes.map((node) => (node as HTMLInputElement).value),
+          ),
+        )
+        .toEqual(initialValues);
     }
-    const parameter = inputs.first();
-    await parameter.fill("99999");
-    await parameter.press("Enter");
-    await expect(parameter).toHaveAttribute("aria-invalid", "true");
-    await page.getByRole("button", { name: "重置参数", exact: true }).click();
-    if (hasPlayback(slug))
-      await expect(
-        page.getByRole("button", { name: "播放", exact: true }),
-      ).toBeVisible();
-    await expect
-      .poll(() =>
-        inputs.evaluateAll((nodes) =>
-          nodes.map((node) => (node as HTMLInputElement).value),
-        ),
-      )
-      .toEqual(initialValues);
     await expect(page.getByLabel("应用预设")).toHaveCount(0);
     await expect(page.getByRole("combobox")).toHaveCount(1);
     await expect(
@@ -165,7 +169,8 @@ for (const slug of slugs)
       0,
     );
     await expect(page.locator("input[type=file]")).toHaveCount(0);
-    await expect(parameter).toHaveAttribute("aria-invalid", "false");
+    if (hasNumericParams)
+      await expect(inputs.first()).toHaveAttribute("aria-invalid", "false");
     if (hasPlayback(slug))
       await expect(page.getByLabel("模拟时间")).toHaveText("t = 0.00 s");
     await expect(

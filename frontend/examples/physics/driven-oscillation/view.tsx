@@ -124,7 +124,7 @@ export default function DrivenOscillationView({
         const x = simulation.state.x ?? 0;
         const v = simulation.state.v ?? 0;
         const phase = simulation.state.phase ?? 0;
-        const q = simulation.params;
+        const q = simulation.numeric;
         if (lastT.current === null || t < lastT.current) samples.current.length = 0;
         if (lastT.current === null || t !== lastT.current) {
           samples.current.push({ t, x });

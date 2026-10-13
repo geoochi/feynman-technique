@@ -81,7 +81,7 @@ export default function WaveSuperpositionView({
   useEffect(
     () =>
       simulation.onRender(() => {
-        const q = simulation.params;
+        const q = simulation.numeric;
         const ph = simulation.state.phase;
         wave1Path.current?.setAttribute(
           "d",

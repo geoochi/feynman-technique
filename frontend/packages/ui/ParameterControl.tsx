@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Parameter } from "../core/types";
+import type { NumberParameter } from "../core/types";
 import s from "./Controls.module.css";
 import { useI18n } from "../i18n/I18n";
 export function ParameterControl({
@@ -10,7 +10,7 @@ export function ParameterControl({
   resetToken,
 }: {
   name: string;
-  spec: Parameter;
+  spec: NumberParameter;
   value: number;
   onChange: (value: number) => void;
   resetToken: unknown;

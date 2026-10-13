@@ -52,7 +52,7 @@ export default function UnitCircleSineView({ simulation, params: p }: ViewProps)
   useEffect(
     () =>
       simulation.onRender(() => {
-        const q = simulation.params;
+        const q = simulation.numeric;
         const now = Math.max(simulation.time, 0);
         // The window scrolls once the trace reaches its right edge, so the
         // frame never rescales and the projection always stays horizontal.

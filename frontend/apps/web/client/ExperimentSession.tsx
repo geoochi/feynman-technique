@@ -17,7 +17,11 @@ import type {
 import type { Locale } from "../../../packages/i18n/locales";
 import { resolveRoute } from "../../../packages/i18n/locales";
 import { I18nProvider, useI18n } from "../../../packages/i18n/I18n";
-import { defaults } from "../../../packages/core/parameters";
+import {
+  defaults,
+  netlistParam,
+  numericParams,
+} from "../../../packages/core/parameters";
 import { Simulation } from "../../../packages/runtime/simulation";
 import { ParameterControl } from "../../../packages/ui/ParameterControl";
 import { stateValidators } from "../generated/state-validators";
@@ -201,9 +205,11 @@ function Session({
     }
   };
 
+  const values = snapshot?.params ?? defaults(lab.parameters);
   const viewProps = {
     simulation: simulation!,
-    params: snapshot?.params ?? defaults(lab.parameters),
+    params: numericParams(values, lab.parameters),
+    netlist: netlistParam(values, lab.parameters),
     state: snapshot?.internalState ?? {},
     time: snapshot?.simulationTime ?? 0,
     camera: snapshot?.camera.distance ?? 5,
@@ -355,8 +361,8 @@ function Session({
                     {t("resetParameters")}
                   </button>
                 </div>
-                {Object.entries(lab.parameters.properties).map(
-                  ([key, spec]) => (
+                {Object.entries(lab.parameters.properties).map(([key, spec]) =>
+                  spec.type === "number" ? (
                     <ParameterControl
                       key={key}
                       name={key}
@@ -370,7 +376,7 @@ function Session({
                         })
                       }
                     />
-                  ),
+                  ) : null,
                 )}
                 <p className={s.hint}>
                   {t(hasPlayback ? "parameterHint" : "staticHint")}

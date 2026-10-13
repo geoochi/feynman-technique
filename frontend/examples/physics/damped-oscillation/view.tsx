@@ -102,7 +102,7 @@ export default function DampedOscillationView({
   useEffect(
     () =>
       simulation.onRender(() => {
-        const q = simulation.params;
+        const q = simulation.numeric;
         const t = simulation.time;
         const x = simulation.state.x ?? 0;
         const centre = equilibriumX + x * SCHEMATIC_PX_PER_M;

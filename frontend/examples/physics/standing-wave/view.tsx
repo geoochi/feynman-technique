@@ -88,7 +88,7 @@ export default function StandingWaveView({ simulation, params: p }: ViewProps) {
       return parts.join(" ");
     };
     return simulation.onRender(() => {
-      const q = simulation.params;
+      const q = simulation.numeric;
       const phase = simulation.state.phase;
       resultantRef.current?.setAttribute(
         "d",
