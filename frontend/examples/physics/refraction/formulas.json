@@ -1,0 +1,12 @@
+{
+  "default": {
+    "en": "n_1 \\sin\\theta_1 = n_2 \\sin\\theta_2",
+    "zh-CN": "n_1 \\sin\\theta_1 = n_2 \\sin\\theta_2",
+    "ja": "n_1 \\sin\\theta_1 = n_2 \\sin\\theta_2"
+  },
+  "critical": {
+    "en": "\\sin\\theta_c = \\frac{n_2}{n_1}, \\quad n_1 > n_2",
+    "zh-CN": "\\sin\\theta_c = \\frac{n_2}{n_1}, \\quad n_1 > n_2",
+    "ja": "\\sin\\theta_c = \\frac{n_2}{n_1}, \\quad n_1 > n_2"
+  }
+}
