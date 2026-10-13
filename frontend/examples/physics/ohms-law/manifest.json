@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "2",
+  "id": "physics.ohms-law",
+  "slug": "ohms-law",
+  "version": "0.1.0",
+  "sdkRange": "^0.1.0",
+  "title": {
+    "en": "Ohm's law",
+    "zh-CN": "欧姆定律",
+    "ja": "オームの法則"
+  },
+  "summary": {
+    "en": "Change the voltage and the resistance of one loop and read the current and the power.",
+    "zh-CN": "改变一个回路里的电压和电阻，读出电流与功率。",
+    "ja": "1 つの回路の電圧と抵抗を変えて、電流と電力を読み取る。"
+  },
+  "subjects": ["physics"],
+  "levels": ["high-school"],
+  "tags": {
+    "en": ["electricity", "Ohm's law", "power"],
+    "zh-CN": ["电学", "欧姆定律", "功率"],
+    "ja": ["電気", "オームの法則", "電力"]
+  },
+  "learningObjectives": {
+    "en": [
+      "Apply Ohm's law I = V / R to a single resistor in a fixed loop",
+      "Explain why doubling the voltage doubles the current but quadruples the power",
+      "Describe how the current and the power change when the resistance changes at fixed voltage"
+    ],
+    "zh-CN": [
+      "把欧姆定律 I = V / R 用于固定回路中的单个电阻",
+      "解释电压加倍时电流加倍、功率却变为四倍的原因",
+      "描述电压不变时改变电阻对电流和功率的影响"
+    ],
+    "ja": [
+      "固定した回路の 1 つの抵抗にオームの法則 I = V / R を適用する",
+      "電圧を 2 倍にすると電流は 2 倍、電力は 4 倍になる理由を説明する",
+      "電圧を固定して抵抗を変えたときの電流と電力の変化を述べる"
+    ]
+  },
+  "prerequisites": {
+    "en": ["division", "proportionality", "units of voltage, current and resistance"],
+    "zh-CN": ["除法运算", "正比与反比", "电压、电流与电阻的单位"],
+    "ja": ["除法", "比例と反比例", "電圧・電流・抵抗の単位"]
+  },
+  "estimatedMinutes": 12,
+  "layout": "lesson",
+  "theme": "paper",
+  "renderer": "svg",
+  "entry": "view.tsx",
+  "parameterSchema": "parameters.schema.json",
+  "snapshotSchema": "snapshot.schema.json",
+  "locales": ["en", "zh-CN", "ja"],
+  "lessons": {
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
+  },
+  "preview": "preview.svg",
+  "authors": [
+    {
+      "name": "geoochi"
+    }
+  ],
+  "licenses": {
+    "code": "MIT",
+    "content": "MIT"
+  },
+  "capabilities": {
+    "network": false,
+    "audio": false
+  },
+  "modelAssumptions": {
+    "en": [
+      "One fixed loop with an ideal voltage source (no internal resistance) and one positive linear resistor",
+      "Ohm's law I = V / R holds exactly; the resistor is ohmic and its resistance does not change with temperature",
+      "The resistance is kept at R >= 1 ohm, so the loop is never an ideal short circuit and the current always stays finite",
+      "The current is the conventional current, and the power P = V I = V^2 / R is the rate at which the resistor dissipates energy as heat"
+    ],
+    "zh-CN": [
+      "固定回路由一个理想电源（内阻为零）和一个正电阻组成",
+      "欧姆定律 I = V / R 严格成立；电阻为线性电阻，阻值不随温度变化",
+      "电阻限制为 R >= 1 Ω，回路不会成为理想短路，电流始终有限",
+      "电流采用常规电流方向；功率 P = V I = V^2 / R 表示电阻把电能转化为热的速率"
+    ],
+    "ja": [
+      "固定した回路は理想電源（内部抵抗ゼロ）1 つと正の線形抵抗 1 つでできている",
+      "オームの法則 I = V / R が厳密に成り立つ。抵抗は線形で、抵抗値は温度によらない",
+      "抵抗は R >= 1 Ω に保たれるので、回路が理想的な短絡になることはなく電流は常に有限である",
+      "電流は慣習的な向きとし、電力 P = V I = V^2 / R は抵抗が電気エネルギーを熱として消費する割合を表す"
+    ]
+  },
+  "references": [
+    {
+      "title": "OpenStax · Physics · 19.1 Ohm's law",
+      "url": "https://openstax.org/books/physics/pages/19-1-ohms-law"
+    },
+    {
+      "title": "OpenStax · College Physics 2e · Introduction to Electric Current, Resistance, and Ohm's Law",
+      "url": "https://openstax.org/books/college-physics-2e/pages/20-introduction-to-electric-current-resistance-and-ohms-law"
+    }
+  ],
+  "status": "experimental",
+  "seo": {
+    "experiment": {
+      "title": {
+        "en": "Ohm's Law Simulator: Voltage, Resistance, Current & Power · Feynman",
+        "zh-CN": "欧姆定律模拟器：电压、电阻与电流、功率 · Feynman",
+        "ja": "オームの法則シミュレーター：電圧・抵抗・電流・電力 · Feynman"
+      },
+      "description": {
+        "en": "Adjust the voltage and the resistance of a single loop. Read the current I = V / R and the power P = V I on a fixed current–voltage plot with a labelled coordinate system.",
+        "zh-CN": "调整单个回路的电压与电阻，在带刻度的固定伏安坐标图上读出电流 I = V / R 与功率 P = V I，并观察工作点的移动。",
+        "ja": "1 つの回路の電圧と抵抗を変え、目盛りの付いた固定の電流—電圧グラフで電流 I = V / R と電力 P = V I を読み、動作点の動きを観察しよう。"
+      }
+    },
+    "lesson": {
+      "title": {
+        "en": "Ohm's Law: Current, Voltage, Resistance and Power Explained · Feynman",
+        "zh-CN": "欧姆定律：电流、电压、电阻与功率的关系 · Feynman",
+        "ja": "オームの法則：電流・電圧・抵抗と電力の関係 · Feynman"
+      },
+      "description": {
+        "en": "Learn why I = V / R makes the current grow with voltage and shrink with resistance, why P = V I = V^2 / R quadruples when the voltage doubles, and why the resistance is kept above zero.",
+        "zh-CN": "理解 I = V / R 如何决定电流随电压增大、随电阻减小，解释电压加倍时 P = V I = V^2 / R 变为四倍的原因，以及为什么电阻必须大于零。",
+        "ja": "I = V / R によって電流が電圧とともに増え抵抗とともに減るしくみ、電圧を 2 倍にすると P = V I = V^2 / R が 4 倍になる理由、そして抵抗をゼロより大きく保つ理由を解説する。"
+      }
+    }
+  },
+  "playback": false
+}

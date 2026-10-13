@@ -1,0 +1,12 @@
+{
+  "default": {
+    "en": "I = \\frac{V}{R}",
+    "zh-CN": "I = \\frac{V}{R}",
+    "ja": "I = \\frac{V}{R}"
+  },
+  "power": {
+    "en": "P = V I = \\frac{V^{2}}{R}",
+    "zh-CN": "P = V I = \\frac{V^{2}}{R}",
+    "ja": "P = V I = \\frac{V^{2}}{R}"
+  }
+}

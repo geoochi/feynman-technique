@@ -1,0 +1,35 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["v", "r"],
+  "properties": {
+    "v": {
+      "type": "number",
+      "title": "Voltage (V)",
+      "default": 6,
+      "minimum": 1,
+      "maximum": 12,
+      "unit": "V",
+      "step": 0.5,
+      "labels": {
+        "en": "Voltage (V)",
+        "zh-CN": "电压（V）",
+        "ja": "電圧（V）"
+      }
+    },
+    "r": {
+      "type": "number",
+      "title": "Resistance (R)",
+      "default": 3,
+      "minimum": 1,
+      "maximum": 24,
+      "unit": "Ω",
+      "step": 1,
+      "labels": {
+        "en": "Resistance (R)",
+        "zh-CN": "电阻（R）",
+        "ja": "抵抗（R）"
+      }
+    }
+  }
+}
