@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import { scanCatalog } from "../scripts/catalog";
 import { pageMetadata } from "../packages/seo/metadata";
-import { renderHead } from "../packages/seo/head";
+import { escapeHtml, safeJsonLd } from "../packages/seo/escape";
 import { readSiteConfig } from "../scripts/site-config";
 import { seoFiles } from "../scripts/seo-files";
 import { locales, localizedPath } from "../packages/i18n/locales";
@@ -112,9 +112,7 @@ describe("SEO output", () => {
     expect(readSiteConfig({}, true).origin).toBe("https://www.feynman-technique.com");
     expect(seoFiles(labs, preview).sitemap).toBeUndefined();
     expect(seoFiles(labs, preview).robots).toBe("User-agent: *\nAllow: /\n");
-    expect(renderHead(pageMetadata("/", labs, preview))).toContain(
-      'content="noindex, follow"',
-    );
+    expect(pageMetadata("/", labs, preview).indexable).toBe(false);
   });
   it("rejects domain configuration that would produce unsafe or wrong canonical addresses", () => {
     for (const SITE_URL of [
@@ -133,11 +131,9 @@ describe("SEO output", () => {
     const page = pageMetadata("/", labs, production);
     page.title = '<img src=x onerror="alert(1)">';
     page.structuredData = { name: "</script><script>unexpected()</script>" };
-    const head = renderHead(page);
-    expect(head).toContain("&lt;img");
-    expect(head).not.toContain("<img");
-    expect(head.match(/<script /g)).toHaveLength(1);
-    const data = head.match(/<script[^>]*>(.*?)<\/script>/)![1];
+    expect(escapeHtml(page.title)).toContain("&lt;img");
+    const data = safeJsonLd(page.structuredData);
+    expect(data).not.toContain("</script>");
     expect(JSON.parse(data).name).toBe(page.structuredData.name);
   });
 });

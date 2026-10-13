@@ -2,7 +2,9 @@
 
 更新：2026-10-13。首期 v0.1.0 已上线；Git 自动发布与扩展部分仍待实施。长期优先级、阶段目标与推进条件统一见 [开发路线图](ROADMAP.md)，本文维护技术结构和边界。
 
-已实现：React/Vite 静态前端、三个实验、英文默认及中文/日文界面与讲解、构建时清单校验与可信懒加载映射、目录搜索、预渲染讲解、参数与播放控制、运行时完整快照接口、模型与浏览器验证。实验页不提供倍速、视角缩放或状态导入导出入口。未实现：独立发行 SDK/CLI、电学工作台、Worker/WASM、历史版本归档、Workers Builds 的 GitHub 自动构建关联。已通过 Workers Static Assets 正式部署到 https://www.feynman-technique.com。实际开发入口见 [本地开发](DEVELOPMENT.md)。
+前端已统一为 Next.js App Router + output:export，详见 [迁移方案与实施状态](NEXTJS_REFACTOR_PLAN.md)。21 个三语言内容 URL 在构建时渲染，实验使用局部客户端会话，默认产物 out。原 Vite 入口和正常页面预渲染器已移除；Vitest 仍使用 Vite 依赖。生产站当前仍是此前部署，迁移产物尚未发布。
+
+已实现：Next.js 静态导出前端、三个实验、英文默认及中文/日文界面与讲解、构建时清单校验与可信懒加载映射、目录搜索、预渲染讲解、参数与播放控制、运行时完整快照接口、模型与浏览器验证。实验页不提供倍速、视角缩放或状态导入导出入口。未实现：独立发行 SDK/CLI、电学工作台、Worker/WASM、历史版本归档、Workers Builds 的 GitHub 自动构建关联。原 Vite 版本已通过 Workers Static Assets 正式部署到 https://www.feynman-technique.com。实际开发入口见 [本地开发](DEVELOPMENT.md)。
 
 ## 1. 当前结论
 
@@ -12,11 +14,11 @@
 
 案例源码、讲解、署名、版本以 Git 为唯一来源，构建时生成目录和搜索索引。贡献者提交 PR，检查与 AI 审查通过、维护者确认合并后发布新前端。AI 审查属于开发流程，不需要网站后台支持。
 
-## 2. 推荐技术栈
+## 2. 当前技术栈
 
 | 部分 | 推荐 | 职责 |
 |---|---|---|
-| 前端 | TypeScript + React + Vite | 页面、案例源码与静态构建 |
+| 前端 | TypeScript + React + Next.js App Router 静态导出 | 页面、案例源码与静态构建；内容在构建时渲染，计算与绘图在浏览器运行 |
 | 样式 | CSS Modules + CSS Variables | 视觉还原与多实验主题 |
 | 三维 | Three.js + React Three Fiber | 三维场景、相机与对象交互 |
 | 二维 | SVG + Canvas 2D | 函数、几何与轨迹 |
@@ -30,7 +32,7 @@
 
 不再为“需要一个文件服务器”开发 Go/Rust 服务；现成托管承担此职责。Rust 仍可作为浏览器计算模块的实现语言，但不是当前必需项。参考视觉保持 [视觉规范](VISUAL_SPEC.md) 中的设计。
 
-Workers Static Assets 可直接托管现有 Vite 产物，配置不需要应用脚本。[Static Assets](https://developers.cloudflare.com/workers/static-assets/get-started/)
+Workers Static Assets 直接托管 Next 静态导出产物，配置不需要应用脚本。[Static Assets](https://developers.cloudflare.com/workers/static-assets/get-started/)
 
 ## 3. 构建与运行
 
@@ -74,24 +76,25 @@ flowchart LR
 feynman/
   frontend/
     package.json / pnpm-lock.yaml / pnpm-workspace.yaml
-    apps/web/                 # 目录、课程壳与讲解
+    app/                      # 英文/本地化静态路由与根布局
+    apps/web/                 # 页面实现、静态组件与客户端实验会话
       generated/              # 构建生成的元数据与可信 import 映射，不提交
     packages/
       core/                   # 案例类型与数值参数校验
       runtime/                # 固定步长时钟与快照恢复
       ui/                     # 控件、公式与场景样式
       i18n/                   # 语言、路由、类型化界面文案与语言切换
-      seo/                    # 共用页面枚举、元信息与静态/客户端 head
+      seo/                    # 共用页面枚举、纯元信息规则与 Next Metadata 适配
     examples/
       math/function-transform/
       physics/pendulum/
       geography/day-night/
-    scripts/                  # 清单校验、目录生成、预渲染
+    scripts/                  # 清单校验、公式编译、目录生成、导出检查
     tests/                    # 状态测试、Playwright 浏览器测试
     public/                   # 品牌标识与生成的封面、目录、搜索索引
     wrangler.jsonc            # Workers Static Assets、HTML 路由及自定义域名
     site.config.ts            # 正式域名，不从预览 URL 推断
-    dist/                     # 普通静态产物，不提交 Git
+    out/                      # 普通静态产物，不提交 Git
   tooling/ai-review/           # 本地审查指南
   docs/
 ```
@@ -119,25 +122,25 @@ feynman/
 
 无需建立登录、个人中心、云端短链接或服务端进度接口。如保存学习进度，仅存本机 IndexedDB/localStorage，并明确清理浏览器数据会丢失记录，不做跨设备承诺。
 
-Vite 本身不自动预渲染完整站点；本项目已通过 scripts/prerender.ts 实现读取安全元数据、Markdown 和已批准组件的预渲染。案例逻辑、Canvas 和 Worker 在客户端运行。大量案例仍可整站构建，但按需下载，不能把所有 Three 场景放进首页首包。
+Next 在构建时渲染正常页面；scripts/finalize-next.ts 只整理本地化首页文件、语言 404 与 robots/sitemap，不重写正常正文或移动 RSC 载荷。Server Components 持有完整内容，客户端只接收当前页需要的投影。模型/读数与场景由校验通过的显式映射分别加载，地球 Three/R3F 不进入首页或讲解；公式在构建时编译。科学模型仍为纯 TS。
 
 ### 三语言内容与路由
 
-语言代码为 en、zh-CN、ja，默认英语。英文沿用 `/`、`/labs/slug`、`/learn/slug`；中文增加 `/zh/` 前缀，日文增加 `/ja/` 前缀。URL 确定语言，各页面用语言下拉框选择 English / 中文 / 日本語，并保留当前实验或文章；关闭 JavaScript 时以语言链接作为回退。JavaScript 启用时语言切换更新历史记录并重渲染文案，实验实例保留参数、时间、内部状态与播放状态；直接加载或刷新页面仍按原规则创建新实验。
+语言代码为 en、zh-CN、ja，默认英语。英文沿用 `/`、`/labs/slug`、`/learn/slug`；中文增加 `/zh/` 前缀，日文增加 `/ja/` 前缀。URL 确定语言，各页面用语言下拉框选择 English / 中文 / 日本語，并保留当前实验或文章；关闭 JavaScript 时以语言链接作为回退。JavaScript 启用时跨语言导航交接完整快照，目标页恢复参数、时间、内部状态与播放状态；直接加载或刷新页面仍按原规则创建新实验。
 
 界面公共文案位于 packages/i18n；实验图中说明与读数文案位于各案例 labels.ts。科学模型、参数 key、数值边界、公式变量、slug、纹理与快照共用，locale 属于页面状态，不进入科学模型或快照。Manifest schemaVersion 升为 2：标题、简介、标签、学习目标、先修知识、模型假设均按三种语言存储；参数 schema 保留英文 title 并增加 labels，讲解分别维护 lesson.en.md、lesson.zh-CN.md、lesson.ja.md。
 
 构建校验三种语言完整性和七章顺序，以稳定章节 id 定位问题，不依赖翻译后的标题。每语言生成独立搜索索引以及首页、404、实验入口和讲解页，当前共 24 个 HTML 页面。预渲染与客户端使用同一语言解析规则，设置对应 html lang、标题和描述；关闭 JavaScript 仍可读对应语言的文章。通过 Workers auto-trailing-slash 提供无扩展名的静态路径。
 
-首批三个案例的三语言文字随目录数据交付；科学渲染代码和大型资源继续按案例加载。翻译量或案例数量明显增加时可拆分语言/讲解数据，无须引入后端、数据库、在线翻译或新的框架。
+首页只传当前语言卡片与搜索字段，完整三语言内容集合仅在构建侧使用。运行时只接受 RuntimeLabConfig；语言不进入科学快照。跨根布局用短期 sessionStorage、一次性导航标识与 history.state 交接快照及 playing，刷新初始化新实验，BFCache 恢复后再启用控件。
 
 ### SEO 与静态页面
 
-SEO 保留现有 React/Vite 预渲染架构。公共页面枚举供开发路由、预渲染和 sitemap 共用，元信息模块同时用于静态 HTML 和客户端语言切换。正式主域名配置为 `https://www.feynman-technique.com`（裸域 301 到 www，已线上验收），每个内容页输出独立标题/描述、绝对 canonical、三语言 hreflang、分享信息与基于真实内容的 JSON-LD；当前 sitemap 含 21 个可收录页面。实验入口静态 HTML 包含核心问题及讲解链接，讲解页提供完整文章。404 和预览环境 noindex，科学模型及部署流程不变。www 绑定、HTTPS 与裸域重定向已配置并验收，维护者已确认提交 sitemap，但 Agent 未独立读取 Search Console 的索引或搜索报告；后续观测见 [首轮计划](SEO_GEO_PLAN.md)，实际规则与验收见 [SEO](SEO.md)。
+当前 SEO 由 Next Metadata API 适配既有纯元信息规则，以下规则继续适用。公共页面枚举供静态路由、导出检查和 sitemap 共用，软导航和语言页面均使用同一元信息规则。正式主域名配置为 `https://www.feynman-technique.com`（裸域 301 到 www，已线上验收），每个内容页输出独立标题/描述、绝对 canonical、三语言 hreflang、分享信息与基于真实内容的 JSON-LD；当前 sitemap 含 21 个可收录页面。实验入口静态 HTML 包含核心问题及讲解链接，讲解页提供完整文章。404 和预览环境 noindex，科学模型及部署流程不变。www 绑定、HTTPS 与裸域重定向已配置并验收，维护者已确认提交 sitemap，但 Agent 未独立读取 Search Console 的索引或搜索报告；后续观测见 [首轮计划](SEO_GEO_PLAN.md)，实际规则与验收见 [SEO](SEO.md)。
 
 ## 7. 实验 SDK 的边界
 
-当前实现以主图为中心的课程布局（最左侧简介及 1–3 个实验问题、中央主图、右侧统一控制及其下方公式与读数），以及目录/暖纸/天文主题与最小共享运行时。实验页取消七步导航和快速探索下拉框，参数可直接修改或恢复默认值；单摆长度按比例绘制，实验页移除学习目标与适用条件、检验理解、依据来源区块，完整讲解保留在独立静态页面。案例入口分别导出绘图组件、Readouts 与 model；自由搭建式电学工作台仍是后续设计。具体尺寸见视觉规范。共享模块只抽象三个种子案例已经使用的能力，未独立发行 SDK。
+当前实现以主图为中心的课程布局（最左侧简介及 1–3 个实验问题、中央主图、右侧统一控制及其下方公式与读数），以及目录/暖纸/天文主题与最小共享运行时。实验页取消七步导航和快速探索下拉框，参数可直接修改或恢复默认值；单摆长度按比例绘制，实验页移除学习目标与适用条件、检验理解、依据来源区块，完整讲解保留在独立静态页面。view.tsx 仅导出绘图组件，controller.ts 导出 model/Readouts；自由搭建式电学工作台仍是后续设计。具体尺寸见视觉规范。共享模块只抽象三个种子案例已经使用的能力，未独立发行 SDK。
 
 核心契约包括参数校验、create、setParams、step、reset、snapshot、restore、dispose；UI 状态、计算模型和渲染状态分离。模型用纯函数或独立状态对象表示，不依赖 React 组件内部变量。
 
@@ -159,7 +162,7 @@ AI 读取的 PR、注释与文档是待分析数据，不应改变维护者的�
 
 ## 9. 静态托管的实现与验收
 
-当前目录、实验入口和学习文章通过 scripts/prerender.ts 生成静态 HTML；实验视图按案例懒加载。frontend/wrangler.jsonc 使用 Static Assets，auto-trailing-slash 将 labs/slug.html 提供为 /labs/slug，将 zh/index.html 提供为 /zh/，HTML 别名重定向到规范路径。404-page 按最近语言目录返回真实 404，没有全站 SPA 重写。public/_headers 配置哈希资源长缓存及预览域名 noindex。
+当前目录、实验框架和学习文章通过 Next 构建生成静态 HTML；实验视图按案例懒加载。frontend/wrangler.jsonc 使用 Static Assets，auto-trailing-slash 将 labs/slug.html 提供为 /labs/slug，将 zh/index.html 提供为 /zh/，HTML 别名重定向到规范路径。404-page 按最近语言目录返回真实 404，没有全站 SPA 重写。public/_headers 配置哈希资源长缓存及预览域名 noindex。
 
 通过 Workers Builds 记录追溯 commit SHA、构建和部署版本。正式发布后核对域名、深链接、资源、索引信息与目标提交；故障时使用平台 Version History 回滚到已验证版本。首次本地上传不代表已经接通 Git 自动发布。
 

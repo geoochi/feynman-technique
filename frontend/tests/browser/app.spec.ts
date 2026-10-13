@@ -258,26 +258,48 @@ test("day-night texture failure keeps parameters and readouts available", async 
   await expect(page.locator("#number-latitude")).toHaveValue("31.2");
 });
 
-test("case module failure keeps a readable retry state", async ({ page }) => {
-  await page.route(/\/assets\/view-.*\.js$/, (route) => route.abort());
-  await page.goto("/zh/labs/pendulum");
-  await expect(
-    page.getByText("实验资源加载失败。请刷新重试，也可以先阅读完整讲解。"),
-  ).toBeVisible();
-  await expect(page.getByRole("button", { name: "刷新重试" })).toBeVisible();
-  await expect(
-    page.getByRole("link", { name: "阅读完整讲解 →" }),
-  ).toBeVisible();
+test("model module failure keeps static questions and a retry action", async ({ page }) => {
+  await page.route('**/_next/static/chunks/*.js', async route => {
+    const response = await route.fetch();
+    if ((await response.text()).includes('Small-angle period')) await route.abort();
+    else await route.fulfill({response});
+  });
+  await page.goto('/zh/labs/pendulum');
+  await expect(page.getByRole('alert').filter({hasText:'实验资源加载失败。请刷新重试，也可以先阅读完整讲解。'})).toBeVisible();
+  await expect(page.locator('h1')).toBeVisible();
+  await expect(page.locator('a[href="/zh/learn/pendulum"]').first()).toBeVisible();
+  await page.unroute('**/_next/static/chunks/*.js');
+  await page.getByRole('alert').getByRole('button', {name:'刷新重试', exact:true}).click();
+  await expect(page.locator('[data-controls-ready=true]')).toBeVisible();
+  await page.getByRole('button', {name:'单步', exact:true}).click();
+  await expect(page.getByLabel('模拟时间')).toHaveText('t = 0.10 s');
 });
-test("course shell module failure falls back to the static explanation", async ({
-  page,
-}) => {
-  await page.route(/\/assets\/LabPage-.*\.js$/, (route) => route.abort());
-  await page.goto("/zh/labs/pendulum");
-  await expect(
-    page.getByText("实验界面资源加载失败。请刷新重试，或先阅读完整讲解。"),
-  ).toBeVisible();
-  await expect(page.getByRole("button", { name: "刷新重试" })).toBeVisible();
+test("scene module failure leaves controls and readouts working and can retry locally", async ({ page }) => {
+  await page.route('**/_next/static/chunks/*.js', async route => {
+    const response = await route.fetch();
+    if ((await response.text()).includes('uniform bool hasMap')) await route.abort();
+    else await route.fulfill({response});
+  });
+  await page.goto('/zh/labs/day-night');
+  await expect(page.getByText('渲染暂不可用。仍可调整参数、查看模型数据与阅读讲解。', {exact:true})).toBeVisible();
+  await page.locator('#number-latitude').fill('75'); await page.locator('#number-latitude').press('Enter');
+  await page.locator('#number-declination').fill('23.44'); await page.locator('#number-declination').press('Enter');
+  await expect(page.getByText('24.00', {exact:false})).toBeVisible();
+  await page.unroute('**/_next/static/chunks/*.js');
+  await page.getByRole('button', {name:'刷新重试',exact:true}).click();
+  await expect(page.locator('canvas')).toBeVisible();
+  await expect(page.locator('#number-latitude')).toHaveValue('75');
+});
+test("critical client script failure keeps the static explanation and refresh link", async ({ page }) => {
+  await page.route('**/_next/static/chunks/*.js', async route => {
+    const response = await route.fetch();
+    if ((await response.text()).includes('feynman:controls-ready')) await route.abort();
+    else await route.fulfill({response});
+  });
+  await page.goto('/zh/labs/pendulum');
+  await expect(page.locator('[data-bootstrap-fallback]')).toBeVisible();
+  await expect(page.locator('h1')).toBeVisible();
+  await expect(page.locator('a[href="/zh/learn/pendulum"]').first()).toBeVisible();
 });
 
 for (const [width, height] of [

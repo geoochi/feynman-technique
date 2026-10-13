@@ -19,3 +19,6 @@ frontend/public/search-index.*.json
 frontend/public/previews/
 test-results-*/
 frontend/public/LICENSE.txt
+frontend/.next/
+frontend/out/
+frontend/next-env.d.ts

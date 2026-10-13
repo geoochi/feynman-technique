@@ -4,6 +4,7 @@ import { createHash } from "node:crypto";
 import Ajv from "ajv";
 import { marked } from "marked";
 import sanitize from "sanitize-html";
+import katex from "katex";
 import { defaults, validateParams } from "../packages/core/parameters";
 import type { Lab, Manifest, ParameterSchema } from "../packages/core/types";
 import manifestSchema from "./manifest.schema.json";
@@ -135,8 +136,48 @@ export async function scanCatalog(root: string): Promise<Lab[]> {
       typeof question.explanation !== "string"
     )
       throw new Error(`${m.id}: 自测题不合法`);
+    for (const image of m.preloadImages ?? []) await read(image);
     await source(m.entry);
     await source("labels.ts");
+    await source("readouts.tsx");
+    await source("controller.ts");
+    const inputFormulas = JSON.parse(await source("formulas.json"));
+    if (
+      !inputFormulas ||
+      typeof inputFormulas !== "object" ||
+      Array.isArray(inputFormulas) ||
+      !Object.hasOwn(inputFormulas, "default") ||
+      Object.keys(inputFormulas).length > 16
+    )
+      throw new Error(`${m.id}: invalid formulas`);
+    const formulas: Lab["formulas"] = {};
+    for (const [key, copy] of Object.entries(inputFormulas)) {
+      if (
+        !/^[a-z][a-zA-Z0-9]*$/.test(key) ||
+        !copy ||
+        typeof copy !== "object" ||
+        Array.isArray(copy) ||
+        Object.keys(copy).length !== locales.length
+      )
+        throw new Error(`${m.id}: invalid formula translations`);
+      formulas[key] = {} as Lab["formulas"][string];
+      for (const locale of locales) {
+        const math = (copy as Record<string, unknown>)[locale];
+        if (typeof math !== "string" || !math.trim() || math.length > 4096)
+          throw new Error(`${m.id}: invalid formula translation ${locale}`);
+        formulas[key][locale] = {
+          math,
+          html: katex.renderToString(math, {
+            throwOnError: true,
+            displayMode: true,
+            output: "htmlAndMathml",
+            trust: false,
+            maxExpand: 1000,
+            maxSize: 20,
+          }),
+        };
+      }
+    }
     await source("model.ts");
     await source("model.test.ts");
     await source("ATTRIBUTION.md");
@@ -198,6 +239,7 @@ export async function scanCatalog(root: string): Promise<Lab[]> {
       presets,
       question,
       content,
+      formulas,
       contentHash: createHash("sha256")
         .update(sources.join("\0"))
         .digest("hex")

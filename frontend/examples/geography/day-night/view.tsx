@@ -12,11 +12,9 @@ import {
   type Texture,
 } from "three";
 import type { ViewProps } from "../../../packages/core/types";
-import { solarAltitude, solarHour, dayLength, earthRotation } from "./model";
-import { Formula } from "../../../packages/ui/Formula";
+import { solarHour, dayLength, earthRotation } from "./model";
 import s from "../../../packages/ui/Scene.module.css";
 import earthTextureUrl from "./assets/earth-blue-marble.webp";
-export { model } from "./model";
 const vertexShader = `
 varying vec3 vNormal;
 varying vec2 vUv;
@@ -54,12 +52,13 @@ function Earth({
   useEffect(() => {
     let active = true;
     const texture = new TextureLoader().load(
-      earthTextureUrl,
+      earthTextureUrl.src,
       () => {
         if (!active) return;
         texture.colorSpace = SRGBColorSpace;
         texture.anisotropy = Math.min(4, gl.capabilities.getMaxAnisotropy());
         setSurfaceMap(texture);
+        performance.mark("feynman:texture-ready");
         onTextureStatus("ready");
       },
       undefined,
@@ -72,6 +71,18 @@ function Earth({
       texture.dispose();
     };
   }, [gl, onTextureStatus]);
+  useEffect(() => {
+    let frame = 0;
+    const before = gl.info.render.frame;
+    const observe = () => {
+      if (gl.info.render.frame > before) {
+        if (!performance.getEntriesByName("feynman:canvas-first-frame").length) performance.mark("feynman:canvas-first-frame");
+        if (surfaceMap && !performance.getEntriesByName("feynman:earth-ready").length) performance.mark("feynman:earth-ready");
+      } else frame = requestAnimationFrame(observe);
+    };
+    frame = requestAnimationFrame(observe);
+    return () => cancelAnimationFrame(frame);
+  }, [gl, surfaceMap]);
   const uniforms = useMemo(
     () => ({
       sun: { value: new Vector3() },
@@ -234,53 +245,5 @@ export default function DayNightView(props: ViewProps) {
                   : text.note}
       </p>
     </div>
-  );
-}
-
-export function Readouts(props: ViewProps) {
-  const { locale } = useI18n();
-  const text = labels[locale];
-  const hour = solarHour(props.params, props.state),
-    altitude = solarAltitude(
-      props.params.latitude,
-      props.params.declination,
-      hour,
-    ),
-    length = dayLength(props.params.latitude, props.params.declination);
-  return (
-    <>
-      <div className={s.formula}>
-        <Formula
-          math={
-            length === 24
-              ? String.raw`D = 24\,\mathrm{h}`
-              : length === 0
-                ? String.raw`D = 0\,\mathrm{h}`
-                : String.raw`\cos H_0 = -\tan\varphi\tan\delta`
-          }
-        />
-      </div>
-      <div className={s.readings}>
-        <div>
-          <span>{text.hour}</span>
-          <strong>
-            {String(Math.floor(hour)).padStart(2, "0")}:
-            {String(Math.floor((hour % 1) * 60)).padStart(2, "0")}
-            <small>h</small>
-          </strong>
-        </div>
-        <div>
-          <span>{text.length}</span>
-          <strong>
-            {length.toFixed(2)}
-            <small>h</small>
-          </strong>
-        </div>
-      </div>
-      <p className={s.readoutStatus}>
-        {altitude > 0 ? text.daytime : text.nighttime} · {text.altitude}{" "}
-        {altitude.toFixed(1)}°
-      </p>
-    </>
   );
 }

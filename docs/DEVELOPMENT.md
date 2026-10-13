@@ -1,5 +1,53 @@
 # 本地开发与验证
 
+更新：2026-10-13。当前源码已统一为 Next.js App Router 静态导出；正常页面由 Next 构建渲染，实验在浏览器运行。官网仍为此前的正式部署，本次迁移尚未发布。完整记录见 [迁移计划](NEXTJS_REFACTOR_PLAN.md)。
+
+## 当前环境与命令
+
+固定 Node 24.11.1（24.x）与 pnpm 12.10.1，Next 16.4.0、React/React DOM 19.3.0、Ajv 8.18.0、KaTeX 0.18.2。直接依赖和 lockfile 精确固定；安装脚本许可仍只有 esbuild/workerd。Vitest 仍依赖 Vite，项目已移除 Vite 应用入口和插件。
+
+```sh
+cd frontend
+pnpm install --frozen-lockfile
+pnpm dev                     # Next，http://127.0.0.1:3000
+pnpm generate                # 协议、公式、完整内容、可信控制器/场景/贴图映射
+pnpm typecheck               # 生成内容、Next 路由类型、TypeScript
+pnpm check:lab               # 内容、科学模型和运行时单元检查
+pnpm build                   # Next 静态导出、URL/404/SEO 整理、产物审计
+pnpm preview                 # Wrangler 本地 out 静态服务，端口 4173
+pnpm test:e2e                # 已安装 Google Chrome，桌面/手机模拟
+pnpm preview:workers         # 与 preview 相同
+pnpm deploy:workers          # 仅上传既有 out；需要发布授权
+```
+
+没有 next start/next export、独立 SDK/CLI、create:lab 或 --lab 筛选。修改案例文案、清单和公式后 pnpm generate 或重启 dev；尚无内容生成监听器。测试产物、.next、out、next-env.d.ts、生成目录与依赖均忽略，不提交。Next dev 自动维护 frontend/AGENTS.md 的本地版本文档指引，该文件保留为源码工作约定。
+
+## 构建与内容边界
+
+案例仍放 examples/学科/slug。必需文件为 manifest、参数/状态 schema、model.ts、model.test.ts、view.tsx、readouts.tsx、controller.ts、formulas.json、labels.ts、三语言 Markdown、预设、题目、封面和 ATTRIBUTION。generate 只读案例静态文件，不执行模型；校验路径/符号链接/大小、三语言/七章、schema/参数、素材与静态公式。Markdown 净化沿用原流程，公式以 KaTeX trust:false 在构建时编译，浏览器仅呈现 HTML/MathML。
+
+完整 catalog 只供构建侧页面及 SEO；server-only 边界和导出检查阻止讲解集合进入浏览器 JS。首页只传当前语言卡片/搜索字段；当前页面正文可能进入 RSC 数据。公共 catalog.json、search-index.<locale>.json、封面、Google 验证文件与许可 URL 继续兼容。状态 schema 在构建时用 Ajv standalone 编译，浏览器不加载 Ajv 编译器；controller 仅导出 model/Readouts，场景独立按需加载；运行时只接收 RuntimeLabConfig，不携带全文。
+
+默认输出 out，21 个内容 URL 与 3 个语言 404；Next 还会生成内部错误/导航文件。英文旧路径、zh/ja 前缀保留；仅把本地化首页 HTML 整理为 index.html，RSC/segment 载荷原路径整体发布。真实 404 与别名由 Workers auto-trailing-slash/404-page 承担，不使用 SPA 回退。只有 /_next/static/* 哈希资源长缓存，RSC/HTML 可更新。
+
+默认正式配置输出 sitemap；SITE_INDEXABLE=false 或非 main 的 Workers 构建都 noindex 且不留 sitemap。SITE_URL 只接受 HTTPS origin；Next Metadata、JSON-LD 与 robots/sitemap 使用同一纯规则。删除了旧 head.ts/applyMetadata、prerender.ts、Vite 配置与入口。
+
+## 浏览器与运行时
+
+初始暂停；manifest.playback=false 的二次函数不启动时钟。参数、两个重置、单摆比例、地球相机/平行太阳光与本地 NASA 图保持原有行为。控制器和场景独立加载，静态框架/示意/问题/笔记链接先可读；模型失败时禁用控制并给出重试，场景失败时仍可调参/查看读数。贴图失败或无 WebGL 保留静态说明；资源随卸载释放。
+
+语言交接用当前标签页短期完整快照及 playing，校验导航标识、目标、版本、大小和期限。刷新/直接访问开始新实验；普通历史与 BFCache 分别验证，BFCache 在 Storage 视图更新后恢复并启用控件。快照继续校验 seed、时间、内部状态、相机与章节；不提供用户导入/导出入口。
+
+最终数值、浏览器、性能和真实设备限制见 [全量迁移复核](../tooling/ai-review/2026-10-13-next-migration.md)，模型仍为 experimental。工程通过不代表已完成独立教学审阅或生产验收。
+
+## 历史 Vite 与 P0/P1 记录
+
+以下保留迁移前的实现和验收原文，仅说明当时事实；其中命令、目录和原型状态不作为当前操作依据。当前操作以本文件前文和 package.json 为准。
+
+
+
+2026-10-13 增量：Next.js P0/P1 本地原型已实现，操作方式见文末。默认开发、构建和发布仍为 Vite/dist；尚未全量迁移。
+
 日期：2026-10-11。当前为首期实现 v0.1.0，已通过 Workers Static Assets 首次发布；Git 自动构建关联尚未完成。
 
 ## 环境与命令
@@ -116,3 +164,21 @@ Workers 部署复验：类型检查、27 页构建、39 项单元测试、Wrangl
 pnpm generate 从根目录 LICENSE 复制到 public/LICENSE.txt，开发和生产构建均提供该文件；副本与其他生成文件一样不提交。正式发布产物包含 LICENSE.txt 与 THIRD_PARTY_NOTICES.txt。原创投稿按 MIT 授权，贡献者保留版权和署名；第三方材料需说明来源和使用条件。
 
 本轮类型检查、24 页静态构建与 44 项单元检查通过；MIT 原文副本、三个生成目录的许可字段及原有第三方许可正文已核对。模型、运行时与页面样式未改。发布验收见部署记录。
+
+## Next.js P0/P1 本地原型（2026-10-13）
+
+正式构建与默认 dev/build/preview/deploy:workers 仍走 Vite/dist。Next 原型提供以下本地命令；三语言首页、讲解和实验入口静态可读，只有单摆接入交互。原型强制 noindex、无 sitemap，不作为全量生产迁移产物。
+
+```sh
+cd frontend
+pnpm install --frozen-lockfile
+pnpm dev:next                # Next 开发服务，默认 http://127.0.0.1:3000
+pnpm typecheck:next          # 清单生成、Next 路由类型、单独 TypeScript 配置
+pnpm build:next              # Next 静态导出 + URL/404/缓存整理与产物检查
+pnpm preview:next            # 同一 Wrangler 配置本地覆盖为 out，端口 4183
+pnpm test:next               # Chrome 桌面/手机原型验收；需先构建
+```
+
+固定 Next 16.4.0；Node 24.11.1、pnpm 12.10.1 冻结安装、类型和构建兼容性已验证。tsconfig.next.json、.next/types 与 next-env 独立于 Vite 检查；.next、out、next-env 和测试结果均忽略。修改案例内容后重新 pnpm generate 或重启 dev:next；尚无内容监听器。
+
+正文模块有 server-only 边界，Cards 仅接收当前语言轻量投影；讲解正文可能进入当前页面 RSC 数据。单摆使用 RuntimeLabConfig，不携带全文；原 Vite Lab 契约暂时兼容，模型未变。语言切换通过短期完整快照及 playing 交接，刷新重新初始化；故障反馈保留当前实验。恢复、历史、BFCache、就绪标记及测量限制见 [本轮记录](../tooling/ai-review/2026-10-13-next-p0-p1.md)。P2/P3 后再收敛为唯一 Next 入口。

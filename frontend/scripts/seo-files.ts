@@ -2,7 +2,7 @@ import type { Lab } from "../packages/core/types";
 import type { SiteConfig } from "../packages/seo/site";
 import { pageRoutes } from "../packages/seo/pages";
 import { pageMetadata } from "../packages/seo/metadata";
-import { escapeHtml } from "../packages/seo/head";
+import { escapeHtml } from "../packages/seo/escape";
 
 export function seoFiles(labs: Lab[], config: SiteConfig) {
   const urls = config.indexable

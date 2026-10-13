@@ -28,6 +28,16 @@ export const messages = {
   home: ["Feynman home", "Feynman 首页", "Feynman ホーム"],
   navigation: ["Main navigation", "主导航", "メインナビゲーション"],
   catalog: ["Experiments", "实验目录", "実験一覧"],
+  languageNavigationFailed: [
+    "Language could not be changed. Your experiment is still here; try again.",
+    "语言切换失败，当前实验已保留，请重试。",
+    "言語を変更できませんでした。実験は保持されています。もう一度お試しください。",
+  ],
+  sessionRestoreFailed: [
+    "The experiment session could not be restored. Reload to start a new experiment.",
+    "实验会话无法恢复。刷新可开始新的实验。",
+    "実験の状態を復元できませんでした。再読み込みすると新しい実験を開始できます。",
+  ],
   language: ["Language", "语言", "言語"],
   heroStart: ["Make knowledge", "让知识", "知識を"],
   heroEnd: ["come alive.", "发生。", "体験しよう。"],
@@ -87,15 +97,31 @@ export const messages = {
     "「周期」「自転」などのキーワードを試してください。",
   ],
   clear: ["Clear filters", "清除筛选", "絞り込みを解除"],
-  contributeTitle: ["What should we explore next?", "下一个实验，一起创造", "次の実験を一緒につくろう"],
+  contributeTitle: [
+    "What should we explore next?",
+    "下一个实验，一起创造",
+    "次の実験を一緒につくろう",
+  ],
   contributeDescription: [
     "Have a question that an interactive experiment could explain? Open an Issue with your idea, or send a PR with a new experiment, a correction, or a translation.",
     "有什么知识想用互动实验来理解？欢迎开 Issue 分享想法，或通过 PR 提交新实验、纠错和翻译。",
     "インタラクティブ実験で理解したいことはありますか？Issue でアイデアを提案したり、PR で新しい実験・修正・翻訳を送ってください。",
   ],
-  proposeExperiment: ["Propose an experiment · Issue", "提出实验想法 · Issue", "実験を提案 · Issue"],
-  contributePR: ["Contribute an experiment · PR", "贡献实验 · PR", "実験を投稿 · PR"],
-  contributionGuide: ["Contribution guide", "贡献指南", "コントリビューションガイド"],
+  proposeExperiment: [
+    "Propose an experiment · Issue",
+    "提出实验想法 · Issue",
+    "実験を提案 · Issue",
+  ],
+  contributePR: [
+    "Contribute an experiment · PR",
+    "贡献实验 · PR",
+    "実験を投稿 · PR",
+  ],
+  contributionGuide: [
+    "Contribution guide",
+    "贡献指南",
+    "コントリビューションガイド",
+  ],
   footer1: ["/ Explore to understand", "/ 用探索代替记忆", "/ 探索から理解へ"],
   footer2: [
     "Runs locally · Explore freely · Start with a question",

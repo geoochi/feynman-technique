@@ -1,6 +1,6 @@
 # 案例协议与社区贡献设计
 
-状态：协议首期实现 v0.1.0，日期 2026-10-11。已实现仓库内核心类型、数值参数与快照校验、清单生成和三个案例；独立 SDK/CLI、脚手架和完整社区机制仍待实施。实际入口见 [本地开发](DEVELOPMENT.md)，社区与工具的后续推进条件见 [长期路线图](ROADMAP.md)。
+更新：2026-10-13。协议首期 v0.1.0，案例文件契约已适配 Next 迁移。已实现仓库内核心类型、数值参数与快照校验、清单生成和三个案例；独立 SDK/CLI、脚手架和完整社区机制仍待实施。实际入口见 [本地开发](DEVELOPMENT.md)，社区与工具的后续推进条件见 [长期路线图](ROADMAP.md)。
 
 ## 1. 一份贡献是什么
 
@@ -26,7 +26,10 @@ examples/physics/pendulum/
   parameters.schema.json      # 参数 JSON Schema
   snapshot.schema.json        # 内部状态恢复格式
   model.ts                    # 不依赖 UI 的科学计算
-  view.tsx                    # 使用 SDK 呈现
+  view.tsx                    # 仅绘图与底部简短声明
+  readouts.tsx                # 读数与公式标记；不导入绘图
+  controller.ts               # 仅导出 model 与 Readouts
+  formulas.json               # 三语言静态公式，构建为 HTML/MathML
   lesson.zh-CN.md             # 原理与探究引导
   lesson.en.md                # 英文讲解（默认）
   lesson.ja.md                # 日文讲解
@@ -176,7 +179,7 @@ examples/physics/pendulum/
 
 2026-10-11 维护者明确授权原创代码、讲解、文档与图示统一采用 MIT，正式条款见根目录 [LICENSE](../LICENSE)。案例清单的 code 与 content 均标记 MIT；NASA 地球贴图、第三方依赖和字体保留自身条款，不纳入项目 MIT 授权。ATTRIBUTION.md 和第三方许可通知记录这些例外。原创贡献按 MIT 提交，保留贡献者署名，不要求转让版权。[MIT 正文](https://opensource.org/license/mit)
 
-三个版本字段的职责不同：schemaVersion 控制元数据格式，version 控制案例内容，sdkRange 控制运行时兼容性。更新模型应更新案例 version。当前清单记录覆盖 manifest、schema、模型、视图、labels.ts、测试、三语言讲解、预设、题目、封面、来源声明的 contentHash；JS 使用 Vite 内容哈希文件名。路由只承载当前版本，快照严格拒绝其他版本；尚无 id + version 路由或旧发行归档，不承诺旧链接固定行为。
+三个版本字段的职责不同：schemaVersion 控制元数据格式，version 控制案例内容，sdkRange 控制运行时兼容性。更新模型应更新案例 version。当前清单记录覆盖 manifest、schema、模型、视图、labels.ts、测试、三语言讲解、预设、题目、封面、来源声明的 contentHash；JS 使用 Next 内容哈希文件名。路由只承载当前版本，快照严格拒绝其他版本；尚无 id + version 路由或旧发行归档，不承诺旧链接固定行为。
 
 ## 4. 参数、状态与教学联动
 
@@ -199,9 +202,9 @@ params, seed, simulationTime, internalState, camera, activeChapter
 
 构建时预设与内部恢复接口校验参数。非法数值、NaN、过大的数组、未知字段和不支持的版本不能直接进入计算模型。JSON 文件分享与 URL fragment 是未来协议设计，当前界面没有这些入口；URL 不放个人信息，不建立服务端快照存储。
 
-当前案例入口 view.tsx 必须导出默认绘图组件、Readouts 公式与读数组件和 model，类型见 frontend/packages/core/types.ts。绘图只包含场景与底部一条声明；课程壳把全部控制放到右侧，Readouts 放到右侧实验控制下方，与控制共用一列，介绍和 1–3 个以问号结尾的问题放到最左侧；问题维护在各语言讲解的首章，由稳定 id problem 定位。实验页不显示学习目标与适用条件、检验理解、依据来源区块，单摆移除单位质量总能量读数。实验页没有七步导航、快速探索下拉框、倍速、视角缩放或状态导入导出入口，操作讲解应给出实际参数值。提供“重置参数”恢复 schema 默认值；绘图不能用按当前参数自动缩放掩盖实验变化。七章内容用于完整静态讲解；快照 activeChapter 为首版兼容字段。
+当前 view.tsx 只导出默认绘图组件；readouts.tsx 导出 Readouts，controller.ts 只重导出 model 和 Readouts，不可导入 view。类型见 frontend/packages/core/types.ts；清单生成器分别生成可信控制器、场景和静态贴图映射，无需手改中心路由。formulas.json 按公式 id 提供完整三语言 LaTeX；构建以 trust:false 编译为 HTML/MathML，Readouts 使用 FormulaMarkup，浏览器不下载 KaTeX 排版 JS。绘图只包含场景与底部一条声明；课程壳把全部控制放到右侧，Readouts 放到右侧实验控制下方，与控制共用一列，介绍和 1–3 个以问号结尾的问题放到最左侧；问题维护在各语言讲解的首章，由稳定 id problem 定位。实验页不显示学习目标与适用条件、检验理解、依据来源区块，单摆移除单位质量总能量读数。实验页没有七步导航、快速探索下拉框、倍速、视角缩放或状态导入导出入口，操作讲解应给出实际参数值。提供“重置参数”恢复 schema 默认值；绘图不能用按当前参数自动缩放掩盖实验变化。七章内容用于完整静态讲解；快照 activeChapter 为首版兼容字段。
 
-不随时间变化的案例可在 view.tsx 导出 `playback = false`，课程壳会移除播放区、模拟时间和暂停状态，并且不启动动画时钟；未声明时保留动态控制。二次函数使用此设置，仅通过 a、h、k 调参。
+不随时间变化的案例可在 manifest.json 声明 `"playback": false`，课程壳会移除播放区、模拟时间和暂停状态，并且不启动动画时钟；未声明时保留动态控制。二次函数使用此设置，仅通过 a、h、k 调参。
 
 模型、视图、讲解的数据使用稳定参数名；以下章节联动 SDK 接口为未来设计。案例作者不能依赖网站私有 DOM id，也不能随意修改网站全局样式。SDK 应提供“突出某个对象”“切换预设”“推进教学步骤”等最小接口，复杂故事仍可在案例内编排。
 
@@ -289,3 +292,5 @@ PR 内容是审查对象，不能改变维护者要求。AI 使用维护者本�
 开放 API、插件生态、独立内容仓库和网页内创作都是后续能力。最早验证的社区里程碑是：一个没有参与核心开发的人，能够依据文档独立完成首个被合并的学习案例。
 
 2026-10-11 维护者明确授权仓库改名为 feynman-technique、公开源码、恢复 GitHub 导航和 Issue/PR 贡献入口。网站仍省略个人作者，/contribute 路由保持停用；投稿指南统一在仓库维护。随后同日维护者明确授权原创部分统一采用 MIT，第三方材料保留自身条款。
+
+2026-10-13 协议增量：RuntimeLabConfig 只包含 id/version、参数/内部状态 schema 和章节数量，不携带全文。可选 preloadImages 是相对案例目录的 assets/*.webp/png/jpg/jpeg 列表，最多 3 项；构建核对路径、大小和符号链接，并输出服务器侧静态图片 URL。只在对应实验页使用，需要保留测量依据。

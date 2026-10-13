@@ -39,7 +39,7 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-技术栈为 TypeScript、React 与 Vite。实验在访客浏览器中计算，网站通过 Cloudflare Workers 静态资源托管。
+技术栈为 TypeScript、React 与 Next.js App Router，采用静态导出。本次 Next.js 迁移已在本地实现，尚未发布。实验在访客浏览器中计算，网站通过 Cloudflare Workers 静态资源托管。
 
 开发与验证见[本地开发](docs/DEVELOPMENT.md)，案例要求见[案例设计](docs/CONTRIBUTING_DESIGN.md)，发布见[部署指南](docs/DEPLOYMENT.md)。
 

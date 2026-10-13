@@ -1,0 +1,7 @@
+{
+  "default": {
+    "en": "T_{\\mathrm{small\\ angle}} \\approx 2\\pi\\sqrt{\\frac{L}{g}}",
+    "zh-CN": "T_{\\small\\text{小角度}} \\approx 2\\pi\\sqrt{\\frac{L}{g}}",
+    "ja": "T_{\\text{小角近似}} \\approx 2\\pi\\sqrt{\\frac{L}{g}}"
+  }
+}

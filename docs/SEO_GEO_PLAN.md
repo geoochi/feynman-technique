@@ -207,3 +207,7 @@ Worker 控制台仍提示连接 Git 仓库，Git 自动构建尚未关联。Sear
 ## 12. Search Console 验证文件
 
 维护者选择 www 网址前缀属性并提供 Google HTML 验证文件。Agent 已按原文件名及原内容保存、构建和发布，线上同域 307 后返回 200，53 字节正文与原文件一致；本次仅增加一个静态资产，保留 21 个内容 sitemap URL。文件会随源码保存，以供后续重新发布时保留。具体版本和验收见 [部署记录](DEPLOYMENT.md#search-console-html-验证文件发布)。Google 的验证按钮与 sitemap 提交仍待维护者完成，不将文件可访问记为所有权已验证。
+
+## 13. Next 静态迁移的本地复核（2026-10-13）
+
+全量源码迁移已实现，尚未发布。21 个规范内容 URL、三语言独立元信息/正文/JSON-LD、Google 验证文件、robots/sitemap 与真实语言 404 已本地复核；首页无需下载全语言讲解集合。Next Metadata 使用原有纯规则，预览及非 main 构建强制 noindex 且无 sitemap。详细结果见 [全量迁移记录](../tooling/ai-review/2026-10-13-next-migration.md)。本节不覆盖第 9–12 节历史上线事实，也没有读取新的 Search Console/爬虫/流量报告；不能据框架迁移声称收录或 GEO 效果改善。

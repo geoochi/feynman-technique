@@ -6,9 +6,9 @@
 
 ## 架构与页面内容
 
-保留 React + Vite 的纯静态架构，在构建阶段预渲染 HTML，浏览器接管交互与科学计算。当前 24 个页面含三个语言的首页、404、三个实验入口与三个讲解页。网站内容与案例数量尚不需要请求时 SSR、Next.js、服务器、数据库或 CMS。
+当前采用 Next.js App Router 静态导出，首页、完整讲解和实验框架在构建时渲染。三个语言共 21 个内容 URL 与 3 个语言 404；正文与科学交互边界见 [迁移记录](NEXTJS_REFACTOR_PLAN.md)。正式构建生成 sitemap，预览/非 main/显式 SITE_INDEXABLE=false 都 noindex 且不生成 sitemap。生产官网尚未切换到本次产物。
 
-`frontend/packages/seo/pages.ts` 是页面枚举的公共入口，开发路由、预渲染和 sitemap 共用；`metadata.ts` 统一计算页面标题、描述、canonical、语言替代链接及结构化数据；`head.ts` 用于静态 head 输出与客户端语言导航更新，避免生成页面与语言切换后的信息不一致。
+`frontend/packages/seo/pages.ts` 统一页面枚举，metadata.ts 提供纯规则；apps/web/pages/metadata.tsx 将其适配为 Next Metadata 和安全 JSON-LD。旧 head.ts、applyMetadata 与正常页面预渲染器已删除；scripts/check-export.ts 校验导出正文、元信息、许可和客户端内容边界。
 
 实验入口的静态 HTML 包含标题、简介、封面、核心问题及讲解链接，JavaScript 加载后显示同一案例的实验界面。讲解页提供完整七章、公式、学习目标及引用。实验与讲解有各自的标题和描述，不把二者互相 canonical；每个语言版本 canonical 指向自身。保留真实 HTML 链接及每页单一主标题，不增加隐藏关键词或专供爬虫的另一套内容。
 
@@ -37,8 +37,8 @@ SITE_INDEXABLE=false pnpm build
 
 - canonical 使用无参数、无锚点的正式绝对地址；语言首页保留 `/zh/`、`/ja/`，其他页面使用无尾斜线的 clean URL。
 - hreflang 在每个内容页列出 en、zh-CN、ja、自身及指向英语的 x-default，使用完整 HTTPS 地址。语言切换同时更新 title、description、canonical、hreflang、Open Graph、Twitter Card 和 JSON-LD。
-- `dist/sitemap.xml` 自动列出当前 21 个可收录页面；404 和未知案例不进入清单。不伪造 lastmod、优先级或更新频率。
-- `dist/robots.txt` 允许抓取页面和资源，并在可收录构建中声明 sitemap。noindex 使用页面 meta，避免 Disallow 阻止爬虫读取该指令。
+- `out/sitemap.xml` 自动列出当前 21 个可收录页面；404 和未知案例不进入清单。不伪造 lastmod、优先级或更新频率。
+- `out/robots.txt` 允许抓取页面和资源，并在可收录构建中声明 sitemap。noindex 使用页面 meta，避免 Disallow 阻止爬虫读取该指令。
 - 404 页面提供 noindex，不生成 canonical、hreflang 或 JSON-LD。本地静态预览中未知 URL 和缺失资源返回 HTTP 404，没有全站 SPA 回退；Workers 正式部署已实测未知页面与缺失脚本返回 HTTP 404。
 - JSON-LD 描述 WebSite、CollectionPage/ItemList、WebPage 和 CreativeWork/LearningResource，仅使用真实标题、语言、讲解目标和引用；暂不输出个人作者。不填写虚构评分、发布日期、课程认证或 FAQ。
 - 三语言共用原创 1200×630 PNG 分享图；SVG 源文件与 PNG 都在 `frontend/public`。修改 SVG 后在已安装 Chrome 的本地执行 `pnpm generate:social-card`。生产构建直接复制素材，无需浏览器运行环境。
@@ -47,13 +47,13 @@ SITE_INDEXABLE=false pnpm build
 
 本地单元验证覆盖干净 canonical、双向语言地址、不同页面标题、404、sitemap 范围、环境索引策略、配置校验以及 head/JSON-LD 转义。浏览器验证检查不运行 JavaScript 时所有生成页面的正文、标题、语言、canonical、hreflang、JSON-LD，核对 sitemap 与 HTML 页面一致，验证语言切换及历史返回时元信息同步。
 
-上线后仍需：核对正式域名/HTTPS及部署提交；检查 200/404、重定向、robots 和 sitemap；确认正式页面没有 noindex 或阻止抓取的响应头；在 Search Console 验证域名、提交 sitemap，用 URL Inspection 检查抓取结果。本轮 www 版本已线上核对 24 页 HTML、21 页 sitemap、资源与 404；14 个裸域 HTTP/HTTPS 请求均 301 到 https://www.feynman-technique.com，保留路径与查询，www 正式内容直接可访问。Search Console 验证和 sitemap 提交尚未执行。配置及验收步骤见部署指南。
+上线后仍需：核对正式域名/HTTPS及部署提交；检查 200/404、重定向、robots 和 sitemap；确认正式页面没有 noindex 或阻止抓取的响应头；在 Search Console 验证域名、提交 sitemap，用 URL Inspection 检查抓取结果。历史 www 版本（2026-10-11）已线上核对 24 页 HTML、21 页 sitemap、资源与 404；14 个裸域 HTTP/HTTPS 请求均 301 到 https://www.feynman-technique.com，保留路径与查询，www 正式内容直接可访问。维护者已确认提交 sitemap，本轮未独立读取 Search Console 的验证/索引报告。配置及验收步骤见部署指南。
 
-页面体积、移动体验和 Core Web Vitals 应以正式部署及实际设备测量。首页仍携带首批三个案例的讲解数据，Three.js 仅在地球案例加载，约 889 KB 三维 chunk 警告仍待性能专项处理。移动端实验室基线、复现条件和后续建议见 [性能测量](PERFORMANCE_BASELINE.md)。本轮不声称已通过线上性能预算或改善搜索排名；结构化数据和 sitemap 也不保证收录或富结果。
+页面体积、移动体验和 Core Web Vitals 应以正式部署及实际设备测量。首页只传当前语言卡片和搜索字段，完整讲解集合留在构建侧；Three.js 仅在地球案例加载，约 878 KB 三维 chunk 警告仍保留。移动端实验室基线、复现条件和后续建议见 [性能测量](PERFORMANCE_BASELINE.md)。本轮不声称已通过线上性能预算或改善搜索排名；结构化数据和 sitemap 也不保证收录或富结果。
 
 ## Search Console HTML 文件验证
 
-维护者选择 `https://www.feynman-technique.com/` 的网址前缀属性，并提供 Google 下载的 `google845b412e18b99e6e.html`。原文件按字节保存到 `frontend/public/`，Vite 构建复制到 `dist/`，由同一个 Worker 在网站根路径交付；不作为案例页面加入 sitemap，也不需要后端或 DNS TXT。
+维护者选择 `https://www.feynman-technique.com/` 的网址前缀属性，并提供 Google 下载的 `google845b412e18b99e6e.html`。原文件按字节保存到 `frontend/public/`，Next 构建复制到 `out/`，由同一个 Worker 在网站根路径交付；不作为案例页面加入 sitemap，也不需要后端或 DNS TXT。
 
 验证入口为 `https://www.feynman-technique.com/google845b412e18b99e6e.html`。保持原文件名和内容，验证成功后继续保留，以便 Google 定期复核。当前 Workers HTML 路由会把 `.html` 同域归一到无扩展名地址；Google 的 [HTML 文件验证故障排查](https://support.google.com/webmasters/answer/9008080?hl=en) 说明支持同域重定向。发布后须实际核对完整跳转链，最终返回 200，正文与下载文件一致。
 

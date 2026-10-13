@@ -14,12 +14,28 @@
     "zh-CN": "站在一颗旋转的星球上，看阳光如何划过一天。",
     "ja": "回転する惑星に立ち、太陽の光が一日をどう照らすかを観察する。"
   },
-  "subjects": ["geography"],
-  "levels": ["high-school"],
+  "subjects": [
+    "geography"
+  ],
+  "levels": [
+    "high-school"
+  ],
   "tags": {
-    "en": ["rotation", "day and night", "latitude"],
-    "zh-CN": ["自转", "昼夜", "纬度"],
-    "ja": ["自転", "昼と夜", "緯度"]
+    "en": [
+      "rotation",
+      "day and night",
+      "latitude"
+    ],
+    "zh-CN": [
+      "自转",
+      "昼夜",
+      "纬度"
+    ],
+    "ja": [
+      "自転",
+      "昼と夜",
+      "緯度"
+    ]
   },
   "learningObjectives": {
     "en": [
@@ -39,9 +55,18 @@
     ]
   },
   "prerequisites": {
-    "en": ["spheres", "angles"],
-    "zh-CN": ["球面", "角度"],
-    "ja": ["球面", "角度"]
+    "en": [
+      "spheres",
+      "angles"
+    ],
+    "zh-CN": [
+      "球面",
+      "角度"
+    ],
+    "ja": [
+      "球面",
+      "角度"
+    ]
   },
   "estimatedMinutes": 10,
   "layout": "lesson",
@@ -50,7 +75,11 @@
   "entry": "view.tsx",
   "parameterSchema": "parameters.schema.json",
   "snapshotSchema": "snapshot.schema.json",
-  "locales": ["en", "zh-CN", "ja"],
+  "locales": [
+    "en",
+    "zh-CN",
+    "ja"
+  ],
   "lessons": {
     "en": "lesson.en.md",
     "zh-CN": "lesson.zh-CN.md",
@@ -127,5 +156,8 @@
         "ja": "地球の自転による昼夜と、緯度・太陽赤緯で決まる幾何学的な昼の長さを解説。白夜の例と日の出・日の入りの計算の限界を確かめよう。"
       }
     }
-  }
+  },
+  "preloadImages": [
+    "assets/earth-blue-marble.webp"
+  ]
 }

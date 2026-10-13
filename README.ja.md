@@ -39,7 +39,7 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-TypeScript、React、Vite を使用しています。計算は閲覧者のブラウザーで行い、Cloudflare Workers の静的アセットとして配信します。
+TypeScript、React、Next.js App Router の静的エクスポートを使用しています。Next.js への移行はローカルで実装済みですが、まだ公開サイトへデプロイしていません。計算は閲覧者のブラウザーで行い、Cloudflare Workers の静的アセットとして配信します。
 
 詳細は[開発と検証](docs/DEVELOPMENT.md)、[実験設計](docs/CONTRIBUTING_DESIGN.md)、[デプロイ](docs/DEPLOYMENT.md)を参照してください。
 

@@ -3,10 +3,7 @@ import { labels } from "./labels";
 import { useId } from "react";
 import type { ViewProps } from "../../../packages/core/types";
 import { useDiagramFrame } from "../../../packages/ui/useDiagramFrame";
-import { Formula } from "../../../packages/ui/Formula";
 import s from "../../../packages/ui/Scene.module.css";
-export { model } from "./model";
-export const playback = false;
 export default function FunctionView({ params: p, camera }: ViewProps) {
   const { locale } = useI18n();
   const text = labels[locale];
@@ -117,34 +114,5 @@ export default function FunctionView({ params: p, camera }: ViewProps) {
       </svg>
       <p className={s.note}>{text.note}</p>
     </div>
-  );
-}
-
-export function Readouts({ params: p }: ViewProps) {
-  const { locale } = useI18n();
-  const text = labels[locale];
-  return (
-    <>
-      <div className={s.formula}>
-        <Formula math="y = a(x-h)^2+k" />
-        <p className={s.coefficients}>
-          a = {p.a.toFixed(1)} · h = {p.h.toFixed(1)} · k = {p.k.toFixed(1)}
-        </p>
-      </div>
-      <div className={s.readings}>
-        <div>
-          <span>{p.a === 0 ? text.constant : text.vertex}</span>
-          <strong>
-            {p.a === 0
-              ? `y = ${p.k.toFixed(1)}`
-              : `(${p.h.toFixed(1)}, ${p.k.toFixed(1)})`}
-          </strong>
-        </div>
-        <div>
-          <span>{text.opening}</span>
-          <strong>{p.a > 0 ? text.up : p.a < 0 ? text.down : text.flat}</strong>
-        </div>
-      </div>
-    </>
   );
 }

@@ -4,11 +4,11 @@
 
 ## 当前实际流程
 
-当前是本机 pnpm build 生成 dist，再由本机 pnpm deploy:workers（Wrangler）上传到 Cloudflare。Cloudflare 负责持有、分发线上资源；网站不运行在本机，关闭本机不影响访问。git commit/push 只保存源码，尚不自动触发部署。完成 Workers Builds 的 GitHub 关联后，生产分支推送事件才会触发 Cloudflare 构建并发布；不用另写自定义 webhook 或 GitHub Actions。
+当前源码已迁移为本机 pnpm build 生成 out（本次尚未上传；线上仍是此前 Vite 版本），再由本机 pnpm deploy:workers（Wrangler）上传到 Cloudflare。Cloudflare 负责持有、分发线上资源；网站不运行在本机，关闭本机不影响访问。git commit/push 只保存源码，尚不自动触发部署。完成 Workers Builds 的 GitHub 关联后，生产分支推送事件才会触发 Cloudflare 构建并发布；不用另写自定义 webhook 或 GitHub Actions。
 
 ## 部署方式
 
-保持 React + Vite 和构建时预渲染，Workers Static Assets 交付 `frontend/dist`；不添加 Worker 应用脚本、SSR、数据库或存储服务。科学计算仍在访问者浏览器运行。配置位于 `frontend/wrangler.jsonc`，Wrangler 固定为 4.149.0。
+使用 Next.js App Router 静态导出，Workers Static Assets 交付 `frontend/out`；不添加 Worker 应用脚本、SSR、数据库或存储服务。科学计算仍在访问者浏览器运行。配置位于 `frontend/wrangler.jsonc`，Wrangler 固定为 4.149.0。
 
 `auto-trailing-slash` 将 `labs/pendulum.html` 提供为 `/labs/pendulum`，将 `zh/index.html` 提供为 `/zh/`，别名自动重定向。`404-page` 对未知页面使用最近的语言目录 404 文件并返回 HTTP 404；缺失脚本也返回 404。不设置全站 SPA 回退。`public/_headers` 提供哈希资源长缓存、nosniff 和 workers.dev 的 noindex 响应头。正式配置关闭 workers.dev 与版本预览 URL。
 
@@ -49,7 +49,7 @@ pnpm deploy:workers
 | 构建公开地址 | `SITE_URL=https://www.feynman-technique.com`（与代码默认值一致，可不填） |
 | 非生产分支构建 | 当前关闭 |
 
-依赖按已提交的 pnpm lockfile 安装，静态资源目录由 Wrangler 的 `assets.directory` 指向 `dist`，无需设置 Pages 的输出目录或添加自定义 Worker 入口。平台构建授权留在 Cloudflare，不写入 `VITE_*` 或仓库。配置和 SEO 源码随本版本保存到 Git；连接 Git 构建时应选择包含这些配置的提交。GitHub 集成的账户授权需要由维护者完成。
+依赖按已提交的 pnpm lockfile 安装，静态资源目录由 Wrangler 的 `assets.directory` 指向 `out`，无需设置 Pages 的输出目录或添加自定义 Worker 入口。平台构建授权留在 Cloudflare，不写入浏览器公开环境变量或仓库。配置和 SEO 源码随本版本保存到 Git；连接 Git 构建时应选择包含这些配置的提交。GitHub 集成的账户授权需要由维护者完成。
 
 当前 SEO 构建策略使用 Workers Builds 提供的 `WORKERS_CI` 与 `WORKERS_CI_BRANCH`：仅 `main` 可收录，其他分支或缺失分支 noindex 且不输出 sitemap。更换生产分支时同步更新 `scripts/site-config.ts` 和测试。私有演示构建使用 `SITE_INDEXABLE=false pnpm build`，随后正式发布前重新执行正常构建；不要上传残留演示产物。
 
@@ -144,3 +144,9 @@ Search Console 的域名验证、sitemap 提交与线上性能测量单独验收
 维护者明确授权原创代码、讲解、文档与图示采用 MIT，正式条款为根目录 LICENSE。构建自动将它复制为 dist/LICENSE.txt 并随网站分发；根目录文件为唯一正式来源，不手动维护第二份条款。第三方依赖、字体和 NASA 贴图继续使用自身许可/使用条件，来源通知随产物保留。许可变化不增加网页或 sitemap URL。
 
 本轮已通过本机 Wrangler 发布同一个 Worker，版本 `8dd640d1-11ec-4719-8070-51be2994705d`，创建时间 `2026-10-11T09:40:22Z`，流量 100%。上传来源为 `910ffde` 加本轮已验证工作树，仍不是 Git 自动构建。24 份线上 HTML、LICENSE.txt、THIRD_PARTY_NOTICES.txt、目录、robots、sitemap 和入口 JS/CSS 与本地一致；三个案例 code/content 均为 MIT；sitemap 保持 21 页。未知资源与 /contribute 返回 404，裸域 301 保留路径与编码查询参数。[本轮复核](../tooling/ai-review/2026-10-11-mit.md)
+
+## 2026-10-13 Next 迁移发布准备（未发布）
+
+默认 pnpm build 产物改为 out，Wrangler 的 Worker 名称、www/裸域绑定、HTML 规则与真实 404 不变；只交付静态文件，无 Next 运行服务器。缓存仅覆盖 /_next/static/* 的哈希资源，RSC 文本与 HTML 可更新。完整 out（含 RSC/segment 文件）作为同一版本上传，不能只复制 HTML 或使用 next start。GitHub Builds 尚未关联，推送仍不会更新官网。
+
+发布前复查 Next 安全补丁、确认最终源码/审查范围及回退版本，重新完成冻结安装和生产构建；不要上传 noindex 预览产物。上一正式验收对应版本继续保留在本文件历史中，但回退候选是否仍可用需发布时在平台核实。获得发布授权后上传同一 Worker，随后核对正式域名、裸域 301、21 个内容 URL、3 个语言错误页、RSC/资源/验证文件、robots/sitemap 与交互。本文既有线上验收均为历史，不算本次 Next 上线验收。

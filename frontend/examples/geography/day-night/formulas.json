@@ -1,0 +1,17 @@
+{
+  "default": {
+    "en": "\\cos H_0 = -\\tan\\varphi\\tan\\delta",
+    "zh-CN": "\\cos H_0 = -\\tan\\varphi\\tan\\delta",
+    "ja": "\\cos H_0 = -\\tan\\varphi\\tan\\delta"
+  },
+  "polarDay": {
+    "en": "D = 24\\,\\mathrm{h}",
+    "zh-CN": "D = 24\\,\\mathrm{h}",
+    "ja": "D = 24\\,\\mathrm{h}"
+  },
+  "polarNight": {
+    "en": "D = 0\\,\\mathrm{h}",
+    "zh-CN": "D = 0\\,\\mathrm{h}",
+    "ja": "D = 0\\,\\mathrm{h}"
+  }
+}

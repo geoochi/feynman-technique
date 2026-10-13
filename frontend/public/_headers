@@ -1,7 +1,7 @@
 /*
   X-Content-Type-Options: nosniff
 
-/assets/*
+/_next/static/*
   Cache-Control: public, max-age=31536000, immutable
 
 https://:version.:subdomain.workers.dev/*

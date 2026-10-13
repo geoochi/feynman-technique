@@ -24,6 +24,8 @@ export interface SeoCopy {
 }
 export interface Manifest {
   schemaVersion: string;
+  playback?: boolean;
+  preloadImages?: string[];
   id: string;
   slug: string;
   version: string;
@@ -71,7 +73,15 @@ export interface Lab extends Manifest {
     chapters: { id: string; title: string; html: string }[];
     searchText: string;
   }>;
+  formulas: Record<string, Localized<PreparedFormula>>;
   contentHash: string;
+}
+export interface RuntimeLabConfig {
+  id: string;
+  version: string;
+  parameters: ParameterSchema;
+  stateSchema: Record<string, unknown>;
+  chapterCount: number;
 }
 export interface Model {
   initial(params: Params): Params;
@@ -84,12 +94,18 @@ export interface ViewProps {
   time: number;
   camera: number;
 }
-export interface LabModule {
-  playback?: boolean;
-  Readouts: ComponentType<ViewProps>;
-  default: ComponentType<ViewProps>;
+export interface PreparedFormula {
+  math: string;
+  html: string;
+}
+export interface ReadoutProps extends ViewProps {
+  formulas: Record<string, PreparedFormula>;
+}
+export interface LabController {
+  Readouts: ComponentType<ReadoutProps>;
   model: Model;
 }
+export type SceneModule = { default: ComponentType<ViewProps> };
 export interface Snapshot {
   labId: string;
   labVersion: string;

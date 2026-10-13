@@ -1,6 +1,10 @@
-import Ajv from "ajv";
 import { defaults, validateParams } from "../core/parameters";
-import type { Lab, Model, Params, Snapshot } from "../core/types";
+import type {
+  RuntimeLabConfig,
+  Model,
+  Params,
+  Snapshot,
+} from "../core/types";
 const DT = 1 / 120;
 export class Simulation {
   params: Params;
@@ -22,14 +26,13 @@ export class Simulation {
   };
   private listeners = new Set<() => void>();
   private renderers = new Set<() => void>();
-  private validateState;
   constructor(
-    readonly lab: Lab,
+    readonly lab: RuntimeLabConfig,
     private model: Model,
+    private validateState: (value: unknown) => boolean,
   ) {
     this.params = defaults(lab.parameters);
     this.state = model.initial(this.params);
-    this.validateState = new Ajv({ strict: true }).compile(lab.stateSchema);
   }
   subscribe = (callback: () => void) => {
     this.listeners.add(callback);
@@ -85,10 +88,7 @@ export class Simulation {
     this.publish();
   }
   setChapter(chapter: number) {
-    this.chapter = Math.max(
-      0,
-      Math.min(this.lab.content.en.chapters.length - 1, chapter),
-    );
+    this.chapter = Math.max(0, Math.min(this.lab.chapterCount - 1, chapter));
     this.publish();
   }
   setCamera(distance: number) {
@@ -149,7 +149,7 @@ export class Simulation {
     if (
       !Number.isInteger(v.activeChapter) ||
       v.activeChapter < 0 ||
-      v.activeChapter >= this.lab.content.en.chapters.length
+      v.activeChapter >= this.lab.chapterCount
     )
       throw new Error("章节不存在。");
     // Validate everything before changing any state; importing never resumes playback.
@@ -165,6 +165,7 @@ export class Simulation {
     this.publish();
   }
   start() {
+    if (this.frame && !this.disposed) return;
     this.disposed = false;
     document.addEventListener("visibilitychange", this.visibilityChange);
     const animate = (now: number) => {
@@ -191,6 +192,7 @@ export class Simulation {
     this.disposed = true;
     document.removeEventListener("visibilitychange", this.visibilityChange);
     cancelAnimationFrame(this.frame);
+    this.frame = 0;
     this.listeners.clear();
     this.renderers.clear();
     this.last = null;

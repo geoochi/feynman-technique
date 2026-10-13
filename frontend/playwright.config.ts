@@ -1,6 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
-  testDir: "./tests/browser",
+  testDir: "./tests",
+  testMatch: ["browser/**/*.spec.ts", "next/**/*.spec.ts"],
+  workers: 2,
   timeout: 30000,
   fullyParallel: false,
   use: {
@@ -13,11 +15,7 @@ export default defineConfig({
     trace: "retain-on-failure",
   },
   webServer: {
-    command: process.env.FEYNMAN_WORKERS
-      ? "pnpm preview:workers"
-      : process.env.FEYNMAN_DEV
-        ? "pnpm dev --port 4173 --strictPort"
-        : "pnpm preview --port 4173 --strictPort",
+    command: process.env.FEYNMAN_DEV ? "pnpm dev --port 4173" : "pnpm preview",
     url: "http://127.0.0.1:4173",
     reuseExistingServer: !process.env.CI,
   },

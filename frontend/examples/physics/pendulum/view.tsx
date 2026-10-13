@@ -3,10 +3,7 @@ import { labels } from "./labels";
 import { useEffect, useId, useRef } from "react";
 import type { ViewProps } from "../../../packages/core/types";
 import { useDiagramFrame } from "../../../packages/ui/useDiagramFrame";
-import { Formula } from "../../../packages/ui/Formula";
 import s from "../../../packages/ui/Scene.module.css";
-import { smallAnglePeriod } from "./model";
-export { model } from "./model";
 export default function PendulumView({
   simulation,
   params: p,
@@ -139,26 +136,5 @@ export default function PendulumView({
       </svg>
       <p className={s.note}>{text.note}</p>
     </div>
-  );
-}
-
-export function Readouts({ params: p }: ViewProps) {
-  const { locale } = useI18n();
-  const text = labels[locale];
-  return (
-    <>
-      <div className={s.formula}>
-        <Formula math={text.formula} />
-      </div>
-      <div className={s.readings}>
-        <div>
-          <span>{text.period}</span>
-          <strong>
-            {smallAnglePeriod(p).toFixed(3)}
-            <small>s</small>
-          </strong>
-        </div>
-      </div>
-    </>
   );
 }

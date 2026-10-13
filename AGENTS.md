@@ -9,7 +9,7 @@
 - 官网：[www.feynman-technique.com](https://www.feynman-technique.com)。裸域 `feynman-technique.com` 301 永久跳转到 HTTPS www，保留路径与查询参数。
 - 仓库：`geoochi/feynman-technique`，已获维护者授权公开；默认分支 `main`。不擅自改变可见性、许可或仓库钩子。
 - 原创代码、讲解、文档与图示采用根目录 [MIT 许可证](LICENSE)。第三方依赖、字体和 NASA 地球贴图保留各自条款与来源，不纳入项目 MIT 授权。
-- 已实现：React/Vite 静态前端、二次函数/单摆/地球昼夜三个案例、三语言目录与讲解、搜索、参数/播放、最小共享运行时、构建预渲染、SEO 与 GitHub Issue/PR 入口。
+- 已实现：Next.js App Router 静态导出前端、二次函数/单摆/地球昼夜三个案例、三语言目录与讲解、搜索、参数/播放、最小共享运行时、构建预渲染、SEO 与 GitHub Issue/PR 入口。
 - 已发布：Cloudflare Workers Static Assets，Worker 名称 `feynman`。最近正式验收记录见 [部署指南](docs/DEPLOYMENT.md)，不能把历史验收写成本次重新验收。
 - 尚待完成：Workers Builds 的 GitHub 关联、真实设备与性能预算验证、独立教学审阅、首个外部贡献案例。独立 SDK/CLI、电学工作台、Worker/WASM、历史版本归档均未实现。
 - 当前由本机构建并通过 Wrangler 上传；`git push` 只保存源码，不自动更新官网。维护者已确认提交 sitemap，尚不能据此声称已收录或产生搜索效果。
@@ -21,6 +21,7 @@
 | [README](README.md)、[中文](README.zh-CN.md)、[日文](README.ja.md) | 面向普通读者，介绍产品、体验与贡献入口；英文为主，开头链接中日文 |
 | [ROADMAP](docs/ROADMAP.md) | 长期目标、优先级、阶段成果与推进条件 |
 | [ARCHITECTURE](docs/ARCHITECTURE.md) | 技术结构、构建与浏览器运行、发布边界 |
+| [Next.js 重构计划](docs/NEXTJS_REFACTOR_PLAN.md) | 前端迁移方案与实施记录；全量代码已迁移，本地验收与发布状态分开记录 |
 | [DEVELOPMENT](docs/DEVELOPMENT.md) | 当前可执行命令、目录、构建校验与验证范围 |
 | [VISUAL_SPEC](docs/VISUAL_SPEC.md) | 视觉与布局基线、固定状态截图验收 |
 | [CONTRIBUTING](CONTRIBUTING.md)、[案例协议](docs/CONTRIBUTING_DESIGN.md) | 投稿方式、文件要求、教学与科学审查 |
@@ -33,7 +34,8 @@
 ## 3. 架构与技术边界
 
 - 保持纯前端静态部署；不默认增加后端、登录、账户同步、数据库、ORM、CMS、Serverless Functions、请求时 SSR 或运行时 AI 接口。
-- TypeScript + React + Vite；CSS Modules + 限定作用域的 CSS Variables；二维使用 SVG/Canvas，三维使用 Three.js/React Three Fiber，公式使用 KaTeX。
+- TypeScript + React + Next.js App Router 静态导出；CSS Modules + 限定作用域的 CSS Variables；二维使用 SVG/Canvas，三维使用 Three.js/React Three Fiber，公式使用 KaTeX。
+- 前端已迁移到 Next.js App Router 静态生成，详见 [重构计划](docs/NEXTJS_REFACTOR_PLAN.md)。默认 dev/typecheck/build/preview 统一为 Next/out；旧 Vite 入口与预渲染器已退出。科学计算、静态部署和案例协议边界继续适用；本地完成不代表已经更新官网。
 - 科学模型优先纯 TS；重任务有实际需要时使用 Web Worker。它用于避免阻塞 UI，不会自动加速算法，也不是不可信代码的安全沙箱。Rust/WASM 只在测量证明必要时引入。
 - Git 中的案例源码和讲解是唯一正式内容来源。PR 本身就是前端变更，不另行复制到数据库、大文件或隐蔽内容源。
 - 只从构建枚举的可信 import 映射加载案例；不根据外部 URL 拼接可执行模块。按案例加载模型、纹理、三维资源，不塞入首页首包。
@@ -43,7 +45,7 @@
 
 ## 4. 案例、科学模型与状态
 
-- 案例放在 `frontend/examples/学科/slug/`。稳定 id/slug、manifest、参数/快照 schema、独立模型、view/Readouts、三语言 labels/讲解、预设、测试、封面与 ATTRIBUTION 由构建扫描校验；新增案例通常不改中心路由。
+- 案例放在 `frontend/examples/学科/slug/`。稳定 id/slug、manifest、参数/快照 schema、独立模型、view、独立 controller/Readouts、formulas.json、三语言 labels/讲解、预设、测试、封面与 ATTRIBUTION 由构建扫描校验；新增案例通常不改中心路由。
 - 讲解按问题、预测、操作、观察、解释、验证、延伸组织，保留七章稳定 id；一个案例回答一个明确问题。只使用自有或获许可的内容，记录参考依据、素材来源、模型假设、单位、适用范围与误差。
 - 计算模型与 React、DOM 和绘图分离。使用已知解、边界、守恒量、单调关系或收敛性验证，不用截图或重复实现本身的测试证明公式正确。
 - 模拟时钟与渲染帧率分离，明确积分与步长；隐藏页面不积压补跑。高频更新留在运行时，React 订阅必要的低频摘要；卸载释放事件、Worker、纹理、几何体和渲染资源。
@@ -90,7 +92,7 @@ pnpm build
 pnpm test:e2e
 ```
 
-`pnpm test` 与 `pnpm check:lab` 均生成并校验清单、运行单元检查；没有独立 SDK/CLI、create:lab 或 --lab 筛选。浏览器检查使用 Google Chrome。生成目录、public 目录/索引/封面/许可证副本、dist、测试报告和依赖不提交。
+`pnpm test` 与 `pnpm check:lab` 均生成并校验清单、运行单元检查；没有独立 SDK/CLI、create:lab 或 --lab 筛选。浏览器检查使用 Google Chrome。生成目录、public 目录/索引/封面/许可证副本、.next/out、测试报告和依赖不提交。
 
 | 改动 | 按影响选择验证 |
 | --- | --- |
@@ -114,7 +116,7 @@ Co-authored-by: Codex <noreply@openai.com>
 
 提交前检查仓库级 `core.hooksPath=.githooks`；新克隆仅在本仓库执行 `git config --local core.hooksPath .githooks`，不改全局配置。commit-msg 钩子应幂等并保留其他共同作者；即使未启用也须主动补齐，不使用 `--no-verify`。提交后用 `git log -1 --format=full` 核对作者与 trailer；网页端合并/squash 同样检查最终消息。推送核对远端与分支。
 
-- Worker 交付静态资源，不添加应用脚本/后端。配置为 `frontend/wrangler.jsonc`，目录 dist、auto-trailing-slash、404-page，不添加 SPA 回退；缺失脚本/JSON/模型返回 404，哈希资源可长缓存，HTML 允许更新。
+- Worker 交付静态资源，不添加应用脚本/后端。配置为 `frontend/wrangler.jsonc`，目录 out、auto-trailing-slash、404-page，不添加 SPA 回退；缺失脚本/JSON/模型返回 404，哈希资源可长缓存，HTML 允许更新。
 - Wrangler 保留 www 与裸域两个 Custom Domain；裸域绑定维持代理 DNS/TLS，Zone Redirect Rule 在资源交付前执行 301，不能仅删裸域绑定破坏入口。
 - 接入 Git 前：构建 → Wrangler 上传同一个 Worker。完成关联后统一用 Workers Builds：仓库 `geoochi/feynman-technique`、根目录 frontend、生产分支 main、构建 `pnpm build`、部署 `pnpm deploy:workers`，按 DEPLOYMENT 固定 Node/pnpm。
 - 非生产分支预览不是正式发布，平台不知道本地 AI 是否已审查；由维护者确认目标版本。需要额外自动化时先依据具体需求，不凭未来假设增加。

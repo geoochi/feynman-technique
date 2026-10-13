@@ -5,7 +5,7 @@ import {
   resolveRoute,
   type Locale,
 } from "../i18n/locales";
-import { translate } from "../i18n/I18n";
+import { translate } from "../i18n/translate";
 import type { SiteConfig } from "./site";
 
 export interface PageMetadata {
@@ -29,20 +29,20 @@ export function pageMetadata(
   const valid = path === "/" || !!lab;
   const lesson = match?.[1] === "learn";
   const copy = lab?.seo?.[lesson ? "lesson" : "experiment"];
-  const title = copy?.title[locale] ?? (
-    lab
+  const title =
+    copy?.title[locale] ??
+    (lab
       ? translate(locale, lesson ? "seoLessonTitle" : "seoExperimentTitle", {
           title: lab.title[locale],
         })
       : path === "/"
         ? translate(locale, "siteTitle")
-        : `${translate(locale, "pageNotFound")} · Feynman`
-  );
-  const description = copy?.description[locale] ?? (
-    lab
+        : `${translate(locale, "pageNotFound")} · Feynman`);
+  const description =
+    copy?.description[locale] ??
+    (lab
       ? `${lab.summary[locale]} ${translate(locale, lesson ? "seoLessonDescription" : "seoExperimentDescription")}`
-      : translate(locale, path === "/" ? "siteDescription" : "notFoundHelp")
-  );
+      : translate(locale, path === "/" ? "siteDescription" : "notFoundHelp"));
   const absolute = (route: string) => new URL(route, config.origin).href;
   const canonical = valid ? absolute(localizedPath(locale, path)) : undefined;
   const alternates = valid

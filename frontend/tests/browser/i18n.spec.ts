@@ -75,7 +75,7 @@ for (const language of cases) {
       await input.fill("99999");
       await input.press("Enter");
       await expect(input).toHaveAttribute("aria-invalid", "true");
-      await expect(page.getByRole("alert")).toHaveText(
+      await expect(page.locator('p[role="alert"]')).toHaveText(
         language.lang === "en" ? /^Range:/ : /^範囲：/,
       );
       await page

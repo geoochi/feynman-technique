@@ -1,15 +1,25 @@
+import { stateValidators } from "../apps/web/generated/state-validators";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { runtimeConfig } from "../packages/core/runtime-config";
 import { Simulation } from "../packages/runtime/simulation";
 import { model } from "../examples/physics/pendulum/model";
 import { catalog } from "../apps/web/generated/catalog";
 const lab = catalog.find((l) => l.slug === "pendulum")!;
 describe("snapshot and parameter boundaries", () => {
   it("restores the full evolving state and continues identically", () => {
-    const a = new Simulation(lab, model);
+    const a = new Simulation(
+      runtimeConfig(lab),
+      model,
+      stateValidators[lab.id].validate,
+    );
     for (let i = 0; i < 157; i++) a.step();
     a.setChapter(4);
     a.setCamera(6);
-    const b = new Simulation(lab, model);
+    const b = new Simulation(
+      runtimeConfig(lab),
+      model,
+      stateValidators[lab.id].validate,
+    );
     b.restore(JSON.parse(JSON.stringify(a.snapshot())));
     expect(b.snapshot()).toEqual(a.snapshot());
     a.step();
@@ -20,14 +30,22 @@ describe("snapshot and parameter boundaries", () => {
   it.each([NaN, Infinity, -1, 10])(
     "rejects illegal length %s without mutation",
     (value) => {
-      const sim = new Simulation(lab, model),
+      const sim = new Simulation(
+          runtimeConfig(lab),
+          model,
+          stateValidators[lab.id].validate,
+        ),
         before = sim.snapshot();
       expect(() => sim.setParams({ ...sim.params, length: value })).toThrow();
       expect(sim.snapshot()).toEqual(before);
     },
   );
   it("rejects incompatible snapshots and unknown state fields atomically", () => {
-    const sim = new Simulation(lab, model),
+    const sim = new Simulation(
+        runtimeConfig(lab),
+        model,
+        stateValidators[lab.id].validate,
+      ),
       before = sim.snapshot();
     for (const change of [
       { labVersion: "99.0.0" },
@@ -43,7 +61,11 @@ describe("snapshot and parameter boundaries", () => {
     }
   });
   it("resets internal state on changed parameters", () => {
-    const sim = new Simulation(lab, model);
+    const sim = new Simulation(
+      runtimeConfig(lab),
+      model,
+      stateValidators[lab.id].validate,
+    );
     sim.singleStep();
     sim.setParams({ ...sim.params, angle: 0.5 });
     expect(sim.time).toBe(0);
@@ -63,7 +85,11 @@ describe("simulation clock lifecycle", () => {
     });
     const cancel = vi.fn();
     vi.stubGlobal("cancelAnimationFrame", cancel);
-    const sim = new Simulation(lab, model);
+    const sim = new Simulation(
+      runtimeConfig(lab),
+      model,
+      stateValidators[lab.id].validate,
+    );
     sim.start();
     sim.toggle();
     frame(0);
@@ -80,4 +106,29 @@ describe("simulation clock lifecycle", () => {
     frame(100100);
     expect(sim.snapshot()).toEqual(before);
   });
+});
+
+it("starting an already active clock cannot create a second loop, and dispose permits a clean restart", () => {
+  vi.stubGlobal("document", new EventTarget());
+  const request = vi.fn().mockReturnValue(1),
+    cancel = vi.fn();
+  vi.stubGlobal("requestAnimationFrame", request);
+  vi.stubGlobal("cancelAnimationFrame", cancel);
+  try {
+    const sim = new Simulation(
+      runtimeConfig(lab),
+      model,
+      stateValidators[lab.id].validate,
+    );
+    sim.start();
+    sim.start();
+    expect(request).toHaveBeenCalledTimes(1);
+    sim.dispose();
+    expect(cancel).toHaveBeenCalledWith(1);
+    sim.start();
+    expect(request).toHaveBeenCalledTimes(2);
+    sim.dispose();
+  } finally {
+    vi.unstubAllGlobals();
+  }
 });

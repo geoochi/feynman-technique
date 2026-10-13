@@ -14,12 +14,28 @@
     "zh-CN": "移动一条曲线，读懂公式里的每一个参数。",
     "ja": "曲線を動かして、式の各パラメーターの意味を理解する。"
   },
-  "subjects": ["math"],
-  "levels": ["high-school"],
+  "subjects": [
+    "math"
+  ],
+  "levels": [
+    "high-school"
+  ],
   "tags": {
-    "en": ["functions", "translation", "scaling"],
-    "zh-CN": ["函数", "平移", "伸缩"],
-    "ja": ["関数", "平行移動", "拡大・縮小"]
+    "en": [
+      "functions",
+      "translation",
+      "scaling"
+    ],
+    "zh-CN": [
+      "函数",
+      "平移",
+      "伸缩"
+    ],
+    "ja": [
+      "関数",
+      "平行移動",
+      "拡大・縮小"
+    ]
   },
   "learningObjectives": {
     "en": [
@@ -39,9 +55,18 @@
     ]
   },
   "prerequisites": {
-    "en": ["quadratic functions", "coordinates"],
-    "zh-CN": ["二次函数", "坐标系"],
-    "ja": ["二次関数", "座標"]
+    "en": [
+      "quadratic functions",
+      "coordinates"
+    ],
+    "zh-CN": [
+      "二次函数",
+      "坐标系"
+    ],
+    "ja": [
+      "二次関数",
+      "座標"
+    ]
   },
   "estimatedMinutes": 12,
   "layout": "lesson",
@@ -50,7 +75,11 @@
   "entry": "view.tsx",
   "parameterSchema": "parameters.schema.json",
   "snapshotSchema": "snapshot.schema.json",
-  "locales": ["en", "zh-CN", "ja"],
+  "locales": [
+    "en",
+    "zh-CN",
+    "ja"
+  ],
   "lessons": {
     "en": "lesson.en.md",
     "zh-CN": "lesson.zh-CN.md",
@@ -74,8 +103,12 @@
     "en": [
       "Quadratic functions over the real numbers; a = 0 gives a constant function"
     ],
-    "zh-CN": ["实数域上的二次函数；a=0 时退化为常函数"],
-    "ja": ["実数上の二次関数。a = 0 のとき定数関数になる"]
+    "zh-CN": [
+      "实数域上的二次函数；a=0 时退化为常函数"
+    ],
+    "ja": [
+      "実数上の二次関数。a = 0 のとき定数関数になる"
+    ]
   },
   "references": [
     {
@@ -109,5 +142,6 @@
         "ja": "y = a(x − h)² + k の頂点と変換を解説。h が正なら右に移動する理由と、a = 0 では頂点が一意に決まらないことを確かめよう。"
       }
     }
-  }
+  },
+  "playback": false
 }

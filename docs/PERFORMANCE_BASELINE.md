@@ -59,3 +59,47 @@ node scripts/measure-performance.mjs https://feynman-technique.com test-results-
 ## 后续主域名切换
 
 维护者随后确定正式主域名为 `https://www.feynman-technique.com`，裸域 301 到 www。以上 URL、命令和样本保留本次测量时的真实裸域目标；迁移完成后，生产复测命令的 origin 改用 HTTPS www，并单独验证裸域跳转链。不能将旧裸域性能基线改名成 www 已测量。
+
+## 2026-10-13 Next 全量迁移
+
+本节是新的本地对照，保留前文历史数据。基线为 `main` / `6d1ef4c4ca86fe3d3719955ff7b10c24bf632fb7` 的实施前 Vite 产物（P0），候选为该 HEAD 加本次未提交的全量 Next 工作树。以上样本采自首轮全量本地验收候选；随后发布准备将 Ajv/KaTeX 升到修复版本，未把旧样本回填为新依赖或正式站性能。生产构建使用 Node 24.11.1 / pnpm 12.10.1，性能采集为 Node 24.21.0，以与 P0 保持相同采集环境。
+
+Chrome 155.0.8059.40、Darwin 27.0.0、Apple M1 Pro；390×844 CSS px、DPR=1、英语、en-US 浏览器 locale、Asia/Shanghai，CPU 4×、RTT 150 ms、下行 1.6 Mbit/s、上行 0.75 Mbit/s；每轮新上下文、关闭缓存，各页面 5 次串行冷启动，没有并行测试进程。Next 使用本地 Wrangler/out；P0 对照保留原采集记录。
+
+以下为 5 次中位数，KB 为 1,000 字节、Resource Timing 编码响应正文。子资源总计含 JS/CSS/字体/封面/纹理，**不含主 HTML**；没有将它冒充完整首屏传输，也没有回填 P0 未记录的导航正文计时/大小。首屏完整网络传输预算仍需补齐主文档与线上缓存测量。
+
+| 页面 | P0 LCP ms | Next LCP ms | Next CLS | P0 JS KB | Next JS KB | P0 子资源 KB | Next 子资源 KB |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `/` | 496 | 496 | 0 | 97.22 | 146.72 | 152.74 | 203.59 |
+| `/labs/pendulum` | 408 | 508 | 0.000055 | 220.96 | 153.76 | 328.67 | 257.16 |
+| `/labs/day-night` | 424 | 520 | 0.009407 | 459.90 | 387.85 | 839.72 | 763.35 |
+
+三页实验室 LCP/CLS 达到计划目标，15 次返回 200，未记录页面异常或失败请求。首页新增框架 JS 约 49.5 KB，不能写成普遍减包；单摆/地球 JS 分别下降约 30.4%/15.7%，内容集合和重型场景分离有可测量收益。浏览器检查确认首页/讲解不请求地球场景或纹理，首页脚本不含全语言讲解。
+
+### 控制、场景与预算决定
+
+SSR 控件出现时可能仍 disabled，原“控件可见”不是真正可操作时刻。Next 在启用控件的 React 提交后标记 controls-ready：单摆 **2014.4 ms**、地球 **2153.3 ms**，均略超 2000 ms 目标。P0 只有可见观察上界 2513.3/3670.7 ms，不能与新精确埋点当作同定义测量。Next 相同可见观察为 1881.2/1995.2 ms，甚至可早于真正可操作埋点，说明区分指标是必要的。
+
+地球 Canvas 首帧 4652.9 ms、纹理加载完成 4658.9 ms；待纹理进入场景并完成一次渲染后，earth-ready 中位数 **4767.7 ms**，未达到 4000 ms 目标。旧/新自动化观察上界分别 5552.6/5000.3 ms，仍仅用作辅助。每次只有一个本地 WebP 请求，272,086 字节；匹配匿名 CORS 的低优先级预加载避免重复请求。最终三维块为 878,179 原始字节，超过 800,000 字节审阅阈值，构建警告保留。
+
+处理决定：保留模型/控制器提前请求、独立场景加载、构建期公式及状态校验、仅地球预加载纹理和静态说明/失败回退；不提高预算或减少教学内容来宣称达标。本次迁移按 P4 的“明确列出未达项及处理决定”完成工程收敛，控件/地球就绪及首页框架增量仍作为后续优化项。下一轮先在实体手机和正式 CDN 复测资源瀑布、解析/执行与 GPU，再决定是否进一步拆 Three/R3F；不为此引入后端或另一套发布通道。
+
+### 重复操作、动画与语言导航
+
+无节流桌面 Chrome，三个案例各 100 次有效 Enter 改参：输入捕获至读数 DOM 变化 P95 为 0.7/0.6/0.7 ms；至 DOM 更新后的下一次渲染机会（两次 RAF）P95 为 **29.7/29.0/29.1 ms**，低于 100 ms 目标。这是脚本内时钟的 DOM/渲染机会观察，不测实体屏幕显示或 GPU 完成，不称为 INP，也不能代表低端手机。
+
+地球连续播放各 30 秒，1440×900 与 390×844、DPR=1 各记录 1801 次 RAF，间隔 P95 16.7 ms，超过 33.4 ms 的间隔为 0。此结果是浏览器调度间隔，不是 GPU 帧耗时；手机尺寸的桌面模拟不满足计划中的实体手机验收，真实设备 30fps/真实用户 CWV 均未知。
+
+相同移动限速下，五次单摆英语→日语的完整文档切换至校验并恢复状态，中位数 **496.8 ms**；保留 t=0.10 s。每轮新上下文，但目标页可复用来源页已缓存的共享资产；含自动化派发开销，不等于目标页冷启动。
+
+### 复现与材料
+
+在 frontend 运行 pnpm build / pnpm preview，仅启动一个 Wrangler 预览。性能采集与其他浏览器/构建任务串行：
+
+```sh
+FEYNMAN_PERF_RUNS=5 node scripts/measure-performance.mjs http://127.0.0.1:4173 test-results-migration-performance/final-mobile.json
+node scripts/measure-interactions.mjs http://127.0.0.1:4173
+node scripts/measure-next-navigation.mjs http://127.0.0.1:4173 test-results-migration-performance/navigation.json
+```
+
+P0 原始材料在忽略的 test-results-next-baseline/mobile.json；最终 15 个样本、300 个参数响应与两段动画、5 次导航在 test-results-migration-performance/{final-mobile,interactions,navigation}.json。报告记录 sourceCommit/sourceDirty；未提交工作树不等于纯 HEAD。模型/部署/教学与视觉范围见 [全量复核](../tooling/ai-review/2026-10-13-next-migration.md)。

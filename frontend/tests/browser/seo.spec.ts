@@ -30,7 +30,7 @@ test("every production page has crawlable content and consistent SEO without Jav
       expect(response!.status()).toBe(200);
       await expect(page.getByRole("link", { name: "GitHub ↗", exact: true })).toHaveAttribute("href", repositoryUrl);
       await expect(page.locator("html")).toHaveAttribute("lang", lang);
-      await expect(page.locator("main h1")).toHaveCount(1);
+      await expect(page.locator("h1")).toHaveCount(1);
       const title = await page.title();
       expect(titles.has(title)).toBe(false);
       titles.add(title);
@@ -58,7 +58,7 @@ test("every production page has crawlable content and consistent SEO without Jav
       ).toHaveAttribute("content", siteOrigin + route);
       const json = JSON.parse(
         (await page
-          .locator('head script[type="application/ld+json"]')
+          .locator('script[type="application/ld+json"]')
           .textContent())!,
       );
       expect(json["@context"]).toBe("https://schema.org");
@@ -94,7 +94,7 @@ test("every production page has crawlable content and consistent SEO without Jav
         ).toBeVisible();
         await expect(
           page.locator(
-            `a[href="${prefix}${path.replace("/labs/", "/learn/")}"]`,
+            `aside a[href="${prefix}${path.replace("/labs/", "/learn/")}"]`,
           ),
         ).toBeVisible();
       }
@@ -159,7 +159,7 @@ test("language navigation updates canonical, sharing metadata and structured dat
   );
   expect(
     (await page
-      .locator('head script[type="application/ld+json"]')
+      .locator('script[type="application/ld+json"]')
       .textContent())!,
   ).toContain('"inLanguage":"ja"');
   const pendulum = catalog.find((lab) => lab.slug === "pendulum")!;
@@ -168,7 +168,7 @@ test("language navigation updates canonical, sharing metadata and structured dat
     await expect(page).toHaveTitle(copy.title[locale]);
     for (const selector of ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]'])
       await expect(page.locator(`head ${selector}`)).toHaveAttribute("content", copy.description[locale]);
-    const data = JSON.parse((await page.locator('head script[type="application/ld+json"]').textContent())!);
+    const data = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent())!);
     expect(data["@graph"][0].name).toBe(copy.title[locale]);
     expect(data["@graph"][0].description).toBe(copy.description[locale]);
   };
@@ -186,7 +186,7 @@ test("language navigation updates canonical, sharing metadata and structured dat
   await expect(page.locator("head title")).toHaveCount(1);
   await expect(page.locator('head meta[name="description"]')).toHaveCount(1);
   await expect(
-    page.locator('head script[type="application/ld+json"]'),
+    page.locator('script[type="application/ld+json"]'),
   ).toHaveCount(1);
 });
 
@@ -208,7 +208,7 @@ test("home explains the product in all languages with readable desktop and mobil
     }
     await page.evaluate(() => document.fonts.ready);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-    const heading = await page.locator("main h1").boundingBox();
+    const heading = await page.locator("h1").boundingBox();
     const paragraph = await intro.boundingBox();
     expect(heading!.y + heading!.height).toBeLessThanOrEqual(paragraph!.y);
     expect(paragraph!.x + paragraph!.width).toBeLessThanOrEqual(testInfo.project.use.viewport!.width);

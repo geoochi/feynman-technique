@@ -118,3 +118,15 @@ describe("catalog validation", () => {
     expect(earth.content["zh-CN"].searchText).toContain("自转");
   });
 });
+
+describe('build-time formulas', () => {
+  it('requires three translations and rejects invalid expressions before rendering', async () => {
+    await modify('formulas.json', f => { delete f.default.ja; });
+    await expect(scanCatalog(root)).rejects.toThrow('formula');
+  });
+  it('uses MathML and excludes unsafe trusted commands from generated markup', async () => {
+    await modify('formulas.json', f => { f.default.en = String.raw`\href{javascript:alert(1)}{x}`; });
+    const labs=await scanCatalog(root); const formula=labs.find(l=>l.slug==='function-transform')!.formulas.default.en;
+    expect(formula.html).toContain('<math'); expect(formula.html).not.toContain('href="javascript:');
+  });
+});

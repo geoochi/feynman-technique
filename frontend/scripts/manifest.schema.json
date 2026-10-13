@@ -74,7 +74,11 @@
       "minItems": 1,
       "uniqueItems": true,
       "items": {
-        "enum": ["math", "physics", "geography"]
+        "enum": [
+          "math",
+          "physics",
+          "geography"
+        ]
       }
     },
     "levels": {
@@ -98,10 +102,18 @@
       "const": "lesson"
     },
     "theme": {
-      "enum": ["paper", "astronomy", "instrument"]
+      "enum": [
+        "paper",
+        "astronomy",
+        "instrument"
+      ]
     },
     "renderer": {
-      "enum": ["svg", "canvas", "three"]
+      "enum": [
+        "svg",
+        "canvas",
+        "three"
+      ]
     },
     "entry": {
       "const": "view.tsx"
@@ -118,7 +130,11 @@
     "locales": {
       "type": "array",
       "items": {
-        "enum": ["en", "zh-CN", "ja"]
+        "enum": [
+          "en",
+          "zh-CN",
+          "ja"
+        ]
       },
       "minItems": 3,
       "maxItems": 3,
@@ -126,7 +142,11 @@
     },
     "lessons": {
       "type": "object",
-      "required": ["en", "zh-CN", "ja"],
+      "required": [
+        "en",
+        "zh-CN",
+        "ja"
+      ],
       "additionalProperties": false,
       "properties": {
         "en": {
@@ -145,7 +165,9 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name"
+        ],
         "additionalProperties": false,
         "properties": {
           "name": {
@@ -157,7 +179,10 @@
     },
     "licenses": {
       "type": "object",
-      "required": ["code", "content"],
+      "required": [
+        "code",
+        "content"
+      ],
       "additionalProperties": false,
       "properties": {
         "code": {
@@ -172,7 +197,10 @@
     },
     "capabilities": {
       "type": "object",
-      "required": ["network", "audio"],
+      "required": [
+        "network",
+        "audio"
+      ],
       "additionalProperties": false,
       "properties": {
         "network": {
@@ -191,7 +219,10 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["title", "url"],
+        "required": [
+          "title",
+          "url"
+        ],
         "additionalProperties": false,
         "properties": {
           "title": {
@@ -206,7 +237,23 @@
       }
     },
     "status": {
-      "enum": ["experimental", "reviewed", "draft"]
+      "enum": [
+        "experimental",
+        "reviewed",
+        "draft"
+      ]
+    },
+    "playback": {
+      "type": "boolean"
+    },
+    "preloadImages": {
+      "type": "array",
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^assets/[a-zA-Z0-9._-]+\\.(webp|png|jpg|jpeg)$"
+      }
     }
   },
   "definitions": {
@@ -220,7 +267,11 @@
     },
     "translation": {
       "type": "object",
-      "required": ["en", "zh-CN", "ja"],
+      "required": [
+        "en",
+        "zh-CN",
+        "ja"
+      ],
       "additionalProperties": false,
       "properties": {
         "en": {
@@ -239,7 +290,11 @@
     },
     "translatedStrings": {
       "type": "object",
-      "required": ["en", "zh-CN", "ja"],
+      "required": [
+        "en",
+        "zh-CN",
+        "ja"
+      ],
       "additionalProperties": false,
       "properties": {
         "en": {

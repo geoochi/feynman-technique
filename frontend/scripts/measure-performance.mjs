@@ -7,6 +7,7 @@ import os from 'node:os';
 
 const origin = new URL(process.argv[2] ?? 'http://127.0.0.1:4173').origin;
 const output = process.argv[3] ?? 'test-results-performance/mobile.json';
+const repetitions = Number(process.env.FEYNMAN_PERF_RUNS ?? 3);
 const browser = await chromium.launch({ channel: 'chrome' });
 const report = {
   measuredAt: new Date().toISOString(),
@@ -18,7 +19,7 @@ const report = {
   conditions: {
     viewport: { width: 390, height: 844 }, dpr: 1, locale: 'en-US',
     cpuSlowdown: 4, latencyMs: 150, downloadBitsPerSecond: 1600000,
-    uploadBitsPerSecond: 750000, cacheDisabled: true, repetitions: 3,
+    uploadBitsPerSecond: 750000, cacheDisabled: true, repetitions,
     settleMs: 2000, interactionObservationMs: 500,
     controlsMetric: 'Time when the selector is observed visible after the load event; an upper bound, not an exact interactive-ready time.',
     eventMetric: 'Maximum Event Timing duration from one scripted tap; null means no entry at or above 16 ms. This is not INP.',
@@ -27,8 +28,8 @@ const report = {
   samples: [],
 };
 try {
-  for (const path of ['/', '/labs/pendulum', '/labs/day-night']) {
-    for (let run = 1; run <= 3; run++) {
+  for (const path of process.env.FEYNMAN_PERF_PATHS?.split(',') ?? ['/', '/labs/pendulum', '/labs/day-night']) {
+    for (let run = 1; run <= repetitions; run++) {
       const context = await browser.newContext({
         viewport: report.conditions.viewport, deviceScaleFactor: 1,
         isMobile: true, hasTouch: true, locale: 'en-US', timezoneId: 'Asia/Shanghai',
@@ -72,6 +73,9 @@ try {
         const control = path === '/' ? page.getByRole('searchbox') : page.getByRole('button', { name: 'Play', exact: true });
         await control.waitFor({ state: 'visible' });
         const controlsVisibleMs = await page.evaluate(() => performance.now());
+        if (await page.locator("[data-controls-ready]").count())
+          await page.waitForFunction(() => performance.getEntriesByName("feynman:controls-ready").length > 0);
+        const controlsReadyMarkMs = await page.evaluate(() => performance.getEntriesByName("feynman:controls-ready")[0]?.startTime ?? null);
         let sceneReadyMs = null;
         if (path.endsWith('day-night')) {
           await page.locator('canvas').waitFor({ state: 'visible' });
@@ -113,7 +117,8 @@ try {
         await page.waitForTimeout(500);
         const durations = await page.evaluate(() => window.__labPerf.events.map(event => event.duration));
         const sample = {
-          path, run, status: response.status(), controlsVisibleMs, sceneReadyMs,
+          path, run, status: response.status(), controlsVisibleMs, controlsReadyMarkMs, sceneReadyMs,
+          sceneMarks: await page.evaluate(() => Object.fromEntries(["feynman:canvas-first-frame", "feynman:texture-ready", "feynman:earth-ready"].map(name => [name, performance.getEntriesByName(name)[0]?.startTime ?? null]))),
           ...loading, clickToResultMsIncludingAutomation: resultMs,
           maxObservedEventDurationMs: durations.length ? Math.max(...durations) : null,
           errors,
