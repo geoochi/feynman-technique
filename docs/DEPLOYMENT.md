@@ -1,6 +1,6 @@
 # Cloudflare Workers 静态部署
 
-更新：2026-10-13。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Next 静态迁移已发布并通过线上验收，当前来源 f430d5a（实验扩展 01–04 及凸透镜绘图修复），版本与检查见文末；更早的历史发布记录保留。GitHub 自动构建关联尚未完成。
+更新：2026-10-13。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Next 静态迁移已发布并通过线上验收，当前来源 0bfe35e（实验扩展 01–10），版本与检查见文末；更早的历史发布记录保留。GitHub 自动构建关联尚未完成。
 
 ## 当前实际流程
 
@@ -150,3 +150,15 @@ Search Console 的域名验证、sitemap 提交与线上性能测量单独验收
 验证：`typecheck`、`build` 54 页与导出校验、Playwright e2e 130 通过 / 4 按设计跳过 / 0 失败。
 
 发布：本机重新构建后上传现有 feynman Worker，版本 `16947142-5d34-4e6a-bb76-39666cd6bba8`，212 个文件上传，两个 Custom Domain 不变。线上验收：`/zh/labs/thin-lens` 与 `/labs/thin-lens` 返回 200；场景分块 `/_next/static/chunks/1_tk-ude5-2s_.js` 已更新（含 `y / m` 与「像超出画面」）。此记录为纯文档提交，不再循环触发部署。
+
+## 2026-10-13 实验扩展发布（05、06、09、10）
+
+合并提交 `0bfe35e` 已推送 `origin/main`，本机固定 Node 24.11.1 / pnpm 12.10.1 构建正式 out 后上传现有 feynman Worker。版本 `4fb6828e-139f-4c52-8c5c-622f85541ef2`，两个 Custom Domain 不变；上一版本 `16947142-5d34-4e6a-bb76-39666cd6bba8` 保留，未执行回滚。
+
+新增四个案例：积分与面积累积（`math.integral-area`）、单位圆与正弦波（`math.unit-circle-sine`）、驻波与振动模式（`physics.standing-wave`）、折射与全反射（`physics.refraction`），均为三语言七章讲解。每个案例都使用固定比例的坐标系绘图，并自带 `tests/browser/<slug>.spec.ts` 回归测试（改变参数时固定参照不移动）。案例目录自包含，未修改任何共享文件。
+
+工程验证（本机）：`generate` 注册 12 个案例、`typecheck` 通过、单元测试 17 文件 158 项通过、`build` 输出 78 页（75 内容路由 + 3 个语言 404）且 SEO/正文边界/许可校验通过、Playwright e2e 162 通过 / 4 按设计跳过 / 0 失败。
+
+线上验收：`/labs/integral-area`、`/zh/labs/unit-circle-sine`、`/ja/labs/standing-wave`、`/labs/refraction` 均返回 200；sitemap 为 75 个内容地址。
+
+本轮未做实体设备与独立教学审阅；四个新案例保持 experimental。此发布记录为纯文档提交，不再循环触发部署。
