@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { catalog } from "../../apps/web/generated/catalog";
 
 for (const [prefix, locale, title, reset, missing] of [
   ["", "en", "Derivatives and tangents", "Reset parameters", "Undefined"],
@@ -73,8 +74,14 @@ test("derivative state survives language changes and related lessons connect", a
     await page.goto(`${prefix}/learn/derivative-tangent`);
     await expect(page.locator(`main a[href="${prefix}/labs/function-transform"]`)).toBeVisible();
     await page.goto(`${prefix}/`);
-    await page.getByRole("searchbox").fill(prefix === "/zh" ? "导数" : prefix === "/ja" ? "微分" : "derivative");
-    await expect(page.locator(`a[href^="${prefix}/labs/"]`)).toHaveCount(1);
+    const locale = prefix === "/zh" ? "zh-CN" : prefix === "/ja" ? "ja" : "en";
+    const term = { "zh-CN": "导数", ja: "微分", en: "derivative" }[locale];
+    // Derived from the catalog: related cases may also match the term.
+    const matches = catalog.filter((lab) =>
+      lab.content[locale].searchText.includes(term.toLocaleLowerCase(locale)),
+    ).length;
+    await page.getByRole("searchbox").fill(term);
+    await expect(page.locator(`a[href^="${prefix}/labs/"]`)).toHaveCount(matches);
     await expect(page.locator(`a[href="${prefix}/labs/derivative-tangent"]`)).toBeVisible();
   }
 });
