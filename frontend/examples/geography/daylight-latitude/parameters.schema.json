@@ -1,0 +1,35 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["latitude", "declination"],
+  "properties": {
+    "latitude": {
+      "type": "number",
+      "title": "Latitude (φ)",
+      "default": 45,
+      "minimum": -90,
+      "maximum": 90,
+      "unit": "°",
+      "step": 0.1,
+      "labels": {
+        "en": "Latitude (φ)",
+        "zh-CN": "纬度（φ）",
+        "ja": "緯度（φ）"
+      }
+    },
+    "declination": {
+      "type": "number",
+      "title": "Solar declination (δ)",
+      "default": 23.44,
+      "minimum": -23.44,
+      "maximum": 23.44,
+      "unit": "°",
+      "step": 0.1,
+      "labels": {
+        "en": "Solar declination (δ)",
+        "zh-CN": "太阳赤纬（δ）",
+        "ja": "太陽赤緯（δ）"
+      }
+    }
+  }
+}

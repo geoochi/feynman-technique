@@ -1,0 +1,172 @@
+{
+  "schemaVersion": "2",
+  "id": "geography.daylight-latitude",
+  "slug": "daylight-latitude",
+  "version": "0.1.0",
+  "sdkRange": "^0.1.0",
+  "title": {
+    "en": "Day length and latitude",
+    "zh-CN": "昼长与纬度",
+    "ja": "昼の長さと緯度"
+  },
+  "summary": {
+    "en": "Plot geometric day length against latitude and find the polar-day and polar-night boundaries.",
+    "zh-CN": "把几何昼长画成纬度的函数，找出极昼与极夜的边界。",
+    "ja": "幾何学的な昼の長さを緯度の関数として描き、白夜と極夜の境界を求める。"
+  },
+  "subjects": [
+    "geography"
+  ],
+  "levels": [
+    "high-school"
+  ],
+  "tags": {
+    "en": [
+      "day length",
+      "latitude",
+      "solar declination",
+      "polar day",
+      "polar night"
+    ],
+    "zh-CN": [
+      "昼长",
+      "纬度",
+      "太阳赤纬",
+      "极昼",
+      "极夜"
+    ],
+    "ja": [
+      "昼の長さ",
+      "緯度",
+      "太陽赤緯",
+      "白夜",
+      "極夜"
+    ]
+  },
+  "learningObjectives": {
+    "en": [
+      "Read day length from the curve D(φ) for a given solar declination",
+      "Explain why the equator keeps 12 hours and why the equinox gives 12 hours everywhere",
+      "Locate the polar-day and polar-night boundaries |φ| ≥ 90° − |δ|",
+      "Describe what happens at the poles, where the daily path runs parallel to the horizon"
+    ],
+    "zh-CN": [
+      "在给定太阳赤纬下从曲线 D(φ) 读出昼长",
+      "解释赤道为何恒为 12 小时、春分为何全球 12 小时",
+      "确定极昼与极夜的边界 |φ| ≥ 90° − |δ|",
+      "说明极点处太阳轨迹与地平圈平行时的退化情形"
+    ],
+    "ja": [
+      "与えられた太陽赤緯で曲線 D(φ) から昼の長さを読み取る",
+      "赤道が常に 12 時間、春分が世界で 12 時間になる理由を説明する",
+      "白夜・極夜の境界 |φ| ≥ 90° − |δ| を求める",
+      "極で太陽の通り道が地平線と平行になるときの退化を説明する"
+    ]
+  },
+  "prerequisites": {
+    "en": [
+      "latitude and longitude",
+      "trigonometric functions",
+      "angles"
+    ],
+    "zh-CN": [
+      "经纬度",
+      "三角函数",
+      "角度"
+    ],
+    "ja": [
+      "緯度と経度",
+      "三角関数",
+      "角度"
+    ]
+  },
+  "estimatedMinutes": 10,
+  "layout": "lesson",
+  "theme": "paper",
+  "renderer": "svg",
+  "entry": "view.tsx",
+  "parameterSchema": "parameters.schema.json",
+  "snapshotSchema": "snapshot.schema.json",
+  "locales": [
+    "en",
+    "zh-CN",
+    "ja"
+  ],
+  "lessons": {
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
+  },
+  "preview": "preview.svg",
+  "authors": [
+    {
+      "name": "geoochi"
+    }
+  ],
+  "licenses": {
+    "code": "MIT",
+    "content": "MIT"
+  },
+  "capabilities": {
+    "network": false,
+    "audio": false
+  },
+  "modelAssumptions": {
+    "en": [
+      "Independent value: the day-night case explains the mechanism with a rotating 3D Earth; this case adds the quantitative day-length curve D(φ), so it does not repeat that demonstration.",
+      "Spherical Earth with parallel sunlight; the Sun's apparent radius and atmospheric refraction are ignored, so the model counts a day when the geometric solar altitude is above 0°.",
+      "Solar declination is fixed within one view; Earth's orbit, the equation of time and real-time weather are not simulated.",
+      "Day length is 24 h for polar day and 0 h for polar night when |φ| ≥ 90° − |δ|; at the poles the daily path is parallel to the horizon, giving 12 h at δ = 0° and 24 h or 0 h otherwise."
+    ],
+    "zh-CN": [
+      "独立价值：day-night 案例用旋转的三维地球解释昼夜成因，本案例补充昼长随纬度变化的定量曲线 D(φ)，不重复该机制演示。",
+      "采用球形地球与平行太阳光；忽略太阳视半径与大气折射，因此以几何太阳高度高于 0° 作为白昼判据。",
+      "单次视图中太阳赤纬固定；不模拟地球公转、时差与实时天气。",
+      "当 |φ| ≥ 90° − |δ| 时为极昼（24 h）或极夜（0 h）；极点处太阳轨迹与地平圈平行，δ = 0° 时昼长为 12 h，否则为 24 h 或 0 h。"
+    ],
+    "ja": [
+      "独立した価値：day-night の教材は回転する 3D の地球でしくみを説明する。この教材は昼の長さを緯度の関数として表す定量的な曲線 D(φ) を追加するもので、その実演を繰り返さない。",
+      "球形の地球と平行な太陽光を仮定する。太陽の見かけの半径と大気の屈折は無視するため、幾何学的な太陽高度が 0° より高い時間を昼とする。",
+      "一回の表示では太陽赤緯を固定する。地球の公転、均時差、現在の天気は計算しない。",
+      "|φ| ≥ 90° − |δ| のとき白夜は 24 h、極夜は 0 h になる。極では太陽の通り道が地平線と平行になり、δ = 0° なら 12 h、それ以外は 24 h か 0 h になる。"
+    ]
+  },
+  "references": [
+    {
+      "title": "NOAA · Solar calculation details",
+      "url": "https://gml.noaa.gov/grad/solcalc/calcdetails.html"
+    },
+    {
+      "title": "NASA · Earth Facts",
+      "url": "https://science.nasa.gov/earth/facts/"
+    }
+  ],
+  "status": "experimental",
+  "playback": false,
+  "seo": {
+    "experiment": {
+      "title": {
+        "en": "Day Length vs Latitude: Polar Day Boundary · Feynman",
+        "zh-CN": "昼长与纬度：极昼极夜边界曲线 · Feynman",
+        "ja": "昼の長さと緯度：白夜・極夜の境界 · Feynman"
+      },
+      "description": {
+        "en": "Adjust latitude and solar declination and read the geometric day length from the curve D(φ). Check the 12-hour equator, the equinox line and the polar-day and polar-night boundaries.",
+        "zh-CN": "调整纬度与太阳赤纬，从曲线 D(φ) 读出几何昼长，检验赤道的 12 小时、春分全球 12 小时以及极昼极夜边界。",
+        "ja": "緯度と太陽赤緯を変え、曲線 D(φ) から幾何学的な昼の長さを読み取る。赤道の 12 時間、春分の全球 12 時間、白夜・極夜の境界を確かめよう。"
+      }
+    },
+    "lesson": {
+      "title": {
+        "en": "Why Day Length Depends on Latitude: D(φ) and Polar Boundaries · Feynman",
+        "zh-CN": "同一天昼长为何随纬度变化：D(φ) 与极昼极夜边界 · Feynman",
+        "ja": "同じ日の昼の長さが緯度で変わる理由：D(φ) と白夜・極夜の境界 · Feynman"
+      },
+      "description": {
+        "en": "Derive the geometric day length from cos H₀ = −tan φ tan δ, explain the fixed 12 hours at the equator and equinox, and locate the polar-day and polar-night boundaries with the model's limits.",
+        "zh-CN": "从 cos H₀ = −tan φ tan δ 推出几何昼长，解释赤道与春分恒为 12 小时的原因，并给出极昼极夜边界与模型局限。",
+        "ja": "cos H₀ = −tan φ tan δ から幾何学的な昼の長さを導き、赤道と春分が常に 12 時間になる理由、白夜・極夜の境界、モデルの限界を説明する。"
+      }
+    }
+  }
+}

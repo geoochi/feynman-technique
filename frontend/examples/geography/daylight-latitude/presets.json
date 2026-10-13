@@ -1,0 +1,50 @@
+[
+  {
+    "id": "equator",
+    "title": "Equator (12 h all year)",
+    "params": {
+      "latitude": 0,
+      "declination": 23.44
+    }
+  },
+  {
+    "id": "equinox",
+    "title": "Equinox (12 h everywhere)",
+    "params": {
+      "latitude": 45,
+      "declination": 0
+    }
+  },
+  {
+    "id": "june-solstice",
+    "title": "June solstice at 45° N",
+    "params": {
+      "latitude": 45,
+      "declination": 23.44
+    }
+  },
+  {
+    "id": "arctic-circle",
+    "title": "Boundary at 66.56° N",
+    "params": {
+      "latitude": 66.56,
+      "declination": 23.44
+    }
+  },
+  {
+    "id": "north-pole",
+    "title": "North Pole",
+    "params": {
+      "latitude": 90,
+      "declination": 23.44
+    }
+  },
+  {
+    "id": "december-solstice",
+    "title": "December solstice at 45° N",
+    "params": {
+      "latitude": 45,
+      "declination": -23.44
+    }
+  }
+]
