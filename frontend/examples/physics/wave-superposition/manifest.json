@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "2",
+  "id": "physics.wave-superposition",
+  "slug": "wave-superposition",
+  "version": "0.1.0",
+  "sdkRange": "^0.1.0",
+  "title": {
+    "en": "Wave superposition",
+    "zh-CN": "波的叠加",
+    "ja": "波の重ね合わせ"
+  },
+  "summary": {
+    "en": "Add two waves travelling the same way and see when they reinforce or cancel.",
+    "zh-CN": "把两列同向传播的波相加，观察它们何时加强、何时抵消。",
+    "ja": "同じ向きに進む2つの波を足し、強め合うときと打ち消すときを見る。"
+  },
+  "subjects": ["physics"],
+  "levels": ["high-school"],
+  "tags": {
+    "en": ["wave", "superposition", "interference", "phase"],
+    "zh-CN": ["波", "叠加", "干涉", "相位"],
+    "ja": ["波", "重ね合わせ", "干渉", "位相"]
+  },
+  "learningObjectives": {
+    "en": [
+      "State that the resultant displacement is the algebraic sum of the individual displacements",
+      "Predict reinforcement and cancellation from the phase difference",
+      "Compute the resultant amplitude from amplitudes and phase difference",
+      "Distinguish instantaneous displacement from an energy interpretation"
+    ],
+    "zh-CN": [
+      "说明合位移等于各列波位移的代数和",
+      "根据相位差预测加强或抵消",
+      "由振幅与相位差计算合振幅",
+      "区分瞬时位移与能量解释"
+    ],
+    "ja": [
+      "合成変位が各波の変位の代数和であることを説明する",
+      "位相差から強め合いと打ち消しを予想する",
+      "振幅と位相差から合成振幅を計算する",
+      "瞬間の変位とエネルギーの解釈を区別する"
+    ]
+  },
+  "prerequisites": {
+    "en": ["sine functions", "radians", "wave parameters"],
+    "zh-CN": ["正弦函数", "弧度", "波的参量"],
+    "ja": ["正弦関数", "弧度法", "波のパラメーター"]
+  },
+  "estimatedMinutes": 15,
+  "layout": "lesson",
+  "theme": "paper",
+  "renderer": "svg",
+  "entry": "view.tsx",
+  "parameterSchema": "parameters.schema.json",
+  "snapshotSchema": "snapshot.schema.json",
+  "locales": ["en", "zh-CN", "ja"],
+  "lessons": {
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
+  },
+  "preview": "preview.svg",
+  "authors": [
+    {
+      "name": "geoochi"
+    }
+  ],
+  "licenses": {
+    "code": "MIT",
+    "content": "MIT"
+  },
+  "capabilities": {
+    "network": false,
+    "audio": false
+  },
+  "modelAssumptions": {
+    "en": [
+      "Two sinusoidal waves travel in the same +x direction with the same wavelength and frequency in a linear medium",
+      "No boundaries, reflections or damping; the string or line is treated as infinite",
+      "The resultant displacement is the algebraic sum of the two displacements; energy is not assumed to add"
+    ],
+    "zh-CN": [
+      "两列正弦波沿同一 +x 方向传播，在线性介质中波长与频率相同",
+      "没有边界、反射与衰减，把绳或直线视为无限长",
+      "合位移是两列波位移的代数和；不假设能量直接相加"
+    ],
+    "ja": [
+      "2つの正弦波は同じ +x 方向へ進み、線形媒質で波長と振動数が等しい",
+      "境界・反射・減衰はなく、弦や直線は無限長とみなす",
+      "合成変位は2つの変位の代数和であり、エネルギーが足し合わされると仮定しない"
+    ]
+  },
+  "references": [
+    {
+      "title": "OpenStax · Superposition and Interference",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/16-5-interference-of-waves"
+    }
+  ],
+  "seo": {
+    "experiment": {
+      "title": {
+        "en": "Wave Superposition Simulator: Reinforcement and Cancellation · Feynman",
+        "zh-CN": "波的叠加模拟器：加强还是抵消 · Feynman",
+        "ja": "波の重ね合わせシミュレーター：強め合いと打ち消し · Feynman"
+      },
+      "description": {
+        "en": "Add two waves travelling in the same direction and adjust their amplitudes, wavelength and phase difference to watch reinforcement and cancellation on a shared x-axis.",
+        "zh-CN": "把两列同向传播的波相加，调整振幅、波长与相位差，在同一 x 轴上观察加强与抵消。",
+        "ja": "同じ向きに進む2つの波を足し、振幅・波長・位相差を変えて、共通の x 軸で強め合いと打ち消しを観察する。"
+      }
+    },
+    "lesson": {
+      "title": {
+        "en": "Wave Superposition: Reinforcement, Cancellation and Phase · Feynman",
+        "zh-CN": "波的叠加：加强、抵消与相位差 · Feynman",
+        "ja": "波の重ね合わせ：強め合い・打ち消し・位相差 · Feynman"
+      },
+      "description": {
+        "en": "Understand why the resultant displacement is the algebraic sum of two displacements, how the phase difference fixes the resultant amplitude A = √(A₁² + A₂² + 2A₁A₂ cos φ), and why cancelling displacement is not a claim about energy.",
+        "zh-CN": "理解合位移为何是两列波位移的代数和，相位差如何决定合振幅 A = √(A₁² + A₂² + 2A₁A₂cos φ)，以及位移抵消为何不等于能量抵消。",
+        "ja": "合成変位が2つの変位の代数和になる理由、位相差が合成振幅 A = √(A₁² + A₂² + 2A₁A₂ cos φ) を決めること、変位の打ち消しがエネルギーの打ち消しを意味しないことを理解する。"
+      }
+    }
+  },
+  "status": "experimental",
+  "playback": true
+}

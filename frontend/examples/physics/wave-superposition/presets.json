@@ -1,0 +1,42 @@
+[
+  {
+    "id": "in-phase",
+    "title": "同相加强（φ = 0）",
+    "params": {
+      "amplitude1": 1,
+      "amplitude2": 1,
+      "wavelength": 2,
+      "phase": 0
+    }
+  },
+  {
+    "id": "antiphase",
+    "title": "反相抵消（φ = π）",
+    "params": {
+      "amplitude1": 1,
+      "amplitude2": 1,
+      "wavelength": 2,
+      "phase": 3.141592653589793
+    }
+  },
+  {
+    "id": "single-wave",
+    "title": "单列波（A₂ = 0）",
+    "params": {
+      "amplitude1": 1,
+      "amplitude2": 0,
+      "wavelength": 2,
+      "phase": 0
+    }
+  },
+  {
+    "id": "unequal",
+    "title": "不等振幅（1.0 与 0.4，反相）",
+    "params": {
+      "amplitude1": 1,
+      "amplitude2": 0.4,
+      "wavelength": 3,
+      "phase": 3.141592653589793
+    }
+  }
+]

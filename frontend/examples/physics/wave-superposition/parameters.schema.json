@@ -1,0 +1,63 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["amplitude1", "amplitude2", "wavelength", "phase"],
+  "properties": {
+    "amplitude1": {
+      "type": "number",
+      "title": "Amplitude of wave 1 (A₁)",
+      "default": 1,
+      "minimum": 0,
+      "maximum": 1,
+      "unit": "m",
+      "step": 0.01,
+      "labels": {
+        "en": "Amplitude 1 (A₁)",
+        "zh-CN": "振幅 1（A₁）",
+        "ja": "振幅1（A₁）"
+      }
+    },
+    "amplitude2": {
+      "type": "number",
+      "title": "Amplitude of wave 2 (A₂)",
+      "default": 1,
+      "minimum": 0,
+      "maximum": 1,
+      "unit": "m",
+      "step": 0.01,
+      "labels": {
+        "en": "Amplitude 2 (A₂)",
+        "zh-CN": "振幅 2（A₂）",
+        "ja": "振幅2（A₂）"
+      }
+    },
+    "wavelength": {
+      "type": "number",
+      "title": "Wavelength (λ)",
+      "default": 2,
+      "minimum": 1,
+      "maximum": 4,
+      "unit": "m",
+      "step": 0.1,
+      "labels": {
+        "en": "Wavelength (λ)",
+        "zh-CN": "波长（λ）",
+        "ja": "波長（λ）"
+      }
+    },
+    "phase": {
+      "type": "number",
+      "title": "Phase difference (φ)",
+      "default": 0,
+      "minimum": 0,
+      "maximum": 6.283185307179586,
+      "unit": "rad",
+      "step": 0.17453292519943295,
+      "labels": {
+        "en": "Phase difference (φ)",
+        "zh-CN": "相位差（φ）",
+        "ja": "位相差（φ）"
+      }
+    }
+  }
+}
