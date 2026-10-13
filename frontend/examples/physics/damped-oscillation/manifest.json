@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "2",
+  "id": "physics.damped-oscillation",
+  "slug": "damped-oscillation",
+  "version": "0.1.0",
+  "sdkRange": "^0.1.0",
+  "title": {
+    "en": "Damped oscillation",
+    "zh-CN": "阻尼振动",
+    "ja": "減衰振動"
+  },
+  "summary": {
+    "en": "Change the damping and see when the oscillation dies away — and when it stops oscillating altogether.",
+    "zh-CN": "改变阻尼，观察振动如何衰减，以及什么情况下不再来回振荡。",
+    "ja": "減衰を変えて、振動がどのように減るか、そして振動しなくなる条件を調べる。"
+  },
+  "subjects": ["physics"],
+  "levels": ["high-school", "undergraduate"],
+  "tags": {
+    "en": ["damping", "oscillation", "energy", "differential equation"],
+    "zh-CN": ["阻尼", "振动", "能量", "微分方程"],
+    "ja": ["減衰", "振動", "エネルギー", "微分方程式"]
+  },
+  "learningObjectives": {
+    "en": [
+      "Explain why a viscous damping force makes the amplitude decay exponentially",
+      "Locate the critical boundary ζ = 1 and describe what changes there",
+      "Account for the mechanical energy with dE/dt = −c v² and see that it never grows",
+      "Separate the influence of the damping from the influence of the initial displacement"
+    ],
+    "zh-CN": [
+      "解释粘滞阻力为何使振幅按指数规律衰减",
+      "找到临界边界 ζ = 1，并说明越过它以后运动如何改变",
+      "用 dE/dt = −c v² 说明机械能只减不增",
+      "区分阻尼与初始位移各自对运动的影响"
+    ],
+    "ja": [
+      "粘性抵抗力が振幅を指数関数的に減衰させる理由を説明する",
+      "臨界の境界 ζ = 1 を特定し、そこで運動がどう変わるかを述べる",
+      "dE/dt = −c v² から力学的エネルギーが増えないことを理解する",
+      "減衰と初期変位の影響を切り分ける"
+    ]
+  },
+  "prerequisites": {
+    "en": [
+      "Hooke's law and the spring-mass oscillator",
+      "Kinetic and potential energy",
+      "Exponential decay"
+    ],
+    "zh-CN": ["胡克定律与弹簧振子", "动能与势能", "指数衰减"],
+    "ja": ["フックの法則とばね振り子", "運動エネルギーと位置エネルギー", "指数関数的な減衰"]
+  },
+  "estimatedMinutes": 18,
+  "layout": "lesson",
+  "theme": "paper",
+  "renderer": "svg",
+  "entry": "view.tsx",
+  "parameterSchema": "parameters.schema.json",
+  "snapshotSchema": "snapshot.schema.json",
+  "locales": ["en", "zh-CN", "ja"],
+  "lessons": {
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
+  },
+  "preview": "preview.svg",
+  "authors": [
+    {
+      "name": "geoochi"
+    }
+  ],
+  "licenses": {
+    "code": "MIT",
+    "content": "MIT"
+  },
+  "capabilities": {
+    "network": false,
+    "audio": false
+  },
+  "modelAssumptions": {
+    "en": [
+      "The damping force is linear and viscous, F = −c x′, and opposes the velocity",
+      "The spring is ideal and massless and obeys Hooke's law; the block slides on a horizontal track, so gravity does not act along the motion",
+      "Each fixed step is advanced with the exact closed-form solution of m x″ + c x′ + k x = 0, so the zero-damping limit conserves energy to floating-point precision"
+    ],
+    "zh-CN": [
+      "阻力为线性粘滞阻力 F = −c x′，方向与速度相反",
+      "理想无质量弹簧且严格满足胡克定律；滑块沿水平轨道运动，重力不沿运动方向做功",
+      "每一步用 m x″ + c x′ + k x = 0 的解析解推进，因此零阻尼极限下的能量守恒精确到浮点精度"
+    ],
+    "ja": [
+      "抵抗力は速度に比例する粘性抵抗 F = −c x′ で、速度と逆向きに働く",
+      "理想的な質量のないばねでフックの法則に従う。物体は水平なトラック上を動くので、重力は運動方向に働かない",
+      "各固定刻みは m x″ + c x′ + k x = 0 の解析解で進めるため、減衰ゼロの極限ではエネルギーが浮動小数点精度で保存される"
+    ]
+  },
+  "references": [
+    {
+      "title": "OpenStax · Damped Oscillations",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/15-5-damped-oscillations"
+    },
+    {
+      "title": "OpenStax · Simple Harmonic Motion",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/15-1-simple-harmonic-motion"
+    }
+  ],
+  "status": "experimental",
+  "playback": true,
+  "seo": {
+    "experiment": {
+      "title": {
+        "en": "Damped Oscillation Simulator: Damping Ratio, Critical Damping & Energy · Feynman",
+        "zh-CN": "阻尼振动模拟器：阻尼比、临界阻尼与能量 · Feynman",
+        "ja": "減衰振動シミュレーター：減衰比・臨界減衰・エネルギー · Feynman"
+      },
+      "description": {
+        "en": "Adjust mass, stiffness, damping and initial displacement in a viscous-damped spring-mass oscillator and compare underdamped, critically damped and overdamped motion.",
+        "zh-CN": "调整质量、劲度系数、阻尼系数与初始位移，在粘滞阻尼弹簧振子中对比欠阻尼、临界阻尼与过阻尼运动。",
+        "ja": "質量・ばね定数・減衰係数・初期変位を変えて、粘性減衰のあるばね振り子の不足減衰・臨界減衰・過減衰を比べる。"
+      }
+    },
+    "lesson": {
+      "title": {
+        "en": "Damped Oscillation: Why Amplitude Decays and When Motion Stops Oscillating · Feynman",
+        "zh-CN": "阻尼振动：振幅为何衰减、什么情况下不再振荡 · Feynman",
+        "ja": "減衰振動：振幅が減る理由と振動しなくなる条件 · Feynman"
+      },
+      "description": {
+        "en": "Understand the damping ratio ζ = c / (2√(mk)), the exponential envelope, the critical boundary ζ = 1 and why the mechanical energy never increases.",
+        "zh-CN": "理解阻尼比 ζ = c / (2√(mk))、指数包络线、临界边界 ζ = 1，以及机械能为何只减不增。",
+        "ja": "減衰比 ζ = c / (2√(mk))、指数関数的な包絡線、臨界の境界 ζ = 1、そして力学的エネルギーが増えない理由を理解する。"
+      }
+    }
+  }
+}
