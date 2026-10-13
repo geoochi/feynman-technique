@@ -1,0 +1,49 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["mass", "stiffness", "amplitude"],
+  "properties": {
+    "mass": {
+      "type": "number",
+      "title": "Mass (m)",
+      "default": 1,
+      "minimum": 0.2,
+      "maximum": 5,
+      "unit": "kg",
+      "step": 0.1,
+      "labels": {
+        "en": "Mass (m)",
+        "zh-CN": "质量（m）",
+        "ja": "質量（m）"
+      }
+    },
+    "stiffness": {
+      "type": "number",
+      "title": "Spring stiffness (k)",
+      "default": 20,
+      "minimum": 2,
+      "maximum": 100,
+      "unit": "N/m",
+      "step": 1,
+      "labels": {
+        "en": "Spring stiffness (k)",
+        "zh-CN": "弹簧劲度系数（k）",
+        "ja": "ばね定数（k）"
+      }
+    },
+    "amplitude": {
+      "type": "number",
+      "title": "Initial displacement (x₀)",
+      "default": 0.2,
+      "minimum": 0,
+      "maximum": 0.5,
+      "unit": "m",
+      "step": 0.01,
+      "labels": {
+        "en": "Initial displacement (x₀)",
+        "zh-CN": "初始位移（x₀）",
+        "ja": "初期変位（x₀）"
+      }
+    }
+  }
+}

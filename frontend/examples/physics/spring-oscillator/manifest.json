@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "2",
+  "id": "physics.spring-oscillator",
+  "slug": "spring-oscillator",
+  "version": "0.1.0",
+  "sdkRange": "^0.1.0",
+  "title": {
+    "en": "Spring and period",
+    "zh-CN": "弹簧振子与周期",
+    "ja": "ばね振り子と周期"
+  },
+  "summary": {
+    "en": "Change mass, stiffness and amplitude to see what sets the period.",
+    "zh-CN": "改变质量、弹簧硬度与初始位移，探究周期从何而来。",
+    "ja": "質量・ばね定数・初期変位を変えて、周期が何で決まるかを探る。"
+  },
+  "subjects": ["physics"],
+  "levels": ["high-school"],
+  "tags": {
+    "en": ["oscillation", "period", "energy", "spring"],
+    "zh-CN": ["振动", "周期", "能量", "弹簧"],
+    "ja": ["振動", "周期", "エネルギー", "ばね"]
+  },
+  "learningObjectives": {
+    "en": [
+      "Explain the square-root relationship T = 2π√(m/k)",
+      "See why the period does not depend on the amplitude",
+      "Understand the exchange of kinetic and potential energy"
+    ],
+    "zh-CN": [
+      "解释 T = 2π√(m/k) 的平方根关系",
+      "理解周期为何与振幅无关",
+      "观察动能与势能的转换"
+    ],
+    "ja": [
+      "T = 2π√(m/k) の平方根の関係を説明する",
+      "周期が振幅に依存しない理由を理解する",
+      "運動エネルギーと位置エネルギーの交換を理解する"
+    ]
+  },
+  "prerequisites": {
+    "en": ["Hooke's law", "energy", "square roots"],
+    "zh-CN": ["胡克定律", "能量", "平方根"],
+    "ja": ["フックの法則", "エネルギー", "平方根"]
+  },
+  "estimatedMinutes": 15,
+  "layout": "lesson",
+  "theme": "paper",
+  "renderer": "svg",
+  "entry": "view.tsx",
+  "parameterSchema": "parameters.schema.json",
+  "snapshotSchema": "snapshot.schema.json",
+  "locales": ["en", "zh-CN", "ja"],
+  "lessons": {
+    "en": "lesson.en.md",
+    "zh-CN": "lesson.zh-CN.md",
+    "ja": "lesson.ja.md"
+  },
+  "preview": "preview.svg",
+  "authors": [
+    {
+      "name": "geoochi"
+    }
+  ],
+  "licenses": {
+    "code": "MIT",
+    "content": "MIT"
+  },
+  "capabilities": {
+    "network": false,
+    "audio": false
+  },
+  "modelAssumptions": {
+    "en": [
+      "No damping or friction; the spring is ideal, massless and obeys Hooke's law",
+      "The block slides on a horizontal track, so gravity does not act along the motion",
+      "Fixed-step RK4 integration; the analytic period is a comparison only"
+    ],
+    "zh-CN": [
+      "无阻尼、无摩擦，理想无质量弹簧且严格满足胡克定律",
+      "滑块沿水平轨道运动，重力不沿运动方向做功",
+      "固定步长 RK4 数值积分；解析周期只用于近似对照"
+    ],
+    "ja": [
+      "減衰も摩擦もない理想的な質量のないばねで、フックの法則に従う",
+      "物体は水平なトラック上を動くので、重力は運動方向に働かない",
+      "固定刻みの RK4 数値積分。解析周期は比較用"
+    ]
+  },
+  "references": [
+    {
+      "title": "OpenStax · Simple Harmonic Motion",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/15-1-simple-harmonic-motion"
+    },
+    {
+      "title": "OpenStax · Energy and the Simple Harmonic Oscillator",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/15-2-energy-and-the-simple-harmonic-oscillator"
+    }
+  ],
+  "status": "experimental",
+  "playback": true,
+  "seo": {
+    "experiment": {
+      "title": {
+        "en": "Spring Oscillator Simulator: Mass, Stiffness & Period · Feynman",
+        "zh-CN": "弹簧振子模拟器：质量、劲度系数与周期 · Feynman",
+        "ja": "ばね振り子シミュレーター：質量・ばね定数・周期 · Feynman"
+      },
+      "description": {
+        "en": "Adjust mass, spring stiffness and initial displacement in an ideal spring-mass oscillator. Watch the motion and the kinetic–potential energy exchange.",
+        "zh-CN": "调整质量、弹簧劲度系数与初始位移，观察理想弹簧振子的运动与动能—势能转换。",
+        "ja": "質量・ばね定数・初期変位を変えて理想的なばね振り子を観察。運動と運動エネルギー・位置エネルギーの交換を見よう。"
+      }
+    },
+    "lesson": {
+      "title": {
+        "en": "Spring Period: Formula T = 2π√(m/k) and Amplitude Independence · Feynman",
+        "zh-CN": "弹簧振子周期：公式 T = 2π√(m/k) 与振幅无关性 · Feynman",
+        "ja": "ばね振り子の周期：公式 T = 2π√(m/k) と振幅に依存しない理由 · Feynman"
+      },
+      "description": {
+        "en": "Understand T = 2π√(m/k), why quadrupling the mass doubles the period, and why the amplitude does not change it.",
+        "zh-CN": "理解 T = 2π√(m/k)：质量变为四倍周期变为两倍、劲度系数变为四倍周期变为一半，以及周期为何与振幅无关。",
+        "ja": "T = 2π√(m/k) を理解する。質量が4倍で周期が2倍、ばね定数が4倍で周期が半分になる理由と、振幅が周期を変えない理由を確かめよう。"
+      }
+    }
+  }
+}

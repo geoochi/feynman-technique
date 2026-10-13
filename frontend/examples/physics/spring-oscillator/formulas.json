@@ -1,0 +1,17 @@
+{
+  "default": {
+    "en": "T = 2\\pi\\sqrt{\\dfrac{m}{k}}",
+    "zh-CN": "T = 2\\pi\\sqrt{\\dfrac{m}{k}}",
+    "ja": "T = 2\\pi\\sqrt{\\dfrac{m}{k}}"
+  },
+  "hooke": {
+    "en": "F = -k\\,x",
+    "zh-CN": "F = -k\\,x",
+    "ja": "F = -k\\,x"
+  },
+  "energy": {
+    "en": "E = \\tfrac{1}{2} k x^{2} + \\tfrac{1}{2} m v^{2}",
+    "zh-CN": "E = \\tfrac{1}{2} k x^{2} + \\tfrac{1}{2} m v^{2}",
+    "ja": "E = \\tfrac{1}{2} k x^{2} + \\tfrac{1}{2} m v^{2}"
+  }
+}
