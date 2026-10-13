@@ -1,0 +1,66 @@
+import type { Localized } from "../../../packages/i18n/locales";
+
+const en = {
+  diagram:
+    "A series and a parallel two-resistor circuit sharing one source, each with a fixed-scale coordinate chart",
+  note: "Fixed scale: the voltage chart is fixed at 24 V and the current chart at 5 A, so changing a parameter only moves the bars inside this frame and never rescales the picture. Both circuits share the same source V and the same R₁ and R₂. The model assumes ideal wires, an ideal source with no internal resistance and ohmic resistors; a bar taller than its axis is clipped and flagged.",
+  series: "Series",
+  parallel: "Parallel",
+  axisVoltage: "V / V",
+  axisCurrent: "I / A",
+  offFrame: "Bar clipped",
+  reqSeries: "Series R_eq",
+  reqParallel: "Parallel R_eq",
+  iSeries: "Series current I",
+  v1: "Series V₁",
+  v2: "Series V₂",
+  i1: "Parallel branch I₁",
+  i2: "Parallel branch I₂",
+  iTotal: "Parallel total I",
+  pSeries: "Series total power P",
+  pParallel: "Parallel total power P",
+};
+
+export const labels: Localized<Record<keyof typeof en, string>> = {
+  en,
+  "zh-CN": {
+    diagram:
+      "共用同一电源的串联与并联两电阻电路，各自配有固定比例的坐标图",
+    note: "固定比例：电压坐标轴固定为 24 V，电流坐标轴固定为 5 A，改变参数时条形只在这个坐标系内变化，图形整体不缩放。两条电路共用同一电源 V 与相同的 R₁、R₂。模型假设理想导线、无内阻的理想电源与遵循欧姆定律的电阻；超出坐标范围的条形会被裁剪并提示。",
+    series: "串联",
+    parallel: "并联",
+    axisVoltage: "V / V",
+    axisCurrent: "I / A",
+    offFrame: "条形超出画面",
+    reqSeries: "串联等效电阻 R_eq",
+    reqParallel: "并联等效电阻 R_eq",
+    iSeries: "串联电流 I",
+    v1: "串联分压 V₁",
+    v2: "串联分压 V₂",
+    i1: "并联支路 I₁",
+    i2: "并联支路 I₂",
+    iTotal: "并联总电流 I",
+    pSeries: "串联总功率 P",
+    pParallel: "并联总功率 P",
+  },
+  ja: {
+    diagram:
+      "同じ電源を共有する直列・並列の 2 抵抗回路と、それぞれ固定スケールの座標グラフ",
+    note: "固定スケール：電圧のグラフは 24 V、電流のグラフは 5 A に固定されているので、パラメーターを変えても棒がこの座標系の中で変わるだけで、図全体は拡大縮小しない。2 つの回路は同じ電源 V と同じ R₁、R₂ を共有する。内部抵抗のない理想電源、理想的な導線、オームの法則に従う抵抗を仮定する。軸を超えた棒は切り取って表示する。",
+    series: "直列",
+    parallel: "並列",
+    axisVoltage: "V / V",
+    axisCurrent: "I / A",
+    offFrame: "棒が画面外",
+    reqSeries: "直列の合成抵抗 R_eq",
+    reqParallel: "並列の合成抵抗 R_eq",
+    iSeries: "直列の電流 I",
+    v1: "直列の電圧 V₁",
+    v2: "直列の電圧 V₂",
+    i1: "並列の枝電流 I₁",
+    i2: "並列の枝電流 I₂",
+    iTotal: "並列の全電流 I",
+    pSeries: "直列の全電力 P",
+    pParallel: "並列の全電力 P",
+  },
+};

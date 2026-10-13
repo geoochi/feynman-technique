@@ -1,0 +1,17 @@
+{
+  "default": {
+    "en": "R_{\\mathrm{eq}} = R_1 + R_2, \\quad I = \\frac{V}{R_{\\mathrm{eq}}}",
+    "zh-CN": "R_{\\mathrm{eq}} = R_1 + R_2, \\quad I = \\frac{V}{R_{\\mathrm{eq}}}",
+    "ja": "R_{\\mathrm{eq}} = R_1 + R_2, \\quad I = \\frac{V}{R_{\\mathrm{eq}}}"
+  },
+  "parallel": {
+    "en": "\\frac{1}{R_{\\mathrm{eq}}} = \\frac{1}{R_1} + \\frac{1}{R_2}",
+    "zh-CN": "\\frac{1}{R_{\\mathrm{eq}}} = \\frac{1}{R_1} + \\frac{1}{R_2}",
+    "ja": "\\frac{1}{R_{\\mathrm{eq}}} = \\frac{1}{R_1} + \\frac{1}{R_2}"
+  },
+  "power": {
+    "en": "P = V I = \\frac{V^2}{R_{\\mathrm{eq}}}",
+    "zh-CN": "P = V I = \\frac{V^2}{R_{\\mathrm{eq}}}",
+    "ja": "P = V I = \\frac{V^2}{R_{\\mathrm{eq}}}"
+  }
+}
