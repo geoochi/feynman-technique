@@ -1,0 +1,10 @@
+{
+  "prompt": "On the June solstice (δ = +23.44°), at which latitude does polar day begin?",
+  "options": [
+    "At the equator (0°)",
+    "At the Tropic of Cancer (23.44°)",
+    "At 90° − |δ| ≈ 66.56°"
+  ],
+  "answer": 2,
+  "explanation": "Polar day needs |φ| ≥ 90° − |δ| with the same sign as δ, so the boundary is 90° − 23.44° = 66.56°, close to the Arctic Circle."
+}

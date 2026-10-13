@@ -1,0 +1,22 @@
+{
+  "default": {
+    "en": "D(\\varphi,\\delta)=\\dfrac{24}{\\pi}\\arccos\\!\\left(-\\tan\\varphi\\,\\tan\\delta\\right)",
+    "zh-CN": "D(\\varphi,\\delta)=\\dfrac{24}{\\pi}\\arccos\\!\\left(-\\tan\\varphi\\,\\tan\\delta\\right)",
+    "ja": "D(\\varphi,\\delta)=\\dfrac{24}{\\pi}\\arccos\\!\\left(-\\tan\\varphi\\,\\tan\\delta\\right)"
+  },
+  "hourAngle": {
+    "en": "\\cos H_0=-\\tan\\varphi\\,\\tan\\delta",
+    "zh-CN": "\\cos H_0=-\\tan\\varphi\\,\\tan\\delta",
+    "ja": "\\cos H_0=-\\tan\\varphi\\,\\tan\\delta"
+  },
+  "polarDay": {
+    "en": "|\\varphi|\\ge 90^\\circ-|\\delta|,\\ \\varphi\\delta>0\\ \\Rightarrow\\ D=24\\,\\mathrm{h}",
+    "zh-CN": "|\\varphi|\\ge 90^\\circ-|\\delta|,\\ \\varphi\\delta>0\\ \\Rightarrow\\ D=24\\,\\mathrm{h}",
+    "ja": "|\\varphi|\\ge 90^\\circ-|\\delta|,\\ \\varphi\\delta>0\\ \\Rightarrow\\ D=24\\,\\mathrm{h}"
+  },
+  "polarNight": {
+    "en": "|\\varphi|\\ge 90^\\circ-|\\delta|,\\ \\varphi\\delta<0\\ \\Rightarrow\\ D=0\\,\\mathrm{h}",
+    "zh-CN": "|\\varphi|\\ge 90^\\circ-|\\delta|,\\ \\varphi\\delta<0\\ \\Rightarrow\\ D=0\\,\\mathrm{h}",
+    "ja": "|\\varphi|\\ge 90^\\circ-|\\delta|,\\ \\varphi\\delta<0\\ \\Rightarrow\\ D=0\\,\\mathrm{h}"
+  }
+}
