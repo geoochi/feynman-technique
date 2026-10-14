@@ -1,6 +1,6 @@
 # Cloudflare Workers 静态部署
 
-更新：2026-10-13。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Next 静态迁移已发布并通过线上验收，当前来源 426c88f（实验扩展 01–13），版本与检查见文末；更早的历史发布记录保留。GitHub 自动构建关联尚未完成。
+更新：2026-10-14。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Next 静态迁移已发布并通过线上验收，当前来源 426c88f（实验扩展 01–13）；2026-10-14 已将 `main` 回退到 db66d07 并重新发布 W4 内容，撤下 14 电学工作台；更早的历史发布记录保留。GitHub 自动构建关联尚未完成。
 
 ## 当前实际流程
 
@@ -188,3 +188,17 @@ Search Console 的域名验证、sitemap 提交与线上性能测量单独验收
 线上验收：`/labs/rc-circuit`、`/zh/labs/rc-circuit`、`/ja/learn/rc-circuit` 返回 200，未知页返回真实 404；sitemap 为 105 个内容地址。
 
 本轮未做实体设备与独立教学审阅；案例保持 experimental。此发布记录为纯文档提交，不再循环触发部署。
+
+## 2026-10-14 · 回退：撤下电学工作台（14）
+
+内容：维护者决定将 `main` 回退到 db66d07（W4「实验扩展 01–13」的文档提交），撤下 14 自由搭建电学工作台及其前置的案例协议扩展（结构化网表参数）。被回退的全部提交保存在分支 `bak/circuit-workbench`（a1a475b，含协议扩展 74ac188、案例 0626c67、合并 852a7be、交互修复 f6f218b 与文档 24e2adf/a1a475b），可随时检索或恢复。
+
+回退方式：`git reset --hard db66d07` 后强制推送 `main`（`a1a475b...db66d07`）；按约定已在 bak 分支完整保留被回退的历史。
+
+工程验证（本机）：`generate` 注册 17 个案例、`typecheck` 通过、单元测试 22 文件 242 项通过、`build` 输出 108 页（105 内容路由 + 3 个语言 404）且 SEO/正文边界/许可校验通过。
+
+发布：在 db66d07 上重新构建后上传现有 feynman Worker，版本 `769b177e-a4f3-408b-a5bb-ad0831676b0a`，两个 Custom Domain 不变。
+
+线上验收：`/labs/circuit-workbench`、`/zh/labs/circuit-workbench`、`/ja/labs/circuit-workbench` 均返回 404；`/labs/rc-circuit`、`/zh/labs/ohms-law`、`/labs/integral-area` 返回 200；sitemap 为 105 个内容地址，不含 circuit-workbench。
+
+本记录为纯文档提交，不再循环触发部署。
