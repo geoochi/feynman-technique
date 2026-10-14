@@ -61,9 +61,10 @@ export default function CircuitWorkbenchView({
   const selected = elements.find((element) => element.id === selectedId) ?? null;
 
   // Fixed layout: the lattice always occupies the upper part, the chart the lower.
+  // Coordinates are rounded to whole pixels so hit targets never drift.
   const rows = [
-    Math.max(52, height * 0.13),
-    Math.max(176, height * 0.52) - 18,
+    Math.round(Math.max(52, height * 0.13)),
+    Math.round(Math.max(176, height * 0.52) - 18),
   ];
   const circuitMid = (rows[0] + rows[1]) / 2;
   const chart = {
@@ -261,6 +262,7 @@ export default function CircuitWorkbenchView({
           stroke="var(--color-text-muted)"
           strokeWidth={element.kind === "wire" ? 2.4 : 1.4}
           fill="none"
+          pointerEvents="none"
         />
         {element.kind === "wire" ? null : (
           <g
@@ -399,6 +401,9 @@ export default function CircuitWorkbenchView({
             />
           ))}
         </g>
+        {elements.map(symbol)}
+
+        {/* Node hit targets are drawn last so they always sit above the wiring. */}
         {rows.map((y, r) =>
           COLUMNS.map((x, column) => {
             const node = column + r * COLS;
@@ -431,7 +436,6 @@ export default function CircuitWorkbenchView({
             </text>
           ))}
         </g>
-        {elements.map(symbol)}
 
         {/* Fixed U–I coordinate system for every branch operating point. */}
         <g>

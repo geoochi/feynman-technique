@@ -13,8 +13,10 @@ test("circuit workbench: fixed frame across edits and a working place/delete loo
   // The fixed U-I chart and the numbered lattice are part of the frame.
   const axisU = page.locator("svg text").filter({ hasText: "U / V" });
   await expect(axisU).toBeVisible();
-  for (const node of [0, 1, 2, 3, 4, 5])
-    await expect(page.getByRole("button", { name: `节点 ${node}` })).toHaveCount(1);
+  const node = (index: number) =>
+    page.getByRole("button", { name: `节点 ${index}`, exact: true });
+  for (let index = 0; index < 6; index++)
+    await expect(node(index)).toHaveCount(1);
 
   const frameBefore = (await axisU.boundingBox())!.x;
   const read = () =>
@@ -26,8 +28,8 @@ test("circuit workbench: fixed frame across edits and a working place/delete loo
 
   // Place one more resistor straight across the source.
   await page.getByRole("button", { name: "电阻", exact: true }).click();
-  await page.getByRole("button", { name: "节点 1" }).click();
-  await page.getByRole("button", { name: "节点 0" }).click();
+  await node(1).click();
+  await node(0).click();
   await expect(status).toContainText("已放置");
   await expect(remove).toBeEnabled();
   const placed = await read();
@@ -47,7 +49,12 @@ test("circuit workbench: a shorted source is reported instead of solved", async 
 }) => {
   await page.goto("/zh/labs/circuit-workbench");
   await page.getByRole("button", { name: "导线", exact: true }).click();
-  await page.getByRole("button", { name: "节点 1" }).click();
-  await page.getByRole("button", { name: "节点 0" }).click();
-  await expect(page.getByRole("alert")).toContainText("短接");
+  const node = (index: number) =>
+    page.getByRole("button", { name: `节点 ${index}`, exact: true });
+  await node(1).click();
+  await node(0).click();
+  // Next's route announcer also carries role=alert, so scope to the scene.
+  await expect(
+    page.getByLabel("实验主图").getByRole("alert"),
+  ).toContainText("短接");
 });

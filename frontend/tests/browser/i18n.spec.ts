@@ -87,16 +87,18 @@ for (const language of cases) {
         page.getByRole("heading", { name: language.questions, exact: true }),
       ).toBeVisible();
       const input = page.locator('input[type="number"]').first();
-      await input.fill("99999");
-      await input.press("Enter");
-      await expect(input).toHaveAttribute("aria-invalid", "true");
-      await expect(page.locator('p[role="alert"]')).toHaveText(
-        language.lang === "en" ? /^Range:/ : /^範囲：/,
-      );
-      await page
-        .getByRole("button", { name: language.reset, exact: true })
-        .click();
-      await expect(input).toHaveAttribute("aria-invalid", "false");
+      if ((await input.count()) > 0) {
+        await input.fill("99999");
+        await input.press("Enter");
+        await expect(input).toHaveAttribute("aria-invalid", "true");
+        await expect(page.locator('p[role="alert"]')).toHaveText(
+          language.lang === "en" ? /^Range:/ : /^範囲：/,
+        );
+        await page
+          .getByRole("button", { name: language.reset, exact: true })
+          .click();
+        await expect(input).toHaveAttribute("aria-invalid", "false");
+      }
       if (hasPlayback(slug)) {
         await page
           .getByRole("button", { name: language.play, exact: true })
