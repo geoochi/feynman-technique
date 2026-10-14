@@ -1,6 +1,6 @@
 # Cloudflare Workers 静态部署
 
-更新：2026-10-13。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Next 静态迁移已发布并通过线上验收，当前来源 426c88f（实验扩展 01–13），版本与检查见文末；更早的历史发布记录保留。GitHub 自动构建关联尚未完成。
+更新：2026-10-14。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Next 静态迁移已发布并通过线上验收，当前来源 f6f218b（实验扩展 01–14 及电学工作台交互修复），版本与检查见文末；更早的历史发布记录保留。GitHub 自动构建关联尚未完成。
 
 ## 当前实际流程
 
@@ -186,5 +186,17 @@ Search Console 的域名验证、sitemap 提交与线上性能测量单独验收
 工程验证（本机）：`generate` 注册 17 个案例、`typecheck` 通过、单元测试 22 文件 242 项通过、`build` 输出 108 页（105 内容路由 + 3 个语言 404）且 SEO/正文边界/许可校验通过、Playwright e2e 202 通过 / 4 按设计跳过 / 0 失败。
 
 线上验收：`/labs/rc-circuit`、`/zh/labs/rc-circuit`、`/ja/learn/rc-circuit` 返回 200，未知页返回真实 404；sitemap 为 105 个内容地址。
+
+本轮未做实体设备与独立教学审阅；案例保持 experimental。此发布记录为纯文档提交，不再循环触发部署。
+
+## 2026-10-14 · 实验扩展 01–14 与电学工作台交互修复
+
+内容：在前一版基础上新增 14 自由搭建电学工作台（首个使用结构化网表参数的案例），并修复其节点点击被元件符号遮挡、坐标抖动导致命中不稳定的问题。
+
+工程验证（本机）：`generate` 注册 18 个案例、`typecheck` 通过、单元测试 25 文件 265 项通过、`build` 输出 114 页（111 内容路由 + 3 个语言 404）且 SEO/正文边界/许可校验通过、Playwright e2e 212 通过 / 4 按设计跳过 / 0 失败。
+
+发布：本机重新构建后上传现有 feynman Worker，版本 `785bcb50-d014-4da6-a6ad-cfa11ff3db04`，两个 Custom Domain 不变。
+
+线上验收：`/labs/circuit-workbench`、`/zh/labs/circuit-workbench`、`/ja/learn/circuit-workbench` 返回 200，未知页返回真实 404；sitemap 为 111 个内容地址，其中 circuit-workbench 6 条。
 
 本轮未做实体设备与独立教学审阅；案例保持 experimental。此发布记录为纯文档提交，不再循环触发部署。

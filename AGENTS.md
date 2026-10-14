@@ -9,7 +9,7 @@
 - 官网：[www.feynman-technique.com](https://www.feynman-technique.com)。裸域 `feynman-technique.com` 301 永久跳转到 HTTPS www，保留路径与查询参数。
 - 仓库：`geoochi/feynman-technique`，已获维护者授权公开；默认分支 `main`。不擅自改变可见性、许可或仓库钩子。
 - 原创代码、讲解、文档与图示采用根目录 [MIT 许可证](LICENSE)。第三方依赖、字体和 NASA 地球贴图保留各自条款与来源，不纳入项目 MIT 授权。
-- 已实现：Next.js App Router 静态导出前端、十七个案例（二次函数、导数与切线、单摆、地球昼夜、波的叠加、弹簧振子、凸透镜成像、纬度与昼长、积分与面积、单位圆与正弦波、驻波、折射与全反射、阻尼振动、受迫振动与共振、欧姆定律、串联与并联、电容充放电）、三语言目录与讲解、搜索、参数/播放、最小共享运行时、构建预渲染、SEO 与 GitHub Issue/PR 入口。
+- 已实现：Next.js App Router 静态导出前端、十八个案例（二次函数、导数与切线、单摆、地球昼夜、波的叠加、弹簧振子、凸透镜成像、纬度与昼长、积分与面积、单位圆与正弦波、驻波、折射与全反射、阻尼振动、受迫振动与共振、欧姆定律、串联与并联、电容充放电、自由搭建电学工作台）、三语言目录与讲解、搜索、参数/播放、结构化网表参数、最小共享运行时、构建预渲染、SEO 与 GitHub Issue/PR 入口。
 - 已发布：Next 静态导出版本于 2026-10-13 发布到 Cloudflare Workers Static Assets，Worker 名称 `feynman`，当前来源 `298d44b`。最近正式验收记录见 [部署指南](docs/DEPLOYMENT.md)，不能把历史验收写成本次重新验收。
 - 尚待完成：Workers Builds 的 GitHub 关联、真实设备与性能预算验证、独立教学审阅、首个外部贡献案例。独立 SDK/CLI、电学工作台、Worker/WASM、历史版本归档均未实现。
 - 当前由本机构建并通过 Wrangler 上传；`git push` 只保存源码，不自动更新官网。维护者已确认提交 sitemap，尚不能据此声称已收录或产生搜索效果。
