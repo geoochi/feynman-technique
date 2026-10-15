@@ -10,7 +10,7 @@
 
 ## 部署方式
 
-使用 Next.js App Router 静态导出，Workers Static Assets 交付 `frontend/out`；不添加 Worker 应用脚本、SSR、数据库或存储服务。科学计算仍在访问者浏览器运行。配置位于 `frontend/wrangler.jsonc`，Wrangler 固定为 4.149.0。
+使用 Next.js App Router 静态导出，Workers Static Assets 交付 `frontend/out`；不添加 Worker 应用脚本、SSR、数据库或存储服务。科学计算仍在访问者浏览器运行。配置位于 `frontend/wrangler.jsonc`，Wrangler 固定为 4.150.0。
 
 `auto-trailing-slash` 将 `labs/pendulum.html` 提供为 `/labs/pendulum`，将 `zh/index.html` 提供为 `/zh/`，别名自动重定向。`404-page` 对未知页面使用最近的语言目录 404 文件并返回 HTTP 404；缺失脚本也返回 404。不设置全站 SPA 回退。`public/_headers` 提供哈希资源长缓存、nosniff 和 workers.dev 的 noindex 响应头。正式配置关闭 workers.dev 与版本预览 URL。
 

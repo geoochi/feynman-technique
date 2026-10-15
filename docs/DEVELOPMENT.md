@@ -1,10 +1,12 @@
 # 本地开发与验证
 
-更新：2026-10-13。当前源码已统一为 Next.js App Router 静态导出；正常页面由 Next 构建渲染，实验在浏览器运行。迁移版本已在官网发布并完成线上验收，迁移初次发布来源 ccedbd2，清理版本来源 a35e6d4，当前导数与切线扩展版本来源 298d44b。完整记录见 [迁移计划](archive/2026-10-13-nextjs-migration.md)和 [部署记录](DEPLOYMENT.md)。
+更新：2026-10-15。当前源码已统一为 Next.js App Router 静态导出；正常页面由 Next 构建渲染，实验在浏览器运行。迁移版本已在官网发布并完成线上验收，迁移初次发布来源 ccedbd2，清理版本来源 a35e6d4，导数与切线扩展来源 298d44b；2026-10-15 依赖更新来源见 [部署记录](DEPLOYMENT.md)。完整记录见 [迁移计划](archive/2026-10-13-nextjs-migration.md)和 [部署记录](DEPLOYMENT.md)。
 
 ## 当前环境与命令
 
-固定 Node 24.11.1（24.x）与 pnpm 12.10.1，Next 16.4.0、React/React DOM 19.3.0、Ajv 8.18.0、KaTeX 0.18.2。直接依赖和 lockfile 精确固定；安装脚本许可仍只有 esbuild/workerd。Vitest 仍依赖 Vite，项目已移除 Vite 应用入口和插件。
+固定 Node 24.11.1（24.x）与 pnpm 12.10.1。2026-10-15 依赖更新后：Next 16.4.1、React/React DOM 19.3.0、Ajv 8.20.0、KaTeX 0.19.0、Three 0.186.1、@react-three/fiber 9.8.1；开发侧 @playwright/test 1.64.0、TypeScript 5.9.3、Vitest 5.0.4、Vite 8.3.4、Wrangler 4.150.0、sanitize-html 2.18.0、marked 18.1.1、@types/node 24.19.2。直接依赖和 lockfile 精确固定；安装脚本许可仍只有 esbuild/workerd。Vitest 5 仍依赖 Vite 8，项目已移除 Vite 应用入口和插件。
+
+pnpm 12 默认启用 24 小时 `minimumReleaseAge` 供应链策略（见 `frontend/pnpm-workspace.yaml`）。`next@16.4.1` 是 2026-10-14 官方安全补丁（修复 `use cache` 返回值与图片优化接口的未认证 RCE、Server Actions DoS），因发布不足 24 小时被显式列入 `minimumReleaseAgeExclude`；纯静态导出不运行这些服务端路径，但仍按官方建议升级。其余同批发布的补丁（react/react-dom 19.3.1、@react-three/fiber 9.8.2、@playwright/test 1.64.1、wrangler 4.151.0、sanitize-html 2.18.1）无已公布安全修复，保持在已过期的版本，未加入豁免。
 
 ```sh
 cd frontend

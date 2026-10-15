@@ -103,3 +103,7 @@ node scripts/measure-next-navigation.mjs http://127.0.0.1:4173 test-results-migr
 ```
 
 P0 原始材料在忽略的 test-results-next-baseline/mobile.json；最终 15 个样本、300 个参数响应与两段动画、5 次导航在 test-results-migration-performance/{final-mobile,interactions,navigation}.json。报告记录 sourceCommit/sourceDirty；未提交工作树不等于纯 HEAD。模型/部署/教学与视觉范围见 [全量复核](../tooling/ai-review/2026-10-13-next-migration.md)。
+
+## 2026-10-15 依赖更新（未复测）
+
+2026-10-15 的依赖更新改动了生产依赖（Next 16.4.1、KaTeX 0.19.0、Ajv 8.20.0、Three 0.186.1）与采集工具（Playwright 1.56.1 → 1.64.0）。上文所有 LCP/CLS、资源体积、控件/地球就绪与交互数值绑定更新前的工具链与产物，本轮未重新测量，不据此更新或合并为同一基线。可核对的变化：three 0.180→0.186 的 `three.module.js` 增大约 10%（603,113 → 662,772 字节），三维块由 878,179 增至 920,285 原始字节，仍超 800,000 字节审阅阈值，构建警告保留。后续优化前应先在相同采集环境下复测。
