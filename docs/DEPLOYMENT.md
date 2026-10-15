@@ -1,6 +1,6 @@
 # Cloudflare Workers 静态部署
 
-更新：2026-10-14。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Next 静态迁移已发布并通过线上验收，当前来源 426c88f（实验扩展 01–13）；2026-10-14 已将 `main` 回退到 db66d07 并重新发布 W4 内容，撤下 14 电学工作台；更早的历史发布记录保留。GitHub 自动构建关联尚未完成。
+更新：2026-10-15。当前正式主域名：`https://www.feynman-technique.com`，裸域 301 到 www。Next 静态迁移已发布并通过线上验收，当前来源 426c88f（实验扩展 01–13）；2026-10-14 已将 `main` 回退到 db66d07 并重新发布 W4 内容，撤下 14 电学工作台；2026-10-15 依赖更新来源 1ef9bd4 重新构建并发布（版本 64daa77f）；更早的历史发布记录保留。GitHub 自动构建关联尚未完成。
 
 ## 当前实际流程
 
@@ -96,6 +96,16 @@ Search Console 的域名验证、sitemap 提交与线上性能测量单独验收
 - [构建设置与环境变量](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/)
 - [构建工具版本](https://developers.cloudflare.com/workers/ci-cd/builds/build-image/)
 - [生产与预览分支](https://developers.cloudflare.com/workers/ci-cd/builds/build-branches/)
+
+## 2026-10-15 依赖更新与安全修复发布
+
+来源 `1ef9bd44f62d1d555a57e3474e1293a41da1724c` 已推送 `origin/main`，从该提交重新构建静态 out 并审计后由 Wrangler 上传到现有 feynman Worker。当前版本 `64daa77f-4a20-40ff-b488-61d821e8183e`，两个 Custom Domain 与裸域 301 方向保留，Git 自动构建仍未关联。构建使用 Node 24.22.0（24.x 线；本机未安装 `.node-version` 固定的 24.11.1）与 pnpm 12.10.1。
+
+本次只更新依赖，不改页面结构与内容。安全修复：`vitest` 3.2.7→5.0.4（含 `@vitest/mocker` 路径穿越与传递依赖 `tinypool` RCE）、`sanitize-html` 2.17.0→2.18.0（三项已公布 XSS/URI 公告）、`next` 16.4.0→16.4.1（2026-10-14 官方安全发布：`use cache` 返回值与图片优化接口的未认证 RCE、Server Actions DoS）。`next@16.4.1` 发布不足 24 小时，已显式列入 `pnpm-workspace.yaml` 的 `minimumReleaseAgeExclude`；纯静态导出不运行这些服务端路径，仍按官方建议升级。功能性更新：`three` 0.186.1、`katex` 0.19.0、`ajv` 8.20.0、`@playwright/test` 1.64.0、`tsx` 4.23.15、`wrangler` 4.150.0、`marked` 18.1.1、`@types/node` 24.19.2。同批发布但无已公布安全修复的新版本（react/react-dom 19.3.1、@react-three/fiber 9.8.2、@playwright/test 1.64.1、wrangler 4.151.0、sanitize-html 2.18.1）保持在已过 24 小时门槛的版本，未加入豁免；TypeScript 保持 5.9.3。
+
+本地验证（Node 24.22.0）：`pnpm audit` 无已知漏洞；`pnpm typecheck`、242 项单元、`pnpm build`（108 页，导出检查通过）与 202 项浏览器测试（4 项按设计跳过）通过。构建的浏览器资源仍报一个 920,285 字节的 three.js 块超 800,000 字节审阅阈值；该警告更新前已存在，three 0.180→0.186 的 `three.module.js` 约增大 10%，未声称满足性能预算。
+
+线上验收：首页与深链接 `/zh/labs/day-night` 返回 200，裸域 `feynman-technique.com` 301 到 HTTPS www，未知页面与缺失脚本返回真实 404，robots/sitemap 返回 200。首页去除 Cloudflare 注入脚本后与本地 `out/index.html` 逐字节一致；首页引用的 10 个 JS/CSS 块与 920,285 字节的 three.js 块本地与线上逐字节一致。首次上传使用本机默认 Node 26.11.1 构建，发现其 RSC 内联脚本分块与 Node 24 产物不同后，改用 Node 24.22.0 重建、重测并重新上传，最终版本为上述 `64daa77f`。未重新测量线上性能、实体设备或搜索效果。
 
 ## 2026-10-13 Next 正式发布与验收
 
